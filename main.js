@@ -153,6 +153,14 @@ const main = async () => {
                     if (elements.length > 5) { // Pelo menos 5 elementos
                         console.log(`✅ Encontrados ${elements.length} com: ${selector}`);
                         siteInfo.selectors.container = selector;
+                        
+                        // Atualizar seletores baseado no site
+                        if (siteInfo.url.includes('casa.sapo.pt')) {
+                            siteInfo.selectors.title = 'h3 a, .property-title a, .title a, h2 a, a[title]';
+                            siteInfo.selectors.price = '.price, .property-price, .valor, .preco, [class*="price"]';
+                            siteInfo.selectors.location = '.location, .property-location, .zona, .address, [class*="location"]';
+                        }
+                        
                         found = true;
                         break;
                     }
@@ -196,49 +204,87 @@ const main = async () => {
             $(siteInfo.selectors.container).slice(0, 15).each((i, el) => {
                 const item = $(el);
                 
-                // Tentar extrair título e link
-                let title = '', link = '';
-                const titleSelectors = siteInfo.selectors.title.split(', ');
-                for (const titleSel of titleSelectors) {
-                    const titleEl = item.find(titleSel);
-                    if (titleEl.length > 0) {
-                        title = titleEl.text().trim();
-                        link = titleEl.attr('href') || '';
-                        if (link && !link.startsWith('http')) {
-                            const baseUrl = new URL(request.url).origin;
-                            link = baseUrl + (link.startsWith('/') ? link : '/' + link);
-                        }
-                        break;
+                // Debug: mostrar estrutura do primeiro elemento
+                if (i === 0) {
+                    console.log(`🔍 Estrutura do primeiro elemento (.property):`);
+                    const html = item.html();
+                    if (html) {
+                        console.log(html.substring(0, 300) + '...');
                     }
                 }
                 
-                // Extrair preço
+                // Tentar extrair título e link com seletores mais amplos
+                let title = '', link = '';
+                const titleSelectors = [
+                    ...siteInfo.selectors.title.split(', '),
+                    'a', 'h1', 'h2', 'h3', 'h4', 'h5', '[title]', 
+                    '[class*="title"]', '[class*="nome"]', '[class*="descricao"]'
+                ];
+                
+                for (const titleSel of titleSelectors) {
+                    const titleEl = item.find(titleSel);
+                    if (titleEl.length > 0) {
+                        const potentialTitle = titleEl.text().trim();
+                        const potentialLink = titleEl.attr('href') || titleEl.find('a').attr('href') || '';
+                        
+                        if (potentialTitle && potentialTitle.length > 5) {
+                            title = potentialTitle;
+                            link = potentialLink;
+                            if (link && !link.startsWith('http')) {
+                                const baseUrl = new URL(request.url).origin;
+                                link = baseUrl + (link.startsWith('/') ? link : '/' + link);
+                            }
+                            if (i < 3) console.log(`📝 Título encontrado com '${titleSel}': ${title.substring(0, 50)}...`);
+                            break;
+                        }
+                    }
+                }
+                
+                // Extrair preço com seletores mais amplos
                 let price = '';
-                const priceSelectors = siteInfo.selectors.price.split(', ');
+                const priceSelectors = [
+                    ...siteInfo.selectors.price.split(', '),
+                    '[class*="price"]', '[class*="preco"]', '[class*="valor"]', 
+                    '[class*="euro"]', '[class*="€"]', 'span', 'div'
+                ];
+                
                 for (const priceSel of priceSelectors) {
                     const priceEl = item.find(priceSel);
                     if (priceEl.length > 0) {
-                        price = priceEl.text().trim();
-                        break;
+                        const potentialPrice = priceEl.text().trim();
+                        if (potentialPrice && (potentialPrice.includes('€') || potentialPrice.match(/\d{3,}/))) {
+                            price = potentialPrice;
+                            if (i < 3) console.log(`💰 Preço encontrado com '${priceSel}': ${price}`);
+                            break;
+                        }
                     }
                 }
                 
                 // Extrair localização
                 let location = '';
-                const locationSelectors = siteInfo.selectors.location.split(', ');
+                const locationSelectors = [
+                    ...siteInfo.selectors.location.split(', '),
+                    '[class*="location"]', '[class*="zona"]', '[class*="address"]',
+                    '[class*="local"]', '[class*="cidade"]', 'address'
+                ];
+                
                 for (const locSel of locationSelectors) {
                     const locEl = item.find(locSel);
                     if (locEl.length > 0) {
-                        location = locEl.text().trim();
-                        break;
+                        const potentialLocation = locEl.text().trim();
+                        if (potentialLocation && potentialLocation.length > 2) {
+                            location = potentialLocation;
+                            if (i < 3) console.log(`📍 Localização encontrada com '${locSel}': ${location}`);
+                            break;
+                        }
                     }
                 }
                 
-                if (title && price) {
+                if (title && (price || location)) {
                     properties.push({
                         title: title.substring(0, 200),
-                        price: price.substring(0, 50),
-                        location: location.substring(0, 100),
+                        price: price.substring(0, 50) || 'N/A',
+                        location: location.substring(0, 100) || 'N/A',
                         link: link,
                         source: siteInfo.name,
                         sourceUrl: request.url,
