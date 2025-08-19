@@ -24,13 +24,21 @@ const main = async () => {
     // 3. Criar o CheerioCrawler
     const crawler = new CheerioCrawler({
         requestQueue,
+        // Adicionar um User-Agent para evitar ser bloqueado
+        preNavigationHooks: [
+            ({ request }) => {
+                request.headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+                };
+            },
+        ],
         // Define a lógica para cada página que o crawler visita
         requestHandler: async ({ request, $ }) => {
             const pageTitle = $('title').text();
             console.log(`Processando a página: ${pageTitle}`);
             
             // Encontra todos os anúncios de imóveis na página
-            $('.item-info-container').each(async (i, el) => {
+            $('.item-info-container').each((i, el) => {
                 const item = $(el);
                 
                 // 4. Extrair os dados de cada anúncio
@@ -41,8 +49,8 @@ const main = async () => {
                 const size = item.find('.item-detail').eq(1).text().trim();
                 const location = item.find('.item-location').text().trim();
                 
-                // Usar Dataset.pushData em vez de pushData
-                await Dataset.pushData({
+                // Usar Dataset.pushData
+                Dataset.pushData({
                     title,
                     price,
                     link,
