@@ -26,27 +26,25 @@ const main = async () => {
         requestQueue,
         // Configurações para evitar detecção
         maxRequestRetries: 3,
-        requestHandlerTimeoutMillis: 60000,
-        maxRequestsPerMinute: 30, // Limitar velocidade
+        maxRequestsPerMinute: 20, // Limitar velocidade
+        useApifyProxy: true, // Usar proxy do Apify
         sessionPoolOptions: {
             maxPoolSize: 10,
             sessionOptions: {
-                maxUsageCount: 50,
+                maxUsageCount: 30,
             },
         },
         // Configurar headers personalizados
         preNavigationHooks: [
-            async ({ request, session }) => {
+            async ({ request }) => {
                 request.headers = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                     'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
                     'Accept-Encoding': 'gzip, deflate, br',
-                    'DNT': '1',
                     'Connection': 'keep-alive',
                     'Upgrade-Insecure-Requests': '1',
-                    'Cache-Control': 'max-age=0',
-                    'Referer': 'https://www.google.com/',
+                    'Referer': 'https://www.google.pt/',
                 };
             },
         ],
