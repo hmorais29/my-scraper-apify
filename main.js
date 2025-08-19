@@ -9,33 +9,43 @@ const main = async () => {
     // Sites alternativos de imóveis portugueses para testar
     const alternativeSites = [
         {
-            url: 'https://www.imo7.pt/comprar/apartamentos/lisboa',
-            name: 'IMO7',
-            selectors: {
-                container: '.property-item, .imovel-item, .property',
-                title: 'h3 a, .title a, h2 a',
-                price: '.price, .valor, .preco',
-                location: '.location, .localidade, .zona'
-            }
-        },
-        {
-            url: 'https://casa.sapo.pt/Venda/Apartamentos/Lisboa/',
+            url: 'https://casa.sapo.pt/venda/apartamentos/lisboa/',
             name: 'Casa Sapo',
             selectors: {
-                container: '.property-item, .searchResultProperty, .property',
-                title: 'h2 a, .propertyTitle a, .title a',
+                container: '.searchResultProperty, .property-item, .property, .listing',
+                title: '.propertyTitle a, h2 a, .title a, .property-title',
                 price: '.propertyPrice, .price, .valor',
                 location: '.propertyLocation, .location, .zona'
             }
         },
         {
-            url: 'https://www.remax.pt/comprar/apartamento/lisboa',
-            name: 'RE/MAX',
+            url: 'https://www.imovirtual.com/comprar/apartamento/lisboa/',
+            name: 'Imovirtual',
             selectors: {
-                container: '.property-card, .property-item, .listing-item',
-                title: 'h3 a, .title a, .property-title a',
-                price: '.price, .property-price, .valor',
-                location: '.address, .location, .zona'
+                container: '[data-cy="listing-item"], .offer-item, .property-item, .listing',
+                title: '[data-cy="listing-item-link"], .offer-item-title a, h2 a',
+                price: '[data-cy="price"], .offer-item-price, .price',
+                location: '[data-cy="location"], .offer-item-location, .location'
+            }
+        },
+        {
+            url: 'https://supercasa.pt/venda/apartamentos/lisboa',
+            name: 'Supercasa',
+            selectors: {
+                container: '.property-item, .listing-item, .property, .imovel',
+                title: '.property-title a, h3 a, .title a',
+                price: '.property-price, .price, .valor',
+                location: '.property-location, .location, .zona'
+            }
+        },
+        {
+            url: 'https://www.era.pt/comprar/apartamentos/lisboa',
+            name: 'ERA',
+            selectors: {
+                container: '.property-card, .property-item, .listing, .property',
+                title: '.property-title a, h2 a, .title a',
+                price: '.property-price, .price, .valor',
+                location: '.property-location, .location, .address'
             }
         }
     ];
@@ -66,7 +76,7 @@ const main = async () => {
             }
         };
     } else {
-        targetSite = alternativeSites[0]; // IMO7 por defeito
+        targetSite = alternativeSites[0]; // Casa Sapo por defeito
     }
     
     console.log(`🎯 Alvo: ${targetSite.name} - ${targetSite.url}`);
@@ -101,8 +111,8 @@ const main = async () => {
                 console.log(`❌ ${siteInfo.name} está a bloquear (403)`);
                 
                 // Se for Idealista bloqueado, tentar site alternativo
-                if (siteInfo.name === 'Idealista' && alternativeSites.length > 0) {
-                    console.log('🔄 Tentando site alternativo...');
+                if (siteInfo.name.includes('Idealista') && alternativeSites.length > 0) {
+                    console.log('🔄 Tentando Casa Sapo...');
                     const altSite = alternativeSites[0];
                     await requestQueue.addRequest({ 
                         url: altSite.url,
