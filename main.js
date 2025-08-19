@@ -1,7 +1,8 @@
 const Apify = require('apify');
+const { CheerioCrawler, openRequestQueue, pushData } = require('crawlee');
 
 const main = async () => {
-    // 1. Inicializar o ambiente do Actor. Isto é crucial!
+    // 1. Inicializar o ambiente do Actor
     await Apify.Actor.init();
 
     // 2. Obter a URL de entrada
@@ -16,14 +17,15 @@ const main = async () => {
 
     console.log(`Iniciando o web scraping para a URL: ${startUrl}`);
 
-    const requestQueue = await Apify.openRequestQueue();
+    // Usa a função importada
+    const requestQueue = await openRequestQueue();
     await requestQueue.addRequest({ url: startUrl });
 
-    // 3. Criar o CheerioCrawler
-    const crawler = new Apify.CheerioCrawler({
+    // 3. Criar o CheerioCrawler (usando a importação do crawlee)
+    const crawler = new CheerioCrawler({
         requestQueue,
         // Define a lógica para cada página que o crawler visita
-        handlePageFunction: async ({ request, $ }) => {
+        async requestHandler({ request, $ }) {
             const pageTitle = $('title').text();
             console.log(`Processando a página: ${pageTitle}`);
 
@@ -39,8 +41,8 @@ const main = async () => {
                 const size = item.find('.item-detail').eq(1).text().trim();
                 const location = item.find('.item-location').text().trim();
 
-                // 5. Guardar os dados num formato estruturado
-                Apify.pushData({
+                // Usa a função importada
+                pushData({
                     title,
                     price,
                     link,
@@ -51,7 +53,7 @@ const main = async () => {
                 });
             });
 
-            // 6. Adicionar a próxima página à fila (se existir)
+            // 5. Adicionar a próxima página à fila (se existir)
             const nextButton = $('a.next-page');
             if (nextButton.length) {
                 const nextPageUrl = 'https://www.idealista.pt' + nextButton.attr('href');
@@ -65,7 +67,7 @@ const main = async () => {
     await crawler.run();
     console.log('Web scraping concluído com sucesso!');
 
-    // 7. Sair do Actor
+    // 6. Sair do Actor
     await Apify.Actor.exit();
 };
 
