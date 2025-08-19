@@ -1,5 +1,5 @@
 const { Actor } = require('apify');
-const { RequestQueue, CheerioCrawler, Dataset, ProxyConfiguration } = require('crawlee');
+const { RequestQueue, CheerioCrawler, Dataset } = require('crawlee');
 
 const main = async () => {
     // 1. Inicializar o ambiente do Actor
@@ -17,19 +17,21 @@ const main = async () => {
     
     console.log(`Iniciando o web scraping para a URL: ${startUrl}`);
     
-    // Configurar proxy
-    const proxyConfiguration = new ProxyConfiguration({
-        groups: ['RESIDENTIAL'],
-    });
-    
     // Usar a classe RequestQueue
     const requestQueue = await RequestQueue.open();
-    await requestQueue.addRequest({ url: startUrl });
+    await requestQueue.addRequest({ 
+        url: startUrl,
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
+            'Referer': 'https://www.google.pt/',
+        }
+    });
     
     // 3. Criar o CheerioCrawler básico
     const crawler = new CheerioCrawler({
         requestQueue,
-        proxyConfiguration,
         maxRequestRetries: 2,
         maxConcurrency: 1, // Uma request de cada vez
         // Define a lógica para cada página que o crawler visita
