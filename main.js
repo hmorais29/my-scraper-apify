@@ -5,7 +5,7 @@ const Apify = require('apify');
 
 const start = async () => {
     // 1. Obter a URL de entrada
-    const input = await Apify.getInput();
+    const input = await Apify.Actor.getInput();
     const startUrl = input.url;
 
     if (!startUrl) {
