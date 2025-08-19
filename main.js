@@ -1,5 +1,5 @@
 const { Actor } = require('apify');
-const { RequestQueue, PuppeteerCrawler, Dataset } = require('crawlee');
+const { RequestQueue, CheerioCrawler, Dataset } = require('crawlee');
 
 const main = async () => {
     // 1. Inicializar o ambiente do Actor
@@ -7,205 +7,213 @@ const main = async () => {
     
     // 2. Obter a URL de entrada
     const input = await Actor.getInput();
-    const startUrl = input.url || 'https://www.idealista.pt/comprar-casas/lisboa/';
     
-    console.log(`Iniciando o web scraping para a URL: ${startUrl}`);
+    // Para testar, vamos usar um site mais simples primeiro
+    const testUrl = 'https://httpbin.org/html';
+    const idealistaUrl = input.url || 'https://www.idealista.pt/comprar-casas/lisboa/';
+    
+    console.log('=== TESTE INICIAL ===');
+    console.log(`Testando primeiro com: ${testUrl}`);
     
     // Usar a classe RequestQueue
     const requestQueue = await RequestQueue.open();
-    await requestQueue.addRequest({ url: startUrl });
     
-    // 3. Criar o PuppeteerCrawler (deve estar disponível)
-    const crawler = new PuppeteerCrawler({
+    // Adicionar URL de teste primeiro
+    await requestQueue.addRequest({ 
+        url: testUrl,
+        userData: { type: 'test' }
+    });
+    
+    // 3. Criar o CheerioCrawler básico para teste
+    const crawler = new CheerioCrawler({
         requestQueue,
-        maxRequestRetries: 2,
+        maxRequestRetries: 1,
         maxConcurrency: 1,
-        headless: true,
         
-        // Configurações do browser
-        launchContext: {
-            launchOptions: {
-                args: [
-                    '--no-sandbox',
-                    '--disable-setuid-sandbox',
-                    '--disable-web-security',
-                    '--disable-features=VizDisplayCompositor',
-                ],
-            },
-        },
-        
-        requestHandler: async ({ request, page }) => {
-            console.log(`Processando: ${request.url}`);
+        requestHandler: async ({ request, $, response }) => {
+            console.log(`\n--- Processando: ${request.url} ---`);
+            console.log(`Status: ${response.statusCode}`);
+            console.log(`Content-Type: ${response.headers['content-type']}`);
             
-            // Configurar user agent
-            await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
-            
-            // Adicionar headers extra
-            await page.setExtraHTTPHeaders({
-                'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            });
-            
-            // Aguardar carregamento
-            try {
-                await page.waitForSelector('body', { timeout: 15000 });
-                console.log('Página carregada');
+            if (request.userData?.type === 'test') {
+                console.log('=== TESTE DE CONECTIVIDADE ===');
+                const title = $('title').text();
+                const h1 = $('h1').text();
+                console.log(`Título: ${title}`);
+                console.log(`H1: ${h1}`);
                 
-                // Aguardar um pouco mais para JavaScript carregar
-                await page.waitForTimeout(3000);
-                
-            } catch (error) {
-                console.log('Erro ao carregar página:', error.message);
+                if (response.statusCode === 200) {
+                    console.log('✅ Teste básico passou! O crawler está funcional.');
+                    console.log('Agora vamos tentar o Idealista...\n');
+                    
+                    // Adicionar URL do Idealista após teste bem-sucedido
+                    await requestQueue.addRequest({ 
+                        url: idealistaUrl,
+                        userData: { type: 'idealista' },
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                            'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
+                            'Accept-Encoding': 'gzip, deflate, br',
+                            'DNT': '1',
+                            'Connection': 'keep-alive',
+                            'Upgrade-Insecure-Requests': '1',
+                            'Referer': 'https://www.google.pt/',
+                        }
+                    });
+                } else {
+                    console.log('❌ Teste básico falhou');
+                }
                 return;
             }
             
-            // Verificar título
-            const pageTitle = await page.title();
-            console.log(`Título da página: ${pageTitle}`);
-            
-            // Verificar se estamos bloqueados
-            const pageContent = await page.content();
-            if (pageContent.includes('403') || pageContent.includes('blocked') || pageContent.includes('robot')) {
-                console.log('Página parece estar bloqueada. Conteúdo:', pageContent.substring(0, 500));
-                return;
-            }
-            
-            // Procurar anúncios com diferentes seletores
-            const items = await page.evaluate(() => {
-                const possibleSelectors = [
+            // Processar Idealista
+            if (request.userData?.type === 'idealista') {
+                console.log('=== TENTATIVA IDEALISTA ===');
+                
+                if (response.statusCode !== 200) {
+                    console.log(`❌ Status: ${response.statusCode} - Bloqueado`);
+                    
+                    // Mostrar headers da resposta para debug
+                    console.log('Headers da resposta:');
+                    Object.entries(response.headers).forEach(([key, value]) => {
+                        console.log(`  ${key}: ${value}`);
+                    });
+                    
+                    return;
+                }
+                
+                console.log('✅ Conseguimos aceder ao Idealista!');
+                
+                const pageTitle = $('title').text();
+                console.log(`Título da página: ${pageTitle}`);
+                
+                // Analisar estrutura da página
+                console.log('\n=== ANÁLISE DA ESTRUTURA ===');
+                const bodyClasses = $('body').attr('class');
+                console.log(`Classes do body: ${bodyClasses}`);
+                
+                // Procurar por elementos comuns de imóveis
+                const commonSelectors = [
                     '.item-info-container',
                     '.item',
-                    '.property-item', 
+                    '.property-item',
                     'article',
                     '[data-element-id]',
-                    '.ad-preview'
+                    '.ad-preview',
+                    '.property',
+                    '.listing',
+                    '.real-estate-item'
                 ];
                 
-                let foundElements = [];
+                let foundElements = false;
+                const allResults = [];
                 
-                for (const selector of possibleSelectors) {
-                    const elements = document.querySelectorAll(selector);
+                for (const selector of commonSelectors) {
+                    const elements = $(selector);
                     if (elements.length > 0) {
-                        console.log(`Seletor ${selector}: ${elements.length} elementos`);
+                        console.log(`✅ Encontrados ${elements.length} elementos com: ${selector}`);
+                        foundElements = true;
                         
-                        elements.forEach((element, index) => {
-                            if (index >= 15) return; // Limitar resultados
+                        // Extrair dados dos primeiros 10 elementos
+                        elements.slice(0, 10).each((i, el) => {
+                            const item = $(el);
                             
-                            // Extrair dados básicos
-                            const titleEl = element.querySelector('h2 a, .item-link, h3 a, a[title]');
-                            const priceEl = element.querySelector('.item-price, .price');
-                            const locationEl = element.querySelector('.item-location, .location');
+                            // Tentar diferentes formas de extrair título e link
+                            const titleSelectors = ['h2 a', '.item-link', 'h3 a', 'a[title]', '.title a', '.property-title'];
+                            const priceSelectors = ['.item-price', '.price', '.property-price', '.cost'];
+                            const locationSelectors = ['.item-location', '.location', '.property-location', '.address'];
                             
-                            let title = '';
-                            let link = '';
-                            let price = '';
-                            let location = '';
+                            let title = '', link = '', price = '', location = '';
                             
-                            if (titleEl) {
-                                title = titleEl.textContent?.trim() || '';
-                                link = titleEl.href || '';
-                                if (link && !link.startsWith('http')) {
-                                    link = 'https://www.idealista.pt' + link;
+                            // Procurar título e link
+                            for (const titleSel of titleSelectors) {
+                                const titleEl = item.find(titleSel);
+                                if (titleEl.length > 0) {
+                                    title = titleEl.text().trim();
+                                    link = titleEl.attr('href') || '';
+                                    if (link && !link.startsWith('http')) {
+                                        link = 'https://www.idealista.pt' + link;
+                                    }
+                                    break;
                                 }
                             }
                             
-                            if (priceEl) {
-                                price = priceEl.textContent?.trim() || '';
+                            // Procurar preço
+                            for (const priceSel of priceSelectors) {
+                                const priceEl = item.find(priceSel);
+                                if (priceEl.length > 0) {
+                                    price = priceEl.text().trim();
+                                    break;
+                                }
                             }
                             
-                            if (locationEl) {
-                                location = locationEl.textContent?.trim() || '';
+                            // Procurar localização
+                            for (const locSel of locationSelectors) {
+                                const locEl = item.find(locSel);
+                                if (locEl.length > 0) {
+                                    location = locEl.text().trim();
+                                    break;
+                                }
                             }
                             
-                            // Extrair detalhes adicionais
-                            const detailElements = element.querySelectorAll('.item-detail, .detail');
-                            let rooms = '';
-                            let size = '';
-                            
-                            if (detailElements.length > 0) {
-                                rooms = detailElements[0]?.textContent?.trim() || '';
-                            }
-                            if (detailElements.length > 1) {
-                                size = detailElements[1]?.textContent?.trim() || '';
-                            }
-                            
-                            // Só adicionar se tem pelo menos título ou preço
                             if (title || price) {
-                                foundElements.push({
-                                    title,
-                                    price,
-                                    link,
-                                    rooms,
-                                    size,
-                                    location,
+                                allResults.push({
+                                    title: title || 'N/A',
+                                    price: price || 'N/A',
+                                    link: link || 'N/A',
+                                    location: location || 'N/A',
                                     selector: selector,
-                                    scrapedAt: new Date().toISOString()
+                                    scrapedAt: new Date().toISOString(),
+                                    sourceUrl: request.url
                                 });
                             }
                         });
                         
-                        if (foundElements.length > 0) break; // Parar se encontrou dados
+                        break; // Parar após encontrar elementos válidos
                     }
                 }
                 
-                // Se não encontrou nada, mostrar estrutura da página
-                if (foundElements.length === 0) {
-                    const allElements = document.querySelectorAll('*');
-                    const elementTypes = {};
+                if (!foundElements) {
+                    console.log('❌ Nenhum elemento de imóvel encontrado');
+                    console.log('\nElementos disponíveis na página (primeiros 20):');
                     
-                    Array.from(allElements).forEach(el => {
-                        const tagClass = el.className ? `${el.tagName}.${el.className}` : el.tagName;
-                        elementTypes[tagClass] = (elementTypes[tagClass] || 0) + 1;
+                    // Mostrar elementos disponíveis para debug
+                    const uniqueElements = new Set();
+                    $('*').each((i, el) => {
+                        if (uniqueElements.size >= 20) return;
+                        const tagClass = el.tagName + ($(el).attr('class') ? '.' + $(el).attr('class').split(' ')[0] : '');
+                        uniqueElements.add(tagClass);
                     });
                     
-                    console.log('Elementos encontrados na página:', Object.keys(elementTypes).slice(0, 20));
-                }
-                
-                return foundElements;
-            });
-            
-            console.log(`Encontrados ${items.length} imóveis`);
-            
-            // Guardar dados
-            if (items.length > 0) {
-                await Dataset.pushData(items);
-                console.log('Dados guardados!');
-            } else {
-                console.log('Nenhum dado encontrado. Fazendo screenshot para debug...');
-                try {
-                    await page.screenshot({ path: 'debug.png', fullPage: false });
-                } catch (e) {
-                    console.log('Não foi possível fazer screenshot');
+                    Array.from(uniqueElements).forEach(elem => console.log(`  ${elem}`));
+                } else {
+                    console.log(`\n✅ Extraídos ${allResults.length} imóveis!`);
+                    
+                    // Mostrar primeiros resultados para verificação
+                    allResults.slice(0, 3).forEach((item, i) => {
+                        console.log(`\nImóvel ${i + 1}:`);
+                        console.log(`  Título: ${item.title.substring(0, 50)}...`);
+                        console.log(`  Preço: ${item.price}`);
+                        console.log(`  Localização: ${item.location}`);
+                    });
+                    
+                    // Guardar dados
+                    await Dataset.pushData(allResults);
                 }
             }
-            
-            // Procurar próxima página (apenas 1 página para teste inicial)
-            const queueInfo = await requestQueue.getInfo();
-            if (queueInfo.totalRequestCount < 2 && items.length > 0) {
-                const nextUrl = await page.evaluate(() => {
-                    const nextBtn = document.querySelector('a.next-page, .pagination .next, [aria-label*="next"]');
-                    return nextBtn ? nextBtn.href : null;
-                });
-                
-                if (nextUrl) {
-                    console.log(`Próxima página: ${nextUrl}`);
-                    await requestQueue.addRequest({ url: nextUrl });
-                }
-            }
-            
-            // Delay
-            await page.waitForTimeout(2000);
         },
         
         failedRequestHandler: async ({ request, error }) => {
-            console.log(`Request failed: ${request.url} - ${error.message}`);
+            console.log(`\n❌ Request falhou: ${request.url}`);
+            console.log(`Erro: ${error.message}`);
         },
     });
     
     // Iniciar crawler
     await crawler.run();
     
-    console.log('Scraping concluído!');
+    console.log('\n=== SCRAPING CONCLUÍDO ===');
     await Actor.exit();
 };
 
