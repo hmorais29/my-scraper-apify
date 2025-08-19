@@ -1,4 +1,5 @@
 const Apify = require('apify');
+const { openRequestQueue, CheerioCrawler, pushData } = require('crawlee');
 
 const main = async () => {
     // 1. Inicializar o ambiente do Actor
@@ -16,15 +17,15 @@ const main = async () => {
 
     console.log(`Iniciando o web scraping para a URL: ${startUrl}`);
 
-    // Usar o objeto Apify para abrir a fila de pedidos
-    const requestQueue = await Apify.openRequestQueue();
+    // Usa a função importada diretamente do 'crawlee'
+    const requestQueue = await openRequestQueue();
     await requestQueue.addRequest({ url: startUrl });
 
-    // 3. Criar o CheerioCrawler (usando o objeto Apify)
-    const crawler = new Apify.CheerioCrawler({
+    // 3. Criar o CheerioCrawler (usando a importação do 'crawlee')
+    const crawler = new CheerioCrawler({
         requestQueue,
         // Define a lógica para cada página que o crawler visita
-        async requestHandler({ request, $ }) {
+        requestHandler: async ({ request, $ }) => {
             const pageTitle = $('title').text();
             console.log(`Processando a página: ${pageTitle}`);
 
@@ -40,8 +41,8 @@ const main = async () => {
                 const size = item.find('.item-detail').eq(1).text().trim();
                 const location = item.find('.item-location').text().trim();
 
-                // Usar o objeto Apify para guardar os dados
-                Apify.pushData({
+                // Usa a função importada
+                pushData({
                     title,
                     price,
                     link,
