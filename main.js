@@ -21,14 +21,32 @@ const main = async () => {
     const requestQueue = await RequestQueue.open();
     await requestQueue.addRequest({ url: startUrl });
     
-    // 3. Criar o CheerioCrawler
+    // 3. Criar o CheerioCrawler com configurações anti-detecção
     const crawler = new CheerioCrawler({
         requestQueue,
-        // Adicionar um User-Agent para evitar ser bloqueado
+        // Configurações para evitar detecção
+        maxRequestRetries: 3,
+        requestHandlerTimeoutMillis: 60000,
+        maxRequestsPerMinute: 30, // Limitar velocidade
+        sessionPoolOptions: {
+            maxPoolSize: 10,
+            sessionOptions: {
+                maxUsageCount: 50,
+            },
+        },
+        // Configurar headers personalizados
         preNavigationHooks: [
-            ({ request }) => {
+            async ({ request, session }) => {
                 request.headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36'
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1',
+                    'Cache-Control': 'max-age=0',
+                    'Referer': 'https://www.google.com/',
                 };
             },
         ],
@@ -37,7 +55,15 @@ const main = async () => {
             const pageTitle = $('title').text();
             console.log(`Processando a página: ${pageTitle}`);
             
+            // Verificar se chegámos à página correta
+            if (!$('.item-info-container').length) {
+                console.log('Não foram encontrados anúncios. Página pode ter mudado ou está bloqueada.');
+                console.log('HTML snippet:', $.html().substring(0, 500));
+                return;
+            }
+            
             // Encontra todos os anúncios de imóveis na página
+            const properties = [];
             $('.item-info-container').each((i, el) => {
                 const item = $(el);
                 
@@ -49,17 +75,28 @@ const main = async () => {
                 const size = item.find('.item-detail').eq(1).text().trim();
                 const location = item.find('.item-location').text().trim();
                 
-                // Usar Dataset.pushData
-                Dataset.pushData({
-                    title,
-                    price,
-                    link,
-                    rooms,
-                    size,
-                    location,
-                    scrapedAt: new Date().toISOString()
-                });
+                if (title) { // Só adicionar se encontrou dados
+                    properties.push({
+                        title,
+                        price,
+                        link,
+                        rooms,
+                        size,
+                        location,
+                        scrapedAt: new Date().toISOString()
+                    });
+                }
             });
+            
+            console.log(`Encontrados ${properties.length} imóveis nesta página`);
+            
+            // Guardar os dados
+            if (properties.length > 0) {
+                await Dataset.pushData(properties);
+            }
+            
+            // Adicionar delay entre páginas
+            await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
             
             // 5. Adicionar a próxima página à fila (se existir)
             const nextButton = $('a.next-page');
