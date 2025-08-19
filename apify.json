@@ -1,0 +1,21 @@
+{
+    "name": "my-scraper-imoveis",
+    "version": "0.0",
+    "buildTag": "latest",
+    "env": null,
+    "input": {
+        "title": "URL de pesquisa do Imóvel",
+        "type": "object",
+        "schema": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string",
+                    "title": "URL",
+                    "description": "A URL de pesquisa a raspar."
+                }
+            },
+            "required": ["url"]
+        }
+    }
+}
