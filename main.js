@@ -1,8 +1,10 @@
 const Apify = require('apify');
 
-Apify.main(async () => {
-    // 1. Obter a URL de entrada do N8n
-    // O N8n envia a URL num objeto JSON, por isso vamos ler o input.
+// O código agora corre diretamente, sem o Apify.main
+// O Apify SDK v3.x gere automaticamente a execução e o encerramento.
+
+const start = async () => {
+    // 1. Obter a URL de entrada
     const input = await Apify.getInput();
     const startUrl = input.url;
 
@@ -16,7 +18,7 @@ Apify.main(async () => {
     const requestQueue = await Apify.openRequestQueue();
     await requestQueue.addRequest({ url: startUrl });
 
-    // 2. Criar o CheerioCrawler para raspar as páginas
+    // 2. Criar o CheerioCrawler
     const crawler = new Apify.CheerioCrawler({
         requestQueue,
         // Define a lógica para cada página que o crawler visita
@@ -37,8 +39,6 @@ Apify.main(async () => {
                 const location = item.find('.item-location').text().trim();
 
                 // 4. Guardar os dados num formato estruturado
-                // Os dados são guardados num "dataset" na Apify, que pode ser descarregado
-                // em CSV, JSON, etc.
                 Apify.pushData({
                     title,
                     price,
@@ -63,4 +63,6 @@ Apify.main(async () => {
     // Iniciar o crawler
     await crawler.run();
     console.log('Web scraping concluído com sucesso!');
-});
+};
+
+start();
