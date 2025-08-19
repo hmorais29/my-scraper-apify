@@ -1,5 +1,5 @@
 const { Actor } = require('apify');
-const { RequestQueue, CheerioCrawler, Dataset } = require('crawlee');
+const { RequestQueue, CheerioCrawler, Dataset, ProxyConfiguration } = require('crawlee');
 
 const main = async () => {
     // 1. Inicializar o ambiente do Actor
@@ -17,46 +17,47 @@ const main = async () => {
     
     console.log(`Iniciando o web scraping para a URL: ${startUrl}`);
     
-    // Usar a classe RequestQueue em vez da função openRequestQueue
+    // Configurar proxy
+    const proxyConfiguration = new ProxyConfiguration({
+        groups: ['RESIDENTIAL'],
+    });
+    
+    // Usar a classe RequestQueue
     const requestQueue = await RequestQueue.open();
     await requestQueue.addRequest({ url: startUrl });
     
-    // 3. Criar o CheerioCrawler com configurações anti-detecção
+    // 3. Criar o CheerioCrawler básico
     const crawler = new CheerioCrawler({
         requestQueue,
-        // Configurações para evitar detecção
-        maxRequestRetries: 3,
-        maxRequestsPerMinute: 20, // Limitar velocidade
-        useApifyProxy: true, // Usar proxy do Apify
-        sessionPoolOptions: {
-            maxPoolSize: 10,
-            sessionOptions: {
-                maxUsageCount: 30,
-            },
-        },
-        // Configurar headers personalizados
-        preNavigationHooks: [
-            async ({ request }) => {
-                request.headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                    'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Connection': 'keep-alive',
-                    'Upgrade-Insecure-Requests': '1',
-                    'Referer': 'https://www.google.pt/',
-                };
-            },
-        ],
+        proxyConfiguration,
+        maxRequestRetries: 2,
+        maxConcurrency: 1, // Uma request de cada vez
         // Define a lógica para cada página que o crawler visita
-        requestHandler: async ({ request, $ }) => {
+        requestHandler: async ({ request, $, response }) => {
+            console.log(`Status: ${response.statusCode} - Processando: ${request.url}`);
             const pageTitle = $('title').text();
-            console.log(`Processando a página: ${pageTitle}`);
+            console.log(`Título da página: ${pageTitle}`);
             
             // Verificar se chegámos à página correta
             if (!$('.item-info-container').length) {
-                console.log('Não foram encontrados anúncios. Página pode ter mudado ou está bloqueada.');
-                console.log('HTML snippet:', $.html().substring(0, 500));
+                console.log('Não foram encontrados anúncios com .item-info-container');
+                // Tentar outros seletores comuns do Idealista
+                const alternativeSelectors = ['.item', '.property-item', '[data-element-id]', '.ad-preview'];
+                let found = false;
+                
+                for (const selector of alternativeSelectors) {
+                    const elements = $(selector);
+                    if (elements.length > 0) {
+                        console.log(`Encontrados ${elements.length} elementos com seletor: ${selector}`);
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    console.log('HTML snippet (primeiros 500 chars):');
+                    console.log($.html().substring(0, 500));
+                }
                 return;
             }
             
@@ -66,14 +67,15 @@ const main = async () => {
                 const item = $(el);
                 
                 // 4. Extrair os dados de cada anúncio
-                const title = item.find('h2 a').text().trim();
-                const link = 'https://www.idealista.pt' + item.find('h2 a').attr('href');
+                const title = item.find('h2 a, .item-link').text().trim();
+                const linkHref = item.find('h2 a, .item-link').attr('href');
+                const link = linkHref ? 'https://www.idealista.pt' + linkHref : '';
                 const price = item.find('.item-price').text().trim();
                 const rooms = item.find('.item-detail').eq(0).text().trim();
                 const size = item.find('.item-detail').eq(1).text().trim();
                 const location = item.find('.item-location').text().trim();
                 
-                if (title) { // Só adicionar se encontrou dados
+                if (title || price) { // Só adicionar se encontrou pelo menos título ou preço
                     properties.push({
                         title,
                         price,
@@ -81,7 +83,8 @@ const main = async () => {
                         rooms,
                         size,
                         location,
-                        scrapedAt: new Date().toISOString()
+                        scrapedAt: new Date().toISOString(),
+                        sourceUrl: request.url
                     });
                 }
             });
@@ -93,17 +96,26 @@ const main = async () => {
                 await Dataset.pushData(properties);
             }
             
-            // Adicionar delay entre páginas
-            await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
-            
             // 5. Adicionar a próxima página à fila (se existir)
-            const nextButton = $('a.next-page');
+            const nextButton = $('a.next-page, .icon-arrow-right-after').parent('a');
             if (nextButton.length) {
-                const nextPageUrl = 'https://www.idealista.pt' + nextButton.attr('href');
-                console.log(`Encontrada próxima página: ${nextPageUrl}`);
-                await requestQueue.addRequest({ url: nextPageUrl });
+                const nextPageHref = nextButton.attr('href');
+                if (nextPageHref) {
+                    const nextPageUrl = 'https://www.idealista.pt' + nextPageHref;
+                    console.log(`Encontrada próxima página: ${nextPageUrl}`);
+                    await requestQueue.addRequest({ url: nextPageUrl });
+                }
+            } else {
+                console.log('Não foi encontrada próxima página');
             }
+            
+            // Adicionar delay entre páginas
+            await new Promise(resolve => setTimeout(resolve, 3000 + Math.random() * 2000));
         },
+        
+        // Configurar headers
+        requestHandlerTimeoutSecs: 60,
+        additionalMimeTypes: ['text/html'],
     });
     
     // Iniciar o crawler
