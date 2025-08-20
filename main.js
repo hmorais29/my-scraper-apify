@@ -20,11 +20,145 @@ const main = async () => {
     const searchCriteria = parseQuery(query);
     console.log('📋 Critérios extraídos:', searchCriteria);
     
+    // URL-building functions moved inside main to access searchCriteria
+    function buildCasaSapoUrl(criteria) {
+        let url = 'https://casa.sapo.pt/venda';
+        
+        if (criteria.type === 'apartamento') {
+            url += '/apartamentos';
+        } else if (criteria.type === 'moradia') {
+            url += '/moradias';
+        }
+        
+        if (criteria.location) {
+            url += `/${criteria.location}`;
+        }
+        
+        const params = new URLSearchParams();
+        
+        if (criteria.rooms) {
+            const roomNum = criteria.rooms.replace('T', '');
+            params.append('quartos', roomNum);
+        }
+        
+        if (criteria.area) {
+            params.append('area_min', Math.max(1, criteria.area - 20));
+            params.append('area_max', criteria.area + 20);
+        }
+        
+        const queryString = params.toString();
+        return queryString ? `${url}?${queryString}` : url;
+    }
+
+    function buildImovirtualUrl(criteria) {
+        let url = 'https://www.imovirtual.com/comprar';
+        
+        if (criteria.type === 'apartamento') {
+            url += '/apartamento';
+        } else if (criteria.type === 'moradia') {
+            url += '/moradia';
+        }
+        
+        if (criteria.location) {
+            url += `/${criteria.location}`;
+        }
+        
+        const params = new URLSearchParams();
+        
+        if (criteria.rooms) {
+            const roomNum = criteria.rooms.replace('T', '');
+            params.append('search%5Bfilter_float_number_of_rooms%3Afrom%5D', roomNum);
+            params.append('search%5Bfilter_float_number_of_rooms%3Ato%5D', roomNum);
+        }
+        
+        if (criteria.area) {
+            params.append('search%5Bfilter_float_m%3Afrom%5D', Math.max(1, criteria.area - 20));
+            params.append('search%5Bfilter_float_m%3Ato%5D', criteria.area + 20);
+        }
+        
+        const queryString = params.toString();
+        return queryString ? `${url}?${queryString}` : url;
+    }
+
+    function buildEraUrl(criteria) {
+        let url = 'https://www.era.pt/comprar';
+        
+        if (criteria.type === 'apartamento') {
+            url += '/apartamentos';
+        } else if (criteria.type === 'moradia') {
+            url += '/moradias';
+        }
+        
+        if (criteria.location) {
+            url += `/${criteria.location}`;
+        }
+        
+        return url;
+    }
+
+    function buildRemaxUrl(criteria) {
+        let url = 'https://www.remax.pt/comprar';
+        
+        if (criteria.type === 'apartamento') {
+            url += '/apartamentos';
+        } else if (criteria.type === 'moradia') {
+            url += '/casas';
+        }
+        
+        if (criteria.location) {
+            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
+        }
+        
+        const params = new URLSearchParams();
+        
+        if (criteria.rooms) {
+            const roomNum = criteria.rooms.replace('T', '');
+            params.append('bedrooms', roomNum);
+        }
+        
+        if (criteria.area) {
+            params.append('areaMin', Math.max(1, criteria.area - 20));
+            params.append('areaMax', criteria.area + 20);
+        }
+        
+        const queryString = params.toString();
+        return queryString ? `${url}?${queryString}` : url;
+    }
+
+    function buildIdealistaUrl(criteria) {
+        let url = 'https://www.idealista.pt/comprar-casas';
+        
+        if (criteria.location) {
+            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
+        }
+        
+        const params = new URLSearchParams();
+        
+        if (criteria.type === 'apartamento') {
+            params.append('tipologia', 'apartamentos');
+        } else if (criteria.type === 'moradia') {
+            params.append('tipologia', 'moradias');
+        }
+        
+        if (criteria.rooms) {
+            const roomNum = criteria.rooms.replace('T', '');
+            params.append('quartos', roomNum);
+        }
+        
+        if (criteria.area) {
+            params.append('area_min', Math.max(1, criteria.area - 20));
+            params.append('area_max', criteria.area + 20);
+        }
+        
+        const queryString = params.toString();
+        return queryString ? `${url}?${queryString}` : url;
+    }
+
     const propertySites = [
         {
             name: 'Casa Sapo',
             baseUrl: 'https://casa.sapo.pt',
-            buildSearchUrl: (criteria) => buildCasaSapoUrl(criteria),
+            buildSearchUrl: buildCasaSapoUrl,
             selectors: {
                 container: '.searchResultProperty, .property-item, .casa-info, [data-cy="property"], .listing-item',
                 title: '.propertyTitle a, h2 a, .title a, .casa-title, [data-cy="title"], .listing-title a',
@@ -37,7 +171,7 @@ const main = async () => {
         {
             name: 'Imovirtual',
             baseUrl: 'https://www.imovirtual.com',
-            buildSearchUrl: (criteria) => buildImovirtualUrl(criteria),
+            buildSearchUrl: buildImovirtualUrl,
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x, .css-15mp5m2',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a, .css-1as8ukw',
@@ -50,7 +184,7 @@ const main = async () => {
         {
             name: 'ERA Portugal',
             baseUrl: 'https://www.era.pt',
-            buildSearchUrl: (criteria) => buildEraUrl(criteria),
+            buildSearchUrl: buildEraUrl,
             selectors: {
                 container: '.property-card, .listing-card, .property-item, .card, .listing-item, [class*="property"], [class*="listing"]',
                 title: '.property-title a, h2 a, h3 a, .card-title a, .listing-title a, [class*="title"] a',
@@ -63,7 +197,7 @@ const main = async () => {
         {
             name: 'Remax Portugal',
             baseUrl: 'https://www.remax.pt',
-            buildSearchUrl: (criteria) => buildRemaxUrl(criteria),
+            buildSearchUrl: buildRemaxUrl,
             selectors: {
                 container: '.property-card, .listing-item, .property-box, .real-estate-item, [class*="property"], [class*="listing"], .card',
                 title: '.property-title, h2 a, h3 a, .listing-title a, [class*="title"] a, .card-title a',
@@ -76,7 +210,7 @@ const main = async () => {
         {
             name: 'Idealista Portugal',
             baseUrl: 'https://www.idealista.pt',
-            buildSearchUrl: (criteria) => buildIdealistaUrl(criteria),
+            buildSearchUrl: buildIdealistaUrl,
             selectors: {
                 container: '.item, .listing-item, .property-card, [class*="item"], [class*="listing"], .card',
                 title: '.item-link, h2 a, h3 a, [class*="title"] a, .listing-title a',
@@ -97,7 +231,7 @@ const main = async () => {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { site, criteria }
+                    userData: { site, criteria: searchCriteria }
                 });
             }
         } catch (error) {
@@ -281,139 +415,6 @@ function parseQuery(query) {
     }
     
     return criteria;
-}
-
-function buildCasaSapoUrl(criteria) {
-    let url = 'https://casa.sapo.pt/venda';
-    
-    if (criteria.type === 'apartamento') {
-        url += '/apartamentos';
-    } else if (criteria.type === 'moradia') {
-        url += '/moradias';
-    }
-    
-    if (criteria.location) {
-        url += `/${criteria.location}`;
-    }
-    
-    const params = new URLSearchParams();
-    
-    if (criteria.rooms) {
-        const roomNum = criteria.rooms.replace('T', '');
-        params.append('quartos', roomNum);
-    }
-    
-    if (criteria.area) {
-        params.append('area_min', Math.max(1, criteria.area - 20));
-        params.append('area_max', criteria.area + 20);
-    }
-    
-    const queryString = params.toString();
-    return queryString ? `${url}?${queryString}` : url;
-}
-
-function buildImovirtualUrl(criteria) {
-    let url = 'https://www.imovirtual.com/comprar';
-    
-    if (criteria.type === 'apartamento') {
-        url += '/apartamento';
-    } else if (criteria.type === 'moradia') {
-        url += '/moradia';
-    }
-    
-    if (criteria.location) {
-        url += `/${criteria.location}`;
-    }
-    
-    const params = new URLSearchParams();
-    
-    if (criteria.rooms) {
-        const roomNum = criteria.rooms.replace('T', '');
-        params.append('search%5Bfilter_float_number_of_rooms%3Afrom%5D', roomNum);
-        params.append('search%5Bfilter_float_number_of_rooms%3Ato%5D', roomNum);
-    }
-    
-    if (criteria.area) {
-        params.append('search%5Bfilter_float_m%3Afrom%5D', Math.max(1, criteria.area - 20));
-        params.append('search%5Bfilter_float_m%3Ato%5D', criteria.area + 20);
-    }
-    
-    const queryString = params.toString();
-    return queryString ? `${url}?${queryString}` : url;
-}
-
-function buildEraUrl(criteria) {
-    let url = 'https://www.era.pt/comprar';
-    
-    if (criteria.type === 'apartamento') {
-        url += '/apartamentos';
-    } else if (criteria.type === 'moradia') {
-        url += '/moradias';
-    }
-    
-    if (criteria.location) {
-        url += `/${criteria.location}`;
-    }
-    
-    return url;
-}
-
-function buildRemaxUrl(criteria) {
-    let url = 'https://www.remax.pt/comprar';
-    
-    if (criteria.type === 'apartamento') {
-        url += '/apartamentos';
-    } else if (criteria.type === 'moradia') {
-        url += '/casas';
-    }
-    
-    if (criteria.location) {
-        url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
-    }
-    
-    const params = new URLSearchParams();
-    
-    if (criteria.rooms) {
-        const roomNum = criteria.rooms.replace('T', '');
-        params.append('bedrooms', roomNum);
-    }
-    
-    if (criteria.area) {
-        params.append('areaMin', Math.max(1, criteria.area - 20));
-        params.append('areaMax', criteria.area + 20);
-    }
-    
-    const queryString = params.toString();
-    return queryString ? `${url}?${queryString}` : url;
-}
-
-function buildIdealistaUrl(criteria) {
-    let url = 'https://www.idealista.pt/comprar-casas';
-    
-    if (criteria.location) {
-        url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
-    }
-    
-    const params = new URLSearchParams();
-    
-    if (criteria.type === 'apartamento') {
-        params.append('tipologia', 'apartamentos');
-    } else if (criteria.type === 'moradia') {
-        params.append('tipologia', 'moradias');
-    }
-    
-    if (criteria.rooms) {
-        const roomNum = criteria.rooms.replace('T', '');
-        params.append('quartos', roomNum);
-    }
-    
-    if (criteria.area) {
-        params.append('area_min', Math.max(1, criteria.area - 20));
-        params.append('area_max', criteria.area + 20);
-    }
-    
-    const queryString = params.toString();
-    return queryString ? `${url}?${queryString}` : url;
 }
 
 function isPropertyRelevant(property, criteria) {
