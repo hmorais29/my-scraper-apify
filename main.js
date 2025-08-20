@@ -20,35 +20,6 @@ const main = async () => {
     const searchCriteria = parseQuery(query);
     console.log('📋 Critérios extraídos:', searchCriteria);
     
-    function buildCasaSapoUrl(criteria) {
-        let url = 'https://casa.sapo.pt/venda';
-        
-        if (criteria.type === 'apartamento') {
-            url += '/apartamentos';
-        } else if (criteria.type === 'moradia') {
-            url += '/moradias';
-        }
-        
-        if (criteria.location) {
-            url += `/${criteria.location}`;
-        }
-        
-        const params = new URLSearchParams();
-        
-        if (criteria.rooms) {
-            const roomNum = criteria.rooms.replace('T', '');
-            params.append('quartos', roomNum);
-        }
-        
-        if (criteria.area) {
-            params.append('area_min', Math.max(1, criteria.area - 20));
-            params.append('area_max', criteria.area + 20);
-        }
-        
-        const queryString = params.toString();
-        return queryString ? `${url}?${queryString}` : url;
-    }
-
     function buildImovirtualUrl(criteria) {
         let url = 'https://www.imovirtual.com/comprar';
         
@@ -155,19 +126,6 @@ const main = async () => {
 
     const propertySites = [
         {
-            name: 'Casa Sapo',
-            baseUrl: 'https://casa.sapo.pt',
-            buildSearchUrl: buildCasaSapoUrl,
-            selectors: {
-                container: '.searchResultProperty, .property-item, .casa-info, [data-cy="property"], .listing-item',
-                title: '.propertyTitle a, h2 a, .title a, .casa-title, [data-cy="title"], .listing-title a',
-                price: '.propertyPrice, .price, .valor, [data-cy="price"], .listing-price',
-                location: '.propertyLocation, .location, .zona, [data-cy="location"], .listing-address',
-                area: '.area, .metros, [class*="area"], [class*="m2"], .listing-area',
-                rooms: '.quartos, .rooms, [class*="quarto"], .tipologia, .listing-rooms'
-            }
-        },
-        {
             name: 'Imovirtual',
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
@@ -242,7 +200,8 @@ const main = async () => {
         requestQueue,
         maxRequestRetries: 3,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 3,
+        maxRequestsPerMinute: 2, // Reduced to minimize 429/403
+        // proxyConfiguration: { proxyUrls: ['http://username:password@proxyhost:port'] }, // Uncomment with valid proxy credentials
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
@@ -321,7 +280,7 @@ const main = async () => {
                     }
                 }
                 
-                if (property.title && property.title.length > 15) { // Relaxed to allow title-only
+                if (property.title && property.title.length > 15) { // Relaxed criteria retained
                     properties.push(property);
                     console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
                 }
