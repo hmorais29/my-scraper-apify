@@ -1,10 +1,343 @@
-{
-  "name": "my-scraper-apify",
-  "version": "0.0.2",
-  "dependencies": {
-    "apify": "^3.0.0"
-  },
-  "scripts": {
-    "start": "node main.js"
-  }
-}
+const { Actor } = require('apify');
+const { RequestQueue, PuppeteerCrawler, Dataset } = require('crawlee');
+
+const main = async () => {
+    await Actor.init();
+    
+    const input = await Actor.getInput();
+    console.log('📥 Input recebido:', input);
+    
+    const query = input.query || input.searchQuery || '';
+    
+    if (!query) {
+        console.log('❌ Nenhuma query fornecida');
+        await Actor.exit();
+        return;
+    }
+    
+    console.log(`🔍 Query: "${query}"`);
+    
+    const searchCriteria = parseQuery(query);
+    console.log('📋 Critérios extraídos:', searchCriteria);
+    
+    const propertySites = [
+        {
+            name: 'Casa Sapo',
+            baseUrl: 'https://casa.sapo.pt',
+            buildSearchUrl: (criteria) => buildCasaSapoUrl(criteria),
+            selectors: {
+                container: '.searchResultProperty, .property-item, .casa-info, [data-cy="property"], .listing-item',
+                title: '.propertyTitle a, h2 a, .title a, .casa-title, [data-cy="title"], .listing-title a',
+                price: '.propertyPrice, .price, .valor, [data-cy="price"], .listing-price',
+                location: '.propertyLocation, .location, .zona, [data-cy="location"], .listing-address',
+                area: '.area, .metros, [class*="area"], [class*="m2"], .listing-area',
+                rooms: '.quartos, .rooms, [class*="quarto"], .tipologia, .listing-rooms'
+            },
+            antiBot: true
+        },
+        {
+            name: 'Imovirtual',
+            baseUrl: 'https://www.imovirtual.com',
+            buildSearchUrl: (criteria) => buildImovirtualUrl(criteria),
+            selectors: {
+                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x, .css-15mp5m2',
+                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a, .css-1as8ukw',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"], .css-zcebfu',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location, .css-wmoe9r',
+                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
+                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
+            },
+            antiBot: true
+        },
+        {
+            name: 'ERA Portugal',
+            baseUrl: 'https://www.era.pt',
+            buildSearchUrl: (criteria) => buildEraUrl(criteria),
+            selectors: {
+                container: '.property-card, .listing-card, .property-item, .card, .listing-item, [class*="property"], [class*="listing"]',
+                title: '.property-title a, h2 a, h3 a, .card-title a, .listing-title a, [class*="title"] a',
+                price: '.property-price, .price, .valor, .card-price, .listing-price, [class*="price"]',
+                location: '.property-location, .location, .address, .card-location, .listing-address, [class*="location"]',
+                area: '.property-area, .area, .metros, .card-area, .listing-area, [class*="area"]',
+                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms, .listing-rooms, [class*="rooms"]'
+            },
+            antiBot: true
+        },
+        {
+            name: 'Remax Portugal',
+            baseUrl: 'https://www.remax.pt',
+            buildSearchUrl: (criteria) => buildRemaxUrl(criteria),
+            selectors: {
+                container: '.property-card, .listing-item, .property-box, .real-estate-item, [class*="property"], [class*="listing"], .card',
+                title: '.property-title, h2 a, h3 a, .listing-title a, [class*="title"] a, .card-title a',
+                price: '.property-price, .price-amount, .listing-price, [class*="price"], .card-price',
+                location: '.property-address, .location, .listing-address, [class*="location"], .card-address',
+                area: '.property-area, .area, .listing-area, [class*="area"], .card-area',
+                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"], .card-rooms, .listing-rooms'
+            },
+            antiBot: true
+        },
+        {
+            name: 'Idealista Portugal',
+            baseUrl: 'https://www.idealista.pt',
+            buildSearchUrl: (criteria) => buildIdealistaUrl(criteria),
+            selectors: {
+                container: '.item, .listing-item, .property-card, [class*="item"], [class*="listing"], .card',
+                title: '.item-link, h2 a, h3 a, [class*="title"] a, .listing-title a',
+                price: '.price-row, .item-price, [class*="price"], .listing-price, .card-price',
+                location: '.item-detail-location, .location, [class*="location"], .listing-address, .card-address',
+                area: '.item-detail-area, .area, [class*="area"], .listing-area, .card-area',
+                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia, .listing-rooms'
+            },
+            antiBot: true
+        }
+    ];
+    
+    const requestQueue = await RequestQueue.open();
+    
+    for (const site of propertySites) {
+        try {
+            const searchUrl = site.buildSearchUrl(searchCriteria);
+            if (searchUrl) {
+                console.log(`🌐 ${site.name}: ${searchUrl}`);
+                
+                await requestQueue.addRequest({ 
+                    url: searchUrl,
+                    userData: { 
+                        site: site,
+                        criteria: searchCriteria,
+                        attempt: 1
+                    },
+                    // Uncomment if you have Apify proxy access
+                    // proxyConfiguration: { useApifyProxy: true }
+                });
+            }
+        } catch (error) {
+            console.log(`❌ Erro ao construir URL para ${site.name}:`, error.message);
+        }
+    }
+    
+    const crawler = new PuppeteerCrawler({
+        requestQueue,
+        maxRequestRetries: 6,
+        maxConcurrency: 1,
+        minConcurrency: 1,
+        maxRequestsPerMinute: 6, // Further reduced to avoid blocks
+        launchContext: {
+            launchOptions: {
+                headless: true,
+                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+                stealth: true
+            }
+        },
+        preNavigationHooks: [async ({ request, page }, gotoOptions) => {
+            await page.setExtraHTTPHeaders(getEnhancedHeaders());
+            await page.setViewport({ width: 1280, height: 720 });
+            gotoOptions.waitUntil = 'networkidle2';
+            gotoOptions.timeout = 60000; // Increased timeout
+        }],
+        requestHandler: async ({ request, page, response }) => {
+            const { site, criteria, attempt } = request.userData;
+            
+            console.log(`\n🏠 Processando ${site.name}...`);
+            console.log(`📊 Status: ${response.status()}`);
+            
+            const baseDelay = site.antiBot ? 10000 : 5000;
+            const maxDelay = site.antiBot ? 20000 : 10000;
+            await randomDelay(baseDelay * attempt, maxDelay * attempt);
+            
+            if (response.status() === 429 || response.status() === 403) {
+                console.log(`🚫 ${site.name} bloqueou o request (${response.status()})`);
+                
+                // Save screenshot for debugging
+                await page.screenshot({ path: `screenshot-${site.name}-${attempt}.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-${attempt}.png`);
+                
+                if (attempt < 6) {
+                    const retryDelay = Math.pow(2, attempt) * 25000;
+                    console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, retryDelay));
+                    
+                    await requestQueue.addRequest({
+                        url: request.url,
+                        userData: { 
+                            ...request.userData, 
+                            attempt: attempt + 1 
+                        }
+                    });
+                }
+                return;
+            }
+            
+            if (response.status() !== 200) {
+                console.log(`❌ ${site.name} - Status: ${response.status()}`);
+                await page.screenshot({ path: `screenshot-${site.name}-error.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-error.png`);
+                return;
+            }
+            
+            console.log(`✅ ${site.name} acessível!`);
+            
+            try {
+                await page.waitForSelector(site.selectors.container, { timeout: 15000 });
+            } catch (e) {
+                console.log(`⚠️ Timeout waiting for containers in ${site.name}`);
+                await page.screenshot({ path: `screenshot-${site.name}-timeout.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-timeout.png`);
+            }
+            
+            const properties = await page.evaluate((site, criteria, sourceUrl) => {
+                const properties = [];
+                
+                const containers = document.querySelectorAll(site.selectors.container);
+                
+                containers.forEach((el, i) => {
+                    if (i >= 8) return;
+                    
+                    const property = {
+                        title: '',
+                        price: '',
+                        location: '',
+                        area: '',
+                        rooms: '',
+                        link: '',
+                        source: site.name,
+                        sourceUrl: sourceUrl,
+                        scrapedAt: new Date().toISOString()
+                    };
+                    
+                    const titleSelectors = site.selectors.title.split(', ');
+                    for (const selector of titleSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.getAttribute('title') || el.textContent.trim();
+                            const href = el.getAttribute('href') || el.querySelector('a')?.getAttribute('href');
+                            
+                            if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
+                                property.title = text.substring(0, 200);
+                                if (href && href !== '#' && !href.startsWith('javascript')) {
+                                    property.link = href.startsWith('http') ? href : site.baseUrl + href;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const priceSelectors = site.selectors.price.split(', ');
+                    for (const selector of priceSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
+                                property.price = text.substring(0, 50);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const locationSelectors = site.selectors.location.split(', ');
+                    for (const selector of locationSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && text.length > 2 && text.length < 100 && 
+                                !text.includes('€') && !text.match(/^\d+$/)) {
+                                property.location = text.substring(0, 100);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const areaSelectors = site.selectors.area.split(', ');
+                    for (const selector of areaSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && text.match(/\d+.*m[²2]/i)) {
+                                property.area = text.substring(0, 20);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const roomsSelectors = site.selectors.rooms.split(', ');
+                    for (const selector of roomsSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
+                                property.rooms = text.substring(0, 10);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (property.title && property.title.length > 15 && 
+                        (property.price || property.location)) {
+                        properties.push(property);
+                    }
+                });
+                
+                return properties;
+            }, site, criteria, request.url);
+            
+            const filteredProperties = properties.filter(prop => isPropertyRelevant(prop, criteria));
+            
+            if (filteredProperties.length > 0) {
+                console.log(`📊 ${site.name}: ${filteredProperties.length} imóveis encontrados`);
+                
+                const limitedProperties = filteredProperties.slice(0, 5);
+                
+                limitedProperties.slice(0, 2).forEach((prop, i) => {
+                    console.log(`\n🏡 ${site.name} - Imóvel ${i + 1}:`);
+                    console.log(`  📝 ${prop.title.substring(0, 60)}...`);
+                    console.log(`  💰 ${prop.price}`);
+                    console.log(`  📍 ${prop.location}`);
+                    if (prop.area) console.log(`  📏 ${prop.area}`);
+                    if (prop.rooms) console.log(`  🚪 ${prop.rooms}`);
+                });
+                
+                await Dataset.pushData(limitedProperties);
+            } else {
+                console.log(`❌ ${site.name}: Nenhum imóvel encontrado`);
+                await page.screenshot({ path: `screenshot-${site.name}-no-results.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-no-results.png`);
+                await debugPageStructure(page, site);
+            }
+        },
+        
+        failedRequestHandler: async ({ request, error, page }) => {
+            console.log(`❌ Falha em ${request.userData.site.name}: ${error.message}`);
+            if (page) {
+                await page.screenshot({ path: `screenshot-${request.userData.site.name}-failed.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${request.userData.site.name}-failed.png`);
+            }
+        },
+    });
+    
+    console.log('\n🚀 Iniciando scraping...');
+    await crawler.run();
+    
+    const dataset = await Dataset.open();
+    const data = await dataset.getData();
+    const totalProperties = data.items.length;
+    
+    console.log(`\n🎉 Scraping concluído!`);
+    console.log(`📊 Total de imóveis encontrados: ${totalProperties}`);
+    
+    const bySite = {};
+    data.items.forEach(item => {
+        bySite[item.source] = (bySite[item.source] || 0) + 1;
+    });
+    
+    console.log('\n📈 Resultados por site:');
+    Object.entries(bySite).forEach(([site, count]) => {
+        console.log(`  ${site}: ${count} imóveis`);
+    });
+    
+    await Actor.exit();
+};
+
+function parseQuery(query) {
+    const criteria = {
+        location
