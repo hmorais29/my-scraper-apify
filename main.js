@@ -42,25 +42,25 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: (criteria) => buildImovirtualUrl(criteria),
             selectors: {
-                container: '[data-cy="listing-item"], .offer-item, .property-item',
-                title: '[data-cy="listing-item-link"], .offer-item-title a, h2 a',
-                price: '[data-cy="price"], .offer-item-price, .price',
-                location: '[data-cy="location"], .offer-item-location, .location',
-                area: '.offer-item-area, [data-cy="area"], .area',
-                rooms: '.offer-item-rooms, [data-cy="rooms"], .rooms'
+                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
+                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
+                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
         },
         {
-            name: 'Supercasa',
-            baseUrl: 'https://supercasa.pt',
-            buildSearchUrl: (criteria) => buildSupercasaUrl(criteria),
+            name: 'ERA Portugal',
+            baseUrl: 'https://www.era.pt',
+            buildSearchUrl: (criteria) => buildEraUrl(criteria),
             selectors: {
-                container: '.property-item, .listing-item, .imovel-item',
-                title: '.property-title a, h3 a, .imovel-title',
-                price: '.property-price, .price, .valor',
-                location: '.property-location, .location, .zona',
-                area: '.property-area, .area, .metros',
-                rooms: '.property-rooms, .tipologia, .quartos'
+                container: '.property-card, .listing-card, .property-item, .card',
+                title: '.property-title a, h2 a, h3 a, .card-title a',
+                price: '.property-price, .price, .valor, .card-price',
+                location: '.property-location, .location, .address, .card-location',
+                area: '.property-area, .area, .metros, .card-area',
+                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms'
             }
         }
     ];
@@ -314,9 +314,9 @@ function buildImovirtualUrl(criteria) {
     return queryString ? `${url}?${queryString}` : url;
 }
 
-// Construir URL do Supercasa
-function buildSupercasaUrl(criteria) {
-    let url = 'https://supercasa.pt/venda';
+// Construir URL do ERA
+function buildEraUrl(criteria) {
+    let url = 'https://www.era.pt/comprar';
     
     if (criteria.type === 'apartamento') {
         url += '/apartamentos';
@@ -420,21 +420,27 @@ function extractSingleProperty(item, site, sourceUrl) {
         scrapedAt: new Date().toISOString()
     };
     
-    // Extrair título
+    // Para debug - mostrar HTML do primeiro item
+    if (Math.random() < 0.1) { // 10% chance para não spammar logs
+        console.log(`🔍 HTML sample: ${item.html()?.substring(0, 200)}...`);
+    }
+    
+    // Extrair título com seletores mais amplos
     const titleSelectors = [
         ...site.selectors.title.split(', '),
-        'a[title]', 'h1', 'h2', 'h3', '[class*="title"]', '[class*="nome"]'
+        'a[title]', 'a', 'h1', 'h2', 'h3', 'h4', 
+        '[class*="title"]', '[class*="nome"]', '[class*="link"]'
     ];
     
     for (const selector of titleSelectors) {
         const el = item.find(selector);
         if (el.length > 0) {
-            const text = el.text().trim();
+            const text = el.attr('title') || el.text().trim();
             const href = el.attr('href') || el.find('a').attr('href');
             
-            if (text && text.length > 10) {
-                property.title = text;
-                if (href) {
+            if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
+                property.title = text.substring(0, 200);
+                if (href && href !== '#' && !href.startsWith('javascript')) {
                     property.link = href.startsWith('http') ? href : site.baseUrl + href;
                 }
                 break;
@@ -442,18 +448,38 @@ function extractSingleProperty(item, site, sourceUrl) {
         }
     }
     
-    // Extrair preço
+    // Se não encontrou título no link, procurar em qualquer texto
+    if (!property.title) {
+        const textElements = item.find('*').filter((i, el) => {
+            const text = $(el).text().trim();
+            return text.length > 20 && text.length < 150 && 
+                   (text.toLowerCase().includes('apartamento') || 
+                    text.toLowerCase().includes('moradia') ||
+                    text.toLowerCase().includes('t1') ||
+                    text.toLowerCase().includes('t2') ||
+                    text.toLowerCase().includes('t3') ||
+                    text.toLowerCase().includes('t4'));
+        });
+        
+        if (textElements.length > 0) {
+            property.title = $(textElements[0]).text().trim().substring(0, 200);
+        }
+    }
+    
+    // Extrair preço com seletores mais amplos
     const priceSelectors = [
         ...site.selectors.price.split(', '),
-        '[class*="price"]', '[class*="preco"]', '[class*="valor"]'
+        '[class*="price"]', '[class*="preco"]', '[class*="valor"]', 
+        '[class*="euro"]', 'span', 'div'
     ];
     
     for (const selector of priceSelectors) {
         const el = item.find(selector);
         if (el.length > 0) {
             const text = el.text().trim();
-            if (text && (text.includes('€') || text.match(/\d{3,}/))) {
-                property.price = text;
+            // Verificar se contém € ou padrão de preço
+            if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
+                property.price = text.substring(0, 50);
                 break;
             }
         }
@@ -462,15 +488,17 @@ function extractSingleProperty(item, site, sourceUrl) {
     // Extrair localização
     const locationSelectors = [
         ...site.selectors.location.split(', '),
-        '[class*="location"]', '[class*="zona"]', '[class*="address"]'
+        '[class*="location"]', '[class*="zona"]', '[class*="address"]',
+        '[class*="local"]', '[class*="cidade"]', 'address'
     ];
     
     for (const selector of locationSelectors) {
         const el = item.find(selector);
         if (el.length > 0) {
             const text = el.text().trim();
-            if (text && text.length > 2) {
-                property.location = text;
+            if (text && text.length > 2 && text.length < 100 && 
+                !text.includes('€') && !text.match(/^\d+$/)) {
+                property.location = text.substring(0, 100);
                 break;
             }
         }
@@ -486,14 +514,22 @@ function extractSingleProperty(item, site, sourceUrl) {
         const el = item.find(selector);
         if (el.length > 0) {
             const text = el.text().trim();
-            if (text && text.match(/\d+.*m/i)) {
-                property.area = text;
+            if (text && text.match(/\d+.*m[²2]/i)) {
+                property.area = text.substring(0, 20);
                 break;
             }
         }
     }
     
-    // Extrair quartos
+    // Se não encontrou área nos seletores, procurar no texto geral
+    if (!property.area && property.title) {
+        const areaMatch = property.title.match(/(\d+)\s*m[²2]/i);
+        if (areaMatch) {
+            property.area = `${areaMatch[1]}m²`;
+        }
+    }
+    
+    // Extrair quartos/tipologia
     const roomsSelectors = [
         ...site.selectors.rooms.split(', '),
         '[class*="quarto"]', '[class*="rooms"]', '[class*="tipologia"]'
@@ -504,14 +540,23 @@ function extractSingleProperty(item, site, sourceUrl) {
         if (el.length > 0) {
             const text = el.text().trim();
             if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
-                property.rooms = text;
+                property.rooms = text.substring(0, 10);
                 break;
             }
         }
     }
     
-    // Só retornar se tiver pelo menos título e preço ou localização
-    if (property.title && (property.price || property.location)) {
+    // Se não encontrou quartos, procurar no título
+    if (!property.rooms && property.title) {
+        const roomsMatch = property.title.match(/t(\d+)/i);
+        if (roomsMatch) {
+            property.rooms = `T${roomsMatch[1]}`;
+        }
+    }
+    
+    // Só retornar se tiver pelo menos título e (preço ou localização)
+    if (property.title && property.title.length > 15 && 
+        (property.price || property.location)) {
         return property;
     }
     
