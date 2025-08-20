@@ -1,21 +1,17 @@
 {
-    "name": "my-scraper-imoveis",
-    "version": "0.0",
-    "buildTag": "latest",
-    "env": null,
-    "input": {
-        "title": "URL de pesquisa do Imóvel",
-        "type": "object",
-        "schema": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "string",
-                    "title": "URL",
-                    "description": "A URL de pesquisa a raspar."
-                }
-            },
-            "required": ["url"]
-        }
-    }
-}
+       "name": "my-scraper-imoveis",
+       "version": "1.0.0",
+       "description": "Scrapes property listings from real estate websites",
+       "main": "main.js",
+       "scripts": {
+         "start": "node main.js"
+       },
+       "dependencies": {
+         "apify": "^3.4.4",
+         "crawlee": "^3.14.0"
+       },
+       "devDependencies": {},
+       "engines": {
+         "node": ">=20.0.0"
+       }
+     }
