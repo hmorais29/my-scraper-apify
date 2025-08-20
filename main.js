@@ -172,12 +172,12 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: '.offer-item, [data-cy="listing-item"], article.listing-card, .css-1sw7q4x',
-                title: 'a[title], h2 a, [data-cy="listing-item-link"], .offer-item-title a',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location',
-                area: '.css-1wi9dc7, [data-cy="area"], .offer-item-area',
-                rooms: '.css-1wi9dc7, [data-cy="rooms"], .offer-item-rooms'
+                container: '.offer-item, .listing-card, [data-testid="listing-card"], article.listing',
+                title: '.offer-item-title a, h2 a, [data-testid="listing-title"] a',
+                price: '.offer-item-price, [data-testid="listing-price"]',
+                location: '.offer-item-location, [data-testid="listing-location"]',
+                area: '.offer-item-area, [data-testid="listing-area"]',
+                rooms: '.offer-item-rooms, [data-testid="listing-rooms"]'
             }
         },
         {
@@ -242,7 +242,8 @@ const main = async () => {
         requestQueue,
         maxRequestRetries: 3,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 4, // Reduced to avoid rate limits
+        maxRequestsPerMinute: 3, // Further reduced to avoid rate limits
+        // proxyConfiguration: { useApifyProxy: true }, // Uncomment if you have Apify proxy access
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
@@ -281,7 +282,7 @@ const main = async () => {
                 if ($title.length) {
                     const text = $title.text().trim() || $title.attr('title');
                     const href = $title.attr('href') || $title.find('a').attr('href');
-                    if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
+                    if (text && text.length > 15 && !text.toLowerCase().includes('javascript')) { // Relaxed to > 15
                         property.title = text.substring(0, 200);
                         if (href && href !== '#' && !href.startsWith('javascript')) {
                             property.link = href.startsWith('http') ? href : site.baseUrl + href;
@@ -321,7 +322,7 @@ const main = async () => {
                     }
                 }
                 
-                if (property.title && property.title.length > 15 && (property.price || property.location)) {
+                if (property.title && property.title.length > 15) { // Relaxed to allow title-only
                     properties.push(property);
                     console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
                 }
@@ -463,7 +464,7 @@ function isPropertyRelevant(property, criteria) {
         }
     }
     
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.3; // Relaxed to 0.3
+    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.3;
 }
 
 main().catch(console.error);
