@@ -1,17 +1,25 @@
 {
-       "name": "my-scraper-imoveis",
-       "version": "1.0.0",
-       "description": "Scrapes property listings from real estate websites",
-       "main": "main.js",
-       "scripts": {
-         "start": "node main.js"
-       },
-       "dependencies": {
-         "apify": "^3.4.4",
-         "crawlee": "^3.14.0"
-       },
-       "devDependencies": {},
-       "engines": {
-         "node": ">=20.0.0"
-       }
-     }
+  "name": "my-scraper-imoveis",
+  "version": "0.0",
+  "buildTag": "latest",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "template": "puppeteer",
+  "dockerfile": "apify/actor-node-puppeteer-chrome:latest",
+  "input": {
+    "title": "Consulta de Imóvel",
+    "type": "object",
+    "schema": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string",
+          "title": "Consulta de Pesquisa",
+          "description": "A consulta de pesquisa para imóveis (ex: 'Imóvel T4 Cascais novo')."
+        }
+      },
+      "required": ["query"]
+    }
+  }
+}
