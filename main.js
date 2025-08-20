@@ -1,5 +1,5 @@
 const { Actor } = require('apify');
-const { RequestQueue, CheerioCrawler, Dataset } = require('crawlee');
+const { RequestQueue, PuppeteerCrawler, Dataset } = require('crawlee');
 
 const main = async () => {
     await Actor.init();
@@ -40,10 +40,10 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: (criteria) => buildImovirtualUrl(criteria),
             selectors: {
-                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
-                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x, .css-15mp5m2',
+                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a, .css-1as8ukw',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"], .css-zcebfu',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location, .css-wmoe9r',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             },
@@ -107,9 +107,7 @@ const main = async () => {
                         site: site,
                         criteria: searchCriteria,
                         attempt: 1
-                    },
-                    headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders(),
-                    proxyConfiguration: { useApifyProxy: true } // Enable proxy for all sites
+                    }
                 });
             }
         } catch (error) {
@@ -117,28 +115,39 @@ const main = async () => {
         }
     }
     
-    const crawler = new CheerioCrawler({
+    const crawler = new PuppeteerCrawler({
         requestQueue,
         maxRequestRetries: 6,
         maxConcurrency: 1,
         minConcurrency: 1,
-        maxRequestsPerMinute: 10, // Further reduced to avoid blocks
-        
-        requestHandler: async ({ request, $, response }) => {
+        maxRequestsPerMinute: 8, // Reduced further for safety
+        launchContext: {
+            launchOptions: {
+                headless: true,
+                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+                stealth: true // Enable stealth mode to avoid detection
+            }
+        },
+        preNavigationHooks: [async ({ request, page }, gotoOptions) => {
+            await page.setExtraHTTPHeaders(getEnhancedHeaders());
+            await page.setViewport({ width: 1280, height: 720 });
+            gotoOptions.waitUntil = 'networkidle2';
+        }],
+        requestHandler: async ({ request, page, response }) => {
             const { site, criteria, attempt } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
-            console.log(`📊 Status: ${response.statusCode}`);
+            console.log(`📊 Status: ${response.status()}`);
             
-            const baseDelay = site.antiBot ? 6000 : 3000;
-            const maxDelay = site.antiBot ? 12000 : 6000;
+            const baseDelay = site.antiBot ? 8000 : 4000;
+            const maxDelay = site.antiBot ? 15000 : 8000;
             await randomDelay(baseDelay * attempt, maxDelay * attempt);
             
-            if (response.statusCode === 429 || response.statusCode === 403) {
-                console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
+            if (response.status() === 429 || response.status() === 403) {
+                console.log(`🚫 ${site.name} bloqueou o request (${response.status()})`);
                 
                 if (attempt < 6) {
-                    const retryDelay = Math.pow(2, attempt) * 15000; // Longer backoff
+                    const retryDelay = Math.pow(2, attempt) * 20000; // Even longer backoff
                     console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, retryDelay));
                     
@@ -147,27 +156,127 @@ const main = async () => {
                         userData: { 
                             ...request.userData, 
                             attempt: attempt + 1 
-                        },
-                        headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders(),
-                        proxyConfiguration: { useApifyProxy: true }
+                        }
                     });
                 }
                 return;
             }
             
-            if (response.statusCode !== 200) {
-                console.log(`❌ ${site.name} - Status: ${response.statusCode}`);
+            if (response.status() !== 200) {
+                console.log(`❌ ${site.name} - Status: ${response.status()}`);
                 return;
             }
             
             console.log(`✅ ${site.name} acessível!`);
             
-            const properties = await extractProperties($, site, criteria, request.url);
+            // Wait for dynamic content
+            try {
+                await page.waitForSelector(site.selectors.container, { timeout: 10000 });
+            } catch (e) {
+                console.log(`⚠️ Timeout waiting for containers in ${site.name}`);
+            }
             
-            if (properties.length > 0) {
-                console.log(`📊 ${site.name}: ${properties.length} imóveis encontrados`);
+            const properties = await page.evaluate((site, criteria, sourceUrl) => {
+                const properties = [];
                 
-                const limitedProperties = properties.slice(0, 5);
+                const containers = document.querySelectorAll(site.selectors.container);
+                
+                containers.forEach((el, i) => {
+                    if (i >= 8) return;
+                    
+                    const property = {
+                        title: '',
+                        price: '',
+                        location: '',
+                        area: '',
+                        rooms: '',
+                        link: '',
+                        source: site.name,
+                        sourceUrl: sourceUrl,
+                        scrapedAt: new Date().toISOString()
+                    };
+                    
+                    const titleSelectors = site.selectors.title.split(', ');
+                    for (const selector of titleSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.getAttribute('title') || el.textContent.trim();
+                            const href = el.getAttribute('href') || el.querySelector('a')?.getAttribute('href');
+                            
+                            if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
+                                property.title = text.substring(0, 200);
+                                if (href && href !== '#' && !href.startsWith('javascript')) {
+                                    property.link = href.startsWith('http') ? href : site.baseUrl + href;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const priceSelectors = site.selectors.price.split(', ');
+                    for (const selector of priceSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
+                                property.price = text.substring(0, 50);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const locationSelectors = site.selectors.location.split(', ');
+                    for (const selector of locationSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && text.length > 2 && text.length < 100 && 
+                                !text.includes('€') && !text.match(/^\d+$/)) {
+                                property.location = text.substring(0, 100);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const areaSelectors = site.selectors.area.split(', ');
+                    for (const selector of areaSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && text.match(/\d+.*m[²2]/i)) {
+                                property.area = text.substring(0, 20);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const roomsSelectors = site.selectors.rooms.split(', ');
+                    for (const selector of roomsSelectors) {
+                        const el = document.querySelector(selector);
+                        if (el) {
+                            const text = el.textContent.trim();
+                            if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
+                                property.rooms = text.substring(0, 10);
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (property.title && property.title.length > 15 && 
+                        (property.price || property.location)) {
+                        properties.push(property);
+                    }
+                });
+                
+                return properties;
+            }, site, criteria, request.url);
+            
+            const filteredProperties = properties.filter(prop => isPropertyRelevant(prop, criteria));
+            
+            if (filteredProperties.length > 0) {
+                console.log(`📊 ${site.name}: ${filteredProperties.length} imóveis encontrados`);
+                
+                const limitedProperties = filteredProperties.slice(0, 5);
                 
                 limitedProperties.slice(0, 2).forEach((prop, i) => {
                     console.log(`\n🏡 ${site.name} - Imóvel ${i + 1}:`);
@@ -181,7 +290,7 @@ const main = async () => {
                 await Dataset.pushData(limitedProperties);
             } else {
                 console.log(`❌ ${site.name}: Nenhum imóvel encontrado`);
-                debugPageStructure($, site);
+                await debugPageStructure(page, site);
             }
         },
         
@@ -399,39 +508,14 @@ function buildIdealistaUrl(criteria) {
     return queryString ? `${url}?${queryString}` : url;
 }
 
-function getRandomHeaders() {
-    const userAgents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/123.0.0.0',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0'
-    ];
-    
-    return {
-        'User-Agent': userAgents[Math.floor(Math.random() * userAgents.length)],
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7',
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'none',
-        'Cache-Control': 'max-age=0',
-        'Referer': 'https://www.google.pt/'
-    };
-}
-
 function getEnhancedHeaders() {
     const userAgents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/123.0.0.0',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 Firefox/127.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/126.0.0.0',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
     ];
     
     return {
@@ -449,201 +533,15 @@ function getEnhancedHeaders() {
         'Pragma': 'no-cache',
         'Referer': 'https://www.google.pt/',
         'DNT': '1',
-        'Sec-CH-UA': '"Chromium";v="123", "Not(A:Brand";v="24"',
+        'Sec-CH-UA': '"Chromium";v="126", "Not(A:Brand";v="24"',
         'Sec-CH-UA-Mobile': '?0',
-        'Sec-CH-UA-Platform': '"Windows"',
-        'Cookie': '' // Idealista may require cookies; can be dynamically handled if needed
+        'Sec-CH-UA-Platform': '"Windows"'
     };
 }
 
 function randomDelay(min, max) {
     const delay = Math.random() * (max - min) + min;
     return new Promise(resolve => setTimeout(resolve, delay));
-}
-
-async function extractProperties($, site, criteria, sourceUrl) {
-    const properties = [];
-    
-    let containers = $(site.selectors.container);
-    
-    if (containers.length === 0) {
-        const genericSelectors = [
-            'article', '.property', '.listing', '.item', '.card',
-            '[class*="property"]', '[class*="imovel"]', '[class*="casa"]',
-            '[class*="listing"]', '[data-cy]', '[data-test]'
-        ];
-        
-        for (const selector of genericSelectors) {
-            const elements = $(selector);
-            if (elements.length >= 3) {
-                containers = elements;
-                console.log(`✅ Usando selector genérico: ${selector} (${elements.length} elementos)`);
-                break;
-            }
-        }
-    }
-    
-    console.log(`🔍 ${site.name}: ${containers.length} containers encontrados`);
-    
-    containers.each((i, el) => {
-        if (i >= 8) return;
-        
-        const item = $(el);
-        const property = extractSingleProperty(item, site, sourceUrl);
-        
-        if (property && isPropertyRelevant(property, criteria)) {
-            properties.push(property);
-        }
-    });
-    
-    return properties
-        .sort((a, b) => calculateRelevanceScore(b, criteria) - calculateRelevanceScore(a, criteria))
-        .slice(0, 5);
-}
-
-function extractSingleProperty(item, site, sourceUrl) {
-    const property = {
-        title: '',
-        price: '',
-        location: '',
-        area: '',
-        rooms: '',
-        link: '',
-        source: site.name,
-        sourceUrl: sourceUrl,
-        scrapedAt: new Date().toISOString()
-    };
-    
-    if (Math.random() < 0.1) {
-        console.log(`🔍 HTML sample: ${item.html()?.substring(0, 200)}...`);
-    }
-    
-    const titleSelectors = [
-        ...site.selectors.title.split(', '),
-        'a[title]', 'a', 'h1', 'h2', 'h3', 'h4', 
-        '[class*="title"]', '[class*="nome"]', '[class*="link"]'
-    ];
-    
-    for (const selector of titleSelectors) {
-        const el = item.find(selector);
-        if (el.length > 0) {
-            const text = el.attr('title') || el.text().trim();
-            const href = el.attr('href') || el.find('a').attr('href');
-            
-            if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
-                property.title = text.substring(0, 200);
-                if (href && href !== '#' && !href.startsWith('javascript')) {
-                    property.link = href.startsWith('http') ? href : site.baseUrl + href;
-                }
-                break;
-            }
-        }
-    }
-    
-    if (!property.title) {
-        const textElements = item.find('*').filter((i, el) => {
-            const text = $(el).text().trim();
-            return text.length > 20 && text.length < 150 && 
-                   (text.toLowerCase().includes('apartamento') || 
-                    text.toLowerCase().includes('moradia') ||
-                    text.toLowerCase().includes('t1') ||
-                    text.toLowerCase().includes('t2') ||
-                    text.toLowerCase().includes('t3') ||
-                    text.toLowerCase().includes('t4'));
-        });
-        
-        if (textElements.length > 0) {
-            property.title = $(textElements[0]).text().trim().substring(0, 200);
-        }
-    }
-    
-    const priceSelectors = [
-        ...site.selectors.price.split(', '),
-        '[class*="price"]', '[class*="preco"]', '[class*="valor"]', 
-        '[class*="euro"]', 'span', 'div'
-    ];
-    
-    for (const selector of priceSelectors) {
-        const el = item.find(selector);
-        if (el.length > 0) {
-            const text = el.text().trim();
-            if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
-                property.price = text.substring(0, 50);
-                break;
-            }
-        }
-    }
-    
-    const locationSelectors = [
-        ...site.selectors.location.split(', '),
-        '[class*="location"]', '[class*="zona"]', '[class*="address"]',
-        '[class*="local"]', '[class*="cidade"]', 'address'
-    ];
-    
-    for (const selector of locationSelectors) {
-        const el = item.find(selector);
-        if (el.length > 0) {
-            const text = el.text().trim();
-            if (text && text.length > 2 && text.length < 100 && 
-                !text.includes('€') && !text.match(/^\d+$/)) {
-                property.location = text.substring(0, 100);
-                break;
-            }
-        }
-    }
-    
-    const areaSelectors = [
-        ...site.selectors.area.split(', '),
-        '[class*="area"]', '[class*="m2"]', '[class*="metros"]'
-    ];
-    
-    for (const selector of areaSelectors) {
-        const el = item.find(selector);
-        if (el.length > 0) {
-            const text = el.text().trim();
-            if (text && text.match(/\d+.*m[²2]/i)) {
-                property.area = text.substring(0, 20);
-                break;
-            }
-        }
-    }
-    
-    if (!property.area && property.title) {
-        const areaMatch = property.title.match(/(\d+)\s*m[²2]/i);
-        if (areaMatch) {
-            property.area = `${areaMatch[1]}m²`;
-        }
-    }
-    
-    const roomsSelectors = [
-        ...site.selectors.rooms.split(', '),
-        '[class*="quarto"]', '[class*="rooms"]', '[class*="tipologia"]'
-    ];
-    
-    for (const selector of roomsSelectors) {
-        const el = item.find(selector);
-        if (el.length > 0) {
-            const text = el.text().trim();
-            if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
-                property.rooms = text.substring(0, 10);
-                break;
-            }
-        }
-    }
-    
-    if (!property.rooms && property.title) {
-        const roomsMatch = property.title.match(/t(\d+)/i);
-        if (roomsMatch) {
-            property.rooms = `T${roomsMatch[1]}`;
-        }
-    }
-    
-    if (property.title && property.title.length > 15 && 
-        (property.price || property.location)) {
-        return property;
-    }
-    
-    return null;
 }
 
 function isPropertyRelevant(property, criteria) {
@@ -669,41 +567,56 @@ function isPropertyRelevant(property, criteria) {
         const propRooms = property.rooms.toLowerCase();
         const propTitle = property.title.toLowerCase();
         const criteriaRooms = criteria.rooms.toLowerCase();
+        const roomNum = parseInt(criteriaRooms.replace('t', ''));
         
-        // Stricter matching for rooms
-        if (propRooms === criteriaRooms || propTitle.includes(criteriaRooms)) {
+        // Allow properties with equal or higher room counts (e.g., T4 or T5+ for T4)
+        const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i);
+        if (propRoomMatch) {
+            const propRoomNum = parseInt(propRoomMatch[1]);
+            if (propRoomNum >= roomNum) {
+                relevantCount++;
+            }
+        } else if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
             relevantCount++;
-        } else {
-            return false; // Reject if rooms don't match exactly
         }
     }
     
     if (criteria.area) {
         totalCriteria++;
-        const areaMatch = property.area.match(/(\d+)/);
-        const titleAreaMatch = property.title.match(/(\d+)\s*m[2²]/i);
+        const areaMatch = property.area.match(/(\d+)/) || property.title.match(/(\d+)\s*m[2²]/i);
         
-        if (areaMatch || titleAreaMatch) {
-            const propArea = parseInt(areaMatch?.[1] || titleAreaMatch?.[1]);
+        if (areaMatch) {
+            const propArea = parseInt(areaMatch[1]);
             if (propArea && Math.abs(propArea - criteria.area) <= 30) {
                 relevantCount++;
             }
         }
     }
     
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5; // Stricter threshold
+    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5;
 }
 
 function calculateRelevanceScore(property, criteria) {
     let score = 0;
     
     if (criteria.location && property.location.toLowerCase().includes(criteria.location)) {
-        score += 15; // Increased weight for location
+        score += 15;
     }
     
-    if (criteria.rooms && (property.rooms.toLowerCase().includes(criteria.rooms.toLowerCase()) || 
-                          property.title.toLowerCase().includes(criteria.rooms.toLowerCase()))) {
-        score += 20; // Increased weight for rooms
+    if (criteria.rooms) {
+        const propRooms = property.rooms.toLowerCase();
+        const propTitle = property.title.toLowerCase();
+        const criteriaRooms = criteria.rooms.toLowerCase();
+        const roomNum = parseInt(criteriaRooms.replace('t', ''));
+        
+        const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i);
+        if (propRoomMatch) {
+            const propRoomNum = parseInt(propRoomMatch[1]);
+            if (propRoomNum === roomNum) score += 20;
+            else if (propRoomNum > roomNum) score += 15;
+        } else if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
+            score += 15;
+        }
     }
     
     if (criteria.area) {
@@ -726,17 +639,19 @@ function calculateRelevanceScore(property, criteria) {
     return score;
 }
 
-function debugPageStructure($, site) {
+async function debugPageStructure(page, site) {
     console.log(`🔍 Debugging ${site.name}:`);
     
-    const classCounts = {};
-    $('*[class]').each((i, el) => {
-        const classes = $(el).attr('class').split(' ');
-        classes.forEach(cls => {
-            if (cls.length > 2) {
-                classCounts[cls] = (classCounts[cls] || 0) + 1;
-            }
+    const classCounts = await page.evaluate(() => {
+        const counts = {};
+        document.querySelectorAll('*[class]').forEach(el => {
+            el.classList.forEach(cls => {
+                if (cls.length > 2) {
+                    counts[cls] = (counts[cls] || 0) + 1;
+                }
+            });
         });
+        return counts;
     });
     
     const topClasses = Object.entries(classCounts)
@@ -749,18 +664,20 @@ function debugPageStructure($, site) {
     });
     
     const propertyKeywords = ['apartamento', 'moradia', 'quarto', 't1', 't2', 't3', 't4', '€', 'metro'];
-    const textElements = [];
-    
-    $('*').each((i, el) => {
-        const text = $(el).text().toLowerCase();
-        if (propertyKeywords.some(keyword => text.includes(keyword)) && text.length < 200) {
-            textElements.push({
-                tag: el.tagName,
-                class: $(el).attr('class') || '',
-                text: text.substring(0, 100)
-            });
-        }
-    });
+    const textElements = await page.evaluate((keywords) => {
+        const elements = [];
+        document.querySelectorAll('*').forEach(el => {
+            const text = el.textContent.toLowerCase();
+            if (keywords.some(keyword => text.includes(keyword)) && text.length < 200) {
+                elements.push({
+                    tag: el.tagName,
+                    class: el.className || '',
+                    text: text.substring(0, 100)
+                });
+            }
+        });
+        return elements;
+    }, propertyKeywords);
     
     console.log(`🏠 Elementos com keywords: ${Math.min(5, textElements.length)}`);
     textElements.slice(0, 5).forEach((el, i) => {
