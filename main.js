@@ -172,12 +172,12 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: '.offer-item, .listing-card, [data-testid="listing-card"], article.listing',
-                title: '.offer-item-title a, h2 a, [data-testid="listing-title"] a',
-                price: '.offer-item-price, [data-testid="listing-price"]',
-                location: '.offer-item-location, [data-testid="listing-location"]',
-                area: '.offer-item-area, [data-testid="listing-area"]',
-                rooms: '.offer-item-rooms, [data-testid="listing-rooms"]'
+                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
+                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
+                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
         },
         {
@@ -242,8 +242,7 @@ const main = async () => {
         requestQueue,
         maxRequestRetries: 3,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 3, // Further reduced to avoid rate limits
-        // proxyConfiguration: { useApifyProxy: true }, // Uncomment if you have Apify proxy access
+        maxRequestsPerMinute: 3,
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
@@ -282,7 +281,7 @@ const main = async () => {
                 if ($title.length) {
                     const text = $title.text().trim() || $title.attr('title');
                     const href = $title.attr('href') || $title.find('a').attr('href');
-                    if (text && text.length > 15 && !text.toLowerCase().includes('javascript')) { // Relaxed to > 15
+                    if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
                         property.title = text.substring(0, 200);
                         if (href && href !== '#' && !href.startsWith('javascript')) {
                             property.link = href.startsWith('http') ? href : site.baseUrl + href;
