@@ -20,7 +20,6 @@ const main = async () => {
     const searchCriteria = parseQuery(query);
     console.log('📋 Critérios extraídos:', searchCriteria);
     
-    // URL-building functions moved inside main to access searchCriteria
     function buildCasaSapoUrl(criteria) {
         let url = 'https://casa.sapo.pt/venda';
         
@@ -173,12 +172,12 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x, .css-15mp5m2',
-                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a, .css-1as8ukw',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"], .css-zcebfu',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location, .css-wmoe9r',
-                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
-                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
+                container: '.offer-item, [data-cy="listing-item"], article.listing-card, .css-1sw7q4x',
+                title: 'a[title], h2 a, [data-cy="listing-item-link"], .offer-item-title a',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location',
+                area: '.css-1wi9dc7, [data-cy="area"], .offer-item-area',
+                rooms: '.css-1wi9dc7, [data-cy="rooms"], .offer-item-rooms'
             }
         },
         {
@@ -243,7 +242,7 @@ const main = async () => {
         requestQueue,
         maxRequestRetries: 3,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 6,
+        maxRequestsPerMinute: 4, // Reduced to avoid rate limits
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
@@ -324,6 +323,7 @@ const main = async () => {
                 
                 if (property.title && property.title.length > 15 && (property.price || property.location)) {
                     properties.push(property);
+                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
                 }
             });
             
@@ -441,10 +441,10 @@ function isPropertyRelevant(property, criteria) {
         const criteriaRooms = criteria.rooms.toLowerCase();
         const roomNum = parseInt(criteriaRooms.replace('t', ''));
         
-        const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i);
+        const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i) || propTitle.match(/\d+\s+quartos/i);
         if (propRoomMatch) {
-            const propRoomNum = parseInt(propRoomMatch[1]);
-            if (propRoomNum >= roomNum) {
+            const propRoomNum = parseInt(propRoomMatch[1]) || parseInt(propRoomMatch[0]);
+            if (propRoomNum >= roomNum - 1 && propRoomNum <= roomNum + 1) {
                 relevantCount++;
             }
         } else if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
@@ -457,13 +457,13 @@ function isPropertyRelevant(property, criteria) {
         const areaMatch = property.area.match(/(\d+)/) || property.title.match(/(\d+)\s*m[2²]/i);
         if (areaMatch) {
             const propArea = parseInt(areaMatch[1]);
-            if (propArea && Math.abs(propArea - criteria.area) <= 30) {
+            if (propArea && Math.abs(propArea - criteria.area) <= 50) {
                 relevantCount++;
             }
         }
     }
     
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5;
+    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.3; // Relaxed to 0.3
 }
 
 main().catch(console.error);
