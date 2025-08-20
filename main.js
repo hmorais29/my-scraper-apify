@@ -85,7 +85,7 @@ const main = async () => {
                 area: '.item-detail-area, .area, [class*="area"], .listing-area',
                 rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
             },
-            antiBot: true // Flag to enable anti-bot measures
+            antiBot: true
         }
     ];
     
@@ -105,7 +105,6 @@ const main = async () => {
                         attempt: 1
                     },
                     headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
-                    // Uncomment if using Apify proxy
                     // proxyConfiguration: site.antiBot ? { useApifyProxy: true } : undefined
                 });
             }
@@ -116,10 +115,10 @@ const main = async () => {
     
     const crawler = new CheerioCrawler({
         requestQueue,
-        maxRequestRetries: 5, // Increased retries for Idealista
+        maxRequestRetries: 5,
         maxConcurrency: 1,
         minConcurrency: 1,
-        maxRequestsPerMinute: 15, // Reduced to avoid blocks
+        maxRequestsPerMinute: 15,
         
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria, attempt } = request.userData;
@@ -127,7 +126,6 @@ const main = async () => {
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
-            // Enhanced delay logic with exponential backoff
             const baseDelay = site.antiBot ? 5000 : 2000;
             const maxDelay = site.antiBot ? 10000 : 5000;
             await randomDelay(baseDelay * attempt, maxDelay * attempt);
@@ -136,7 +134,7 @@ const main = async () => {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
                 
                 if (attempt < 5) {
-                    const retryDelay = Math.pow(2, attempt) * 10000; // Exponential backoff
+                    const retryDelay = Math.pow(2, attempt) * 10000;
                     console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, retryDelay));
                     
@@ -340,7 +338,9 @@ function buildEraUrl(criteria) {
 }
 
 function buildRemaxUrl(criteria) {
-    let url = 'https://www.remax.pt/comprar';
+    let url
+
+ = 'https://www.remax.pt/comprar';
     
     if (criteria.type === 'apartamento') {
         url += '/apartamentos';
@@ -693,7 +693,7 @@ function calculateRelevanceScore(property, criteria) {
         score += 10;
     }
     
-    if (criteria Comet: .rooms && (property.rooms.toLowerCase().includes(criteria.rooms.toLowerCase()) || 
+    if (criteria.rooms && (property.rooms.toLowerCase().includes(criteria.rooms.toLowerCase()) || 
                           property.title.toLowerCase().includes(criteria.rooms.toLowerCase()))) {
         score += 10;
     }
