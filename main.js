@@ -107,7 +107,9 @@ const main = async () => {
                         site: site,
                         criteria: searchCriteria,
                         attempt: 1
-                    }
+                    },
+                    // Uncomment if you have Apify proxy access
+                    // proxyConfiguration: { useApifyProxy: true }
                 });
             }
         } catch (error) {
@@ -120,18 +122,19 @@ const main = async () => {
         maxRequestRetries: 6,
         maxConcurrency: 1,
         minConcurrency: 1,
-        maxRequestsPerMinute: 8, // Reduced further for safety
+        maxRequestsPerMinute: 6, // Further reduced to avoid blocks
         launchContext: {
             launchOptions: {
                 headless: true,
                 args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-                stealth: true // Enable stealth mode to avoid detection
+                stealth: true
             }
         },
         preNavigationHooks: [async ({ request, page }, gotoOptions) => {
             await page.setExtraHTTPHeaders(getEnhancedHeaders());
             await page.setViewport({ width: 1280, height: 720 });
             gotoOptions.waitUntil = 'networkidle2';
+            gotoOptions.timeout = 60000; // Increased timeout
         }],
         requestHandler: async ({ request, page, response }) => {
             const { site, criteria, attempt } = request.userData;
@@ -139,15 +142,19 @@ const main = async () => {
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.status()}`);
             
-            const baseDelay = site.antiBot ? 8000 : 4000;
-            const maxDelay = site.antiBot ? 15000 : 8000;
+            const baseDelay = site.antiBot ? 10000 : 5000;
+            const maxDelay = site.antiBot ? 20000 : 10000;
             await randomDelay(baseDelay * attempt, maxDelay * attempt);
             
             if (response.status() === 429 || response.status() === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.status()})`);
                 
+                // Save screenshot for debugging
+                await page.screenshot({ path: `screenshot-${site.name}-${attempt}.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-${attempt}.png`);
+                
                 if (attempt < 6) {
-                    const retryDelay = Math.pow(2, attempt) * 20000; // Even longer backoff
+                    const retryDelay = Math.pow(2, attempt) * 25000;
                     console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, retryDelay));
                     
@@ -164,16 +171,19 @@ const main = async () => {
             
             if (response.status() !== 200) {
                 console.log(`❌ ${site.name} - Status: ${response.status()}`);
+                await page.screenshot({ path: `screenshot-${site.name}-error.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-error.png`);
                 return;
             }
             
             console.log(`✅ ${site.name} acessível!`);
             
-            // Wait for dynamic content
             try {
-                await page.waitForSelector(site.selectors.container, { timeout: 10000 });
+                await page.waitForSelector(site.selectors.container, { timeout: 15000 });
             } catch (e) {
                 console.log(`⚠️ Timeout waiting for containers in ${site.name}`);
+                await page.screenshot({ path: `screenshot-${site.name}-timeout.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-timeout.png`);
             }
             
             const properties = await page.evaluate((site, criteria, sourceUrl) => {
@@ -290,12 +300,18 @@ const main = async () => {
                 await Dataset.pushData(limitedProperties);
             } else {
                 console.log(`❌ ${site.name}: Nenhum imóvel encontrado`);
+                await page.screenshot({ path: `screenshot-${site.name}-no-results.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${site.name}-no-results.png`);
                 await debugPageStructure(page, site);
             }
         },
         
-        failedRequestHandler: async ({ request, error }) => {
+        failedRequestHandler: async ({ request, error, page }) => {
             console.log(`❌ Falha em ${request.userData.site.name}: ${error.message}`);
+            if (page) {
+                await page.screenshot({ path: `screenshot-${request.userData.site.name}-failed.png` });
+                console.log(`📸 Screenshot salvo: screenshot-${request.userData.site.name}-failed.png`);
+            }
         },
     });
     
@@ -569,7 +585,6 @@ function isPropertyRelevant(property, criteria) {
         const criteriaRooms = criteria.rooms.toLowerCase();
         const roomNum = parseInt(criteriaRooms.replace('t', ''));
         
-        // Allow properties with equal or higher room counts (e.g., T4 or T5+ for T4)
         const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i);
         if (propRoomMatch) {
             const propRoomNum = parseInt(propRoomMatch[1]);
