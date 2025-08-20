@@ -26,13 +26,14 @@ const main = async () => {
             baseUrl: 'https://casa.sapo.pt',
             buildSearchUrl: (criteria) => buildCasaSapoUrl(criteria),
             selectors: {
-                container: '.searchResultProperty, .property-item, .casa-info, [data-cy="property"]',
-                title: '.propertyTitle a, h2 a, .title a, .casa-title, [data-cy="title"]',
-                price: '.propertyPrice, .price, .valor, [data-cy="price"]',
-                location: '.propertyLocation, .location, .zona, [data-cy="location"]',
-                area: '.area, .metros, [class*="area"], [class*="m2"]',
-                rooms: '.quartos, .rooms, [class*="quarto"], .tipologia'
-            }
+                container: '.searchResultProperty, .property-item, .casa-info, [data-cy="property"], .listing-item',
+                title: '.propertyTitle a, h2 a, .title a, .casa-title, [data-cy="title"], .listing-title a',
+                price: '.propertyPrice, .price, .valor, [data-cy="price"], .listing-price',
+                location: '.propertyLocation, .location, .zona, [data-cy="location"], .listing-address',
+                area: '.area, .metros, [class*="area"], [class*="m2"], .listing-area',
+                rooms: '.quartos, .rooms, [class*="quarto"], .tipologia, .listing-rooms'
+            },
+            antiBot: true
         },
         {
             name: 'Imovirtual',
@@ -45,45 +46,48 @@ const main = async () => {
                 location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
-            }
+            },
+            antiBot: true
         },
         {
             name: 'ERA Portugal',
             baseUrl: 'https://www.era.pt',
             buildSearchUrl: (criteria) => buildEraUrl(criteria),
             selectors: {
-                container: '.property-card, .listing-card, .property-item, .card',
-                title: '.property-title a, h2 a, h3 a, .card-title a',
-                price: '.property-price, .price, .valor, .card-price',
-                location: '.property-location, .location, .address, .card-location',
-                area: '.property-area, .area, .metros, .card-area',
-                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms'
-            }
+                container: '.property-card, .listing-card, .property-item, .card, .listing-item, [class*="property"], [class*="listing"]',
+                title: '.property-title a, h2 a, h3 a, .card-title a, .listing-title a, [class*="title"] a',
+                price: '.property-price, .price, .valor, .card-price, .listing-price, [class*="price"]',
+                location: '.property-location, .location, .address, .card-location, .listing-address, [class*="location"]',
+                area: '.property-area, .area, .metros, .card-area, .listing-area, [class*="area"]',
+                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms, .listing-rooms, [class*="rooms"]'
+            },
+            antiBot: true
         },
         {
             name: 'Remax Portugal',
             baseUrl: 'https://www.remax.pt',
             buildSearchUrl: (criteria) => buildRemaxUrl(criteria),
             selectors: {
-                container: '.property-card, .listing-item, .property-box, .real-estate-item',
-                title: '.property-title, h2 a, h3 a, .listing-title a',
-                price: '.property-price, .price-amount, .listing-price, [class*="price"]',
-                location: '.property-address, .location, .listing-address, [class*="location"]',
-                area: '.property-area, .area, .listing-area, [class*="area"]',
-                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"]'
-            }
+                container: '.property-card, .listing-item, .property-box, .real-estate-item, [class*="property"], [class*="listing"], .card',
+                title: '.property-title, h2 a, h3 a, .listing-title a, [class*="title"] a, .card-title a',
+                price: '.property-price, .price-amount, .listing-price, [class*="price"], .card-price',
+                location: '.property-address, .location, .listing-address, [class*="location"], .card-address',
+                area: '.property-area, .area, .listing-area, [class*="area"], .card-area',
+                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"], .card-rooms, .listing-rooms'
+            },
+            antiBot: true
         },
         {
             name: 'Idealista Portugal',
             baseUrl: 'https://www.idealista.pt',
             buildSearchUrl: (criteria) => buildIdealistaUrl(criteria),
             selectors: {
-                container: '.item, .listing-item, .property-card, [class*="item"]',
-                title: '.item-link, h2 a, h3 a, [class*="title"] a',
-                price: '.price-row, .item-price, [class*="price"], .listing-price',
-                location: '.item-detail-location, .location, [class*="location"], .listing-address',
-                area: '.item-detail-area, .area, [class*="area"], .listing-area',
-                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
+                container: '.item, .listing-item, .property-card, [class*="item"], [class*="listing"], .card',
+                title: '.item-link, h2 a, h3 a, [class*="title"] a, .listing-title a',
+                price: '.price-row, .item-price, [class*="price"], .listing-price, .card-price',
+                location: '.item-detail-location, .location, [class*="location"], .listing-address, .card-address',
+                area: '.item-detail-area, .area, [class*="area"], .listing-area, .card-area',
+                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia, .listing-rooms'
             },
             antiBot: true
         }
@@ -104,8 +108,8 @@ const main = async () => {
                         criteria: searchCriteria,
                         attempt: 1
                     },
-                    headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
-                    // proxyConfiguration: site.antiBot ? { useApifyProxy: true } : undefined
+                    headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders(),
+                    proxyConfiguration: { useApifyProxy: true } // Enable proxy for all sites
                 });
             }
         } catch (error) {
@@ -115,10 +119,10 @@ const main = async () => {
     
     const crawler = new CheerioCrawler({
         requestQueue,
-        maxRequestRetries: 5,
+        maxRequestRetries: 6,
         maxConcurrency: 1,
         minConcurrency: 1,
-        maxRequestsPerMinute: 15,
+        maxRequestsPerMinute: 10, // Further reduced to avoid blocks
         
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria, attempt } = request.userData;
@@ -126,15 +130,15 @@ const main = async () => {
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
-            const baseDelay = site.antiBot ? 5000 : 2000;
-            const maxDelay = site.antiBot ? 10000 : 5000;
+            const baseDelay = site.antiBot ? 6000 : 3000;
+            const maxDelay = site.antiBot ? 12000 : 6000;
             await randomDelay(baseDelay * attempt, maxDelay * attempt);
             
             if (response.statusCode === 429 || response.statusCode === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
                 
-                if (attempt < 5) {
-                    const retryDelay = Math.pow(2, attempt) * 10000;
+                if (attempt < 6) {
+                    const retryDelay = Math.pow(2, attempt) * 15000; // Longer backoff
                     console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, retryDelay));
                     
@@ -144,8 +148,8 @@ const main = async () => {
                             ...request.userData, 
                             attempt: attempt + 1 
                         },
-                        headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
-                        // proxyConfiguration: site.antiBot ? { useApifyProxy: true } : undefined
+                        headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders(),
+                        proxyConfiguration: { useApifyProxy: true }
                     });
                 }
                 return;
@@ -338,9 +342,7 @@ function buildEraUrl(criteria) {
 }
 
 function buildRemaxUrl(criteria) {
-    let url
-
- = 'https://www.remax.pt/comprar';
+    let url = 'https://www.remax.pt/comprar';
     
     if (criteria.type === 'apartamento') {
         url += '/apartamentos';
@@ -399,11 +401,12 @@ function buildIdealistaUrl(criteria) {
 
 function getRandomHeaders() {
     const userAgents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/120.0.0.0',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/123.0.0.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0'
     ];
     
     return {
@@ -423,11 +426,12 @@ function getRandomHeaders() {
 
 function getEnhancedHeaders() {
     const userAgents = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.3 Safari/605.1.15',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/122.0.0.0'
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/123.0.0.0',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
     ];
     
     return {
@@ -445,9 +449,10 @@ function getEnhancedHeaders() {
         'Pragma': 'no-cache',
         'Referer': 'https://www.google.pt/',
         'DNT': '1',
-        'Sec-CH-UA': '"Chromium";v="122", "Not(A:Brand";v="24"',
+        'Sec-CH-UA': '"Chromium";v="123", "Not(A:Brand";v="24"',
         'Sec-CH-UA-Mobile': '?0',
-        'Sec-CH-UA-Platform': '"Windows"'
+        'Sec-CH-UA-Platform': '"Windows"',
+        'Cookie': '' // Idealista may require cookies; can be dynamically handled if needed
     };
 }
 
@@ -665,8 +670,11 @@ function isPropertyRelevant(property, criteria) {
         const propTitle = property.title.toLowerCase();
         const criteriaRooms = criteria.rooms.toLowerCase();
         
-        if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
+        // Stricter matching for rooms
+        if (propRooms === criteriaRooms || propTitle.includes(criteriaRooms)) {
             relevantCount++;
+        } else {
+            return false; // Reject if rooms don't match exactly
         }
     }
     
@@ -683,19 +691,19 @@ function isPropertyRelevant(property, criteria) {
         }
     }
     
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.4;
+    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5; // Stricter threshold
 }
 
 function calculateRelevanceScore(property, criteria) {
     let score = 0;
     
     if (criteria.location && property.location.toLowerCase().includes(criteria.location)) {
-        score += 10;
+        score += 15; // Increased weight for location
     }
     
     if (criteria.rooms && (property.rooms.toLowerCase().includes(criteria.rooms.toLowerCase()) || 
                           property.title.toLowerCase().includes(criteria.rooms.toLowerCase()))) {
-        score += 10;
+        score += 20; // Increased weight for rooms
     }
     
     if (criteria.area) {
