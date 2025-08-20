@@ -132,8 +132,8 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"]', // Refined for price
+                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location', // Refined for location
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
@@ -200,7 +200,7 @@ const main = async () => {
         requestQueue,
         maxRequestRetries: 3,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 2, // Reduced to minimize 429/403
+        maxRequestsPerMinute: 2,
         // proxyConfiguration: { proxyUrls: ['http://username:password@proxyhost:port'] }, // Uncomment with valid proxy credentials
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
