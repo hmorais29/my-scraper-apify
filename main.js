@@ -132,7 +132,7 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], [class*="price-value"]', // Enhanced price selectors
+                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], [class*="price-value"], div[class*="price-container"] > *', // Expanded selectors
                 location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
@@ -251,13 +251,14 @@ const main = async () => {
                 const $price = $(el).find(site.selectors.price).first();
                 if ($price.length) {
                     let text = $price.text().trim();
-                    if (!text && $price.find('span').length) {
-                        text = $price.find('span').text().trim(); // Try nested span if direct text fails
+                    if (!text) {
+                        // Try nested elements or data attributes
+                        text = $price.find('span, div').text().trim() || $price.attr('data-price') || '';
                     }
                     if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
                         property.price = text.substring(0, 50);
                     } else {
-                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}...`);
+                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}... Verificando: ${$price.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -355,7 +356,7 @@ function parseQuery(query) {
         'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
         'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
         'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
-        'caldas da rainha', 'caldas-da-rainha' // Added multi-word and hyphenated forms
+        'caldas da rainha', 'caldas-da-rainha'
     ];
     
     // Check for multi-word or hyphenated locations
