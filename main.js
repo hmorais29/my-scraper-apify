@@ -132,8 +132,8 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], [class*="price-value"], div[class*="price-container"] > *', // Expanded selectors
-                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
@@ -143,12 +143,12 @@ const main = async () => {
             baseUrl: 'https://www.era.pt',
             buildSearchUrl: buildEraUrl,
             selectors: {
-                container: '.property-card, .listing-card, .property-item, .card, .listing-item, [class*="property"], [class*="listing"]',
-                title: '.property-title a, h2 a, h3 a, .card-title a, .listing-title a, [class*="title"] a',
-                price: '.property-price, .price, .valor, .card-price, .listing-price, [class*="price"]',
-                location: '.property-location, .location, .address, .card-location, .listing-address, [class*="location"]',
-                area: '.property-area, .area, .metros, .card-area, .listing-area, [class*="area"]',
-                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms, .listing-rooms, [class*="rooms"]'
+                container: '.property-card, .listing-card, .property-item, .card',
+                title: '.property-title a, h2 a, h3 a, .card-title a',
+                price: '.property-price, .price, .valor, .card-price',
+                location: '.property-location, .location, .address, .card-location',
+                area: '.property-area, .area, .metros, .card-area',
+                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms'
             }
         },
         {
@@ -156,12 +156,12 @@ const main = async () => {
             baseUrl: 'https://www.remax.pt',
             buildSearchUrl: buildRemaxUrl,
             selectors: {
-                container: '.property-card, .listing-item, .property-box, .real-estate-item, [class*="property"], [class*="listing"], .card',
-                title: '.property-title, h2 a, h3 a, .listing-title a, [class*="title"] a, .card-title a',
-                price: '.property-price, .price-amount, .listing-price, [class*="price"], .card-price',
-                location: '.property-address, .location, .listing-address, [class*="location"], .card-address',
-                area: '.property-area, .area, .listing-area, [class*="area"], .card-area',
-                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"], .card-rooms, .listing-rooms'
+                container: '.property-card, .listing-item, .property-box, .real-estate-item',
+                title: '.property-title, h2 a, h3 a, .listing-title a',
+                price: '.property-price, .price-amount, .listing-price, [class*="price"]',
+                location: '.property-address, .location, .listing-address, [class*="location"]',
+                area: '.property-area, .area, .listing-area, [class*="area"]',
+                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"]'
             }
         },
         {
@@ -169,13 +169,14 @@ const main = async () => {
             baseUrl: 'https://www.idealista.pt',
             buildSearchUrl: buildIdealistaUrl,
             selectors: {
-                container: '.item, .listing-item, .property-card, [class*="item"], [class*="listing"], .card',
-                title: '.item-link, h2 a, h3 a, [class*="title"] a, .listing-title a',
-                price: '.price-row, .item-price, [class*="price"], .listing-price, .card-price',
-                location: '.item-detail-location, .location, [class*="location"], .listing-address, .card-address',
-                area: '.item-detail-area, .area, [class*="area"], .listing-area, .card-area',
-                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia, .listing-rooms'
-            }
+                container: '.item, .listing-item, .property-card, [class*="item"]',
+                title: '.item-link, h2 a, h3 a, [class*="title"] a',
+                price: '.price-row, .item-price, [class*="price"], .listing-price',
+                location: '.item-detail-location, .location, [class*="location"], .listing-address',
+                area: '.item-detail-area, .area, [class*="area"], .listing-area',
+                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
+            },
+            antiBot: true // Flag for potential future enhancements
         }
     ];
     
@@ -186,9 +187,15 @@ const main = async () => {
             const searchUrl = site.buildSearchUrl(searchCriteria);
             if (searchUrl) {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
+                
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { site, criteria: searchCriteria }
+                    userData: { 
+                        site: site,
+                        criteria: searchCriteria,
+                        attempt: 1
+                    },
+                    headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
                 });
             }
         } catch (error) {
@@ -201,15 +208,34 @@ const main = async () => {
         maxRequestRetries: 3,
         maxConcurrency: 1,
         maxRequestsPerMinute: 2,
-        // proxyConfiguration: { proxyUrls: ['http://username:password@proxyhost:port'] }, // Uncomment with valid proxy credentials
         requestHandler: async ({ request, $, response }) => {
-            const { site, criteria } = request.userData;
+            const { site, criteria, attempt } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
+            // Enhanced delay logic with exponential backoff
+            const baseDelay = site.antiBot ? 5000 : 2000;
+            const maxDelay = site.antiBot ? 10000 : 5000;
+            await randomDelay(baseDelay * attempt, maxDelay * attempt);
+            
             if (response.statusCode === 429 || response.statusCode === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
+                
+                if (attempt < 3) {
+                    const retryDelay = Math.pow(2, attempt) * 10000; // Exponential backoff
+                    console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, retryDelay));
+                    
+                    await requestQueue.addRequest({
+                        url: request.url,
+                        userData: { 
+                            ...request.userData, 
+                            attempt: attempt + 1 
+                        },
+                        headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
+                    });
+                }
                 return;
             }
             
@@ -250,15 +276,10 @@ const main = async () => {
                 
                 const $price = $(el).find(site.selectors.price).first();
                 if ($price.length) {
-                    let text = $price.text().trim();
-                    if (!text) {
-                        // Try nested elements or data attributes
-                        text = $price.find('span, div').text().trim() || $price.attr('data-price') || '';
-                    }
+                    const text = $price.text().trim();
                     if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
                         property.price = text.substring(0, 50);
-                    } else {
-                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}... Verificando: ${$price.html() || 'Nenhum HTML'}`);
+                        break;
                     }
                 }
                 
@@ -350,32 +371,37 @@ function parseQuery(query) {
         criteria.area = parseInt(areaMatch[1]);
     }
     
-    const locations = [
-        'lisboa', 'porto', 'cascais', 'sintra', 'almada', 'amadora',
-        'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
-        'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
-        'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
-        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
-        'caldas da rainha', 'caldas-da-rainha'
-    ];
-    
-    // Check for multi-word or hyphenated locations
-    for (const loc of locations) {
-        const locNormalized = loc.replace(/-/g, ' ').toLowerCase();
-        if (queryLower.includes(locNormalized)) {
-            criteria.location = loc;
-            break;
-        }
-    }
-    
-    // Fallback: Extract any multi-word location if not found in list
-    if (!criteria.location) {
-        const words = queryLower.split(/\s+/);
-        for (let i = 0; i < words.length - 1; i++) {
-            const candidate = (words[i] + ' ' + words[i + 1]).toLowerCase();
-            if (locations.some(loc => loc.replace(/-/g, ' ').toLowerCase().includes(candidate))) {
-                criteria.location = candidate.replace(/\s+/g, '-');
+    // Extract location after "em" and before the next number or condition word
+    const locationMatch = queryLower.match(/em\s+([a-z\s-]+\s*[a-z\s-]*?)(?=\s*\d|\s*novo|\s*renovado|\s*para renovar|\s*usado|\s*recente|$)/);
+    if (locationMatch) {
+        criteria.location = locationMatch[1].trim().replace(/\s+/g, '-');
+    } else {
+        const locations = [
+            'lisboa', 'porto', 'cascais', 'sintra', 'almada', 'amadora',
+            'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
+            'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
+            'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
+            'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
+            'caldas da rainha', 'caldas-da-rainha', 'vila franca de xira', 'vila-franca-de-xira'
+        ];
+        
+        for (const loc of locations) {
+            const locNormalized = loc.replace(/-/g, ' ').toLowerCase();
+            if (queryLower.includes(locNormalized)) {
+                criteria.location = locNormalized.replace(/\s+/g, '-');
                 break;
+            }
+        }
+        
+        // Fallback: Extract any multi-word location if not found in list
+        if (!criteria.location) {
+            const words = queryLower.split(/\s+/);
+            for (let i = 0; i < words.length - 1; i++) {
+                const candidate = (words[i] + ' ' + words[i + 1]).toLowerCase();
+                if (locations.some(loc => loc.replace(/-/g, ' ').toLowerCase().includes(candidate))) {
+                    criteria.location = candidate.replace(/\s+/g, '-');
+                    break;
+                }
             }
         }
     }
