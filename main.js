@@ -101,12 +101,12 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: '.offer-item',
-                title: '.listing-title',
-                price: '.listing-price',
-                location: '.listing-location',
-                area: '.detail-area',
-                rooms: '.detail-rooms'
+                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
+                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
+                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
+                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
+                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
         },
         {
@@ -249,7 +249,7 @@ const main = async () => {
                 
                 if (property.title && property.title.length > 15) { // Relaxed criteria retained
                     properties.push(property);
-                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
+                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location}, Area: ${property.area}, Rooms: ${property.rooms})`);
                 }
             });
             
