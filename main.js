@@ -132,8 +132,8 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
+                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], div[class*="price-container"] > *', // Refined selectors
+                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
@@ -175,8 +175,7 @@ const main = async () => {
                 location: '.item-detail-location, .location, [class*="location"], .listing-address',
                 area: '.item-detail-area, .area, [class*="area"], .listing-area',
                 rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
-            },
-            antiBot: true // Flag for potential future enhancements
+            }
         }
     ];
     
@@ -187,15 +186,9 @@ const main = async () => {
             const searchUrl = site.buildSearchUrl(searchCriteria);
             if (searchUrl) {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
-                
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { 
-                        site: site,
-                        criteria: searchCriteria,
-                        attempt: 1
-                    },
-                    headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
+                    userData: { site, criteria: searchCriteria }
                 });
             }
         } catch (error) {
@@ -209,33 +202,13 @@ const main = async () => {
         maxConcurrency: 1,
         maxRequestsPerMinute: 2,
         requestHandler: async ({ request, $, response }) => {
-            const { site, criteria, attempt } = request.userData;
+            const { site, criteria } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
-            // Enhanced delay logic with exponential backoff
-            const baseDelay = site.antiBot ? 5000 : 2000;
-            const maxDelay = site.antiBot ? 10000 : 5000;
-            await randomDelay(baseDelay * attempt, maxDelay * attempt);
-            
             if (response.statusCode === 429 || response.statusCode === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
-                
-                if (attempt < 3) {
-                    const retryDelay = Math.pow(2, attempt) * 10000; // Exponential backoff
-                    console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
-                    await new Promise(resolve => setTimeout(resolve, retryDelay));
-                    
-                    await requestQueue.addRequest({
-                        url: request.url,
-                        userData: { 
-                            ...request.userData, 
-                            attempt: attempt + 1 
-                        },
-                        headers: site.antiBot ? getEnhancedHeaders() : getRandomHeaders()
-                    });
-                }
                 return;
             }
             
@@ -276,10 +249,14 @@ const main = async () => {
                 
                 const $price = $(el).find(site.selectors.price).first();
                 if ($price.length) {
-                    const text = $price.text().trim();
+                    let text = $price.text().trim();
+                    if (!text) {
+                        text = $price.find('span, div').text().trim() || $price.attr('data-price') || '';
+                    }
                     if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
                         property.price = text.substring(0, 50);
-                        break;
+                    } else {
+                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}... Verificando: ${$price.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -359,7 +336,7 @@ function parseQuery(query) {
         type: 'apartamento'
     };
     
-    const queryLower = query.toLowerCase();
+    const queryLower = query.toLowerCase().replace(/^\s*=+\s*|\|\s*/g, '').trim(); // Remove leading "= ||" and extra spaces
     
     const roomsMatch = queryLower.match(/t(\d+)/);
     if (roomsMatch) {
@@ -372,7 +349,7 @@ function parseQuery(query) {
     }
     
     // Extract location after "em" and before the next number or condition word
-    const locationMatch = queryLower.match(/em\s+([a-z\s-]+\s*[a-z\s-]*?)(?=\s*\d|\s*novo|\s*renovado|\s*para renovar|\s*usado|\s*recente|$)/);
+    const locationMatch = queryLower.match(/em\s+([a-z\s-]+\s*[a-z\s-]*?)(?=\s*\d|\s*novo|\s*renovado|\s*para renovar|\s*usado|\s*recente|$)/i);
     if (locationMatch) {
         criteria.location = locationMatch[1].trim().replace(/\s+/g, '-');
     } else {
