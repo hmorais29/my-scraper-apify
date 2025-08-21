@@ -30,7 +30,7 @@ const main = async () => {
         }
         
         if (criteria.location) {
-            url += `/${criteria.location}`;
+            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
         }
         
         const params = new URLSearchParams();
@@ -60,7 +60,7 @@ const main = async () => {
         }
         
         if (criteria.location) {
-            url += `/${criteria.location}`;
+            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
         }
         
         return url;
@@ -132,8 +132,8 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"]', // Refined for price
-                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location', // Refined for location
+                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], [class*="price-value"]', // Enhanced price selectors
+                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location',
                 area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
                 rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
@@ -250,9 +250,14 @@ const main = async () => {
                 
                 const $price = $(el).find(site.selectors.price).first();
                 if ($price.length) {
-                    const text = $price.text().trim();
+                    let text = $price.text().trim();
+                    if (!text && $price.find('span').length) {
+                        text = $price.find('span').text().trim(); // Try nested span if direct text fails
+                    }
                     if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
                         property.price = text.substring(0, 50);
+                    } else {
+                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}...`);
                     }
                 }
                 
@@ -349,13 +354,28 @@ function parseQuery(query) {
         'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
         'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
         'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
-        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo'
+        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
+        'caldas da rainha', 'caldas-da-rainha' // Added multi-word and hyphenated forms
     ];
     
+    // Check for multi-word or hyphenated locations
     for (const loc of locations) {
-        if (queryLower.includes(loc)) {
+        const locNormalized = loc.replace(/-/g, ' ').toLowerCase();
+        if (queryLower.includes(locNormalized)) {
             criteria.location = loc;
             break;
+        }
+    }
+    
+    // Fallback: Extract any multi-word location if not found in list
+    if (!criteria.location) {
+        const words = queryLower.split(/\s+/);
+        for (let i = 0; i < words.length - 1; i++) {
+            const candidate = (words[i] + ' ' + words[i + 1]).toLowerCase();
+            if (locations.some(loc => loc.replace(/-/g, ' ').toLowerCase().includes(candidate))) {
+                criteria.location = candidate.replace(/\s+/g, '-');
+                break;
+            }
         }
     }
     
@@ -388,7 +408,7 @@ function isPropertyRelevant(property, criteria) {
         totalCriteria++;
         const propLocation = property.location.toLowerCase();
         const propTitle = property.title.toLowerCase();
-        if (propLocation.includes(criteria.location) || propTitle.includes(criteria.location)) {
+        if (propLocation.includes(criteria.location.toLowerCase().replace(/-/g, ' ')) || propTitle.includes(criteria.location.toLowerCase().replace(/-/g, ' '))) {
             relevantCount++;
         }
     }
