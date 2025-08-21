@@ -101,12 +101,12 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
-                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '[data-cy="listing-price"], .price, .css-1uwck7i, div.css-1uwck7i > span, [class*="price-container"] > *', // Refined for Imovirtual
-                location: '[data-cy="listing-location"], .css-12h460f, .location',
-                area: '.css-1wi9dc7, [data-cy="area"], .area, [class*="area"]',
-                rooms: '.css-1wi9dc7, [data-cy="rooms"], .rooms, [class*="rooms"]'
+                container: '.offer-item',
+                title: '.listing-title',
+                price: '.listing-price',
+                location: '.listing-location',
+                area: '.detail-area',
+                rooms: '.detail-rooms'
             }
         },
         {
@@ -134,7 +134,7 @@ const main = async () => {
                 area: '.item-detail-area, .area, [class*="area"], .listing-area',
                 rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
             },
-            antiBot: true // Flag for potential blocking
+            antiBot: true
         }
     ];
     
@@ -217,14 +217,9 @@ const main = async () => {
                 
                 const $price = $(el).find(site.selectors.price).first();
                 if ($price.length) {
-                    let text = $price.text().trim();
-                    if (!text) {
-                        text = $price.find('span, div').text().trim() || $price.attr('data-price') || '';
-                    }
+                    const text = $price.text().trim();
                     if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
                         property.price = text.substring(0, 50);
-                    } else {
-                        console.log(`⚠️ Preço não encontrado para ${property.title.substring(0, 60)}... Verificando: ${$price.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -233,8 +228,6 @@ const main = async () => {
                     const text = $location.text().trim();
                     if (text && text.length > 2 && text.length < 100 && !text.includes('€') && !text.match(/^\d+$/)) {
                         property.location = text.substring(0, 100);
-                    } else {
-                        console.log(`⚠️ Localização não encontrada para ${property.title.substring(0, 60)}... Verificando: ${$location.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -243,8 +236,6 @@ const main = async () => {
                     const text = $area.text().trim();
                     if (text && text.match(/\d+.*m[²2]/i)) {
                         property.area = text.substring(0, 20);
-                    } else {
-                        console.log(`⚠️ Área não encontrada para ${property.title.substring(0, 60)}... Verificando: ${$area.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -253,14 +244,12 @@ const main = async () => {
                     const text = $rooms.text().trim();
                     if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
                         property.rooms = text.substring(0, 10);
-                    } else {
-                        console.log(`⚠️ Quartos não encontrados para ${property.title.substring(0, 60)}... Verificando: ${$rooms.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
                 if (property.title && property.title.length > 15) { // Relaxed criteria retained
                     properties.push(property);
-                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location}, Area: ${property.area}, Rooms: ${property.rooms})`);
+                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
                 }
             });
             
@@ -310,7 +299,7 @@ function parseQuery(query) {
         type: 'apartamento'
     };
     
-    const queryLower = query.toLowerCase().replace(/^\s*=+\s*|\|\s*/g, '').trim(); // Remove leading "= ||" and extra spaces
+    const queryLower = query.toLowerCase();
     
     const roomsMatch = queryLower.match(/t(\d+)/);
     if (roomsMatch) {
@@ -322,15 +311,80 @@ function parseQuery(query) {
         criteria.area = parseInt(areaMatch[1]);
     }
     
-    // Extract location after "em" and before the next number or condition word
-    const locationMatch = queryLower.match(/em\s+([a-z\s-]+\s*[a-z\s-]*?)(?=\s*\d|\s*novo|\s*renovado|\s*para renovar|\s*usado|\s*recente|$)/i);
-    if (locationMatch) {
-        criteria.location = locationMatch[1].trim().replace(/\s+/g, '-');
-    } else {
-        const locations = [
-            'lisboa', 'porto', 'cascais', 'sintra', 'almada', 'amadora',
-            'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
-            'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
-            'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
-            'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
-            'caldas da rainha', 'caldas-da-rainha', 'vila franca de xira', 'vila-franca-de-xira'
+    const locations = [
+        'lisboa', 'porto', 'cascais', 'sintra', 'almada', 'amadora',
+        'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
+        'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
+        'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
+        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
+        'caldas da rainha', 'caldas-da-rainha', 'vila franca de xira', 'vila-franca-de-xira' // Added for multi-word
+    ];
+    
+    for (const loc of locations) {
+        if (queryLower.includes(loc)) {
+            criteria.location = loc;
+            break;
+        }
+    }
+    
+    const conditions = ['novo', 'renovado', 'para renovar', 'usado', 'recente'];
+    for (const cond of conditions) {
+        if (queryLower.includes(cond)) {
+            criteria.condition = cond;
+            break;
+        }
+    }
+    
+    if (queryLower.includes('moradia') || queryLower.includes('casa')) {
+        criteria.type = 'moradia';
+    } else if (queryLower.includes('apartamento') || queryLower.includes('apto')) {
+        criteria.type = 'apartamento';
+    }
+    
+    return criteria;
+}
+
+function isPropertyRelevant(property, criteria) {
+    if (!criteria.location && !criteria.rooms && !criteria.area) {
+        return true;
+    }
+    
+    let relevantCount = 0;
+    let totalCriteria = 0;
+    
+    if (criteria.location) {
+        totalCriteria++;
+        const propLocation = property.location.toLowerCase();
+        const propTitle = property.title.toLowerCase();
+        if (propLocation.includes(criteria.location) || propTitle.includes(criteria.location)) {
+            relevantCount++;
+        }
+    }
+    
+    if (criteria.rooms) {
+        totalCriteria++;
+        const propRooms = property.rooms.toLowerCase();
+        const propTitle = property.title.toLowerCase();
+        const criteriaRooms = criteria.rooms.toLowerCase();
+        if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
+            relevantCount++;
+        }
+    }
+    
+    if (criteria.area) {
+        totalCriteria++;
+        const areaMatch = property.area.match(/(\d+)/);
+        const titleAreaMatch = property.title.match(/(\d+)\s*m[2²]/i);
+        
+        if (areaMatch || titleAreaMatch) {
+            const propArea = parseInt(areaMatch?.[1] || titleAreaMatch?.[1]);
+            if (propArea && Math.abs(propArea - criteria.area) <= 30) {
+                relevantCount++;
+            }
+        }
+    }
+    
+    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5;
+}
+
+main().catch(console.error);
