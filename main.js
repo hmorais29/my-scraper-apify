@@ -30,7 +30,17 @@ const main = async () => {
         }
         
         if (criteria.location) {
-            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
+            const locationSlug = criteria.location.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/ã/g, 'a')
+                .replace(/õ/g, 'o')
+                .replace(/á/g, 'a')
+                .replace(/é/g, 'e')
+                .replace(/í/g, 'i')
+                .replace(/ó/g, 'o')
+                .replace(/ú/g, 'u')
+                .replace(/ç/g, 'c');
+            url += `/${locationSlug}`;
         }
         
         const params = new URLSearchParams();
@@ -60,7 +70,17 @@ const main = async () => {
         }
         
         if (criteria.location) {
-            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
+            const locationSlug = criteria.location.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/ã/g, 'a')
+                .replace(/õ/g, 'o')
+                .replace(/á/g, 'a')
+                .replace(/é/g, 'e')
+                .replace(/í/g, 'i')
+                .replace(/ó/g, 'o')
+                .replace(/ú/g, 'u')
+                .replace(/ç/g, 'c');
+            url += `/${locationSlug}`;
         }
         
         return url;
@@ -70,7 +90,17 @@ const main = async () => {
         let url = 'https://www.idealista.pt/comprar-casas';
         
         if (criteria.location) {
-            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
+            const locationSlug = criteria.location.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/ã/g, 'a')
+                .replace(/õ/g, 'o')
+                .replace(/á/g, 'a')
+                .replace(/é/g, 'e')
+                .replace(/í/g, 'i')
+                .replace(/ó/g, 'o')
+                .replace(/ú/g, 'u')
+                .replace(/ç/g, 'c');
+            url += `/${locationSlug}`;
         }
         
         const params = new URLSearchParams();
@@ -101,12 +131,13 @@ const main = async () => {
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
             selectors: {
-                container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
-                title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '.css-1uwck7i, [data-cy="price"], .offer-item-price, .price, [class*="price"]',
-                location: '.css-12h460f, [data-cy="location"], .offer-item-location, .location',
-                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
-                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
+                // Seletores atualizados baseados na estrutura mais recente
+                container: 'article[data-cy="listing-item"], .offer-item-wrap, [data-cy="listing-item-wrap"], .css-1sw7q4x',
+                title: 'h3[data-cy="listing-item-link"] a, .offer-item-title a, [data-cy="listing-item-title"], a[data-cy="listing-item-link"]',
+                price: '[data-cy="listing-item-price"], .offer-item-price, [class*="price"], .css-1uwck7i',
+                location: '[data-cy="listing-item-location"], .offer-item-location, [class*="location"], .css-12h460f',
+                area: '.offer-item-area, [data-cy="listing-item-area"], [class*="area"], .css-1wi9dc7',
+                rooms: '.offer-item-rooms, [data-cy="listing-item-rooms"], [class*="rooms"], .css-1wi9dc7'
             }
         },
         {
@@ -114,12 +145,12 @@ const main = async () => {
             baseUrl: 'https://www.era.pt',
             buildSearchUrl: buildEraUrl,
             selectors: {
-                container: '.property-card, .listing-card, .property-item, .card',
-                title: '.property-title a, h2 a, h3 a, .card-title a',
-                price: '.property-price, .price, .valor, .card-price',
-                location: '.property-location, .location, .address, .card-location',
-                area: '.property-area, .area, .metros, .card-area',
-                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms'
+                container: '.property-card, .listing-card, .property-item, .card, .property-wrap',
+                title: '.property-title a, h2 a, h3 a, .card-title a, .property-link',
+                price: '.property-price, .price, .valor, .card-price, .property-value',
+                location: '.property-location, .location, .address, .card-location, .property-address',
+                area: '.property-area, .area, .metros, .card-area, [data-area]',
+                rooms: '.property-rooms, .tipologia, .quartos, .card-rooms, .property-type'
             }
         },
         {
@@ -127,12 +158,13 @@ const main = async () => {
             baseUrl: 'https://www.idealista.pt',
             buildSearchUrl: buildIdealistaUrl,
             selectors: {
-                container: '.item, .listing-item, .property-card, [class*="item"]',
-                title: '.item-link, h2 a, h3 a, [class*="title"] a',
-                price: '.price-row, .item-price, [class*="price"], .listing-price',
+                // Seletores atualizados baseados na documentação encontrada
+                container: '.item, .item-info-container, .property-card, [class*="item"]',
+                title: '.item-link, a.item-link, h2 a, h3 a, [class*="title"] a',
+                price: '.price-row .item-price, .item-price, [class*="price"], .listing-price',
                 location: '.item-detail-location, .location, [class*="location"], .listing-address',
-                area: '.item-detail-area, .area, [class*="area"], .listing-area',
-                rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
+                area: '.item-detail-area, .area, [class*="area"], .listing-area, [class*="surface"]',
+                rooms: '.item-detail, [class*="bedroom"], .tipologia, [class*="rooms"]'
             }
         }
     ];
@@ -146,7 +178,15 @@ const main = async () => {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { site, criteria: searchCriteria }
+                    userData: { site, criteria: searchCriteria },
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                        'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        'Connection': 'keep-alive',
+                        'Upgrade-Insecure-Requests': '1'
+                    }
                 });
             }
         } catch (error) {
@@ -156,9 +196,10 @@ const main = async () => {
     
     const crawler = new CheerioCrawler({
         requestQueue,
-        maxRequestRetries: 3,
+        maxRequestRetries: 2,
         maxConcurrency: 1,
-        maxRequestsPerMinute: 2,
+        maxRequestsPerMinute: 1,
+        requestHandlerTimeoutSecs: 60,
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
@@ -178,8 +219,13 @@ const main = async () => {
             console.log(`✅ ${site.name} acessível!`);
             
             const properties = [];
-            $(site.selectors.container).each((i, el) => {
-                if (i >= 8) return;
+            
+            // Debug: mostrar quantos containers encontrámos
+            const containers = $(site.selectors.container);
+            console.log(`🔍 ${site.name}: Encontrados ${containers.length} containers`);
+            
+            containers.each((i, el) => {
+                if (i >= 10) return; // Limitar a 10 resultados por site
                 
                 const property = {
                     title: '',
@@ -193,63 +239,93 @@ const main = async () => {
                     scrapedAt: new Date().toISOString()
                 };
                 
-                const $title = $(el).find(site.selectors.title).first();
-                if ($title.length) {
-                    const text = $title.text().trim() || $title.attr('title');
-                    const href = $title.attr('href') || $title.find('a').attr('href');
-                    if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
-                        property.title = text.substring(0, 200);
-                        if (href && href !== '#' && !href.startsWith('javascript')) {
-                            property.link = href.startsWith('http') ? href : site.baseUrl + href;
+                // Extrair título
+                const titleSelectors = site.selectors.title.split(', ');
+                for (const selector of titleSelectors) {
+                    const $title = $(el).find(selector.trim()).first();
+                    if ($title.length) {
+                        const text = $title.text().trim() || $title.attr('title') || $title.attr('aria-label');
+                        const href = $title.attr('href') || $title.closest('a').attr('href');
+                        if (text && text.length > 10 && !text.toLowerCase().includes('javascript')) {
+                            property.title = text.substring(0, 200);
+                            if (href && href !== '#' && !href.startsWith('javascript')) {
+                                property.link = href.startsWith('http') ? href : site.baseUrl + href;
+                            }
+                            break;
                         }
                     }
                 }
                 
-                const $price = $(el).find(site.selectors.price).first();
-                if ($price.length) {
-                    const text = $price.text().trim();
-                    if (text && (text.includes('€') || text.match(/\d{3}\.\d{3}/) || text.match(/\d{6,}/))) {
-                        property.price = text.substring(0, 50);
+                // Extrair preço
+                const priceSelectors = site.selectors.price.split(', ');
+                for (const selector of priceSelectors) {
+                    const $price = $(el).find(selector.trim()).first();
+                    if ($price.length) {
+                        const text = $price.text().trim();
+                        if (text && (text.includes('€') || text.match(/\d{3}[\.\s]\d{3}/) || text.match(/\d{6,}/))) {
+                            property.price = text.substring(0, 50).replace(/\s+/g, ' ');
+                            break;
+                        }
                     }
                 }
                 
-                const $location = $(el).find(site.selectors.location).first();
-                if ($location.length) {
-                    const text = $location.text().trim();
-                    if (text && text.length > 2 && text.length < 100 && !text.includes('€') && !text.match(/^\d+$/)) {
-                        property.location = text.substring(0, 100);
+                // Extrair localização
+                const locationSelectors = site.selectors.location.split(', ');
+                for (const selector of locationSelectors) {
+                    const $location = $(el).find(selector.trim()).first();
+                    if ($location.length) {
+                        const text = $location.text().trim();
+                        if (text && text.length > 2 && text.length < 100 && !text.includes('€') && !text.match(/^\d+$/)) {
+                            property.location = text.substring(0, 100);
+                            break;
+                        }
                     }
                 }
                 
-                const $area = $(el).find(site.selectors.area).first();
-                if ($area.length) {
-                    const text = $area.text().trim();
-                    if (text && text.match(/\d+.*m[²2]/i)) {
-                        property.area = text.substring(0, 20);
+                // Extrair área
+                const areaSelectors = site.selectors.area.split(', ');
+                for (const selector of areaSelectors) {
+                    const $area = $(el).find(selector.trim()).first();
+                    if ($area.length) {
+                        const text = $area.text().trim();
+                        if (text && text.match(/\d+.*m[²2]/i)) {
+                            property.area = text.substring(0, 20).replace(/\s+/g, ' ');
+                            break;
+                        }
                     }
                 }
                 
-                const $rooms = $(el).find(site.selectors.rooms).first();
-                if ($rooms.length) {
-                    const text = $rooms.text().trim();
-                    if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
-                        property.rooms = text.substring(0, 10);
+                // Extrair quartos/tipologia
+                const roomsSelectors = site.selectors.rooms.split(', ');
+                for (const selector of roomsSelectors) {
+                    const $rooms = $(el).find(selector.trim()).first();
+                    if ($rooms.length) {
+                        const text = $rooms.text().trim();
+                        if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i) || text.match(/\d\s*assoalhada/i))) {
+                            property.rooms = text.substring(0, 20).replace(/\s+/g, ' ');
+                            break;
+                        }
                     }
                 }
                 
-                if (property.title && property.title.length > 15) { // Relaxed criteria retained
+                // Verificar se temos dados mínimos
+                if (property.title && property.title.length > 15) {
                     properties.push(property);
-                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
+                    console.log(`🏘️ ${property.title.substring(0, 60)}...`);
+                    console.log(`   💰 Preço: ${property.price || 'N/A'}`);
+                    console.log(`   📍 Local: ${property.location || 'N/A'}`);
+                    console.log(`   📐 Área: ${property.area || 'N/A'}`);
+                    console.log(`   🏠 Quartos: ${property.rooms || 'N/A'}`);
                 }
             });
             
             const filteredProperties = properties.filter(prop => isPropertyRelevant(prop, criteria));
             
             if (filteredProperties.length > 0) {
-                console.log(`📊 ${site.name}: ${filteredProperties.length} imóveis encontrados`);
-                await Dataset.pushData(filteredProperties.slice(0, 5));
+                console.log(`📊 ${site.name}: ${filteredProperties.length} imóveis relevantes encontrados`);
+                await Dataset.pushData(filteredProperties.slice(0, 8));
             } else {
-                console.log(`❌ ${site.name}: Nenhum imóvel encontrado`);
+                console.log(`❌ ${site.name}: Nenhum imóvel relevante encontrado`);
             }
         },
         failedRequestHandler: async ({ request, error }) => {
@@ -289,26 +365,48 @@ function parseQuery(query) {
         type: 'apartamento'
     };
     
-    const queryLower = query.toLowerCase();
+    const queryLower = query.toLowerCase()
+        .replace(/ã/g, 'a')
+        .replace(/õ/g, 'o')
+        .replace(/á/g, 'a')
+        .replace(/é/g, 'e')
+        .replace(/í/g, 'i')
+        .replace(/ó/g, 'o')
+        .replace(/ú/g, 'u')
+        .replace(/ç/g, 'c');
     
+    // Extrair tipologia
     const roomsMatch = queryLower.match(/t(\d+)/);
     if (roomsMatch) {
         criteria.rooms = `T${roomsMatch[1]}`;
     }
     
+    // Extrair área
     const areaMatch = queryLower.match(/(\d+)\s*m[2²]?/);
     if (areaMatch) {
         criteria.area = parseInt(areaMatch[1]);
     }
     
+    // Lista mais completa de localizações portuguesas
     const locations = [
-        'lisboa', 'porto', 'cascais', 'sintra', 'almada', 'amadora',
-        'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
-        'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
-        'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
-        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo'
+        // Distritos principais
+        'lisboa', 'porto', 'braga', 'coimbra', 'aveiro', 'setubal', 'evora', 'faro',
+        'funchal', 'viseu', 'leiria', 'santarem', 'beja', 'castelo branco',
+        'guarda', 'portalegre', 'vila real', 'braganca', 'viana do castelo',
+        // Concelhos importantes
+        'cascais', 'sintra', 'almada', 'amadora', 'oeiras', 'loures', 'odivelas',
+        'vila nova de gaia', 'matosinhos', 'gondomar', 'maia', 'povoa de varzim',
+        'caldas da rainha', 'torres vedras', 'sesimbra', 'palmela', 'montijo',
+        'barreiro', 'vila franca de xira', 'mafra', 'alcochete', 'sines',
+        'lagos', 'portimao', 'tavira', 'olhao', 'silves', 'monchique',
+        // Outras localizações
+        'estoril', 'carcavelos', 'parede', 'sao joao do estoril', 'monte estoril',
+        'queluz', 'barcarena', 'linda a velha', 'cruz quebrada', 'dafundo',
+        'pontinha', 'falagueira', 'venda nova', 'encosta do sol', 'quinta do conde',
+        'corroios', 'seixal', 'fernao ferro', 'caparica', 'trafaria'
     ];
     
+    // Procurar localização na query
     for (const loc of locations) {
         if (queryLower.includes(loc)) {
             criteria.location = loc;
@@ -316,7 +414,8 @@ function parseQuery(query) {
         }
     }
     
-    const conditions = ['novo', 'renovado', 'para renovar', 'usado', 'recente'];
+    // Extrair condição
+    const conditions = ['novo', 'renovado', 'para renovar', 'usado', 'recente', 'seminovo'];
     for (const cond of conditions) {
         if (queryLower.includes(cond)) {
             criteria.condition = cond;
@@ -324,9 +423,10 @@ function parseQuery(query) {
         }
     }
     
-    if (queryLower.includes('moradia') || queryLower.includes('casa')) {
+    // Extrair tipo de imóvel
+    if (queryLower.includes('moradia') || queryLower.includes('casa') || queryLower.includes('vivenda')) {
         criteria.type = 'moradia';
-    } else if (queryLower.includes('apartamento') || queryLower.includes('apto')) {
+    } else if (queryLower.includes('apartamento') || queryLower.includes('apto') || queryLower.includes('t0') || queryLower.includes('t1') || queryLower.includes('t2') || queryLower.includes('t3') || queryLower.includes('t4') || queryLower.includes('t5')) {
         criteria.type = 'apartamento';
     }
     
@@ -341,25 +441,31 @@ function isPropertyRelevant(property, criteria) {
     let relevantCount = 0;
     let totalCriteria = 0;
     
+    // Verificar localização
     if (criteria.location) {
         totalCriteria++;
-        const propLocation = property.location.toLowerCase();
-        const propTitle = property.title.toLowerCase();
-        if (propLocation.includes(criteria.location) || propTitle.includes(criteria.location)) {
+        const propLocation = property.location.toLowerCase().replace(/[áàãâ]/g, 'a').replace(/[éê]/g, 'e').replace(/[íî]/g, 'i').replace(/[óôõ]/g, 'o').replace(/[úü]/g, 'u').replace(/ç/g, 'c');
+        const propTitle = property.title.toLowerCase().replace(/[áàãâ]/g, 'a').replace(/[éê]/g, 'e').replace(/[íî]/g, 'i').replace(/[óôõ]/g, 'o').replace(/[úü]/g, 'u').replace(/ç/g, 'c');
+        const searchLocation = criteria.location.toLowerCase();
+        
+        if (propLocation.includes(searchLocation) || propTitle.includes(searchLocation)) {
             relevantCount++;
         }
     }
     
+    // Verificar quartos
     if (criteria.rooms) {
         totalCriteria++;
         const propRooms = property.rooms.toLowerCase();
         const propTitle = property.title.toLowerCase();
         const criteriaRooms = criteria.rooms.toLowerCase();
+        
         if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
             relevantCount++;
         }
     }
     
+    // Verificar área
     if (criteria.area) {
         totalCriteria++;
         const areaMatch = property.area.match(/(\d+)/);
@@ -373,6 +479,7 @@ function isPropertyRelevant(property, criteria) {
         }
     }
     
+    // Retornar verdadeiro se pelo menos 50% dos critérios coincidirem
     return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5;
 }
 
