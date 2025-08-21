@@ -133,8 +133,7 @@ const main = async () => {
                 location: '.item-detail-location, .location, [class*="location"], .listing-address',
                 area: '.item-detail-area, .area, [class*="area"], .listing-area',
                 rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
-            },
-            antiBot: true
+            }
         }
     ];
     
@@ -147,7 +146,7 @@ const main = async () => {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { site, criteria: searchCriteria, attempt: 1 }
+                    userData: { site, criteria: searchCriteria }
                 });
             }
         } catch (error) {
@@ -161,22 +160,13 @@ const main = async () => {
         maxConcurrency: 1,
         maxRequestsPerMinute: 2,
         requestHandler: async ({ request, $, response }) => {
-            const { site, criteria, attempt } = request.userData;
+            const { site, criteria } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
             if (response.statusCode === 429 || response.statusCode === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
-                if (attempt < 3 && site.antiBot) {
-                    const retryDelay = Math.pow(2, attempt) * 5000; // Exponential backoff
-                    console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
-                    await new Promise(resolve => setTimeout(resolve, retryDelay));
-                    await requestQueue.addRequest({
-                        url: request.url,
-                        userData: { ...request.userData, attempt: attempt + 1 }
-                    });
-                }
                 return;
             }
             
@@ -249,7 +239,7 @@ const main = async () => {
                 
                 if (property.title && property.title.length > 15) { // Relaxed criteria retained
                     properties.push(property);
-                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location}, Area: ${property.area}, Rooms: ${property.rooms})`);
+                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
                 }
             });
             
@@ -316,8 +306,7 @@ function parseQuery(query) {
         'oeiras', 'loures', 'odivelas', 'vila nova de gaia', 'matosinhos',
         'braga', 'coimbra', 'aveiro', 'setúbal', 'évora', 'faro',
         'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
-        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
-        'caldas da rainha', 'caldas-da-rainha', 'vila franca de xira', 'vila-franca-de-xira' // Added for multi-word
+        'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo'
     ];
     
     for (const loc of locations) {
