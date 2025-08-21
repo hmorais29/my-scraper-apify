@@ -66,35 +66,6 @@ const main = async () => {
         return url;
     }
 
-    function buildRemaxUrl(criteria) {
-        let url = 'https://www.remax.pt/comprar';
-        
-        if (criteria.type === 'apartamento') {
-            url += '/apartamentos';
-        } else if (criteria.type === 'moradia') {
-            url += '/casas';
-        }
-        
-        if (criteria.location) {
-            url += `/${criteria.location.toLowerCase().replace(/\s+/g, '-')}`;
-        }
-        
-        const params = new URLSearchParams();
-        
-        if (criteria.rooms) {
-            const roomNum = criteria.rooms.replace('T', '');
-            params.append('bedrooms', roomNum);
-        }
-        
-        if (criteria.area) {
-            params.append('areaMin', Math.max(1, criteria.area - 20));
-            params.append('areaMax', criteria.area + 20);
-        }
-        
-        const queryString = params.toString();
-        return queryString ? `${url}?${queryString}` : url;
-    }
-
     function buildIdealistaUrl(criteria) {
         let url = 'https://www.idealista.pt/comprar-casas';
         
@@ -132,10 +103,10 @@ const main = async () => {
             selectors: {
                 container: 'article, [data-cy="listing-item"], .offer-item, .property-item, .css-1sw7q4x',
                 title: 'a[title], h2 a, h3 a, [data-cy="listing-item-link"], .offer-item-title a, .css-16vl3c1 a',
-                price: '[data-cy="listing-price"], .offer-item-price, .css-1uwck7i, .price, span[class*="price"], div[class*="price-container"] > *', // Refined selectors
-                location: '[data-cy="listing-location"], .offer-item-location, .css-12h460f, .location',
-                area: '.css-1wi9dc7, .offer-item-area, [data-cy="area"], .area, [class*="area"]',
-                rooms: '.css-1wi9dc7, .offer-item-rooms, [data-cy="rooms"], .rooms, [class*="rooms"]'
+                price: '[data-cy="listing-price"], .price, .css-1uwck7i, div.css-1uwck7i > span, [class*="price-container"] > *', // Refined for Imovirtual
+                location: '[data-cy="listing-location"], .css-12h460f, .location',
+                area: '.css-1wi9dc7, [data-cy="area"], .area, [class*="area"]',
+                rooms: '.css-1wi9dc7, [data-cy="rooms"], .rooms, [class*="rooms"]'
             }
         },
         {
@@ -152,19 +123,6 @@ const main = async () => {
             }
         },
         {
-            name: 'Remax Portugal',
-            baseUrl: 'https://www.remax.pt',
-            buildSearchUrl: buildRemaxUrl,
-            selectors: {
-                container: '.property-card, .listing-item, .property-box, .real-estate-item',
-                title: '.property-title, h2 a, h3 a, .listing-title a',
-                price: '.property-price, .price-amount, .listing-price, [class*="price"]',
-                location: '.property-address, .location, .listing-address, [class*="location"]',
-                area: '.property-area, .area, .listing-area, [class*="area"]',
-                rooms: '.property-rooms, .rooms, .tipologia, [class*="bedroom"]'
-            }
-        },
-        {
             name: 'Idealista Portugal',
             baseUrl: 'https://www.idealista.pt',
             buildSearchUrl: buildIdealistaUrl,
@@ -175,7 +133,8 @@ const main = async () => {
                 location: '.item-detail-location, .location, [class*="location"], .listing-address',
                 area: '.item-detail-area, .area, [class*="area"], .listing-area',
                 rooms: '.item-detail-rooms, .rooms, [class*="bedroom"], .tipologia'
-            }
+            },
+            antiBot: true // Flag for potential blocking
         }
     ];
     
@@ -188,7 +147,7 @@ const main = async () => {
                 console.log(`🌐 ${site.name}: ${searchUrl}`);
                 await requestQueue.addRequest({ 
                     url: searchUrl,
-                    userData: { site, criteria: searchCriteria }
+                    userData: { site, criteria: searchCriteria, attempt: 1 }
                 });
             }
         } catch (error) {
@@ -202,13 +161,22 @@ const main = async () => {
         maxConcurrency: 1,
         maxRequestsPerMinute: 2,
         requestHandler: async ({ request, $, response }) => {
-            const { site, criteria } = request.userData;
+            const { site, criteria, attempt } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
             
             if (response.statusCode === 429 || response.statusCode === 403) {
                 console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
+                if (attempt < 3 && site.antiBot) {
+                    const retryDelay = Math.pow(2, attempt) * 5000; // Exponential backoff
+                    console.log(`🔄 Tentando novamente em ${retryDelay/1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, retryDelay));
+                    await requestQueue.addRequest({
+                        url: request.url,
+                        userData: { ...request.userData, attempt: attempt + 1 }
+                    });
+                }
                 return;
             }
             
@@ -265,6 +233,8 @@ const main = async () => {
                     const text = $location.text().trim();
                     if (text && text.length > 2 && text.length < 100 && !text.includes('€') && !text.match(/^\d+$/)) {
                         property.location = text.substring(0, 100);
+                    } else {
+                        console.log(`⚠️ Localização não encontrada para ${property.title.substring(0, 60)}... Verificando: ${$location.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -273,6 +243,8 @@ const main = async () => {
                     const text = $area.text().trim();
                     if (text && text.match(/\d+.*m[²2]/i)) {
                         property.area = text.substring(0, 20);
+                    } else {
+                        console.log(`⚠️ Área não encontrada para ${property.title.substring(0, 60)}... Verificando: ${$area.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
@@ -281,12 +253,14 @@ const main = async () => {
                     const text = $rooms.text().trim();
                     if (text && (text.match(/t\d/i) || text.match(/\d.*quarto/i))) {
                         property.rooms = text.substring(0, 10);
+                    } else {
+                        console.log(`⚠️ Quartos não encontrados para ${property.title.substring(0, 60)}... Verificando: ${$rooms.html() || 'Nenhum HTML'}`);
                     }
                 }
                 
                 if (property.title && property.title.length > 15) { // Relaxed criteria retained
                     properties.push(property);
-                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location})`);
+                    console.log(`🔍 Encontrado: ${property.title.substring(0, 60)}... (Price: ${property.price}, Location: ${property.location}, Area: ${property.area}, Rooms: ${property.rooms})`);
                 }
             });
             
@@ -360,93 +334,3 @@ function parseQuery(query) {
             'funchal', 'viseu', 'leiria', 'santarém', 'beja', 'castelo branco',
             'guarda', 'portalegre', 'vila real', 'bragança', 'viana do castelo',
             'caldas da rainha', 'caldas-da-rainha', 'vila franca de xira', 'vila-franca-de-xira'
-        ];
-        
-        for (const loc of locations) {
-            const locNormalized = loc.replace(/-/g, ' ').toLowerCase();
-            if (queryLower.includes(locNormalized)) {
-                criteria.location = locNormalized.replace(/\s+/g, '-');
-                break;
-            }
-        }
-        
-        // Fallback: Extract any multi-word location if not found in list
-        if (!criteria.location) {
-            const words = queryLower.split(/\s+/);
-            for (let i = 0; i < words.length - 1; i++) {
-                const candidate = (words[i] + ' ' + words[i + 1]).toLowerCase();
-                if (locations.some(loc => loc.replace(/-/g, ' ').toLowerCase().includes(candidate))) {
-                    criteria.location = candidate.replace(/\s+/g, '-');
-                    break;
-                }
-            }
-        }
-    }
-    
-    const conditions = ['novo', 'renovado', 'para renovar', 'usado', 'recente'];
-    for (const cond of conditions) {
-        if (queryLower.includes(cond)) {
-            criteria.condition = cond;
-            break;
-        }
-    }
-    
-    if (queryLower.includes('moradia') || queryLower.includes('casa')) {
-        criteria.type = 'moradia';
-    } else if (queryLower.includes('apartamento') || queryLower.includes('apto')) {
-        criteria.type = 'apartamento';
-    }
-    
-    return criteria;
-}
-
-function isPropertyRelevant(property, criteria) {
-    if (!criteria.location && !criteria.rooms && !criteria.area) {
-        return true;
-    }
-    
-    let relevantCount = 0;
-    let totalCriteria = 0;
-    
-    if (criteria.location) {
-        totalCriteria++;
-        const propLocation = property.location.toLowerCase();
-        const propTitle = property.title.toLowerCase();
-        if (propLocation.includes(criteria.location.toLowerCase().replace(/-/g, ' ')) || propTitle.includes(criteria.location.toLowerCase().replace(/-/g, ' '))) {
-            relevantCount++;
-        }
-    }
-    
-    if (criteria.rooms) {
-        totalCriteria++;
-        const propRooms = property.rooms.toLowerCase();
-        const propTitle = property.title.toLowerCase();
-        const criteriaRooms = criteria.rooms.toLowerCase();
-        const roomNum = parseInt(criteriaRooms.replace('t', ''));
-        
-        const propRoomMatch = propRooms.match(/t(\d+)/i) || propTitle.match(/t(\d+)/i) || propTitle.match(/\d+\s+quartos/i);
-        if (propRoomMatch) {
-            const propRoomNum = parseInt(propRoomMatch[1]) || parseInt(propRoomMatch[0]);
-            if (propRoomNum >= roomNum - 1 && propRoomNum <= roomNum + 1) {
-                relevantCount++;
-            }
-        } else if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
-            relevantCount++;
-        }
-    }
-    
-    if (criteria.area) {
-        totalCriteria++;
-        const areaMatch = property.area.match(/(\d+)/) || property.title.match(/(\d+)\s*m[2²]/i);
-        if (areaMatch) {
-            const propArea = parseInt(areaMatch[1]);
-            if (propArea && Math.abs(propArea - criteria.area) <= 50) {
-                relevantCount++;
-            }
-        }
-    }
-    
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.3;
-}
-
-main().catch(console.error);
