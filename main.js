@@ -282,54 +282,80 @@ const main = async () => {
                 
                 const $el = $(el);
                 
-                // Extrair título - abordagem mais específica para ImóVirtual
+                // Extrair título - abordagem mais robusta
                 let titleFound = false;
                 
-                // Para ImóVirtual, tentar seletores mais específicos primeiro
+                // Para ImóVirtual, vamos tentar uma abordagem diferente
                 if (site.name === 'Imovirtual') {
-                    const specificSelectors = [
-                        'h3 a[href*="/anuncio/"]',
-                        'a[href*="/anuncio/"]',
-                        'h3 a',
-                        'h2 a',
-                        'a[title]'
-                    ];
+                    // Primeiro, procurar por links com href válidos
+                    const links = $el.find('a[href*="/anuncio/"]');
+                    links.each((idx, linkEl) => {
+                        if (titleFound) return;
+                        const $link = $(linkEl);
+                        const href = $link.attr('href');
+                        
+                        // Tentar várias fontes para o título
+                        let title = '';
+                        title = title || $link.attr('title');
+                        title = title || $link.attr('aria-label');
+                        title = title || $link.find('h3').text().trim();
+                        title = title || $link.find('h2').text().trim();
+                        title = title || $link.text().trim();
+                        
+                        // Verificar se é um título válido
+                        if (title && title.length > 10 && 
+                            !title.includes('css-') && 
+                            !title.includes('{') && 
+                            !title.includes('width:') &&
+                            !title.includes('height:') &&
+                            !title.includes('aspect-ratio:')) {
+                            
+                            property.title = title.substring(0, 200);
+                            property.link = href.startsWith('http') ? href : site.baseUrl + href;
+                            titleFound = true;
+                        }
+                    });
                     
-                    for (const selector of specificSelectors) {
-                        if (titleFound) break;
-                        const $title = $el.find(selector).first();
-                        if ($title.length) {
-                            const text = $title.attr('title') || $title.text().trim();
-                            const href = $title.attr('href');
-                            if (text && text.length > 10 && !text.includes('css-') && !text.includes('{') && href) {
-                                property.title = text.substring(0, 200);
+                    // Se não encontrou, tentar extrair do URL do link
+                    if (!titleFound && links.length > 0) {
+                        const $firstLink = $(links[0]);
+                        const href = $firstLink.attr('href');
+                        if (href) {
+                            // Extrair título do URL (ex: /apartamento-t2-centro-foz-arelho -> "Apartamento T2 Centro Foz Arelho")
+                            const urlMatch = href.match(/\/([^\/]+)-ID\w+/);
+                            if (urlMatch) {
+                                const titleFromUrl = urlMatch[1]
+                                    .split('-')
+                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .join(' ');
+                                property.title = titleFromUrl;
                                 property.link = href.startsWith('http') ? href : site.baseUrl + href;
                                 titleFound = true;
-                                break;
                             }
                         }
                     }
                 }
                 
-                // Fallback para outros seletores se não encontrou título específico
+                // Fallback genérico se ainda não encontrou título
                 if (!titleFound) {
-                    const titleSelectors = site.selectors.title.split(', ');
+                    const titleSelectors = ['h3', 'h2', 'h4', 'a[title]', 'a'];
                     for (const selector of titleSelectors) {
                         if (titleFound) break;
-                        const elements = $el.find(selector.trim());
-                        elements.each((idx, titleEl) => {
-                            if (titleFound) return;
-                            const $titleEl = $(titleEl);
-                            const text = $titleEl.attr('title') || $titleEl.text().trim() || $titleEl.attr('aria-label');
-                            if (text && text.length > 10 && !text.includes('css-') && !text.includes('{') && !text.toLowerCase().includes('javascript')) {
+                        const $title = $el.find(selector).first();
+                        if ($title.length) {
+                            const text = $title.attr('title') || $title.text().trim();
+                            const href = $title.attr('href') || $title.closest('a').attr('href');
+                            if (text && text.length > 10 && 
+                                !text.includes('css-') && 
+                                !text.includes('{') &&
+                                !text.includes('width:')) {
                                 property.title = text.substring(0, 200);
-                                const href = $titleEl.attr('href') || $titleEl.closest('a').attr('href');
-                                if (href && href !== '#' && !href.startsWith('javascript')) {
+                                if (href && href !== '#') {
                                     property.link = href.startsWith('http') ? href : site.baseUrl + href;
                                 }
                                 titleFound = true;
                             }
-                        });
+                        }
                     }
                 }
                 
