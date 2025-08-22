@@ -20,7 +20,6 @@ const main = async () => {
     const searchCriteria = parseQuery(query);
     console.log('📋 Critérios extraídos:', searchCriteria);
     
-    // ... [funções buildUrl permanecem iguais] ...
     function buildImovirtualUrl(criteria) {
         let url = 'https://www.imovirtual.com/comprar';
         
@@ -91,30 +90,12 @@ const main = async () => {
         {
             name: 'Imovirtual',
             baseUrl: 'https://www.imovirtual.com',
-            buildSearchUrl: buildImovirtualUrl,
-            // SELETORES MAIS ESPECÍFICOS PARA IMOVIRTUAL
-            selectors: {
-                container: 'article[data-cy="search.listing.organic"]',
-                title: 'h3[data-cy="search.listing.title"] span',
-                price: 'span[data-cy="search.listing.price"]',
-                location: 'span[data-cy="search.listing.location"]',
-                area: 'div[data-cy="search.listing.characteristics"] span:contains("m²")',
-                rooms: 'div[data-cy="search.listing.characteristics"] span:contains("quarto")',
-                link: 'a[data-cy="search.listing.link"]'
-            }
+            buildSearchUrl: buildImovirtualUrl
         },
         {
             name: 'ERA Portugal',
             baseUrl: 'https://www.era.pt',
-            buildSearchUrl: buildEraUrl,
-            selectors: {
-                container: 'div[class*="property"], div[class*="listing"], div[class*="imovel"], div[class*="resultado"], .property-card, .property-item',
-                title: 'a[href*="/imovel/"], a[href*="/propriedade/"], h3 a, h2 a, .property-title a',
-                price: '*[class*="price"], *[class*="valor"], span:contains("€"), div:contains("€")',
-                location: '*[class*="location"], *[class*="address"], *[class*="local"], span[class*="place"]',
-                area: '*[class*="area"], *[class*="surface"], *:contains("m²"), *:contains("m2")',
-                rooms: '*[class*="room"], *[class*="quarto"], *[class*="tipologia"], *:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4")'
-            }
+            buildSearchUrl: buildEraUrl
         }
     ];
     
@@ -163,21 +144,10 @@ const main = async () => {
             console.log(`✅ ${site.name} acessível!`);
             console.log(`📄 Tamanho da página: ${$.html().length} caracteres`);
             
-            const properties = [];
-            
             if (site.name === 'Imovirtual') {
-                properties.push(...extractImovirtualProperties($, site, criteria));
+                await debugImovirtualStructure($, criteria);
             } else {
-                properties.push(...extractGenericProperties($, site, criteria));
-            }
-            
-            const validProperties = properties.filter(prop => validateProperty(prop));
-            const relevantProperties = validProperties.filter(prop => isPropertyRelevant(prop, criteria));
-            
-            console.log(`📊 ${site.name}: ${properties.length} extraídos → ${validProperties.length} válidos → ${relevantProperties.length} relevantes`);
-            
-            if (relevantProperties.length > 0) {
-                await Dataset.pushData(relevantProperties.slice(0, 8));
+                await debugERAStructure($, criteria);
             }
         },
         failedRequestHandler: async ({ request, error }) => {
@@ -188,423 +158,212 @@ const main = async () => {
     console.log('\n🚀 Iniciando scraping...');
     await crawler.run();
     
-    const dataset = await Dataset.open();
-    const data = await dataset.getData();
-    const totalProperties = data.items.length;
-    
-    console.log(`\n🎉 Scraping concluído!`);
-    console.log(`📊 Total de imóveis encontrados: ${totalProperties}`);
-    
-    const bySite = {};
-    data.items.forEach(item => {
-        bySite[item.source] = (bySite[item.source] || 0) + 1;
-    });
-    
-    console.log('\n📈 Resultados por site:');
-    Object.entries(bySite).forEach(([site, count]) => {
-        console.log(`  ${site}: ${count} imóveis`);
-    });
-    
+    console.log(`\n🎉 Debug concluído!`);
     await Actor.exit();
 };
 
-// NOVA FUNÇÃO: Extração específica para ImóVirtual
-function extractImovirtualProperties($, site, criteria) {
-    const properties = [];
+// FUNÇÃO DE DEBUG DETALHADO PARA IMOVIRTUAL
+async function debugImovirtualStructure($, criteria) {
+    console.log('\n🔍 === DEBUG DETALHADO IMOVIRTUAL ===');
     
-    // Tentar primeiro os seletores específicos data-cy
-    let containers = $('article[data-cy="search.listing.organic"]');
+    // Testar vários seletores de container
+    const containerTests = [
+        'article[data-cy="search.listing.organic"]',
+        'article[data-testid="listing-organic"]',
+        'article',
+        'div[class*="offer"]',
+        'div[class*="listing"]',
+        'li[class*="offer"]'
+    ];
     
-    // Fallback para seletores genéricos
-    if (containers.length === 0) {
-        console.log('🔍 Tentando seletores genéricos para ImóVirtual...');
-        containers = $('article, div[class*="offer"], div[class*="listing-item"]');
+    let bestContainer = null;
+    let bestCount = 0;
+    
+    for (const selector of containerTests) {
+        const found = $(selector);
+        console.log(`🔍 Teste container "${selector}": ${found.length} elementos`);
+        
+        if (found.length > bestCount) {
+            bestCount = found.length;
+            bestContainer = selector;
+        }
     }
     
-    console.log(`🔍 Imovirtual: ${containers.length} containers encontrados`);
+    if (!bestContainer || bestCount === 0) {
+        console.log('❌ Nenhum container encontrado!');
+        return;
+    }
     
-    containers.each((i, el) => {
-        if (i >= 15) return; // Limitar resultados
+    console.log(`\n✅ Melhor container: "${bestContainer}" com ${bestCount} elementos`);
+    
+    // Analisar os primeiros 3 elementos
+    const containers = $(bestContainer);
+    
+    for (let i = 0; i < Math.min(3, containers.length); i++) {
+        const $el = $(containers[i]);
         
+        console.log(`\n🏘️ === ANÁLISE DETALHADA DO IMÓVEL ${i + 1} ===`);
+        
+        // 1. ESTRUTURA GERAL
+        console.log('📐 Estrutura do elemento:');
+        console.log(`   - Classe principal: ${$el.attr('class') || 'N/A'}`);
+        console.log(`   - Data attributes: ${Object.keys($el.get(0).attribs || {}).filter(k => k.startsWith('data-')).join(', ') || 'N/A'}`);
+        
+        // 2. ANÁLISE DE LINKS
+        console.log('\n🔗 Links encontrados:');
+        const links = $el.find('a');
+        links.each((j, link) => {
+            const $link = $(link);
+            const href = $link.attr('href');
+            const text = $link.text().trim();
+            if (href && href !== '#' && text.length > 0) {
+                console.log(`   Link ${j + 1}: "${text.substring(0, 50)}" → ${href.substring(0, 50)}`);
+            }
+        });
+        
+        // 3. ANÁLISE DE TEXTOS COM NÚMEROS
+        console.log('\n🔢 Textos com números/símbolos relevantes:');
+        const allText = $el.text();
+        
+        // Procurar preços
+        const priceMatches = allText.match(/\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€/g);
+        if (priceMatches) {
+            console.log(`   💰 Preços encontrados: ${priceMatches.join(', ')}`);
+        }
+        
+        // Procurar áreas
+        const areaMatches = allText.match(/\d+(?:[,\.]\d+)?\s*m[²2]/gi);
+        if (areaMatches) {
+            console.log(`   📐 Áreas encontradas: ${areaMatches.join(', ')}`);
+        }
+        
+        // Procurar quartos/tipologias
+        const roomMatches = allText.match(/T[0-6]|\d+\s*quarto[s]?/gi);
+        if (roomMatches) {
+            console.log(`   🏠 Quartos encontrados: ${roomMatches.join(', ')}`);
+        }
+        
+        // 4. ANÁLISE DE ELEMENTOS FILHOS ESPECÍFICOS
+        console.log('\n🎯 Elementos filhos relevantes:');
+        
+        // Procurar por spans/divs que contenham dados específicos
+        $el.find('span, div').each((j, child) => {
+            const $child = $(child);
+            const text = $child.text().trim();
+            const classes = $child.attr('class') || '';
+            const dataAttrs = Object.keys($child.get(0).attribs || {}).filter(k => k.startsWith('data-'));
+            
+            // Só mostrar elementos com dados úteis
+            if ((text.includes('€') || text.includes('m²') || text.includes('T') || text.includes('quarto')) && text.length < 50) {
+                console.log(`   - "${text}" [classe: ${classes.substring(0, 30)}] [data: ${dataAttrs.join(',')}]`);
+            }
+        });
+        
+        // 5. TENTAR EXTRAIR DADOS COM DIFERENTES ESTRATÉGIAS
+        console.log('\n🎯 TESTE DE EXTRAÇÃO:');
+        
+        // Estratégia 1: Por posição/ordem dos elementos
+        const spanElements = $el.find('span').toArray();
+        console.log(`   📊 Total de spans: ${spanElements.length}`);
+        
+        spanElements.forEach((span, idx) => {
+            const text = $(span).text().trim();
+            if (text && text.length < 100 && (text.includes('€') || text.includes('m²') || text.includes('T') || text.includes('quarto'))) {
+                console.log(`   Span[${idx}]: "${text}"`);
+            }
+        });
+        
+        // Estratégia 2: Por estrutura hierárquica
+        console.log('\n   🌳 Estrutura hierárquica:');
+        $el.children().each((idx, child) => {
+            const $child = $(child);
+            const tag = child.tagName.toLowerCase();
+            const text = $child.text().trim();
+            if (text.length > 0 && text.length < 200) {
+                console.log(`   ${tag}[${idx}]: "${text.substring(0, 100)}"`);
+            }
+        });
+        
+        console.log('\n' + '='.repeat(50));
+    }
+    
+    // 6. SUGESTÕES DE SELETORES
+    console.log('\n💡 SUGESTÕES DE SELETORES BASEADO NA ANÁLISE:');
+    
+    // Procurar padrões comuns
+    const firstElement = $(containers[0]);
+    
+    // Testar seletores data-*
+    const dataSelectors = [];
+    firstElement.find('*[data-cy], *[data-testid], *[data-qa]').each((i, el) => {
         const $el = $(el);
-        const property = extractImovirtualProperty($el, site);
-        
-        if (i < 3) {
-            debugProperty(property, i + 1);
-        }
-        
-        if (property.title && property.title.length > 10) {
-            properties.push(property);
-        }
+        ['data-cy', 'data-testid', 'data-qa'].forEach(attr => {
+            const value = $el.attr(attr);
+            if (value) {
+                dataSelectors.push(`[${attr}="${value}"]`);
+            }
+        });
     });
     
-    return properties;
-}
-
-// NOVA FUNÇÃO: Extração individual do imóvel ImóVirtual
-function extractImovirtualProperty($el, site) {
-    const property = {
-        title: '',
-        price: '',
-        location: '',
-        area: '',
-        rooms: '',
-        link: '',
-        source: site.name,
-        scrapedAt: new Date().toISOString()
-    };
-    
-    // 1. TÍTULO - Abordagem hierárquica
-    property.title = extractTitle($el, site);
-    
-    // 2. LINK - Procurar link principal
-    property.link = extractLink($el, site);
-    
-    // 3. PREÇO - Seletores específicos
-    property.price = extractPrice($el);
-    
-    // 4. LOCALIZAÇÃO - Múltiplas estratégias
-    property.location = extractLocation($el);
-    
-    // 5. ÁREA - Validação rigorosa
-    property.area = extractArea($el);
-    
-    // 6. QUARTOS - Padrões específicos
-    property.rooms = extractRooms($el);
-    
-    return property;
-}
-
-// FUNÇÕES DE EXTRAÇÃO ESPECÍFICAS
-
-function extractTitle($el, site) {
-    // Estratégia 1: Seletores data-cy específicos
-    let title = $el.find('h3[data-cy="search.listing.title"] span').first().text().trim();
-    
-    // Estratégia 2: Seletores h3/h2 genéricos
-    if (!title) {
-        title = $el.find('h3 a, h2 a, h3, h2').first().text().trim();
+    if (dataSelectors.length > 0) {
+        console.log('   🎯 Seletores data-* encontrados:');
+        dataSelectors.slice(0, 10).forEach(sel => {
+            console.log(`      ${sel}`);
+        });
     }
     
-    // Estratégia 3: Atributos title/aria-label
-    if (!title) {
-        const $link = $el.find('a[title], a[aria-label]').first();
-        title = $link.attr('title') || $link.attr('aria-label') || '';
-    }
-    
-    // Estratégia 4: Extrair do URL
-    if (!title || title.length < 10) {
-        const $mainLink = $el.find('a[href*="/anuncio/"]').first();
-        const href = $mainLink.attr('href');
-        if (href) {
-            const urlMatch = href.match(/\/([^\/]+)-ID\w+/);
-            if (urlMatch) {
-                title = urlMatch[1]
-                    .split('-')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
-            }
-        }
-    }
-    
-    // Validação final
-    return isValidTitle(title) ? title : '';
+    console.log('\n✅ Debug ImóVirtual concluído!');
 }
 
-function extractLink($el, site) {
-    const $link = $el.find('a[data-cy="search.listing.link"], a[href*="/anuncio/"]').first();
-    const href = $link.attr('href');
+// FUNÇÃO DE DEBUG PARA ERA
+async function debugERAStructure($, criteria) {
+    console.log('\n🔍 === DEBUG DETALHADO ERA PORTUGAL ===');
     
-    if (!href || href === '#') return '';
+    const containerTests = [
+        'div[class*="property"]',
+        'div[class*="listing"]', 
+        'div[class*="imovel"]',
+        'article',
+        '.property-card',
+        '.listing-item'
+    ];
     
-    return href.startsWith('http') ? href : site.baseUrl + href;
-}
-
-function extractPrice($el) {
-    // Estratégia 1: Seletor específico
-    let price = $el.find('span[data-cy="search.listing.price"]').text().trim();
-    
-    // Estratégia 2: Procurar por padrão de preço
-    if (!price) {
-        const allText = $el.text();
-        const priceMatch = allText.match(/(\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€)/);
-        price = priceMatch ? priceMatch[1] : '';
+    for (const selector of containerTests) {
+        const found = $(selector);
+        console.log(`🔍 Teste container "${selector}": ${found.length} elementos`);
     }
     
-    return price;
-}
-
-function extractLocation($el) {
-    // Estratégia 1: Seletor específico
-    let location = $el.find('span[data-cy="search.listing.location"]').text().trim();
+    // Procurar por qualquer elemento que contenha dados de imóveis
+    console.log('\n🔍 Procurando elementos com dados de imóveis...');
     
-    // Estratégia 2: Elementos com classes relacionadas
-    if (!location) {
-        location = $el.find('*[class*="location"], *[class*="address"]').text().trim();
-    }
+    const elementsWithPrice = $('*:contains("€")').length;
+    const elementsWithArea = $('*:contains("m²")').length;
+    const elementsWithRooms = $('*:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4")').length;
     
-    // Estratégia 3: Procurar cidades conhecidas no texto
-    if (!location) {
-        const allText = $el.text().toLowerCase();
-        const cities = ['caldas da rainha', 'lisboa', 'porto', 'cascais', 'sintra', 'coimbra'];
-        for (const city of cities) {
-            if (allText.includes(city)) {
-                location = city;
-                break;
-            }
-        }
-    }
+    console.log(`   💰 Elementos com preços (€): ${elementsWithPrice}`);
+    console.log(`   📐 Elementos com áreas (m²): ${elementsWithArea}`);
+    console.log(`   🏠 Elementos com tipologias (T1-T4): ${elementsWithRooms}`);
     
-    return location.toLowerCase();
-}
-
-function extractArea($el) {
-    // Estratégia 1: Seletor específico para características
-    let area = '';
-    
-    $el.find('div[data-cy="search.listing.characteristics"] span').each((i, span) => {
-        const text = $(span).text().trim();
-        // Procurar padrão mais específico: número seguido de m²
-        const match = text.match(/^(\d{1,4}(?:[,.]\d+)?)\s*m[²2]$/i);
-        if (match && !area) {
-            const areaNum = parseInt(match[1].replace(',', '.'));
-            // Validar se a área faz sentido (5-1000m²)
-            if (areaNum >= 5 && areaNum <= 1000) {
-                area = match[0];
-            }
-        }
-    });
-    
-    // Estratégia 2: Procurar em todo o elemento
-    if (!area) {
-        const allText = $el.text();
-        const matches = allText.match(/(\d{1,4}(?:[,.]\d+)?)\s*m[²2]/gi);
-        if (matches) {
-            // Pegar a área que faz mais sentido (maior que 15m²)
-            for (const match of matches) {
-                const areaNum = parseInt(match.replace(/[^\d]/g, ''));
-                if (areaNum >= 15 && areaNum <= 1000) {
-                    area = match;
-                    break;
-                }
-            }
-        }
-    }
-    
-    return area;
-}
-
-function extractRooms($el) {
-    // Estratégia 1: Procurar em características
-    let rooms = '';
-    
-    $el.find('div[data-cy="search.listing.characteristics"] span').each((i, span) => {
-        const text = $(span).text().trim();
+    if (elementsWithPrice > 0 || elementsWithArea > 0 || elementsWithRooms > 0) {
+        console.log('\n🎯 ERA tem dados de imóveis, mas os containers não estão sendo detectados!');
         
-        // Padrão 1: "N quarto(s)"
-        const roomMatch = text.match(/(\d+)\s*quarto[s]?/i);
-        if (roomMatch && !rooms) {
-            rooms = `T${roomMatch[1]}`;
-            return;
-        }
-        
-        // Padrão 2: "TN"
-        const tMatch = text.match(/^T(\d+)$/i);
-        if (tMatch && !rooms) {
-            rooms = tMatch[0].toUpperCase();
-            return;
-        }
-    });
-    
-    // Estratégia 2: Procurar no título
-    if (!rooms) {
-        const titleText = $el.find('h3, h2').text();
-        const tMatch = titleText.match(/T(\d+)/i);
-        if (tMatch) {
-            rooms = tMatch[0].toUpperCase();
-        }
-    }
-    
-    // Estratégia 3: Procurar em todo o elemento
-    if (!rooms) {
-        const allText = $el.text();
-        const tMatch = allText.match(/T([0-6])/i);
-        if (tMatch) {
-            rooms = tMatch[0].toUpperCase();
-        }
-    }
-    
-    return rooms;
-}
-
-// FUNÇÃO DE EXTRAÇÃO GENÉRICA (para outros sites)
-function extractGenericProperties($, site, criteria) {
-    const properties = [];
-    
-    const containerSelectors = site.selectors.container.split(', ');
-    let containers = $();
-    
-    for (const selector of containerSelectors) {
-        const found = $(selector.trim());
-        if (found.length > 0) {
-            containers = found;
-            break;
-        }
-    }
-    
-    console.log(`🔍 ${site.name}: ${containers.length} containers encontrados`);
-    
-    containers.each((i, el) => {
-        if (i >= 10) return;
-        
-        const $el = $(el);
-        const property = {
-            title: $el.find(site.selectors.title).first().text().trim(),
-            price: extractGenericPrice($el),
-            location: $el.find(site.selectors.location).first().text().trim().toLowerCase(),
-            area: extractGenericArea($el),
-            rooms: extractGenericRooms($el),
-            link: extractGenericLink($el, site),
-            source: site.name,
-            scrapedAt: new Date().toISOString()
-        };
-        
-        if (property.title && property.title.length > 10) {
-            properties.push(property);
-        }
-    });
-    
-    return properties;
-}
-
-// FUNÇÕES DE EXTRAÇÃO GENÉRICAS
-function extractGenericPrice($el) {
-    const allText = $el.text();
-    const priceMatch = allText.match(/(\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€)/);
-    return priceMatch ? priceMatch[1] : '';
-}
-
-function extractGenericArea($el) {
-    const allText = $el.text();
-    const matches = allText.match(/(\d{1,4}(?:[,.]\d+)?)\s*m[²2]/gi);
-    if (matches) {
-        for (const match of matches) {
-            const areaNum = parseInt(match.replace(/[^\d]/g, ''));
-            if (areaNum >= 15 && areaNum <= 1000) {
-                return match;
+        // Mostrar alguns elementos que contêm dados
+        $('*:contains("€")').slice(0, 5).each((i, el) => {
+            const $el = $(el);
+            const text = $el.text().trim();
+            const tag = el.tagName.toLowerCase();
+            const classes = $el.attr('class') || '';
+            if (text.length < 100) {
+                console.log(`   💰 ${tag}.${classes}: "${text}"`);
             }
-        }
-    }
-    return '';
-}
-
-function extractGenericRooms($el) {
-    const allText = $el.text();
-    const tMatch = allText.match(/T([0-6])/i);
-    return tMatch ? tMatch[0].toUpperCase() : '';
-}
-
-function extractGenericLink($el, site) {
-    const $link = $el.find('a').first();
-    const href = $link.attr('href');
-    if (!href || href === '#') return '';
-    return href.startsWith('http') ? href : site.baseUrl + href;
-}
-
-// FUNÇÕES DE VALIDAÇÃO
-
-function isValidTitle(title) {
-    return title && 
-           title.length > 10 && 
-           !title.includes('css-') &&
-           !title.includes('{') &&
-           !title.includes('width:') &&
-           !title.includes('height:') &&
-           !title.includes('aspect-ratio:');
-}
-
-function validateProperty(property) {
-    // Validações básicas
-    if (!property.title || property.title.length < 10) return false;
-    if (!isValidTitle(property.title)) return false;
-    
-    // Pelo menos um dos campos importantes deve estar preenchido
-    const hasPrice = property.price && property.price.includes('€');
-    const hasLink = property.link && property.link.length > 10;
-    const hasArea = property.area && property.area.includes('m');
-    const hasRooms = property.rooms && property.rooms.match(/^T[0-6]$/);
-    
-    return hasPrice || hasLink || (hasArea && hasRooms);
-}
-
-function isPropertyRelevant(property, criteria) {
-    if (!criteria.location && !criteria.rooms && !criteria.area) {
-        return true;
+        });
+    } else {
+        console.log('❌ ERA não tem dados de imóveis detectáveis ou página diferente do esperado');
     }
     
-    let matches = 0;
-    let totalCriteria = 0;
-    
-    // Verificar localização - MAIS RESTRITIVO
-    if (criteria.location) {
-        totalCriteria++;
-        const normalizedLocation = normalizeText(criteria.location);
-        const propLocation = normalizeText(property.location);
-        const propTitle = normalizeText(property.title);
-        
-        if (propLocation.includes(normalizedLocation) || propTitle.includes(normalizedLocation)) {
-            matches++;
-        }
-    }
-    
-    // Verificar quartos - EXATO
-    if (criteria.rooms) {
-        totalCriteria++;
-        if (property.rooms === criteria.rooms) {
-            matches++;
-        }
-    }
-    
-    // Verificar área - RANGE MAIS RESTRITO
-    if (criteria.area) {
-        totalCriteria++;
-        const areaMatch = property.area.match(/(\d+)/);
-        if (areaMatch) {
-            const propArea = parseInt(areaMatch[1]);
-            // Range mais restrito: ±15m²
-            if (Math.abs(propArea - criteria.area) <= 15) {
-                matches++;
-            }
-        }
-    }
-    
-    // MAIS RESTRITIVO: Precisa de pelo menos 80% de matches
-    return totalCriteria === 0 || (matches / totalCriteria) >= 0.8;
+    console.log('\n✅ Debug ERA concluído!');
 }
 
-// FUNÇÕES AUXILIARES
-
-function normalizeText(text) {
-    return text.toLowerCase()
-        .replace(/[áàãâ]/g, 'a')
-        .replace(/[éê]/g, 'e')
-        .replace(/[íî]/g, 'i')
-        .replace(/[óôõ]/g, 'o')
-        .replace(/[úü]/g, 'u')
-        .replace(/ç/g, 'c');
-}
-
-function debugProperty(property, index) {
-    console.log(`🏘️ Debug imóvel ${index}:`);
-    console.log(`   📝 Título: "${property.title}"`);
-    console.log(`   💰 Preço: "${property.price}"`);
-    console.log(`   📍 Local: "${property.location}"`);
-    console.log(`   📐 Área: "${property.area}"`);
-    console.log(`   🏠 Quartos: "${property.rooms}"`);
-    console.log(`   🔗 Link: "${property.link}"`);
-}
-
-// FUNÇÃO parseQuery permanece igual
 function parseQuery(query) {
     const criteria = {
         location: '',
