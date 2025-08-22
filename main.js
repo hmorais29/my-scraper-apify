@@ -20,6 +20,7 @@ const main = async () => {
     const searchCriteria = parseQuery(query);
     console.log('📋 Critérios extraídos:', searchCriteria);
     
+    // ... [funções buildUrl permanecem iguais] ...
     function buildImovirtualUrl(criteria) {
         let url = 'https://www.imovirtual.com/comprar';
         
@@ -86,58 +87,20 @@ const main = async () => {
         return url;
     }
 
-    function buildIdealistaUrl(criteria) {
-        let url = 'https://www.idealista.pt/comprar-casas';
-        
-        if (criteria.location) {
-            const locationSlug = criteria.location.toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/ã/g, 'a')
-                .replace(/õ/g, 'o')
-                .replace(/á/g, 'a')
-                .replace(/é/g, 'e')
-                .replace(/í/g, 'i')
-                .replace(/ó/g, 'o')
-                .replace(/ú/g, 'u')
-                .replace(/ç/g, 'c');
-            url += `/${locationSlug}`;
-        }
-        
-        const params = new URLSearchParams();
-        
-        if (criteria.type === 'apartamento') {
-            params.append('tipologia', 'apartamentos');
-        } else if (criteria.type === 'moradia') {
-            params.append('tipologia', 'moradias');
-        }
-        
-        if (criteria.rooms) {
-            const roomNum = criteria.rooms.replace('T', '');
-            params.append('quartos', roomNum);
-        }
-        
-        if (criteria.area) {
-            params.append('area_min', Math.max(1, criteria.area - 20));
-            params.append('area_max', criteria.area + 20);
-        }
-        
-        const queryString = params.toString();
-        return queryString ? `${url}?${queryString}` : url;
-    }
-
     const propertySites = [
         {
             name: 'Imovirtual',
             baseUrl: 'https://www.imovirtual.com',
             buildSearchUrl: buildImovirtualUrl,
+            // SELETORES MAIS ESPECÍFICOS PARA IMOVIRTUAL
             selectors: {
-                // Seletores mais genéricos baseados no que sabemos que funciona
-                container: 'article, div[data-cy*="listing"], div[class*="offer"], div[class*="property"], div[class*="item"], li[class*="result"]',
-                title: 'a[title], h1 a, h2 a, h3 a, h4 a, a[class*="title"], a[class*="link"], [data-cy*="link"] a',
-                price: '*[class*="price"], *[data-cy*="price"], span:contains("€"), div:contains("€")',
-                location: '*[class*="location"], *[class*="address"], *[data-cy*="location"], span[class*="place"]',
-                area: '*[class*="area"], *[class*="surface"], *:contains("m²"), *:contains("m2")',
-                rooms: '*[class*="room"], *[class*="bed"], *:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4"), *:contains("T5")'
+                container: 'article[data-cy="search.listing.organic"]',
+                title: 'h3[data-cy="search.listing.title"] span',
+                price: 'span[data-cy="search.listing.price"]',
+                location: 'span[data-cy="search.listing.location"]',
+                area: 'div[data-cy="search.listing.characteristics"] span:contains("m²")',
+                rooms: 'div[data-cy="search.listing.characteristics"] span:contains("quarto")',
+                link: 'a[data-cy="search.listing.link"]'
             }
         },
         {
@@ -145,7 +108,6 @@ const main = async () => {
             baseUrl: 'https://www.era.pt',
             buildSearchUrl: buildEraUrl,
             selectors: {
-                // Seletores específicos para imóveis, não navegação
                 container: 'div[class*="property"], div[class*="listing"], div[class*="imovel"], div[class*="resultado"], .property-card, .property-item',
                 title: 'a[href*="/imovel/"], a[href*="/propriedade/"], h3 a, h2 a, .property-title a',
                 price: '*[class*="price"], *[class*="valor"], span:contains("€"), div:contains("€")',
@@ -153,20 +115,7 @@ const main = async () => {
                 area: '*[class*="area"], *[class*="surface"], *:contains("m²"), *:contains("m2")',
                 rooms: '*[class*="room"], *[class*="quarto"], *[class*="tipologia"], *:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4")'
             }
-        },
-        // {
-        //     name: 'Idealista Portugal',
-        //     baseUrl: 'https://www.idealista.pt',
-        //     buildSearchUrl: buildIdealistaUrl,
-        //     selectors: {
-        //         container: 'div[class*="item"], article, div[class*="property"], div[class*="listing"]',
-        //         title: 'a[class*="item-link"], a[title], h1 a, h2 a, h3 a, a[class*="title"]',
-        //         price: '*[class*="price"], span:contains("€"), div:contains("€")',
-        //         location: '*[class*="location"], *[class*="address"], *[class*="zone"]',
-        //         area: '*[class*="area"], *[class*="surface"], *:contains("m²"), *:contains("m2")',
-        //         rooms: '*[class*="room"], *[class*="bed"], *:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4")'
-        //     }
-        // }
+        }
     ];
     
     const requestQueue = await RequestQueue.open();
@@ -200,25 +149,11 @@ const main = async () => {
         maxConcurrency: 1,
         maxRequestsPerMinute: 1,
         requestHandlerTimeoutSecs: 60,
-        preNavigationHooks: [
-            async ({ request }) => {
-                // Adicionar delay extra para Idealista
-                if (request.url.includes('idealista.pt')) {
-                    console.log('⏳ Aguardando 5 segundos extra para Idealista...');
-                    await new Promise(resolve => setTimeout(resolve, 5000));
-                }
-            }
-        ],
         requestHandler: async ({ request, $, response }) => {
             const { site, criteria } = request.userData;
             
             console.log(`\n🏠 Processando ${site.name}...`);
             console.log(`📊 Status: ${response.statusCode}`);
-            
-            if (response.statusCode === 429 || response.statusCode === 403) {
-                console.log(`🚫 ${site.name} bloqueou o request (${response.statusCode})`);
-                return;
-            }
             
             if (response.statusCode !== 200) {
                 console.log(`❌ ${site.name} - Status: ${response.statusCode}`);
@@ -226,223 +161,23 @@ const main = async () => {
             }
             
             console.log(`✅ ${site.name} acessível!`);
-            
-            // Debug mais detalhado
             console.log(`📄 Tamanho da página: ${$.html().length} caracteres`);
-            console.log(`🔍 A procurar containers com: ${site.selectors.container}`);
             
             const properties = [];
             
-            // Testar cada seletor de container separadamente
-            const containerSelectors = site.selectors.container.split(', ');
-            let containers = $();
-            
-            for (const selector of containerSelectors) {
-                const found = $(selector.trim());
-                console.log(`   - "${selector.trim()}": ${found.length} elementos`);
-                if (found.length > 0) {
-                    containers = found;
-                    break;
-                }
-            }
-            
-            console.log(`🔍 ${site.name}: Total containers encontrados: ${containers.length}`);
-            
-            // Se não encontrou containers, vamos fazer debug genérico
-            if (containers.length === 0) {
-                console.log('🔍 Fazendo debug genérico...');
-                const commonSelectors = ['article', 'div[class*="item"]', 'div[class*="property"]', 'div[class*="listing"]', 'li'];
-                for (const selector of commonSelectors) {
-                    const found = $(selector);
-                    if (found.length > 0) {
-                        console.log(`   Encontrado ${found.length} elementos com "${selector}"`);
-                        // Mostrar algumas classes dos primeiros elementos
-                        found.slice(0, 3).each((i, el) => {
-                            const classes = $(el).attr('class') || 'sem classes';
-                            console.log(`      Elemento ${i}: ${classes}`);
-                        });
-                    }
-                }
-            }
-            
-            containers.each((i, el) => {
-                if (i >= 10) return; // Limitar a 10 resultados por site
-                
-                const property = {
-                    title: '',
-                    price: '',
-                    location: '',
-                    area: '',
-                    rooms: '',
-                    link: '',
-                    source: site.name,
-                    sourceUrl: request.url,
-                    scrapedAt: new Date().toISOString()
-                };
-                
-                const $el = $(el);
-                
-                // Extrair título - abordagem mais robusta
-                let titleFound = false;
-                
-                // Para ImóVirtual, vamos tentar uma abordagem diferente
-                if (site.name === 'Imovirtual') {
-                    // Primeiro, procurar por links com href válidos
-                    const links = $el.find('a[href*="/anuncio/"]');
-                    links.each((idx, linkEl) => {
-                        if (titleFound) return;
-                        const $link = $(linkEl);
-                        const href = $link.attr('href');
-                        
-                        // Tentar várias fontes para o título
-                        let title = '';
-                        title = title || $link.attr('title');
-                        title = title || $link.attr('aria-label');
-                        title = title || $link.find('h3').text().trim();
-                        title = title || $link.find('h2').text().trim();
-                        title = title || $link.text().trim();
-                        
-                        // Verificar se é um título válido
-                        if (title && title.length > 10 && 
-                            !title.includes('css-') && 
-                            !title.includes('{') && 
-                            !title.includes('width:') &&
-                            !title.includes('height:') &&
-                            !title.includes('aspect-ratio:')) {
-                            
-                            property.title = title.substring(0, 200);
-                            property.link = href.startsWith('http') ? href : site.baseUrl + href;
-                            titleFound = true;
-                        }
-                    });
-                    
-                    // Se não encontrou, tentar extrair do URL do link
-                    if (!titleFound && links.length > 0) {
-                        const $firstLink = $(links[0]);
-                        const href = $firstLink.attr('href');
-                        if (href) {
-                            // Extrair título do URL (ex: /apartamento-t2-centro-foz-arelho -> "Apartamento T2 Centro Foz Arelho")
-                            const urlMatch = href.match(/\/([^\/]+)-ID\w+/);
-                            if (urlMatch) {
-                                const titleFromUrl = urlMatch[1]
-                                    .split('-')
-                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                    .join(' ');
-                                property.title = titleFromUrl;
-                                property.link = href.startsWith('http') ? href : site.baseUrl + href;
-                                titleFound = true;
-                            }
-                        }
-                    }
-                }
-                
-                // Fallback genérico se ainda não encontrou título
-                if (!titleFound) {
-                    const titleSelectors = ['h3', 'h2', 'h4', 'a[title]', 'a'];
-                    for (const selector of titleSelectors) {
-                        if (titleFound) break;
-                        const $title = $el.find(selector).first();
-                        if ($title.length) {
-                            const text = $title.attr('title') || $title.text().trim();
-                            const href = $title.attr('href') || $title.closest('a').attr('href');
-                            if (text && text.length > 10 && 
-                                !text.includes('css-') && 
-                                !text.includes('{') &&
-                                !text.includes('width:')) {
-                                property.title = text.substring(0, 200);
-                                if (href && href !== '#') {
-                                    property.link = href.startsWith('http') ? href : site.baseUrl + href;
-                                }
-                                titleFound = true;
-                            }
-                        }
-                    }
-                }
-                
-                // Se não encontrou título, procurar qualquer link
-                if (!titleFound) {
-                    const anyLink = $el.find('a').first();
-                    if (anyLink.length) {
-                        const text = anyLink.text().trim();
-                        if (text && text.length > 5) {
-                            property.title = text.substring(0, 200);
-                            const href = anyLink.attr('href');
-                            if (href && href !== '#') {
-                                property.link = href.startsWith('http') ? href : site.baseUrl + href;
-                            }
-                        }
-                    }
-                }
-                
-                // Extrair preço - procurar por texto com €
-                const allText = $el.text();
-                const priceMatch = allText.match(/(\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€)/);
-                if (priceMatch) {
-                    property.price = priceMatch[1];
-                }
-                
-                // Extrair área - melhorar regex para capturar decimais
-                const areaMatch = allText.match(/(\d+(?:[,\.]\d+)?\s*m[²2])/i);
-                if (areaMatch) {
-                    property.area = areaMatch[1];
-                }
-                
-                // Extrair quartos - melhorar regex e procurar em locais específicos
-                let roomsMatch = allText.match(/(T[0-9]+)/i);
-                if (roomsMatch) {
-                    property.rooms = roomsMatch[1].toUpperCase();
-                } else {
-                    // Procurar padrões alternativos como "2 quartos", "3 assoalhadas"
-                    const altRoomsMatch = allText.match(/(\d+)\s*(?:quartos?|assoalhadas?)/i);
-                    if (altRoomsMatch) {
-                        property.rooms = `T${altRoomsMatch[1]}`;
-                    }
-                }
-                
-                // Tentar extrair localização do texto geral
-                if (!property.location) {
-                    // Procurar por nomes de cidades conhecidas no texto
-                    const locations = ['lisboa', 'porto', 'cascais', 'sintra', 'caldas da rainha', 'coimbra', 'braga'];
-                    for (const loc of locations) {
-                        if (allText.toLowerCase().includes(loc)) {
-                            property.location = loc;
-                            break;
-                        }
-                    }
-                }
-                
-                // Debug individual do imóvel
-                if (i < 3) { // Mostrar debug apenas dos primeiros 3
-                    console.log(`🏘️ Debug imóvel ${i + 1}:`);
-                    console.log(`   📝 Título: "${property.title}"`);
-                    console.log(`   💰 Preço: "${property.price}"`);
-                    console.log(`   📍 Local: "${property.location}"`);
-                    console.log(`   📐 Área: "${property.area}"`);
-                    console.log(`   🏠 Quartos: "${property.rooms}"`);
-                    console.log(`   🔗 Link: "${property.link}"`);
-                }
-                
-                // Verificar se temos dados mínimos e válidos
-                const isValidProperty = (
-                    property.title && 
-                    property.title.length > 15 && 
-                    !property.title.includes('css-') &&
-                    !property.title.includes('{') &&
-                    (property.price || property.link) // Pelo menos preço OU link
-                );
-                
-                if (isValidProperty) {
-                    properties.push(property);
-                }
-            });
-            
-            const filteredProperties = properties.filter(prop => isPropertyRelevant(prop, criteria));
-            
-            if (filteredProperties.length > 0) {
-                console.log(`📊 ${site.name}: ${filteredProperties.length} imóveis relevantes encontrados`);
-                await Dataset.pushData(filteredProperties.slice(0, 8));
+            if (site.name === 'Imovirtual') {
+                properties.push(...extractImovirtualProperties($, site, criteria));
             } else {
-                console.log(`❌ ${site.name}: Nenhum imóvel relevante encontrado`);
+                properties.push(...extractGenericProperties($, site, criteria));
+            }
+            
+            const validProperties = properties.filter(prop => validateProperty(prop));
+            const relevantProperties = validProperties.filter(prop => isPropertyRelevant(prop, criteria));
+            
+            console.log(`📊 ${site.name}: ${properties.length} extraídos → ${validProperties.length} válidos → ${relevantProperties.length} relevantes`);
+            
+            if (relevantProperties.length > 0) {
+                await Dataset.pushData(relevantProperties.slice(0, 8));
             }
         },
         failedRequestHandler: async ({ request, error }) => {
@@ -473,6 +208,403 @@ const main = async () => {
     await Actor.exit();
 };
 
+// NOVA FUNÇÃO: Extração específica para ImóVirtual
+function extractImovirtualProperties($, site, criteria) {
+    const properties = [];
+    
+    // Tentar primeiro os seletores específicos data-cy
+    let containers = $('article[data-cy="search.listing.organic"]');
+    
+    // Fallback para seletores genéricos
+    if (containers.length === 0) {
+        console.log('🔍 Tentando seletores genéricos para ImóVirtual...');
+        containers = $('article, div[class*="offer"], div[class*="listing-item"]');
+    }
+    
+    console.log(`🔍 Imovirtual: ${containers.length} containers encontrados`);
+    
+    containers.each((i, el) => {
+        if (i >= 15) return; // Limitar resultados
+        
+        const $el = $(el);
+        const property = extractImovirtualProperty($el, site);
+        
+        if (i < 3) {
+            debugProperty(property, i + 1);
+        }
+        
+        if (property.title && property.title.length > 10) {
+            properties.push(property);
+        }
+    });
+    
+    return properties;
+}
+
+// NOVA FUNÇÃO: Extração individual do imóvel ImóVirtual
+function extractImovirtualProperty($el, site) {
+    const property = {
+        title: '',
+        price: '',
+        location: '',
+        area: '',
+        rooms: '',
+        link: '',
+        source: site.name,
+        scrapedAt: new Date().toISOString()
+    };
+    
+    // 1. TÍTULO - Abordagem hierárquica
+    property.title = extractTitle($el, site);
+    
+    // 2. LINK - Procurar link principal
+    property.link = extractLink($el, site);
+    
+    // 3. PREÇO - Seletores específicos
+    property.price = extractPrice($el);
+    
+    // 4. LOCALIZAÇÃO - Múltiplas estratégias
+    property.location = extractLocation($el);
+    
+    // 5. ÁREA - Validação rigorosa
+    property.area = extractArea($el);
+    
+    // 6. QUARTOS - Padrões específicos
+    property.rooms = extractRooms($el);
+    
+    return property;
+}
+
+// FUNÇÕES DE EXTRAÇÃO ESPECÍFICAS
+
+function extractTitle($el, site) {
+    // Estratégia 1: Seletores data-cy específicos
+    let title = $el.find('h3[data-cy="search.listing.title"] span').first().text().trim();
+    
+    // Estratégia 2: Seletores h3/h2 genéricos
+    if (!title) {
+        title = $el.find('h3 a, h2 a, h3, h2').first().text().trim();
+    }
+    
+    // Estratégia 3: Atributos title/aria-label
+    if (!title) {
+        const $link = $el.find('a[title], a[aria-label]').first();
+        title = $link.attr('title') || $link.attr('aria-label') || '';
+    }
+    
+    // Estratégia 4: Extrair do URL
+    if (!title || title.length < 10) {
+        const $mainLink = $el.find('a[href*="/anuncio/"]').first();
+        const href = $mainLink.attr('href');
+        if (href) {
+            const urlMatch = href.match(/\/([^\/]+)-ID\w+/);
+            if (urlMatch) {
+                title = urlMatch[1]
+                    .split('-')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+        }
+    }
+    
+    // Validação final
+    return isValidTitle(title) ? title : '';
+}
+
+function extractLink($el, site) {
+    const $link = $el.find('a[data-cy="search.listing.link"], a[href*="/anuncio/"]').first();
+    const href = $link.attr('href');
+    
+    if (!href || href === '#') return '';
+    
+    return href.startsWith('http') ? href : site.baseUrl + href;
+}
+
+function extractPrice($el) {
+    // Estratégia 1: Seletor específico
+    let price = $el.find('span[data-cy="search.listing.price"]').text().trim();
+    
+    // Estratégia 2: Procurar por padrão de preço
+    if (!price) {
+        const allText = $el.text();
+        const priceMatch = allText.match(/(\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€)/);
+        price = priceMatch ? priceMatch[1] : '';
+    }
+    
+    return price;
+}
+
+function extractLocation($el) {
+    // Estratégia 1: Seletor específico
+    let location = $el.find('span[data-cy="search.listing.location"]').text().trim();
+    
+    // Estratégia 2: Elementos com classes relacionadas
+    if (!location) {
+        location = $el.find('*[class*="location"], *[class*="address"]').text().trim();
+    }
+    
+    // Estratégia 3: Procurar cidades conhecidas no texto
+    if (!location) {
+        const allText = $el.text().toLowerCase();
+        const cities = ['caldas da rainha', 'lisboa', 'porto', 'cascais', 'sintra', 'coimbra'];
+        for (const city of cities) {
+            if (allText.includes(city)) {
+                location = city;
+                break;
+            }
+        }
+    }
+    
+    return location.toLowerCase();
+}
+
+function extractArea($el) {
+    // Estratégia 1: Seletor específico para características
+    let area = '';
+    
+    $el.find('div[data-cy="search.listing.characteristics"] span').each((i, span) => {
+        const text = $(span).text().trim();
+        // Procurar padrão mais específico: número seguido de m²
+        const match = text.match(/^(\d{1,4}(?:[,.]\d+)?)\s*m[²2]$/i);
+        if (match && !area) {
+            const areaNum = parseInt(match[1].replace(',', '.'));
+            // Validar se a área faz sentido (5-1000m²)
+            if (areaNum >= 5 && areaNum <= 1000) {
+                area = match[0];
+            }
+        }
+    });
+    
+    // Estratégia 2: Procurar em todo o elemento
+    if (!area) {
+        const allText = $el.text();
+        const matches = allText.match(/(\d{1,4}(?:[,.]\d+)?)\s*m[²2]/gi);
+        if (matches) {
+            // Pegar a área que faz mais sentido (maior que 15m²)
+            for (const match of matches) {
+                const areaNum = parseInt(match.replace(/[^\d]/g, ''));
+                if (areaNum >= 15 && areaNum <= 1000) {
+                    area = match;
+                    break;
+                }
+            }
+        }
+    }
+    
+    return area;
+}
+
+function extractRooms($el) {
+    // Estratégia 1: Procurar em características
+    let rooms = '';
+    
+    $el.find('div[data-cy="search.listing.characteristics"] span').each((i, span) => {
+        const text = $(span).text().trim();
+        
+        // Padrão 1: "N quarto(s)"
+        const roomMatch = text.match(/(\d+)\s*quarto[s]?/i);
+        if (roomMatch && !rooms) {
+            rooms = `T${roomMatch[1]}`;
+            return;
+        }
+        
+        // Padrão 2: "TN"
+        const tMatch = text.match(/^T(\d+)$/i);
+        if (tMatch && !rooms) {
+            rooms = tMatch[0].toUpperCase();
+            return;
+        }
+    });
+    
+    // Estratégia 2: Procurar no título
+    if (!rooms) {
+        const titleText = $el.find('h3, h2').text();
+        const tMatch = titleText.match(/T(\d+)/i);
+        if (tMatch) {
+            rooms = tMatch[0].toUpperCase();
+        }
+    }
+    
+    // Estratégia 3: Procurar em todo o elemento
+    if (!rooms) {
+        const allText = $el.text();
+        const tMatch = allText.match(/T([0-6])/i);
+        if (tMatch) {
+            rooms = tMatch[0].toUpperCase();
+        }
+    }
+    
+    return rooms;
+}
+
+// FUNÇÃO DE EXTRAÇÃO GENÉRICA (para outros sites)
+function extractGenericProperties($, site, criteria) {
+    const properties = [];
+    
+    const containerSelectors = site.selectors.container.split(', ');
+    let containers = $();
+    
+    for (const selector of containerSelectors) {
+        const found = $(selector.trim());
+        if (found.length > 0) {
+            containers = found;
+            break;
+        }
+    }
+    
+    console.log(`🔍 ${site.name}: ${containers.length} containers encontrados`);
+    
+    containers.each((i, el) => {
+        if (i >= 10) return;
+        
+        const $el = $(el);
+        const property = {
+            title: $el.find(site.selectors.title).first().text().trim(),
+            price: extractGenericPrice($el),
+            location: $el.find(site.selectors.location).first().text().trim().toLowerCase(),
+            area: extractGenericArea($el),
+            rooms: extractGenericRooms($el),
+            link: extractGenericLink($el, site),
+            source: site.name,
+            scrapedAt: new Date().toISOString()
+        };
+        
+        if (property.title && property.title.length > 10) {
+            properties.push(property);
+        }
+    });
+    
+    return properties;
+}
+
+// FUNÇÕES DE EXTRAÇÃO GENÉRICAS
+function extractGenericPrice($el) {
+    const allText = $el.text();
+    const priceMatch = allText.match(/(\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€)/);
+    return priceMatch ? priceMatch[1] : '';
+}
+
+function extractGenericArea($el) {
+    const allText = $el.text();
+    const matches = allText.match(/(\d{1,4}(?:[,.]\d+)?)\s*m[²2]/gi);
+    if (matches) {
+        for (const match of matches) {
+            const areaNum = parseInt(match.replace(/[^\d]/g, ''));
+            if (areaNum >= 15 && areaNum <= 1000) {
+                return match;
+            }
+        }
+    }
+    return '';
+}
+
+function extractGenericRooms($el) {
+    const allText = $el.text();
+    const tMatch = allText.match(/T([0-6])/i);
+    return tMatch ? tMatch[0].toUpperCase() : '';
+}
+
+function extractGenericLink($el, site) {
+    const $link = $el.find('a').first();
+    const href = $link.attr('href');
+    if (!href || href === '#') return '';
+    return href.startsWith('http') ? href : site.baseUrl + href;
+}
+
+// FUNÇÕES DE VALIDAÇÃO
+
+function isValidTitle(title) {
+    return title && 
+           title.length > 10 && 
+           !title.includes('css-') &&
+           !title.includes('{') &&
+           !title.includes('width:') &&
+           !title.includes('height:') &&
+           !title.includes('aspect-ratio:');
+}
+
+function validateProperty(property) {
+    // Validações básicas
+    if (!property.title || property.title.length < 10) return false;
+    if (!isValidTitle(property.title)) return false;
+    
+    // Pelo menos um dos campos importantes deve estar preenchido
+    const hasPrice = property.price && property.price.includes('€');
+    const hasLink = property.link && property.link.length > 10;
+    const hasArea = property.area && property.area.includes('m');
+    const hasRooms = property.rooms && property.rooms.match(/^T[0-6]$/);
+    
+    return hasPrice || hasLink || (hasArea && hasRooms);
+}
+
+function isPropertyRelevant(property, criteria) {
+    if (!criteria.location && !criteria.rooms && !criteria.area) {
+        return true;
+    }
+    
+    let matches = 0;
+    let totalCriteria = 0;
+    
+    // Verificar localização - MAIS RESTRITIVO
+    if (criteria.location) {
+        totalCriteria++;
+        const normalizedLocation = normalizeText(criteria.location);
+        const propLocation = normalizeText(property.location);
+        const propTitle = normalizeText(property.title);
+        
+        if (propLocation.includes(normalizedLocation) || propTitle.includes(normalizedLocation)) {
+            matches++;
+        }
+    }
+    
+    // Verificar quartos - EXATO
+    if (criteria.rooms) {
+        totalCriteria++;
+        if (property.rooms === criteria.rooms) {
+            matches++;
+        }
+    }
+    
+    // Verificar área - RANGE MAIS RESTRITO
+    if (criteria.area) {
+        totalCriteria++;
+        const areaMatch = property.area.match(/(\d+)/);
+        if (areaMatch) {
+            const propArea = parseInt(areaMatch[1]);
+            // Range mais restrito: ±15m²
+            if (Math.abs(propArea - criteria.area) <= 15) {
+                matches++;
+            }
+        }
+    }
+    
+    // MAIS RESTRITIVO: Precisa de pelo menos 80% de matches
+    return totalCriteria === 0 || (matches / totalCriteria) >= 0.8;
+}
+
+// FUNÇÕES AUXILIARES
+
+function normalizeText(text) {
+    return text.toLowerCase()
+        .replace(/[áàãâ]/g, 'a')
+        .replace(/[éê]/g, 'e')
+        .replace(/[íî]/g, 'i')
+        .replace(/[óôõ]/g, 'o')
+        .replace(/[úü]/g, 'u')
+        .replace(/ç/g, 'c');
+}
+
+function debugProperty(property, index) {
+    console.log(`🏘️ Debug imóvel ${index}:`);
+    console.log(`   📝 Título: "${property.title}"`);
+    console.log(`   💰 Preço: "${property.price}"`);
+    console.log(`   📍 Local: "${property.location}"`);
+    console.log(`   📐 Área: "${property.area}"`);
+    console.log(`   🏠 Quartos: "${property.rooms}"`);
+    console.log(`   🔗 Link: "${property.link}"`);
+}
+
+// FUNÇÃO parseQuery permanece igual
 function parseQuery(query) {
     const criteria = {
         location: '',
@@ -504,23 +636,16 @@ function parseQuery(query) {
         criteria.area = parseInt(areaMatch[1]);
     }
     
-    // Lista mais completa de localizações portuguesas
+    // Lista de localizações
     const locations = [
-        // Distritos principais
         'lisboa', 'porto', 'braga', 'coimbra', 'aveiro', 'setubal', 'evora', 'faro',
         'funchal', 'viseu', 'leiria', 'santarem', 'beja', 'castelo branco',
         'guarda', 'portalegre', 'vila real', 'braganca', 'viana do castelo',
-        // Concelhos importantes
         'cascais', 'sintra', 'almada', 'amadora', 'oeiras', 'loures', 'odivelas',
         'vila nova de gaia', 'matosinhos', 'gondomar', 'maia', 'povoa de varzim',
         'caldas da rainha', 'torres vedras', 'sesimbra', 'palmela', 'montijo',
         'barreiro', 'vila franca de xira', 'mafra', 'alcochete', 'sines',
-        'lagos', 'portimao', 'tavira', 'olhao', 'silves', 'monchique',
-        // Outras localizações
-        'estoril', 'carcavelos', 'parede', 'sao joao do estoril', 'monte estoril',
-        'queluz', 'barcarena', 'linda a velha', 'cruz quebrada', 'dafundo',
-        'pontinha', 'falagueira', 'venda nova', 'encosta do sol', 'quinta do conde',
-        'corroios', 'seixal', 'fernao ferro', 'caparica', 'trafaria'
+        'lagos', 'portimao', 'tavira', 'olhao', 'silves', 'monchique'
     ];
     
     // Procurar localização na query
@@ -548,56 +673,6 @@ function parseQuery(query) {
     }
     
     return criteria;
-}
-
-function isPropertyRelevant(property, criteria) {
-    if (!criteria.location && !criteria.rooms && !criteria.area) {
-        return true;
-    }
-    
-    let relevantCount = 0;
-    let totalCriteria = 0;
-    
-    // Verificar localização
-    if (criteria.location) {
-        totalCriteria++;
-        const propLocation = property.location.toLowerCase().replace(/[áàãâ]/g, 'a').replace(/[éê]/g, 'e').replace(/[íî]/g, 'i').replace(/[óôõ]/g, 'o').replace(/[úü]/g, 'u').replace(/ç/g, 'c');
-        const propTitle = property.title.toLowerCase().replace(/[áàãâ]/g, 'a').replace(/[éê]/g, 'e').replace(/[íî]/g, 'i').replace(/[óôõ]/g, 'o').replace(/[úü]/g, 'u').replace(/ç/g, 'c');
-        const searchLocation = criteria.location.toLowerCase();
-        
-        if (propLocation.includes(searchLocation) || propTitle.includes(searchLocation)) {
-            relevantCount++;
-        }
-    }
-    
-    // Verificar quartos
-    if (criteria.rooms) {
-        totalCriteria++;
-        const propRooms = property.rooms.toLowerCase();
-        const propTitle = property.title.toLowerCase();
-        const criteriaRooms = criteria.rooms.toLowerCase();
-        
-        if (propRooms.includes(criteriaRooms) || propTitle.includes(criteriaRooms)) {
-            relevantCount++;
-        }
-    }
-    
-    // Verificar área
-    if (criteria.area) {
-        totalCriteria++;
-        const areaMatch = property.area.match(/(\d+)/);
-        const titleAreaMatch = property.title.match(/(\d+)\s*m[2²]/i);
-        
-        if (areaMatch || titleAreaMatch) {
-            const propArea = parseInt(areaMatch?.[1] || titleAreaMatch?.[1]);
-            if (propArea && Math.abs(propArea - criteria.area) <= 30) {
-                relevantCount++;
-            }
-        }
-    }
-    
-    // Retornar verdadeiro se pelo menos 50% dos critérios coincidirem
-    return totalCriteria === 0 || (relevantCount / totalCriteria) >= 0.5;
 }
 
 main().catch(console.error);
