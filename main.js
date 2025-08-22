@@ -1,370 +1,11 @@
-const { Actor } = require('apify');
-const { RequestQueue, CheerioCrawler, Dataset } = require('crawlee');
+import { Actor } from 'apify';
+import { CheerioCrawler, log } from 'crawlee';
 
-const main = async () => {
-    await Actor.init();
-    
-    const input = await Actor.getInput();
-    console.log('📥 Input recebido:', input);
-    
-    const query = input.query || input.searchQuery || '';
-    
-    if (!query) {
-        console.log('❌ Nenhuma query fornecida');
-        await Actor.exit();
-        return;
-    }
-    
-    console.log(`🔍 Query: "${query}"`);
-    
-    const searchCriteria = parseQuery(query);
-    console.log('📋 Critérios extraídos:', searchCriteria);
-    
-    function buildImovirtualUrl(criteria) {
-        let url = 'https://www.imovirtual.com/comprar';
-        
-        if (criteria.type === 'apartamento') {
-            url += '/apartamento';
-        } else if (criteria.type === 'moradia') {
-            url += '/moradia';
-        }
-        
-        if (criteria.location) {
-            const locationSlug = criteria.location.toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/ã/g, 'a')
-                .replace(/õ/g, 'o')
-                .replace(/á/g, 'a')
-                .replace(/é/g, 'e')
-                .replace(/í/g, 'i')
-                .replace(/ó/g, 'o')
-                .replace(/ú/g, 'u')
-                .replace(/ç/g, 'c');
-            url += `/${locationSlug}`;
-        }
-        
-        const params = new URLSearchParams();
-        
-        if (criteria.rooms) {
-            const roomNum = criteria.rooms.replace('T', '');
-            params.append('search%5Bfilter_float_number_of_rooms%3Afrom%5D', roomNum);
-            params.append('search%5Bfilter_float_number_of_rooms%3Ato%5D', roomNum);
-        }
-        
-        if (criteria.area) {
-            params.append('search%5Bfilter_float_m%3Afrom%5D', Math.max(1, criteria.area - 20));
-            params.append('search%5Bfilter_float_m%3Ato%5D', criteria.area + 20);
-        }
-        
-        const queryString = params.toString();
-        return queryString ? `${url}?${queryString}` : url;
-    }
+// Configuração inicial
+await Actor.init();
 
-    function buildEraUrl(criteria) {
-        let url = 'https://www.era.pt/comprar';
-        
-        if (criteria.type === 'apartamento') {
-            url += '/apartamentos';
-        } else if (criteria.type === 'moradia') {
-            url += '/moradias';
-        }
-        
-        if (criteria.location) {
-            const locationSlug = criteria.location.toLowerCase()
-                .replace(/\s+/g, '-')
-                .replace(/ã/g, 'a')
-                .replace(/õ/g, 'o')
-                .replace(/á/g, 'a')
-                .replace(/é/g, 'e')
-                .replace(/í/g, 'i')
-                .replace(/ó/g, 'o')
-                .replace(/ú/g, 'u')
-                .replace(/ç/g, 'c');
-            url += `/${locationSlug}`;
-        }
-        
-        return url;
-    }
-
-    const propertySites = [
-        {
-            name: 'Imovirtual',
-            baseUrl: 'https://www.imovirtual.com',
-            buildSearchUrl: buildImovirtualUrl
-        },
-        {
-            name: 'ERA Portugal',
-            baseUrl: 'https://www.era.pt',
-            buildSearchUrl: buildEraUrl
-        }
-    ];
-    
-    const requestQueue = await RequestQueue.open();
-    
-    for (const site of propertySites) {
-        try {
-            const searchUrl = site.buildSearchUrl(searchCriteria);
-            if (searchUrl) {
-                console.log(`🌐 ${site.name}: ${searchUrl}`);
-                await requestQueue.addRequest({ 
-                    url: searchUrl,
-                    userData: { site, criteria: searchCriteria },
-                    headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                        'Accept-Language': 'pt-PT,pt;q=0.9,en;q=0.8',
-                        'Accept-Encoding': 'gzip, deflate, br',
-                        'Connection': 'keep-alive',
-                        'Upgrade-Insecure-Requests': '1'
-                    }
-                });
-            }
-        } catch (error) {
-            console.log(`❌ Erro ao construir URL para ${site.name}:`, error.message);
-        }
-    }
-    
-    const crawler = new CheerioCrawler({
-        requestQueue,
-        maxRequestRetries: 2,
-        maxConcurrency: 1,
-        maxRequestsPerMinute: 1,
-        requestHandlerTimeoutSecs: 60,
-        requestHandler: async ({ request, $, response }) => {
-            const { site, criteria } = request.userData;
-            
-            console.log(`\n🏠 Processando ${site.name}...`);
-            console.log(`📊 Status: ${response.statusCode}`);
-            
-            if (response.statusCode !== 200) {
-                console.log(`❌ ${site.name} - Status: ${response.statusCode}`);
-                return;
-            }
-            
-            console.log(`✅ ${site.name} acessível!`);
-            console.log(`📄 Tamanho da página: ${$.html().length} caracteres`);
-            
-            if (site.name === 'Imovirtual') {
-                await debugImovirtualStructure($, criteria);
-            } else {
-                await debugERAStructure($, criteria);
-            }
-        },
-        failedRequestHandler: async ({ request, error }) => {
-            console.log(`❌ Falha em ${request.userData.site.name}: ${error.message}`);
-        },
-    });
-    
-    console.log('\n🚀 Iniciando scraping...');
-    await crawler.run();
-    
-    console.log(`\n🎉 Debug concluído!`);
-    await Actor.exit();
-};
-
-// FUNÇÃO DE DEBUG DETALHADO PARA IMOVIRTUAL
-async function debugImovirtualStructure($, criteria) {
-    console.log('\n🔍 === DEBUG DETALHADO IMOVIRTUAL ===');
-    
-    // Testar vários seletores de container
-    const containerTests = [
-        'article[data-cy="search.listing.organic"]',
-        'article[data-testid="listing-organic"]',
-        'article',
-        'div[class*="offer"]',
-        'div[class*="listing"]',
-        'li[class*="offer"]'
-    ];
-    
-    let bestContainer = null;
-    let bestCount = 0;
-    
-    for (const selector of containerTests) {
-        const found = $(selector);
-        console.log(`🔍 Teste container "${selector}": ${found.length} elementos`);
-        
-        if (found.length > bestCount) {
-            bestCount = found.length;
-            bestContainer = selector;
-        }
-    }
-    
-    if (!bestContainer || bestCount === 0) {
-        console.log('❌ Nenhum container encontrado!');
-        return;
-    }
-    
-    console.log(`\n✅ Melhor container: "${bestContainer}" com ${bestCount} elementos`);
-    
-    // Analisar os primeiros 3 elementos
-    const containers = $(bestContainer);
-    
-    for (let i = 0; i < Math.min(3, containers.length); i++) {
-        const $el = $(containers[i]);
-        
-        console.log(`\n🏘️ === ANÁLISE DETALHADA DO IMÓVEL ${i + 1} ===`);
-        
-        // 1. ESTRUTURA GERAL
-        console.log('📐 Estrutura do elemento:');
-        console.log(`   - Classe principal: ${$el.attr('class') || 'N/A'}`);
-        console.log(`   - Data attributes: ${Object.keys($el.get(0).attribs || {}).filter(k => k.startsWith('data-')).join(', ') || 'N/A'}`);
-        
-        // 2. ANÁLISE DE LINKS
-        console.log('\n🔗 Links encontrados:');
-        const links = $el.find('a');
-        links.each((j, link) => {
-            const $link = $(link);
-            const href = $link.attr('href');
-            const text = $link.text().trim();
-            if (href && href !== '#' && text.length > 0) {
-                console.log(`   Link ${j + 1}: "${text.substring(0, 50)}" → ${href.substring(0, 50)}`);
-            }
-        });
-        
-        // 3. ANÁLISE DE TEXTOS COM NÚMEROS
-        console.log('\n🔢 Textos com números/símbolos relevantes:');
-        const allText = $el.text();
-        
-        // Procurar preços
-        const priceMatches = allText.match(/\d{1,3}(?:[\.\s]\d{3})*(?:,\d{2})?\s*€/g);
-        if (priceMatches) {
-            console.log(`   💰 Preços encontrados: ${priceMatches.join(', ')}`);
-        }
-        
-        // Procurar áreas
-        const areaMatches = allText.match(/\d+(?:[,\.]\d+)?\s*m[²2]/gi);
-        if (areaMatches) {
-            console.log(`   📐 Áreas encontradas: ${areaMatches.join(', ')}`);
-        }
-        
-        // Procurar quartos/tipologias
-        const roomMatches = allText.match(/T[0-6]|\d+\s*quarto[s]?/gi);
-        if (roomMatches) {
-            console.log(`   🏠 Quartos encontrados: ${roomMatches.join(', ')}`);
-        }
-        
-        // 4. ANÁLISE DE ELEMENTOS FILHOS ESPECÍFICOS
-        console.log('\n🎯 Elementos filhos relevantes:');
-        
-        // Procurar por spans/divs que contenham dados específicos
-        $el.find('span, div').each((j, child) => {
-            const $child = $(child);
-            const text = $child.text().trim();
-            const classes = $child.attr('class') || '';
-            const dataAttrs = Object.keys($child.get(0).attribs || {}).filter(k => k.startsWith('data-'));
-            
-            // Só mostrar elementos com dados úteis
-            if ((text.includes('€') || text.includes('m²') || text.includes('T') || text.includes('quarto')) && text.length < 50) {
-                console.log(`   - "${text}" [classe: ${classes.substring(0, 30)}] [data: ${dataAttrs.join(',')}]`);
-            }
-        });
-        
-        // 5. TENTAR EXTRAIR DADOS COM DIFERENTES ESTRATÉGIAS
-        console.log('\n🎯 TESTE DE EXTRAÇÃO:');
-        
-        // Estratégia 1: Por posição/ordem dos elementos
-        const spanElements = $el.find('span').toArray();
-        console.log(`   📊 Total de spans: ${spanElements.length}`);
-        
-        spanElements.forEach((span, idx) => {
-            const text = $(span).text().trim();
-            if (text && text.length < 100 && (text.includes('€') || text.includes('m²') || text.includes('T') || text.includes('quarto'))) {
-                console.log(`   Span[${idx}]: "${text}"`);
-            }
-        });
-        
-        // Estratégia 2: Por estrutura hierárquica
-        console.log('\n   🌳 Estrutura hierárquica:');
-        $el.children().each((idx, child) => {
-            const $child = $(child);
-            const tag = child.tagName.toLowerCase();
-            const text = $child.text().trim();
-            if (text.length > 0 && text.length < 200) {
-                console.log(`   ${tag}[${idx}]: "${text.substring(0, 100)}"`);
-            }
-        });
-        
-        console.log('\n' + '='.repeat(50));
-    }
-    
-    // 6. SUGESTÕES DE SELETORES
-    console.log('\n💡 SUGESTÕES DE SELETORES BASEADO NA ANÁLISE:');
-    
-    // Procurar padrões comuns
-    const firstElement = $(containers[0]);
-    
-    // Testar seletores data-*
-    const dataSelectors = [];
-    firstElement.find('*[data-cy], *[data-testid], *[data-qa]').each((i, el) => {
-        const $el = $(el);
-        ['data-cy', 'data-testid', 'data-qa'].forEach(attr => {
-            const value = $el.attr(attr);
-            if (value) {
-                dataSelectors.push(`[${attr}="${value}"]`);
-            }
-        });
-    });
-    
-    if (dataSelectors.length > 0) {
-        console.log('   🎯 Seletores data-* encontrados:');
-        dataSelectors.slice(0, 10).forEach(sel => {
-            console.log(`      ${sel}`);
-        });
-    }
-    
-    console.log('\n✅ Debug ImóVirtual concluído!');
-}
-
-// FUNÇÃO DE DEBUG PARA ERA
-async function debugERAStructure($, criteria) {
-    console.log('\n🔍 === DEBUG DETALHADO ERA PORTUGAL ===');
-    
-    const containerTests = [
-        'div[class*="property"]',
-        'div[class*="listing"]', 
-        'div[class*="imovel"]',
-        'article',
-        '.property-card',
-        '.listing-item'
-    ];
-    
-    for (const selector of containerTests) {
-        const found = $(selector);
-        console.log(`🔍 Teste container "${selector}": ${found.length} elementos`);
-    }
-    
-    // Procurar por qualquer elemento que contenha dados de imóveis
-    console.log('\n🔍 Procurando elementos com dados de imóveis...');
-    
-    const elementsWithPrice = $('*:contains("€")').length;
-    const elementsWithArea = $('*:contains("m²")').length;
-    const elementsWithRooms = $('*:contains("T1"), *:contains("T2"), *:contains("T3"), *:contains("T4")').length;
-    
-    console.log(`   💰 Elementos com preços (€): ${elementsWithPrice}`);
-    console.log(`   📐 Elementos com áreas (m²): ${elementsWithArea}`);
-    console.log(`   🏠 Elementos com tipologias (T1-T4): ${elementsWithRooms}`);
-    
-    if (elementsWithPrice > 0 || elementsWithArea > 0 || elementsWithRooms > 0) {
-        console.log('\n🎯 ERA tem dados de imóveis, mas os containers não estão sendo detectados!');
-        
-        // Mostrar alguns elementos que contêm dados
-        $('*:contains("€")').slice(0, 5).each((i, el) => {
-            const $el = $(el);
-            const text = $el.text().trim();
-            const tag = el.tagName.toLowerCase();
-            const classes = $el.attr('class') || '';
-            if (text.length < 100) {
-                console.log(`   💰 ${tag}.${classes}: "${text}"`);
-            }
-        });
-    } else {
-        console.log('❌ ERA não tem dados de imóveis detectáveis ou página diferente do esperado');
-    }
-    
-    console.log('\n✅ Debug ERA concluído!');
-}
-
-function parseQuery(query) {
+// Função para extrair critérios da query
+function extractCriteria(query) {
     const criteria = {
         location: '',
         rooms: '',
@@ -373,65 +14,448 @@ function parseQuery(query) {
         type: 'apartamento'
     };
     
-    const queryLower = query.toLowerCase()
-        .replace(/ã/g, 'a')
-        .replace(/õ/g, 'o')
-        .replace(/á/g, 'a')
-        .replace(/é/g, 'e')
-        .replace(/í/g, 'i')
-        .replace(/ó/g, 'o')
-        .replace(/ú/g, 'u')
-        .replace(/ç/g, 'c');
+    const lowerQuery = query.toLowerCase();
     
-    // Extrair tipologia
-    const roomsMatch = queryLower.match(/t(\d+)/);
-    if (roomsMatch) {
-        criteria.rooms = `T${roomsMatch[1]}`;
-    }
-    
-    // Extrair área
-    const areaMatch = queryLower.match(/(\d+)\s*m[2²]?/);
-    if (areaMatch) {
-        criteria.area = parseInt(areaMatch[1]);
-    }
-    
-    // Lista de localizações
-    const locations = [
-        'lisboa', 'porto', 'braga', 'coimbra', 'aveiro', 'setubal', 'evora', 'faro',
-        'funchal', 'viseu', 'leiria', 'santarem', 'beja', 'castelo branco',
-        'guarda', 'portalegre', 'vila real', 'braganca', 'viana do castelo',
-        'cascais', 'sintra', 'almada', 'amadora', 'oeiras', 'loures', 'odivelas',
-        'vila nova de gaia', 'matosinhos', 'gondomar', 'maia', 'povoa de varzim',
-        'caldas da rainha', 'torres vedras', 'sesimbra', 'palmela', 'montijo',
-        'barreiro', 'vila franca de xira', 'mafra', 'alcochete', 'sines',
-        'lagos', 'portimao', 'tavira', 'olhao', 'silves', 'monchique'
+    // Localização
+    const locationPatterns = [
+        /caldas da rainha/i,
+        /lisboa/i,
+        /porto/i,
+        /coimbra/i,
+        /braga/i,
+        /faro/i,
+        /aveiro/i,
+        /leiria/i
     ];
     
-    // Procurar localização na query
-    for (const loc of locations) {
-        if (queryLower.includes(loc)) {
-            criteria.location = loc;
+    for (const pattern of locationPatterns) {
+        const match = query.match(pattern);
+        if (match) {
+            criteria.location = match[0].toLowerCase();
             break;
         }
     }
     
-    // Extrair condição
-    const conditions = ['novo', 'renovado', 'para renovar', 'usado', 'recente', 'seminovo'];
-    for (const cond of conditions) {
-        if (queryLower.includes(cond)) {
-            criteria.condition = cond;
-            break;
-        }
+    // Tipologia
+    const roomsMatch = query.match(/T(\d)/i);
+    if (roomsMatch) {
+        criteria.rooms = roomsMatch[0].toUpperCase();
     }
     
-    // Extrair tipo de imóvel
-    if (queryLower.includes('moradia') || queryLower.includes('casa') || queryLower.includes('vivenda')) {
-        criteria.type = 'moradia';
-    } else if (queryLower.includes('apartamento') || queryLower.includes('apto') || queryLower.includes('t0') || queryLower.includes('t1') || queryLower.includes('t2') || queryLower.includes('t3') || queryLower.includes('t4') || queryLower.includes('t5')) {
-        criteria.type = 'apartamento';
-    }
+    // Estado
+    if (lowerQuery.includes('novo')) criteria.condition = 'novo';
+    if (lowerQuery.includes('usado')) criteria.condition = 'usado';
+    if (lowerQuery.includes('renovado')) criteria.condition = 'renovado';
     
     return criteria;
 }
 
-main().catch(console.error);
+// Função para construir URLs
+function buildURLs(criteria) {
+    const urls = [];
+    
+    // ImóVirtual
+    let imovirtualURL = 'https://www.imovirtual.com/comprar/apartamento';
+    if (criteria.location) {
+        imovirtualURL += `/${criteria.location.replace(/\s+/g, '-')}`;
+    }
+    
+    const imovirtualParams = [];
+    if (criteria.rooms) {
+        const roomNumber = criteria.rooms.replace('T', '');
+        imovirtualParams.push(`search%255Bfilter_float_number_of_rooms%253Afrom%255D=${roomNumber}`);
+        imovirtualParams.push(`search%255Bfilter_float_number_of_rooms%253Ato%255D=${roomNumber}`);
+    }
+    
+    if (imovirtualParams.length > 0) {
+        imovirtualURL += '?' + imovirtualParams.join('&');
+    }
+    
+    urls.push({
+        url: imovirtualURL,
+        site: 'Imovirtual',
+        handler: 'imovirtual'
+    });
+    
+    // ERA Portugal
+    let eraURL = 'https://www.era.pt/comprar/apartamentos';
+    if (criteria.location) {
+        eraURL += `/${criteria.location.replace(/\s+/g, '-')}`;
+    }
+    
+    urls.push({
+        url: eraURL,
+        site: 'ERA Portugal',
+        handler: 'era'
+    });
+    
+    return urls;
+}
+
+// Função para limpar texto
+function cleanText(text) {
+    return text ? text.replace(/\s+/g, ' ').trim() : '';
+}
+
+// Função para extrair preço
+function extractPrice(text) {
+    if (!text) return null;
+    const priceMatch = text.match(/([\d\s]+)\s*€/);
+    if (priceMatch) {
+        return parseInt(priceMatch[1].replace(/\s/g, ''));
+    }
+    return null;
+}
+
+// Função para extrair área
+function extractArea(text) {
+    if (!text) return null;
+    const areaMatch = text.match(/([\d,\.]+)\s*m²/);
+    if (areaMatch) {
+        return parseFloat(areaMatch[1].replace(',', '.'));
+    }
+    return null;
+}
+
+// Handler para ImóVirtual (CORRIGIDO)
+async function handleImovirtual($, url) {
+    console.log('\n🏠 Processando Imovirtual...');
+    
+    const properties = [];
+    
+    // Usar o seletor descoberto no debug
+    const listings = $('article.css-xv0nyo');
+    console.log(`📊 Encontrados ${listings.length} imóveis`);
+    
+    listings.each((index, element) => {
+        try {
+            const $element = $(element);
+            
+            // Link do imóvel usando seletor data-cy descoberto
+            const linkElement = $element.find('[data-cy="listing-item-link"]');
+            const relativeUrl = linkElement.attr('href');
+            const link = relativeUrl ? `https://www.imovirtual.com${relativeUrl}` : null;
+            
+            // Título usando seletor data-cy descoberto
+            const title = cleanText($element.find('[data-cy="listing-item-title"]').text()) ||
+                         cleanText(linkElement.attr('title')) ||
+                         cleanText(linkElement.text());
+            
+            // Extrair dados dos spans na ordem descoberta
+            const spans = $element.find('span');
+            let price = null, area = null, rooms = null, pricePerSqm = null;
+            
+            spans.each((i, span) => {
+                const text = $(span).text().trim();
+                
+                // Preço principal (formato: "229 500 €")
+                if (text.match(/^\d[\d\s]*\s*€$/) && !price) {
+                    price = extractPrice(text);
+                }
+                
+                // Preço por m² (formato: "2120 €/m²")
+                if (text.includes('€/m²') && !pricePerSqm) {
+                    pricePerSqm = extractPrice(text);
+                }
+                
+                // Tipologia (formato: "T3")
+                if (text.match(/^T\d+$/) && !rooms) {
+                    rooms = text;
+                }
+                
+                // Área (formato: "108.28 m²")
+                if (text.includes('m²') && !text.includes('€') && !area) {
+                    area = extractArea(text);
+                }
+            });
+            
+            // Localização - extrair do título ou URL
+            let location = '';
+            if (title) {
+                const locationMatch = title.match(/caldas da rainha|lisboa|porto|coimbra|braga|faro|aveiro|leiria/i);
+                if (locationMatch) {
+                    location = locationMatch[0];
+                }
+            }
+            
+            // Só adicionar se tiver dados essenciais
+            if (title && price && link) {
+                const property = {
+                    title: title,
+                    price: price,
+                    area: area,
+                    rooms: rooms,
+                    location: location,
+                    pricePerSqm: pricePerSqm,
+                    link: link,
+                    site: 'ImóVirtual'
+                };
+                
+                properties.push(property);
+                
+                console.log(`✅ Imóvel ${index + 1}:`);
+                console.log(`   📋 Título: ${title}`);
+                console.log(`   💰 Preço: ${price ? price.toLocaleString() + ' €' : 'N/A'}`);
+                console.log(`   📐 Área: ${area ? area + ' m²' : 'N/A'}`);
+                console.log(`   🏠 Tipologia: ${rooms || 'N/A'}`);
+                console.log(`   📍 Localização: ${location || 'N/A'}`);
+                console.log(`   🔗 Link: ${link}`);
+                console.log('');
+            }
+            
+        } catch (error) {
+            console.log(`❌ Erro ao processar imóvel ${index + 1}:`, error.message);
+        }
+    });
+    
+    console.log(`✅ ImóVirtual processado: ${properties.length} imóveis encontrados`);
+    return properties;
+}
+
+// Handler para ERA Portugal (MELHORADO)
+async function handleERA($, url) {
+    console.log('\n🏠 Processando ERA Portugal...');
+    
+    const properties = [];
+    
+    // Tentar múltiplos seletores para ERA
+    const selectors = [
+        '.property-card',
+        '.listing-item', 
+        'div[class*="property"]',
+        'div[class*="imovel"]',
+        'article',
+        '.card',
+        '[data-property]',
+        'div:has(.price)',
+        'div:has([href*="/imovel/"])'
+    ];
+    
+    let listings = $();
+    let workingSelector = '';
+    
+    for (const selector of selectors) {
+        const found = $(selector);
+        if (found.length > 0) {
+            // Verificar se contém dados de imóveis
+            let hasPropertyData = false;
+            found.each((i, el) => {
+                const text = $(el).text();
+                if (text.includes('€') && (text.includes('m²') || text.includes('T1') || text.includes('T2') || text.includes('T3') || text.includes('T4'))) {
+                    hasPropertyData = true;
+                    return false; // break
+                }
+            });
+            
+            if (hasPropertyData) {
+                listings = found;
+                workingSelector = selector;
+                break;
+            }
+        }
+    }
+    
+    console.log(`📊 Seletor usado: "${workingSelector}", encontrados ${listings.length} elementos`);
+    
+    if (listings.length === 0) {
+        // Busca alternativa - procurar por elementos com dados de preços
+        console.log('🔍 Buscando elementos com preços...');
+        
+        const priceElements = $('*').filter(function() {
+            const text = $(this).text();
+            return text.match(/\d+[\s\d]*\s*€/) && !$(this).find('*:contains("€")').length;
+        });
+        
+        console.log(`💰 Encontrados ${priceElements.length} elementos com preços`);
+        
+        // Tentar extrair dados dos elementos pai
+        const parentElements = new Set();
+        priceElements.each((i, el) => {
+            let parent = $(el).parent();
+            while (parent.length && parent.prop('tagName') !== 'BODY') {
+                const parentText = parent.text();
+                if (parentText.includes('m²') && parentText.includes('€')) {
+                    parentElements.add(parent[0]);
+                    break;
+                }
+                parent = parent.parent();
+            }
+        });
+        
+        listings = $(Array.from(parentElements));
+        console.log(`📋 Usando ${listings.length} elementos pai com dados completos`);
+    }
+    
+    listings.each((index, element) => {
+        try {
+            const $element = $(element);
+            const text = $element.text();
+            
+            // Extrair dados básicos
+            const priceMatch = text.match(/([\d\s]+)\s*€/);
+            const areaMatch = text.match(/([\d,\.]+)\s*m²/);
+            const roomsMatch = text.match(/T(\d)/);
+            
+            // Procurar link
+            const linkElement = $element.find('a[href*="/imovel/"], a[href*="/propriedade/"], a[href*="/apartamento/"]').first();
+            const link = linkElement.attr('href');
+            const fullLink = link ? (link.startsWith('http') ? link : `https://www.era.pt${link}`) : null;
+            
+            // Título
+            const title = cleanText(linkElement.text()) ||
+                         cleanText($element.find('h2, h3, h4, .title, .name').first().text()) ||
+                         cleanText($element.find('a').first().text()) ||
+                         'Apartamento ERA Portugal';
+            
+            if (priceMatch && (areaMatch || roomsMatch)) {
+                const property = {
+                    title: title,
+                    price: parseInt(priceMatch[1].replace(/\s/g, '')),
+                    area: areaMatch ? parseFloat(areaMatch[1].replace(',', '.')) : null,
+                    rooms: roomsMatch ? `T${roomsMatch[1]}` : null,
+                    location: 'Caldas da Rainha',
+                    link: fullLink,
+                    site: 'ERA Portugal'
+                };
+                
+                properties.push(property);
+                
+                console.log(`✅ Imóvel ${index + 1}:`);
+                console.log(`   📋 Título: ${title}`);
+                console.log(`   💰 Preço: ${property.price.toLocaleString()} €`);
+                console.log(`   📐 Área: ${property.area ? property.area + ' m²' : 'N/A'}`);
+                console.log(`   🏠 Tipologia: ${property.rooms || 'N/A'}`);
+                console.log(`   🔗 Link: ${fullLink || 'N/A'}`);
+                console.log('');
+            }
+            
+        } catch (error) {
+            console.log(`❌ Erro ao processar imóvel ERA ${index + 1}:`, error.message);
+        }
+    });
+    
+    console.log(`✅ ERA Portugal processado: ${properties.length} imóveis encontrados`);
+    return properties;
+}
+
+// Configuração principal
+const input = await Actor.getInput();
+const query = input?.query || 'Imóvel T4 caldas da Rainha novo';
+
+console.log('📥 Input recebido:', { query });
+console.log(`🔍 Query: "${query}"`);
+
+const criteria = extractCriteria(query);
+console.log('📋 Critérios extraídos:', criteria);
+
+const urls = buildURLs(criteria);
+
+// Log das URLs
+urls.forEach(urlObj => {
+    console.log(`🌐 ${urlObj.site}: ${urlObj.url}`);
+});
+
+console.log('\n🚀 Iniciando scraping...');
+
+const allProperties = [];
+
+const crawler = new CheerioCrawler({
+    maxRequestsPerCrawl: 10,
+    requestHandlerTimeoutSecs: 60,
+    
+    async requestHandler({ request, $, response }) {
+        const url = request.url;
+        const handler = request.userData.handler;
+        
+        console.log(`\n📊 Status: ${response.statusCode}`);
+        
+        if (response.statusCode !== 200) {
+            console.log(`❌ Erro HTTP: ${response.statusCode}`);
+            return;
+        }
+        
+        console.log(`✅ ${request.userData.site} acessível!`);
+        
+        let properties = [];
+        
+        try {
+            if (handler === 'imovirtual') {
+                properties = await handleImovirtual($, url);
+            } else if (handler === 'era') {
+                properties = await handleERA($, url);
+            }
+            
+            allProperties.push(...properties);
+            
+        } catch (error) {
+            console.log(`❌ Erro ao processar ${request.userData.site}:`, error.message);
+        }
+    },
+});
+
+// Adicionar URLs à fila
+for (const urlObj of urls) {
+    await crawler.addRequests([{
+        url: urlObj.url,
+        userData: urlObj
+    }]);
+}
+
+await crawler.run();
+
+// Processar e filtrar resultados
+console.log('\n📊 === RELATÓRIO FINAL ===');
+console.log(`🏠 Total de imóveis encontrados: ${allProperties.length}`);
+
+// Filtrar por critérios se especificados
+let filteredProperties = allProperties;
+
+if (criteria.rooms) {
+    const beforeCount = filteredProperties.length;
+    filteredProperties = filteredProperties.filter(p => p.rooms === criteria.rooms);
+    console.log(`🔍 Filtro tipologia ${criteria.rooms}: ${beforeCount} → ${filteredProperties.length}`);
+}
+
+if (criteria.condition === 'novo') {
+    const beforeCount = filteredProperties.length;
+    filteredProperties = filteredProperties.filter(p => 
+        p.title.toLowerCase().includes('novo') || 
+        p.title.toLowerCase().includes('nova') ||
+        p.title.toLowerCase().includes('novos')
+    );
+    console.log(`🔍 Filtro condição 'novo': ${beforeCount} → ${filteredProperties.length}`);
+}
+
+// Ordenar por preço
+filteredProperties.sort((a, b) => (a.price || 0) - (b.price || 0));
+
+console.log('\n🎯 === IMÓVEIS ENCONTRADOS ===');
+filteredProperties.forEach((property, index) => {
+    console.log(`\n${index + 1}. ${property.title}`);
+    console.log(`   💰 Preço: ${property.price ? property.price.toLocaleString() + ' €' : 'N/A'}`);
+    console.log(`   📐 Área: ${property.area ? property.area + ' m²' : 'N/A'}`);
+    console.log(`   🏠 Tipologia: ${property.rooms || 'N/A'}`);
+    console.log(`   📍 Local: ${property.location || 'N/A'}`);
+    console.log(`   🌐 Site: ${property.site}`);
+    console.log(`   🔗 Link: ${property.link || 'N/A'}`);
+    
+    if (property.pricePerSqm) {
+        console.log(`   💵 Preço/m²: ${property.pricePerSqm} €/m²`);
+    }
+});
+
+// Salvar resultados
+await Actor.pushData({
+    query: query,
+    criteria: criteria,
+    totalFound: allProperties.length,
+    filteredCount: filteredProperties.length,
+    properties: filteredProperties,
+    searchUrls: urls.map(u => ({ site: u.site, url: u.url })),
+    timestamp: new Date().toISOString()
+});
+
+console.log('\n✅ Scraping concluído!');
+console.log(`📊 Dados salvos: ${filteredProperties.length} imóveis`);
+
+await Actor.exit();
