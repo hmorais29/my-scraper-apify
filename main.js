@@ -212,123 +212,144 @@ async function handleImovirtual($, url) {
     return properties;
 }
 
-// Handler para ERA Portugal (MELHORADO)
+// 🔧 SUBSTITUIR APENAS ESTA FUNÇÃO no seu main.js
+// Substitua a função handleERA() atual por esta versão melhorada
+
 async function handleERA($, url) {
     console.log('\n🏠 Processando ERA Portugal...');
     
     const properties = [];
     
-    // Tentar múltiplos seletores para ERA
+    // STEP 1: Verificar se o site requer JavaScript
+    const bodyText = $('body').text();
+    const htmlContent = $.html();
+    
+    if (bodyText.includes('JavaScript disabled') || 
+        bodyText.includes('enable JavaScript') || 
+        htmlContent.length < 1000) {
+        console.log('⚠️  ERA requer JavaScript - tentando estratégias alternativas...');
+        
+        // Estratégia 1: Tentar encontrar dados em scripts JSON
+        const scriptTags = $('script[type="application/json"], script:contains("window."), script:contains("data")');
+        
+        scriptTags.each((i, script) => {
+            try {
+                const scriptContent = $(script).html();
+                if (scriptContent && scriptContent.includes('price') && scriptContent.includes('property')) {
+                    console.log(`📄 Encontrado script com dados: ${scriptContent.substring(0, 100)}...`);
+                    // Tentar extrair dados JSON
+                    const jsonMatch = scriptContent.match(/\{.*"properties".*\}/);
+                    if (jsonMatch) {
+                        const data = JSON.parse(jsonMatch[0]);
+                        console.log('✅ Dados JSON extraídos com sucesso');
+                        return extractFromJSON(data);
+                    }
+                }
+            } catch (e) {
+                // Script não é JSON válido, continuar
+            }
+        });
+        
+        // Estratégia 2: Tentar versão móvel ou alternativa
+        console.log('🔄 Tentando abordagens alternativas...');
+        return await tryAlternativeEraApproaches(url);
+    }
+    
+    // STEP 2: Site carregou HTML - tentar extrair dados
+    console.log('✅ Conteúdo HTML disponível, procurando propriedades...');
+    
+    // Lista expandida de seletores baseados em padrões comuns de sites imobiliários
     const selectors = [
+        // Seletores específicos ERA
         '.property-card',
-        '.listing-item', 
+        '.property-item', 
+        '.listing-item',
+        '.search-result-item',
+        '.property-result',
         'div[class*="property"]',
+        'div[class*="listing"]',
         'div[class*="imovel"]',
-        'article',
-        '.card',
-        '[data-property]',
-        'div:has(.price)',
-        'div:has([href*="/imovel/"])'
+        
+        // Seletores baseados em estrutura
+        'article:has(.price), article:has([class*="price"])',
+        'div:has(.price):has(.area)',
+        'div:has([class*="euro"]):has([class*="metro"])',
+        
+        // Seletores genéricos para cards
+        '.card:has(a[href*="imovel"])',
+        '.item:has(a[href*="propriedade"])',
+        'div:has(a[href*="apartamento"])',
+        
+        // Seletores por atributos data
+        '[data-property-id]',
+        '[data-listing-id]',
+        '[data-testid*="property"]',
+        
+        // Último recurso - qualquer link para propriedades
+        'a[href*="/imovel/"], a[href*="/propriedade/"], a[href*="/apartamento/"]'
     ];
     
-    let listings = $();
-    let workingSelector = '';
+    let bestMatch = { elements: $(), count: 0, selector: '' };
     
+    // Testar cada seletor e encontrar o melhor
     for (const selector of selectors) {
-        const found = $(selector);
-        if (found.length > 0) {
-            // Verificar se contém dados de imóveis
-            let hasPropertyData = false;
-            found.each((i, el) => {
+        try {
+            const elements = $(selector);
+            let propertyCount = 0;
+            
+            // Verificar quantos elementos realmente contêm dados de propriedades
+            elements.each((i, el) => {
                 const text = $(el).text();
-                if (text.includes('€') && (text.includes('m²') || text.includes('T1') || text.includes('T2') || text.includes('T3') || text.includes('T4'))) {
-                    hasPropertyData = true;
-                    return false; // break
+                const hasPrice = /\d+[\s\d]*\s*€/.test(text);
+                const hasArea = /\d+[,.]?\d*\s*m²/.test(text);
+                const hasRooms = /T\d/.test(text);
+                
+                if (hasPrice && (hasArea || hasRooms)) {
+                    propertyCount++;
                 }
             });
             
-            if (hasPropertyData) {
-                listings = found;
-                workingSelector = selector;
-                break;
+            console.log(`📊 Seletor "${selector}": ${elements.length} elementos, ${propertyCount} com dados de propriedades`);
+            
+            if (propertyCount > bestMatch.count) {
+                bestMatch = {
+                    elements: elements,
+                    count: propertyCount, 
+                    selector: selector
+                };
             }
+        } catch (e) {
+            console.log(`❌ Erro com seletor "${selector}": ${e.message}`);
         }
     }
     
-    console.log(`📊 Seletor usado: "${workingSelector}", encontrados ${listings.length} elementos`);
+    console.log(`🎯 Melhor seletor: "${bestMatch.selector}" com ${bestMatch.count} propriedades`);
     
-    if (listings.length === 0) {
-        // Busca alternativa - procurar por elementos com dados de preços
-        console.log('🔍 Buscando elementos com preços...');
-        
-        const priceElements = $('*').filter(function() {
-            const text = $(this).text();
-            return text.match(/\d+[\s\d]*\s*€/) && !$(this).find('*:contains("€")').length;
-        });
-        
-        console.log(`💰 Encontrados ${priceElements.length} elementos com preços`);
-        
-        // Tentar extrair dados dos elementos pai
-        const parentElements = new Set();
-        priceElements.each((i, el) => {
-            let parent = $(el).parent();
-            while (parent.length && parent.prop('tagName') !== 'BODY') {
-                const parentText = parent.text();
-                if (parentText.includes('m²') && parentText.includes('€')) {
-                    parentElements.add(parent[0]);
-                    break;
-                }
-                parent = parent.parent();
-            }
-        });
-        
-        listings = $(Array.from(parentElements));
-        console.log(`📋 Usando ${listings.length} elementos pai com dados completos`);
+    // STEP 3: Se não encontrou nada, fazer busca agressiva
+    if (bestMatch.count === 0) {
+        console.log('🔍 Fazendo busca agressiva por elementos com preços...');
+        return await aggressiveERASearch($);
     }
     
-    listings.each((index, element) => {
+    // STEP 4: Processar elementos encontrados
+    bestMatch.elements.each((index, element) => {
         try {
             const $element = $(element);
-            const text = $element.text();
+            const property = extractERAPropertyData($element, $);
             
-            // Extrair dados básicos
-            const priceMatch = text.match(/([\d\s]+)\s*€/);
-            const areaMatch = text.match(/([\d,\.]+)\s*m²/);
-            const roomsMatch = text.match(/T(\d)/);
-            
-            // Procurar link
-            const linkElement = $element.find('a[href*="/imovel/"], a[href*="/propriedade/"], a[href*="/apartamento/"]').first();
-            const link = linkElement.attr('href');
-            const fullLink = link ? (link.startsWith('http') ? link : `https://www.era.pt${link}`) : null;
-            
-            // Título
-            const title = cleanText(linkElement.text()) ||
-                         cleanText($element.find('h2, h3, h4, .title, .name').first().text()) ||
-                         cleanText($element.find('a').first().text()) ||
-                         'Apartamento ERA Portugal';
-            
-            if (priceMatch && (areaMatch || roomsMatch)) {
-                const property = {
-                    title: title,
-                    price: parseInt(priceMatch[1].replace(/\s/g, '')),
-                    area: areaMatch ? parseFloat(areaMatch[1].replace(',', '.')) : null,
-                    rooms: roomsMatch ? `T${roomsMatch[1]}` : null,
-                    location: 'Caldas da Rainha',
-                    link: fullLink,
-                    site: 'ERA Portugal'
-                };
-                
+            if (property.title && property.price) {
+                property.site = 'ERA Portugal';
                 properties.push(property);
                 
-                console.log(`✅ Imóvel ${index + 1}:`);
-                console.log(`   📋 Título: ${title}`);
+                console.log(`✅ Imóvel ERA ${index + 1}:`);
+                console.log(`   📋 Título: ${property.title}`);
                 console.log(`   💰 Preço: ${property.price.toLocaleString()} €`);
                 console.log(`   📐 Área: ${property.area ? property.area + ' m²' : 'N/A'}`);
                 console.log(`   🏠 Tipologia: ${property.rooms || 'N/A'}`);
-                console.log(`   🔗 Link: ${fullLink || 'N/A'}`);
+                console.log(`   📍 Localização: ${property.location || 'N/A'}`);
+                console.log(`   🔗 Link: ${property.link || 'N/A'}`);
                 console.log('');
             }
-            
         } catch (error) {
             console.log(`❌ Erro ao processar imóvel ERA ${index + 1}:`, error.message);
         }
@@ -338,6 +359,172 @@ async function handleERA($, url) {
     return properties;
 }
 
+// Função auxiliar para extrair dados de propriedade ERA
+function extractERAPropertyData($element, $global) {
+    const elementText = $element.text();
+    const elementHtml = $element.html();
+    
+    // Extrair preço
+    const priceMatch = elementText.match(/([\d\s\.]+)\s*€/) || 
+                      elementText.match(/€\s*([\d\s\.]+)/) ||
+                      elementText.match(/([\d\s]+)\s*euros?/i);
+    const price = priceMatch ? parseInt(priceMatch[1].replace(/[\s\.]/g, '')) : null;
+    
+    // Extrair área
+    const areaMatch = elementText.match(/([\d,\.]+)\s*m²/) || 
+                     elementText.match(/([\d,\.]+)\s*metros?/i);
+    const area = areaMatch ? parseFloat(areaMatch[1].replace(',', '.')) : null;
+    
+    // Extrair tipologia
+    const roomsMatch = elementText.match(/T(\d+)/i) || 
+                      elementText.match(/(\d+)\s*quarto/i);
+    const rooms = roomsMatch ? (roomsMatch[0].startsWith('T') ? roomsMatch[0] : `T${roomsMatch[1]}`) : null;
+    
+    // Extrair título
+    let title = '';
+    const titleSelectors = [
+        'h1, h2, h3, h4',
+        '.title, .titulo, .name',
+        '[class*="title"], [class*="name"]',
+        'a[href*="imovel"], a[href*="propriedade"]',
+        'a'
+    ];
+    
+    for (const selector of titleSelectors) {
+        const titleEl = $element.find(selector).first();
+        if (titleEl.length) {
+            title = cleanText(titleEl.text()) || cleanText(titleEl.attr('title'));
+            if (title && title.length > 5) break;
+        }
+    }
+    
+    // Se não encontrou título, criar um genérico
+    if (!title) {
+        title = rooms ? `Apartamento ${rooms}` : 'Apartamento';
+        if (area) title += ` de ${area}m²`;
+        title += ' - ERA Portugal';
+    }
+    
+    // Extrair link
+    const linkElement = $element.find('a').first();
+    let link = linkElement.attr('href');
+    if (link && !link.startsWith('http')) {
+        link = link.startsWith('/') ? `https://www.era.pt${link}` : `https://www.era.pt/${link}`;
+    }
+    
+    // Extrair localização (tentar do contexto ou URL)
+    let location = '';
+    const locationMatch = elementText.match(/caldas da rainha|lisboa|porto|coimbra|braga|faro|aveiro|leiria/gi);
+    if (locationMatch) {
+        location = locationMatch[0];
+    } else if (link && link.includes('caldas')) {
+        location = 'Caldas da Rainha';
+    }
+    
+    return {
+        title: title,
+        price: price,
+        area: area,
+        rooms: rooms,
+        location: location || 'N/A',
+        link: link
+    };
+}
+
+// Busca agressiva quando métodos normais falham
+async function aggressiveERASearch($) {
+    console.log('🚨 Iniciando busca agressiva na ERA...');
+    
+    const properties = [];
+    
+    // Encontrar todos os elementos que contêm "€"
+    const priceElements = $('*').filter(function() {
+        const text = $(this).text();
+        return text.includes('€') && /\d/.test(text) && $(this).children().length < 5;
+    });
+    
+    console.log(`💰 Encontrados ${priceElements.length} elementos com preços`);
+    
+    const processedParents = new Set();
+    
+    priceElements.each((i, el) => {
+        const $el = $(el);
+        let $parent = $el.parent();
+        
+        // Subir na hierarquia para encontrar o container da propriedade
+        for (let level = 0; level < 5 && $parent.length; level++) {
+            const parentId = $parent[0];
+            
+            if (processedParents.has(parentId)) {
+                break;
+            }
+            
+            const parentText = $parent.text();
+            
+            // Verificar se este elemento pai tem dados completos de propriedade
+            const hasPrice = /\d+[\s\d]*\s*€/.test(parentText);
+            const hasArea = /\d+[,.]?\d*\s*m²/.test(parentText);
+            const hasRooms = /T\d/.test(parentText);
+            const hasLink = $parent.find('a[href*="imovel"], a[href*="propriedade"], a[href*="apartamento"]').length > 0;
+            
+            if (hasPrice && (hasArea || hasRooms || hasLink)) {
+                processedParents.add(parentId);
+                
+                const property = extractERAPropertyData($parent, $);
+                
+                if (property.title && property.price) {
+                    property.site = 'ERA Portugal';
+                    properties.push(property);
+                    
+                    console.log(`🎯 Propriedade encontrada agressivamente:`);
+                    console.log(`   📋 ${property.title}`);
+                    console.log(`   💰 ${property.price.toLocaleString()} €`);
+                }
+                
+                break;
+            }
+            
+            $parent = $parent.parent();
+        }
+    });
+    
+    // Remover duplicados baseado em título e preço
+    const uniqueProperties = [];
+    const seen = new Set();
+    
+    for (const prop of properties) {
+        const key = `${prop.title}-${prop.price}`;
+        if (!seen.has(key)) {
+            seen.add(key);
+            uniqueProperties.push(prop);
+        }
+    }
+    
+    console.log(`🎯 Busca agressiva concluída: ${uniqueProperties.length} propriedades únicas`);
+    return uniqueProperties;
+}
+
+// Estratégias alternativas quando JavaScript é necessário
+async function tryAlternativeEraApproaches(url) {
+    console.log('🔄 Tentando abordagens alternativas para ERA...');
+    
+    // Por enquanto, retornar array vazio
+    // Aqui poderia implementar:
+    // - Chamadas para APIs diretas
+    // - Parsing de dados de scripts embebidos
+    // - Uso de proxies ou serviços externos
+    
+    console.log('ℹ️  Alternativas não implementadas ainda - ERA requer JavaScript');
+    console.log('💡 Sugestão: Considerar upgrade do Apify para usar Puppeteer ou Playwright');
+    
+    return [];
+}
+
+// ✅ INSTRUÇÕES:
+// 1. Substitua APENAS a função handleERA() no seu main.js por esta versão
+// 2. Adicione as funções auxiliares no final do arquivo
+// 3. Teste novamente - deve ver logs muito mais detalhados
+// 4. Se ainda não funcionar, consideraremos outras estratégias
 // Configuração principal
 const input = await Actor.getInput();
 const query = input?.query || 'Imóvel T4 caldas da Rainha novo';
