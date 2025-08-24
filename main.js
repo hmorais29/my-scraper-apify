@@ -1,6 +1,5 @@
 import { Actor } from 'apify';
 import { CheerioCrawler } from 'crawlee';
-import * as cheerio from 'cheerio';
 
 await Actor.init();
 
@@ -91,10 +90,14 @@ async function scrapeERA($, url) {
             '.imovel',
             '.card-property',
             '.property-listing',
+            '.estate-card',
+            '.real-estate-item',
+            '.property-container',
             'div[class*="property"]',
             'div[class*="listing"]', 
             'div[class*="imovel"]',
             'div[class*="result"]',
+            'div[class*="estate"]',
             'article[class*="property"]',
             'article[class*="listing"]',
             'article:has(.price), article:has([class*="price"])',
@@ -400,31 +403,32 @@ console.log('');
 
 console.log('🚀 Iniciando scraping...');
 
+// Array para coletar todos os resultados
+const allProperties = [];
+
 const crawler = new CheerioCrawler({
     requestHandler: async ({ request, $ }) => {
         console.log(`\n📊 Status: ${request.loadedUrl ? '200' : 'Error'}`);
         
+        let properties = [];
+        
         if (request.url.includes('era.pt')) {
             console.log('✅ ERA Portugal acessível!');
-            return await scrapeERA($, request.url);
+            properties = await scrapeERA($, request.url);
         } else if (request.url.includes('imovirtual.com')) {
             console.log('✅ Imovirtual acessível!');
-            return await scrapeImovirtual($);
+            properties = await scrapeImovirtual($);
         }
+        
+        // Adicionar propriedades ao array global
+        allProperties.push(...properties);
+        
+        return properties;
     }
 });
 
 // Executar scraping
 await crawler.run([urls.era, urls.imovirtual]);
-
-// Obter todos os resultados
-const allProperties = [];
-
-// Como estamos usando o crawler, vamos reformular para coletar os dados
-const eraProperties = await scrapeERA(cheerio.load(''), urls.era);
-const imovirtualProperties = await scrapeImovirtual(cheerio.load(''));
-
-allProperties.push(...eraProperties, ...imovirtualProperties);
 
 // Normalizar propriedades
 const normalizedProperties = allProperties.map(normalizeProperty);
