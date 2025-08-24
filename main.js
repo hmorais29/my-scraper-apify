@@ -342,7 +342,7 @@ async function handleERA($, url) {
 const input = await Actor.getInput();
 const query = input?.query || 'Imóvel T4 caldas da Rainha novo';
 
-console.log('📥 Input recebido:', { query });
+console.log('🔥 Input recebido:', { query });
 console.log(`🔍 Query: "${query}"`);
 
 const criteria = extractCriteria(query);
@@ -444,18 +444,39 @@ filteredProperties.forEach((property, index) => {
     }
 });
 
-// Salvar resultados
-await Actor.pushData({
+// MELHOR FORMATO DE OUTPUT - Salvar cada imóvel individualmente
+const summary = {
     query: query,
     criteria: criteria,
     totalFound: allProperties.length,
     filteredCount: filteredProperties.length,
-    properties: filteredProperties,
     searchUrls: urls.map(u => ({ site: u.site, url: u.url })),
     timestamp: new Date().toISOString()
-});
+};
+
+// Salvar resumo
+await Actor.pushData(summary);
+
+// Salvar cada imóvel como entrada separada para melhor visualização
+for (let i = 0; i < filteredProperties.length; i++) {
+    const property = filteredProperties[i];
+    
+    // Adicionar informações extras para cada imóvel
+    const propertyData = {
+        ...property,
+        searchQuery: query,
+        propertyIndex: i + 1,
+        totalProperties: filteredProperties.length,
+        priceFormatted: property.price ? `${property.price.toLocaleString()} €` : 'N/A',
+        areaFormatted: property.area ? `${property.area} m²` : 'N/A',
+        pricePerSqmFormatted: property.pricePerSqm ? `${property.pricePerSqm} €/m²` : 'N/A',
+        timestamp: new Date().toISOString()
+    };
+    
+    await Actor.pushData(propertyData);
+}
 
 console.log('\n✅ Scraping concluído!');
-console.log(`📊 Dados salvos: ${filteredProperties.length} imóveis`);
+console.log(`📊 Dados salvos: 1 resumo + ${filteredProperties.length} imóveis individuais`);
 
 await Actor.exit();
