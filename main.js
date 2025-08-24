@@ -35,220 +35,81 @@ function extractCriteria(query) {
     return criteria;
 }
 
-// Função para construir URL do Imovirtual (versão melhorada)
+// Função para construir URL do Imovirtual
 function buildImovirtualUrl(criteria) {
-    // URL base mais simples
-    let baseUrl = 'https://www.imovirtual.com/comprar/apartamento';
-    
+    let imovirtualUrl = `https://www.imovirtual.com/comprar/${criteria.type}`;
     if (criteria.location) {
-        // Limpar e formatar localização
-        const cleanLocation = criteria.location
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[àáâãä]/g, 'a')
-            .replace(/[èéêë]/g, 'e')
-            .replace(/[ìíîï]/g, 'i')
-            .replace(/[òóôõö]/g, 'o')
-            .replace(/[ùúûü]/g, 'u')
-            .replace(/ç/g, 'c')
-            .replace(/[^a-z0-9-]/g, '');
-        
-        baseUrl += `/${cleanLocation}`;
+        imovirtualUrl += `/${criteria.location.replace(/\s+/g, '-')}`;
     }
     
-    // Adicionar parâmetros via query string
-    const params = new URLSearchParams();
-    
+    // Adicionar parâmetros de pesquisa para tipologia
     if (criteria.rooms) {
         const roomNumber = criteria.rooms.replace('T', '');
-        params.append('search[filter_float_number_of_rooms:from]', roomNumber);
-        params.append('search[filter_float_number_of_rooms:to]', roomNumber);
+        imovirtualUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${roomNumber}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${roomNumber}`;
     }
     
-    const finalUrl = params.toString() ? `${baseUrl}?${params.toString()}` : baseUrl;
-    
-    return finalUrl;
+    return imovirtualUrl;
 }
 
-// Função para scraping do Imovirtual com múltiplos seletores
+// Função para scraping do Imovirtual
 async function scrapeImovirtual($, url) {
     console.log('\n🏠 Processando Imovirtual...');
-    console.log(`🌐 URL atual: ${url}`);
+    console.log(`🌐 URL: ${url}`);
     
     const properties = [];
     
-    // Múltiplos seletores para diferentes versões do site
-    const possibleSelectors = [
-        '[data-cy="listing-item"]',
-        '.offer-item',
-        '.listing-item',
-        '[data-testid="listing-item"]',
-        '.property-item',
-        '.search-results article',
-        'article[data-item-id]',
-        '.offers-index article'
-    ];
+    // Debug: verificar se a página carregou
+    console.log(`📄 Título da página: ${$('title').text()}`);
+    console.log(`📄 Tamanho HTML: ${$.html().length} caracteres`);
     
-    let listingElements = $();
-    let usedSelector = '';
+    // Tentar diferentes seletores
+    let listingElements = $('[data-cy="listing-item"]');
+    console.log(`📊 Elementos com data-cy="listing-item": ${listingElements.length}`);
     
-    // Tentar cada seletor até encontrar elementos
-    for (const selector of possibleSelectors) {
-        const elements = $(selector);
-        if (elements.length > 0) {
-            listingElements = elements;
-            usedSelector = selector;
-            break;
-        }
-    }
-    
-    console.log(`📊 Seletor usado: "${usedSelector}"`);
-    console.log(`📊 Encontrados ${listingElements.length} elementos`);
-    
-    // Debug: mostrar estrutura da página se não encontrou elementos
     if (listingElements.length === 0) {
-        console.log('\n🔍 DEBUG: Estrutura da página:');
-        console.log('Classes principais encontradas:');
-        
-        const classes = new Set();
-        $('[class]').each((i, el) => {
-            const classList = $(el).attr('class').split(/\s+/);
-            classList.forEach(cls => {
-                if (cls.length > 3 && !cls.includes('icon') && !cls.includes('svg')) {
-                    classes.add(cls);
-                }
-            });
-        });
-        
-        Array.from(classes).slice(0, 20).forEach(cls => {
-            console.log(`  - .${cls} (${$('.' + cls).length} elementos)`);
-        });
-        
-        console.log('\nIDs principais encontrados:');
-        $('[id]').each((i, el) => {
-            const id = $(el).attr('id');
-            if (id && id.length > 3) {
-                console.log(`  - #${id}`);
-            }
-        });
-        
-        console.log('\nData attributes encontrados:');
-        $('[data-cy], [data-testid], [data-item]').each((i, el) => {
-            const attrs = [];
-            if ($(el).attr('data-cy')) attrs.push(`data-cy="${$(el).attr('data-cy')}"`);
-            if ($(el).attr('data-testid')) attrs.push(`data-testid="${$(el).attr('data-testid')}"`);
-            if ($(el).attr('data-item-id')) attrs.push(`data-item-id="${$(el).attr('data-item-id')}"`);
-            if (attrs.length > 0) {
-                console.log(`  - ${attrs.join(', ')}`);
-            }
-        });
+        listingElements = $('.offer-item');
+        console.log(`📊 Elementos com .offer-item: ${listingElements.length}`);
     }
+    
+    if (listingElements.length === 0) {
+        listingElements = $('article');
+        console.log(`📊 Elementos article: ${listingElements.length}`);
+    }
+    
+    console.log(`📊 Total encontrados: ${listingElements.length} imóveis`);
     
     listingElements.each((index, element) => {
         try {
             const $listing = $(element);
             
-            // Múltiplos seletores para título
-            const titleSelectors = [
-                'h3 a',
-                'h2 a', 
-                '.offer-item-title a',
-                '[data-cy="listing-item-link"]',
-                '.property-title a',
-                'a[title]',
-                '.listing-title'
-            ];
-            
-            let title = '';
-            let link = '';
-            
-            for (const selector of titleSelectors) {
-                const titleEl = $listing.find(selector).first();
-                if (titleEl.length > 0) {
-                    title = titleEl.text().trim();
-                    link = titleEl.attr('href');
-                    if (title) break;
-                }
-            }
-            
-            // Múltiplos seletores para preço
-            const priceSelectors = [
-                '[data-cy="price"]',
-                '.price',
-                '.offer-item-price',
-                '.property-price',
-                '[class*="price"]',
-                '.listing-price'
-            ];
-            
-            let priceText = '';
-            for (const selector of priceSelectors) {
-                const priceEl = $listing.find(selector).first();
-                if (priceEl.length > 0 && priceEl.text().trim()) {
-                    priceText = priceEl.text().trim();
-                    break;
-                }
-            }
-            
-            // Múltiplos seletores para área
-            const areaSelectors = [
-                '[title*="m²"]',
-                '[class*="area"]',
-                '.offer-item-area',
-                '.property-area',
-                '.listing-area'
-            ];
-            
-            let areaText = '';
-            for (const selector of areaSelectors) {
-                const areaEl = $listing.find(selector).first();
-                if (areaEl.length > 0 && areaEl.text().trim()) {
-                    areaText = areaEl.text().trim();
-                    break;
-                }
-            }
-            
-            // Múltiplos seletores para localização
-            const locationSelectors = [
-                '[class*="location"]',
-                '[class*="address"]',
-                '.offer-item-location',
-                '.property-location',
-                '.listing-location'
-            ];
-            
-            let locationText = '';
-            for (const selector of locationSelectors) {
-                const locEl = $listing.find(selector).first();
-                if (locEl.length > 0 && locEl.text().trim()) {
-                    locationText = locEl.text().trim();
-                    break;
-                }
-            }
+            // Extrair informações básicas
+            const title = $listing.find('h3 a, .offer-item-title a, [data-cy="listing-item-link"], h2 a').first().text().trim();
+            const priceText = $listing.find('[class*="price"], [data-cy="price"]').first().text().trim();
+            const areaText = $listing.find('[class*="area"], [title*="m²"]').first().text().trim();
+            const link = $listing.find('h3 a, .offer-item-title a, [data-cy="listing-item-link"], h2 a').first().attr('href');
+            const locationText = $listing.find('[class*="location"], [class*="address"]').first().text().trim();
             
             // Extrair tipologia do título
             let rooms = '';
-            if (title) {
-                const roomsMatch = title.match(/T([0-9])/i);
-                if (roomsMatch) {
-                    rooms = 'T' + roomsMatch[1];
-                }
+            const roomsMatch = title.match(/T([0-9])/i);
+            if (roomsMatch) {
+                rooms = 'T' + roomsMatch[1];
             }
             
             // Processar localização
             let location = locationText || 'N/A';
-            if (title && title.toLowerCase().includes('caldas da rainha')) {
+            if (title.toLowerCase().includes('caldas da rainha')) {
                 location = 'Caldas da Rainha';
             }
             
-            if (title && title.length > 5) {
+            if (title) {
                 const property = {
                     title,
                     price: priceText || 'N/A',
                     area: areaText || 'N/A', 
                     rooms: rooms || 'N/A',
                     location,
-                    link: link ? (link.startsWith('http') ? link : `https://www.imovirtual.com${link}`) : 'N/A',
+                    link: link ? `https://www.imovirtual.com${link}` : 'N/A',
                     source: 'ImóVirtual'
                 };
                 
@@ -262,8 +123,6 @@ async function scrapeImovirtual($, url) {
                 console.log(`   📍 Localização: ${property.location}`);
                 console.log(`   🔗 Link: ${property.link}`);
                 console.log('');
-            } else {
-                console.log(`⚠️  Imóvel ${index + 1}: Título insuficiente ou vazio`);
             }
         } catch (error) {
             console.log(`❌ Erro ao processar imóvel ${index + 1}:`, error.message);
@@ -280,10 +139,10 @@ function normalizeProperty(property) {
     let price = property.price;
     let priceNum = 0;
     if (typeof price === 'string') {
-        const priceMatch = price.match(/(\d+(?:[.,\s]\d+)*)/);
+        const priceMatch = price.match(/(\d+(?:[.,]\d+)*)/);
         if (priceMatch) {
-            priceNum = parseFloat(priceMatch[1].replace(/[\s.,]/g, ''));
-            // Se o número for muito pequeno, pode estar em formato diferente
+            priceNum = parseFloat(priceMatch[1].replace(/[.,]/g, ''));
+            // Se o número for muito pequeno, pode estar em formato com pontos como separadores de milhares
             if (priceNum < 1000 && price.includes('.')) {
                 priceNum = parseFloat(priceMatch[1].replace(/\./g, '').replace(/,/g, '.'));
             }
@@ -329,17 +188,8 @@ const allProperties = [];
 
 const crawler = new CheerioCrawler({
     requestHandler: async ({ request, $ }) => {
-        console.log(`\n📊 URL: ${request.loadedUrl}`);
-        console.log(`📊 Status: ${request.loadedUrl ? '200' : 'Error'}`);
-        
-        // Debug: informações sobre a página
-        console.log(`📄 Título da página: ${$('title').text()}`);
-        console.log(`📄 Tamanho do HTML: ${$.html().length} caracteres`);
-        
-        // Verificar se a página carregou corretamente
-        if ($.html().includes('blocked') || $.html().includes('captcha') || $.html().includes('robot')) {
-            console.log('⚠️  Página pode estar bloqueada por anti-bot');
-        }
+        console.log(`\n📊 Status: ${request.loadedUrl ? '200' : 'Error'}`);
+        console.log('✅ Imovirtual acessível!');
         
         const properties = await scrapeImovirtual($, request.loadedUrl);
         
@@ -347,29 +197,76 @@ const crawler = new CheerioCrawler({
         allProperties.push(...properties);
         
         return properties;
-    },
-    
-    // Configurações para evitar bloqueios
-    requestHandlerTimeoutSecs: 30,
-    navigationTimeoutSecs: 30,
-    requestInterceptor: (request) => {
-        // Adicionar headers mais realistas
-        request.headers = {
-            ...request.headers,
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-            'Accept-Language': 'pt-PT,pt;q=0.8,en-US;q=0.5,en;q=0.3',
-            'Accept-Encoding': 'gzip, deflate',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-        };
-    },
-    
-    // Adicionar delay entre requests
-    minConcurrency: 1,
-    maxConcurrency: 1,
+    }
 });
 
-try {
-    // Executar scraping apenas no Imovirtual
-    await crawler.run([imovirtualUrl])
+// Executar scraping apenas no Imovirtual
+await crawler.run([imovirtualUrl]);
+
+// Normalizar propriedades
+const normalizedProperties = allProperties.map(normalizeProperty);
+
+// Aplicar filtros baseados nos critérios
+let filteredProperties = normalizedProperties;
+
+if (criteria.rooms) {
+    filteredProperties = filteredProperties.filter(prop => 
+        prop.rooms && prop.rooms.toLowerCase() === criteria.rooms.toLowerCase()
+    );
+}
+
+console.log('\n📊 === RELATÓRIO FINAL ===');
+console.log(`🏠 Total de imóveis encontrados: ${allProperties.length}`);
+console.log(`🔍 Filtro tipologia ${criteria.rooms}: ${allProperties.length} → ${filteredProperties.length}`);
+
+if (filteredProperties.length > 0) {
+    console.log('\n🎯 === IMÓVEIS ENCONTRADOS ===\n');
+    
+    filteredProperties.forEach((property, index) => {
+        console.log(`${index + 1}. ${property.title}`);
+        console.log(`   💰 Preço: ${property.price}`);
+        console.log(`   📐 Área: ${property.area}`);
+        console.log(`   🏠 Tipologia: ${property.rooms}`);
+        console.log(`   📍 Local: ${property.location}`);
+        console.log(`   🌐 Site: ${property.source}`);
+        console.log(`   🔗 Link: ${property.link}`);
+        if (property.pricePerM2 > 0) {
+            console.log(`   💵 Preço/m²: ${property.pricePerM2} €/m²`);
+        }
+        console.log('');
+    });
+
+    // Salvar dados no dataset
+    console.log('\n📊 Dados a serem salvos:');
+    
+    // Salvar apenas os imóveis individuais
+    for (const property of filteredProperties) {
+        const propertyData = {
+            id: 'imovel_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            tipo: 'imovel',
+            titulo: property.title,
+            preco: property.price,
+            area: property.area,
+            tipologia: property.rooms,
+            localizacao: property.location,
+            site: property.source,
+            link: property.link,
+            precoM2: property.pricePerM2,
+            query: criteria.originalQuery,
+            timestamp: new Date().toISOString(),
+            // Adicionar metadados da pesquisa
+            totalEncontrados: allProperties.length,
+            totalFiltrados: filteredProperties.length,
+            criterios: criteria
+        };
+        
+        await Actor.pushData(propertyData);
+    }
+    
+    console.log(`✅ Scraping concluído!`);
+    console.log(`📊 Dados salvos: ${filteredProperties.length} imóveis individuais`);
+} else {
+    console.log('\n❌ Nenhum imóvel encontrado com os critérios especificados.');
+}
+
+await Actor.exit();
