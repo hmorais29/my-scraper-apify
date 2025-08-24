@@ -1,6 +1,20 @@
 import { Actor } from 'apify';
 import { CheerioCrawler, log } from 'crawlee';
 
+// Função auxiliar para extrair dados de propriedade ERA
+function extractERAPropertyData($element, $global) {
+    // ... (código da função acima)
+}
+
+async function aggressiveERASearch($) {
+    // ... (código da função acima)
+}
+
+async function tryAlternativeEraApproaches(url) {
+    // ... (código da função acima)
+}
+
+
 // Configuração inicial
 await Actor.init();
 
