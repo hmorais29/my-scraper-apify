@@ -35,11 +35,8 @@ function extractCriteria(query) {
     return criteria;
 }
 
-// Função para construir URLs
-function buildUrls(criteria) {
-    const urls = {};
-    
-    // Imovirtual URL
+// Função para construir URL do Imovirtual
+function buildImovirtualUrl(criteria) {
     let imovirtualUrl = `https://www.imovirtual.com/comprar/${criteria.type}`;
     if (criteria.location) {
         imovirtualUrl += `/${criteria.location.replace(/\s+/g, '-')}`;
@@ -51,241 +48,7 @@ function buildUrls(criteria) {
         imovirtualUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${roomNumber}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${roomNumber}`;
     }
     
-    urls.imovirtual = imovirtualUrl;
-    
-    // ERA Portugal URL
-    let eraUrl = `https://www.era.pt/comprar/${criteria.type}s`;
-    if (criteria.location) {
-        eraUrl += `/${criteria.location.replace(/\s+/g, '-')}`;
-    }
-    urls.era = eraUrl;
-    
-    return urls;
-}
-
-// Função melhorada para scraping da ERA
-async function scrapeERA($, url) {
-    console.log('\n🏠 Processando ERA Portugal...');
-    
-    const properties = [];
-    const htmlContent = $.html();
-    
-    console.log(`📄 Tamanho do HTML: ${htmlContent.length} caracteres`);
-    console.log(`📝 Primeiros 200 caracteres do body:`);
-    console.log(htmlContent.substring(0, 200));
-    
-    if (htmlContent.length > 0) {
-        console.log('✅ Conteúdo HTML disponível, procurando propriedades...');
-        
-        // Lista de seletores mais específicos para a ERA
-        const selectors = [
-            '.property-card',
-            '.property-item', 
-            '.listing-item',
-            '.search-result-item',
-            '.property-result',
-            '.result-item',
-            '.property',
-            '.listing',
-            '.imovel',
-            '.card-property',
-            '.property-listing',
-            '.estate-card',
-            '.real-estate-item',
-            '.property-container',
-            'div[class*="property"]',
-            'div[class*="listing"]', 
-            'div[class*="imovel"]',
-            'div[class*="result"]',
-            'div[class*="estate"]',
-            'article[class*="property"]',
-            'article[class*="listing"]',
-            'article:has(.price), article:has([class*="price"])',
-            'div:has(.price):has(.area)',
-            'div:has([class*="euro"]):has([class*="metro"])',
-            '.card:has(a[href*="imovel"])',
-            '.item:has(a[href*="propriedade"])',
-            'div:has(a[href*="apartamento"])',
-            '[data-property-id]',
-            '[data-listing-id]',
-            '[data-testid*="property"]',
-            'a[href*="/imovel/"], a[href*="/propriedade/"], a[href*="/apartamento/"]'
-        ];
-        
-        let bestSelector = '';
-        let maxProperties = 0;
-        
-        for (const selector of selectors) {
-            try {
-                const elements = $(selector);
-                const propertiesFound = elements.length;
-                let validProperties = 0;
-                
-                elements.each((index, element) => {
-                    const $el = $(element);
-                    const hasPrice = $el.find('[class*="price"], [class*="euro"], [class*="preco"]').length > 0 || 
-                                   $el.text().match(/€|EUR|\d+\.\d+/) !== null;
-                    const hasArea = $el.find('[class*="area"], [class*="metro"], [class*="m2"]').length > 0 || 
-                                  $el.text().match(/m²|m2|\d+\s*metros/) !== null;
-                    
-                    if (hasPrice || hasArea) {
-                        validProperties++;
-                    }
-                });
-                
-                console.log(`📊 Seletor "${selector}": ${propertiesFound} elementos, ${validProperties} com dados de propriedades`);
-                
-                if (validProperties > maxProperties) {
-                    maxProperties = validProperties;
-                    bestSelector = selector;
-                }
-            } catch (error) {
-                // Seletor inválido, continuar
-            }
-        }
-        
-        console.log(`🎯 Melhor seletor: "${bestSelector}" com ${maxProperties} propriedades`);
-        
-        // Se não encontrou com seletores específicos, fazer busca agressiva
-        if (maxProperties === 0) {
-            console.log('🔍 Fazendo busca agressiva por elementos com preços...');
-            console.log('🚨 Iniciando busca agressiva na ERA...');
-            
-            // Buscar todos os elementos que contêm preços
-            const priceElements = $('*').filter(function() {
-                const text = $(this).text();
-                return text.match(/€|EUR|\d+[.,]\d+/);
-            });
-            
-            console.log(`💰 Encontrados ${priceElements.length} elementos com preços`);
-            
-            const processedLinks = new Set();
-            
-            priceElements.each((index, element) => {
-                try {
-                    const $el = $(element);
-                    const $parent = $el.closest('div, article, section, li');
-                    
-                    // Buscar informações básicas
-                    const titleEl = $parent.find('h1, h2, h3, h4, .title, [class*="title"], a[href*="imovel"], a[href*="apartamento"]').first();
-                    const priceEl = $parent.find('[class*="price"], [class*="euro"], [class*="preco"]').first();
-                    const areaEl = $parent.find('[class*="area"], [class*="metro"], [class*="m2"]').first();
-                    const linkEl = $parent.find('a[href*="imovel"], a[href*="apartamento"], a[href*="propriedade"]').first();
-                    
-                    let title = titleEl.length ? titleEl.text().trim() : '';
-                    let price = priceEl.length ? priceEl.text().trim() : '';
-                    let area = areaEl.length ? areaEl.text().trim() : '';
-                    let link = linkEl.length ? linkEl.attr('href') : '';
-                    
-                    // Se não encontrou, buscar no texto do elemento
-                    if (!title) {
-                        const parentText = $parent.text();
-                        const sentences = parentText.split(/[.!?]/).filter(s => s.length > 10);
-                        title = sentences[0] ? sentences[0].trim() : '';
-                    }
-                    
-                    if (!price) {
-                        const priceMatch = $parent.text().match(/(\d+[.,]\d+)\s*€/);
-                        price = priceMatch ? priceMatch[0] : '';
-                    }
-                    
-                    if (!area) {
-                        const areaMatch = $parent.text().match(/(\d+[.,]?\d*)\s*m[²2]/);
-                        area = areaMatch ? areaMatch[0] : '';
-                    }
-                    
-                    // Validar se tem informações mínimas
-                    if ((title || price) && !processedLinks.has(link)) {
-                        processedLinks.add(link);
-                        
-                        // Extrair tipologia do título
-                        let rooms = '';
-                        const roomsMatch = title.match(/T([0-9])/i);
-                        if (roomsMatch) {
-                            rooms = 'T' + roomsMatch[1];
-                        }
-                        
-                        // Extrair localização
-                        let location = '';
-                        const locationMatch = title.match(/(caldas da rainha|lisboa|porto|coimbra)/i);
-                        if (locationMatch) {
-                            location = locationMatch[1];
-                        }
-                        
-                        const property = {
-                            title: title.substring(0, 100),
-                            price: price,
-                            area: area,
-                            rooms: rooms,
-                            location: location,
-                            link: link ? (link.startsWith('http') ? link : `https://www.era.pt${link}`) : url,
-                            source: 'ERA Portugal'
-                        };
-                        
-                        // Só adicionar se tiver pelo menos título e preço ou área
-                        if (property.title && (property.price || property.area)) {
-                            properties.push(property);
-                        }
-                    }
-                } catch (error) {
-                    // Ignorar erros de elementos individuais
-                }
-            });
-            
-            console.log(`🎯 Busca agressiva concluída: ${properties.length} propriedades únicas`);
-        } else {
-            // Usar o melhor seletor encontrado
-            $(bestSelector).each((index, element) => {
-                try {
-                    const $el = $(element);
-                    
-                    // Extrair informações
-                    const title = $el.find('h1, h2, h3, .title, [class*="title"]').first().text().trim() ||
-                                 $el.find('a').first().text().trim() ||
-                                 $el.text().split('\n')[0].trim();
-                    
-                    const priceText = $el.find('[class*="price"], [class*="euro"], [class*="preco"]').first().text().trim() ||
-                                     ($el.text().match(/\d+[.,]\d+\s*€/) || [''])[0];
-                    
-                    const areaText = $el.find('[class*="area"], [class*="metro"], [class*="m2"]').first().text().trim() ||
-                                    ($el.text().match(/\d+[.,]?\d*\s*m[²2]/) || [''])[0];
-                    
-                    const link = $el.find('a').first().attr('href') || '';
-                    
-                    if (title && (priceText || areaText)) {
-                        // Extrair tipologia
-                        let rooms = '';
-                        const roomsMatch = title.match(/T([0-9])/i);
-                        if (roomsMatch) {
-                            rooms = 'T' + roomsMatch[1];
-                        }
-                        
-                        // Extrair localização
-                        let location = '';
-                        const locationMatch = title.match(/(caldas da rainha|lisboa|porto|coimbra)/i);
-                        if (locationMatch) {
-                            location = locationMatch[1];
-                        }
-                        
-                        properties.push({
-                            title: title.substring(0, 100),
-                            price: priceText,
-                            area: areaText,
-                            rooms: rooms,
-                            location: location,
-                            link: link ? (link.startsWith('http') ? link : `https://www.era.pt${link}`) : url,
-                            source: 'ERA Portugal'
-                        });
-                    }
-                } catch (error) {
-                    // Ignorar erros de elementos individuais
-                }
-            });
-        }
-    }
-    
-    console.log(`✅ ERA Portugal processado: ${properties.length} imóveis encontrados`);
-    return properties;
+    return imovirtualUrl;
 }
 
 // Função para scraping do Imovirtual
@@ -396,9 +159,8 @@ function normalizeProperty(property) {
 const criteria = extractCriteria(query);
 console.log('📋 Critérios extraídos:', criteria);
 
-const urls = buildUrls(criteria);
-console.log('🌐 Imovirtual:', urls.imovirtual);
-console.log('🌐 ERA Portugal:', urls.era);
+const imovirtualUrl = buildImovirtualUrl(criteria);
+console.log('🌐 Imovirtual:', imovirtualUrl);
 console.log('');
 
 console.log('🚀 Iniciando scraping...');
@@ -409,16 +171,9 @@ const allProperties = [];
 const crawler = new CheerioCrawler({
     requestHandler: async ({ request, $ }) => {
         console.log(`\n📊 Status: ${request.loadedUrl ? '200' : 'Error'}`);
+        console.log('✅ Imovirtual acessível!');
         
-        let properties = [];
-        
-        if (request.url.includes('era.pt')) {
-            console.log('✅ ERA Portugal acessível!');
-            properties = await scrapeERA($, request.url);
-        } else if (request.url.includes('imovirtual.com')) {
-            console.log('✅ Imovirtual acessível!');
-            properties = await scrapeImovirtual($);
-        }
+        const properties = await scrapeImovirtual($);
         
         // Adicionar propriedades ao array global
         allProperties.push(...properties);
@@ -427,8 +182,8 @@ const crawler = new CheerioCrawler({
     }
 });
 
-// Executar scraping
-await crawler.run([urls.era, urls.imovirtual]);
+// Executar scraping apenas no Imovirtual
+await crawler.run([imovirtualUrl]);
 
 // Normalizar propriedades
 const normalizedProperties = allProperties.map(normalizeProperty);
@@ -462,10 +217,8 @@ if (filteredProperties.length > 0) {
         }
         console.log('');
     });
-}
 
-// Salvar dados no dataset
-if (filteredProperties.length > 0) {
+    // Salvar dados no dataset
     console.log('\n📊 Dados a serem salvos:');
     
     // Salvar apenas os imóveis individuais
@@ -494,6 +247,8 @@ if (filteredProperties.length > 0) {
     
     console.log(`✅ Scraping concluído!`);
     console.log(`📊 Dados salvos: ${filteredProperties.length} imóveis individuais`);
+} else {
+    console.log('\n❌ Nenhum imóvel encontrado com os critérios especificados.');
 }
 
 await Actor.exit();
