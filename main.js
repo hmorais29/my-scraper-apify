@@ -1,20 +1,6 @@
 import { Actor } from 'apify';
 import { CheerioCrawler, log } from 'crawlee';
 
-// Função auxiliar para extrair dados de propriedade ERA
-function extractERAPropertyData($element, $global) {
-    // ... (código da função acima)
-}
-
-async function aggressiveERASearch($) {
-    // ... (código da função acima)
-}
-
-async function tryAlternativeEraApproaches(url) {
-    // ... (código da função acima)
-}
-
-
 // Configuração inicial
 await Actor.init();
 
@@ -226,9 +212,7 @@ async function handleImovirtual($, url) {
     return properties;
 }
 
-// 🔧 SUBSTITUIR APENAS ESTA FUNÇÃO no seu main.js
-// Substitua a função handleERA() atual por esta versão melhorada
-
+// 🔧 Handler para ERA Portugal (VERSÃO CORRIGIDA E MELHORADA)
 async function handleERA($, url) {
     console.log('\n🏠 Processando ERA Portugal...');
     
@@ -238,35 +222,44 @@ async function handleERA($, url) {
     const bodyText = $('body').text();
     const htmlContent = $.html();
     
+    console.log(`📄 Tamanho do HTML: ${htmlContent.length} caracteres`);
+    console.log(`📝 Primeiros 200 caracteres do body: ${bodyText.substring(0, 200)}`);
+    
     if (bodyText.includes('JavaScript disabled') || 
         bodyText.includes('enable JavaScript') || 
+        bodyText.includes('please enable JavaScript') ||
         htmlContent.length < 1000) {
         console.log('⚠️  ERA requer JavaScript - tentando estratégias alternativas...');
         
         // Estratégia 1: Tentar encontrar dados em scripts JSON
         const scriptTags = $('script[type="application/json"], script:contains("window."), script:contains("data")');
+        console.log(`📄 Encontrados ${scriptTags.length} scripts para análise`);
         
+        let jsonDataFound = false;
         scriptTags.each((i, script) => {
             try {
                 const scriptContent = $(script).html();
                 if (scriptContent && scriptContent.includes('price') && scriptContent.includes('property')) {
-                    console.log(`📄 Encontrado script com dados: ${scriptContent.substring(0, 100)}...`);
+                    console.log(`📄 Script ${i + 1} contém dados: ${scriptContent.substring(0, 100)}...`);
                     // Tentar extrair dados JSON
                     const jsonMatch = scriptContent.match(/\{.*"properties".*\}/);
                     if (jsonMatch) {
                         const data = JSON.parse(jsonMatch[0]);
                         console.log('✅ Dados JSON extraídos com sucesso');
-                        return extractFromJSON(data);
+                        jsonDataFound = true;
+                        return false; // break
                     }
                 }
             } catch (e) {
                 // Script não é JSON válido, continuar
+                console.log(`   Script ${i + 1} não é JSON válido`);
             }
         });
         
-        // Estratégia 2: Tentar versão móvel ou alternativa
-        console.log('🔄 Tentando abordagens alternativas...');
-        return await tryAlternativeEraApproaches(url);
+        if (!jsonDataFound) {
+            console.log('🔄 Nenhum JSON útil encontrado, tentando abordagens alternativas...');
+            return await tryAlternativeEraApproaches(url);
+        }
     }
     
     // STEP 2: Site carregou HTML - tentar extrair dados
@@ -534,11 +527,6 @@ async function tryAlternativeEraApproaches(url) {
     return [];
 }
 
-// ✅ INSTRUÇÕES:
-// 1. Substitua APENAS a função handleERA() no seu main.js por esta versão
-// 2. Adicione as funções auxiliares no final do arquivo
-// 3. Teste novamente - deve ver logs muito mais detalhados
-// 4. Se ainda não funcionar, consideraremos outras estratégias
 // Configuração principal
 const input = await Actor.getInput();
 const query = input?.query || 'Imóvel T4 caldas da Rainha novo';
