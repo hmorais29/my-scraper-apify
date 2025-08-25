@@ -18,13 +18,21 @@ function extractBasics(query) {
 
 // Função para extrair tipologia do texto
 function extractRoomsFromText(text) {
+    // Limpar CSS primeiro
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
     // Procurar por padrões T1, T2, T3, etc.
-    const roomsMatch = text.match(/T(\d+)/i);
+    const roomsMatch = cleanText.match(/T(\d+)/i);
     return roomsMatch ? roomsMatch[0].toUpperCase() : '';
 }
 
 // Função para extrair área do texto (melhorada)
 function extractAreaFromText(text) {
+    // Primeiro limpar o texto de CSS classes
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
     const areaPatterns = [
         /([\d]+[,\.]\d+)\s*m[²2]/i,    // 108,28 m² ou 108.28 m²
         /([\d]+)\s*m[²2]/i,           // 108 m²
@@ -33,7 +41,7 @@ function extractAreaFromText(text) {
     ];
     
     for (const pattern of areaPatterns) {
-        const match = text.match(pattern);
+        const match = cleanText.match(pattern);
         if (match) {
             // Converter vírgulas para pontos e fazer parse
             let area = parseFloat(match[1].replace(',', '.'));
@@ -135,23 +143,22 @@ const crawler = new CheerioCrawler({
                 const area = extractAreaFromText(text);
                 
                 // Debug melhorado para verificar extração
-                if (area === 0) {
-                    console.log('⚠️  Área não encontrada em:', text.substring(0, 200));
-                    console.log('📝 Título encontrado:', title);
+                if (area === 0 || count === 0) {
+                    console.log('⚠️  Debug elemento', count + 1);
+                    console.log('   Texto original (100 chars):', text.substring(0, 100));
                     
-                    // Tentar encontrar área em seletores específicos
-                    const areaElements = $el.find('[data-cy*="area"], .area, [class*="area"], [class*="m2"]');
-                    if (areaElements.length > 0) {
-                        console.log('🔍 Elementos de área encontrados:', areaElements.length);
-                        areaElements.each((idx, elem) => {
-                            console.log(`   ${idx}: ${$(elem).text().trim()}`);
-                        });
+                    // Texto limpo
+                    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+                    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+                    console.log('   Texto limpo (200 chars):', cleanText.substring(0, 200));
+                    
+                    // Procurar área especificamente
+                    const areaMatch = cleanText.match(/([\d]+)\s*m[²2]/i);
+                    if (areaMatch) {
+                        console.log('   🎯 Área encontrada:', areaMatch[1], 'm²');
+                    } else {
+                        console.log('   ❌ Área não encontrada no texto limpo');
                     }
-                }
-                
-                // Debug adicional - mostrar HTML do primeiro elemento problemático
-                if (count === 0 && area === 0) {
-                    console.log('🔧 HTML do primeiro elemento:', $el.html().substring(0, 500));
                 }
                 
                 // Só guardar se tiver dados básicos
