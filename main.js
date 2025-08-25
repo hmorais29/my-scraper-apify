@@ -129,11 +129,20 @@ const crawler = new CheerioCrawler({
                     if (title.includes('css-')) title = 'Imóvel para venda';
                 }
                 
-                // Preço
+                // Preço - melhor extração
                 let price = 0;
-                const priceMatch = text.match(/([\d\s]+)\s*€/);
+                // Primeiro limpar o texto de CSS
+                let cleanPriceText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+                cleanPriceText = cleanPriceText.replace(/\s+/g, ' ').trim();
+                
+                // Procurar preço no formato "123 456 €" ou "123456 €"
+                const priceMatch = cleanPriceText.match(/(\d[\d\s]*)\s*€/);
                 if (priceMatch) {
-                    price = parseInt(priceMatch[1].replace(/\s/g, ''));
+                    const priceStr = priceMatch[1].replace(/\s/g, '');
+                    price = parseInt(priceStr);
+                    
+                    // Debug do parsing
+                    console.log(`💰 Debug preço: encontrado "${priceMatch[1]}" -> processado como ${price.toLocaleString()}€`);
                 }
                 
                 // CORRIGIDO: Extrair tipologia do texto atual (não da query)
