@@ -142,6 +142,27 @@ const crawler = new CheerioCrawler({
                 // CORRIGIDO: Melhor extração de área
                 const area = extractAreaFromText(text);
                 
+                // ESTRATÉGIA DE FILTROS EM CASCATA
+                const searchRoomNum = parseInt(searchRooms.replace('T', ''));
+                const actualRoomNum = parseInt(actualRooms.replace('T', ''));
+                
+                // Primeiro: tentar encontrar tipologia exata
+                const isExactMatch = actualRoomNum === searchRoomNum;
+                
+                // Segundo: se não houver suficientes exatos, aceitar ±1
+                const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) === 1;
+                
+                // Terceiro: preços realistas
+                const isPriceRealistic = price >= 50000 && price <= 2000000;
+                
+                // Marcar o tipo de match para o agente usar na análise
+                let matchType = 'none';
+                if (isExactMatch && isPriceRealistic) {
+                    matchType = 'exact';
+                } else if (isCloseMatch && isPriceRealistic) {
+                    matchType = 'close';
+                }
+                
                 // Debug melhorado para verificar extração
                 if (area === 0 || count === 0) {
                     console.log('⚠️  Debug elemento', count + 1);
@@ -161,18 +182,20 @@ const crawler = new CheerioCrawler({
                     }
                 }
                 
-                // Só guardar se tiver dados básicos
-                if (title && (price > 0 || link)) {
+                // Só guardar se for match válido
+                if (title && (price > 0 || link) && matchType !== 'none') {
                     const property = {
-                        title: title.substring(0, 200), // Limitar tamanho
+                        title: title.substring(0, 200),
                         price: price,
                         area: area,
-                        rooms: actualRooms, // CORRIGIDO: usar tipologia extraída
+                        rooms: actualRooms,
                         location: location,
                         pricePerSqm: area > 0 ? Math.round(price / area) : 0,
                         link: link,
                         site: 'ImóVirtual',
                         searchQuery: query,
+                        searchedRooms: searchRooms, // Tipologia original pesquisada
+                        matchType: matchType, // 'exact' ou 'close' para o agente usar
                         propertyIndex: count + 1,
                         totalProperties: maxResults,
                         priceFormatted: `${price.toLocaleString()} €`,
@@ -184,7 +207,16 @@ const crawler = new CheerioCrawler({
                     results.push(property);
                     count++;
                     
-                    console.log(`✅ ${count}. ${actualRooms} - ${title.substring(0, 30)}... - ${area}m² - ${price.toLocaleString()}€`);
+                    const matchIcon = matchType === 'exact' ? '🎯' : '📍';
+                    console.log(`✅ ${count}. ${matchIcon} ${actualRooms} - ${title.substring(0, 30)}... - ${area}m² - ${price.toLocaleString()}€`);
+                } else {
+                    // Debug para itens rejeitados
+                    if (!isPriceRealistic) {
+                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range`);
+                    } else if (Math.abs(actualRoomNum - searchRoomNum) > 1) {
+                        console.log(`❌ Rejeitado (tipologia): ${actualRooms} muito diferente de ${searchRooms}`);
+                    }
+                }
                 }
                 
             } catch (e) {
