@@ -134,9 +134,24 @@ const crawler = new CheerioCrawler({
                 // CORRIGIDO: Melhor extração de área
                 const area = extractAreaFromText(text);
                 
-                // Debug para verificar extração
+                // Debug melhorado para verificar extração
                 if (area === 0) {
                     console.log('⚠️  Área não encontrada em:', text.substring(0, 200));
+                    console.log('📝 Título encontrado:', title);
+                    
+                    // Tentar encontrar área em seletores específicos
+                    const areaElements = $el.find('[data-cy*="area"], .area, [class*="area"], [class*="m2"]');
+                    if (areaElements.length > 0) {
+                        console.log('🔍 Elementos de área encontrados:', areaElements.length);
+                        areaElements.each((idx, elem) => {
+                            console.log(`   ${idx}: ${$(elem).text().trim()}`);
+                        });
+                    }
+                }
+                
+                // Debug adicional - mostrar HTML do primeiro elemento problemático
+                if (count === 0 && area === 0) {
+                    console.log('🔧 HTML do primeiro elemento:', $el.html().substring(0, 500));
                 }
                 
                 // Só guardar se tiver dados básicos
