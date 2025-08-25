@@ -39,16 +39,6 @@ console.log('🌐 URL:', searchUrl);
 
 const results = [];
 
-// Resumo inicial
-results.push({
-    query,
-    criteria: { location, rooms },
-    totalFound: 0,
-    filteredCount: 0,
-    searchUrls: [{ site: 'Imovirtual', url: searchUrl }],
-    timestamp: new Date().toISOString()
-});
-
 const crawler = new CheerioCrawler({
     maxRequestsPerCrawl: 3,
     requestHandlerTimeoutSecs: 20,
@@ -87,10 +77,19 @@ const crawler = new CheerioCrawler({
                     link = 'https://www.imovirtual.com' + link;
                 }
                 
-                // Título
-                let title = linkEl.text().trim() || linkEl.attr('title') || '';
-                if (!title) {
-                    title = $el.find('h1, h2, h3, h4').first().text().trim();
+                // Título - melhor extração
+                let title = '';
+                const titleSelectors = ['h3', 'h2', '[data-cy*="title"]', 'a[title]'];
+                for (const sel of titleSelectors) {
+                    const titleEl = $el.find(sel).first();
+                    title = titleEl.text().trim() || titleEl.attr('title') || '';
+                    if (title && !title.includes('css-') && title.length > 10) break;
+                }
+                
+                // Se ainda não tem título válido, usar texto do link
+                if (!title || title.includes('css-')) {
+                    title = linkEl.text().trim();
+                    if (title.includes('css-')) title = 'Apartamento T4';
                 }
                 
                 // Preço
@@ -100,11 +99,21 @@ const crawler = new CheerioCrawler({
                     price = parseInt(priceMatch[1].replace(/\s/g, ''));
                 }
                 
-                // Área
+                // Área - melhor extração
                 let area = 0;
-                const areaMatch = text.match(/([\d,]+)\s*m/i);
-                if (areaMatch) {
-                    area = parseInt(areaMatch[1].replace(',', ''));
+                const areaPatterns = [
+                    /([\d,\.]+)\s*m²/i,
+                    /([\d,\.]+)\s*m2/i,
+                    /([\d,\.]+)\s*m\s/i
+                ];
+                
+                for (const pattern of areaPatterns) {
+                    const match = text.match(pattern);
+                    if (match) {
+                        area = parseInt(match[1].replace(/[,\.]/g, ''));
+                        if (area > 20 && area < 500) break; // Área realista
+                        area = 0; // Reset se não for realista
+                    }
                 }
                 
                 // Só guardar se tiver dados básicos
@@ -123,7 +132,7 @@ const crawler = new CheerioCrawler({
                         totalProperties: maxResults,
                         priceFormatted: `${price.toLocaleString()} €`,
                         areaFormatted: `${area} m²`,
-                        pricePerSqmFormatted: area > 0 ? `${Math.round(price / area)} €/m²` : 'N/A',
+                        pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
                         timestamp: new Date().toISOString()
                     };
                     
@@ -138,10 +147,7 @@ const crawler = new CheerioCrawler({
             }
         });
         
-        // Atualizar resumo
-        results[0].totalFound = listings.length;
-        results[0].filteredCount = count;
-        
+        // Atualizar contadores (para debug)
         console.log(`🎉 Encontrados ${count} imóveis válidos de ${listings.length} total`);
     }
 });
