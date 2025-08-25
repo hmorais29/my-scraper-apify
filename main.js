@@ -16,6 +16,35 @@ function extractBasics(query) {
     return { location, rooms };
 }
 
+// Função para extrair tipologia do texto
+function extractRoomsFromText(text) {
+    // Procurar por padrões T1, T2, T3, etc.
+    const roomsMatch = text.match(/T(\d+)/i);
+    return roomsMatch ? roomsMatch[0].toUpperCase() : '';
+}
+
+// Função para extrair área do texto (melhorada)
+function extractAreaFromText(text) {
+    const areaPatterns = [
+        /([\d]+[,\.]\d+)\s*m[²2]/i,    // 108,28 m² ou 108.28 m²
+        /([\d]+)\s*m[²2]/i,           // 108 m²
+        /([\d]+[,\.]\d+)\s*m\s/i,     // 108,28 m (espaço)
+        /([\d]+)\s*m\s/i              // 108 m (espaço)
+    ];
+    
+    for (const pattern of areaPatterns) {
+        const match = text.match(pattern);
+        if (match) {
+            // Converter vírgulas para pontos e fazer parse
+            let area = parseFloat(match[1].replace(',', '.'));
+            if (area > 20 && area < 1000) { // Área realista
+                return Math.round(area); // Arredondar para inteiro
+            }
+        }
+    }
+    return 0;
+}
+
 // URL simples
 function buildURL(location, rooms) {
     let url = 'https://www.imovirtual.com/comprar/apartamento';
@@ -32,8 +61,8 @@ function buildURL(location, rooms) {
     return url;
 }
 
-const { location, rooms } = extractBasics(query);
-const searchUrl = buildURL(location, rooms);
+const { location, rooms: searchRooms } = extractBasics(query);
+const searchUrl = buildURL(location, searchRooms);
 
 console.log('🌐 URL:', searchUrl);
 
@@ -89,7 +118,7 @@ const crawler = new CheerioCrawler({
                 // Se ainda não tem título válido, usar texto do link
                 if (!title || title.includes('css-')) {
                     title = linkEl.text().trim();
-                    if (title.includes('css-')) title = 'Apartamento T4';
+                    if (title.includes('css-')) title = 'Imóvel para venda';
                 }
                 
                 // Preço
@@ -99,21 +128,15 @@ const crawler = new CheerioCrawler({
                     price = parseInt(priceMatch[1].replace(/\s/g, ''));
                 }
                 
-                // Área - melhor extração
-                let area = 0;
-                const areaPatterns = [
-                    /([\d,\.]+)\s*m²/i,
-                    /([\d,\.]+)\s*m2/i,
-                    /([\d,\.]+)\s*m\s/i
-                ];
+                // CORRIGIDO: Extrair tipologia do texto atual (não da query)
+                const actualRooms = extractRoomsFromText(text) || extractRoomsFromText(title) || searchRooms;
                 
-                for (const pattern of areaPatterns) {
-                    const match = text.match(pattern);
-                    if (match) {
-                        area = parseInt(match[1].replace(/[,\.]/g, ''));
-                        if (area > 20 && area < 500) break; // Área realista
-                        area = 0; // Reset se não for realista
-                    }
+                // CORRIGIDO: Melhor extração de área
+                const area = extractAreaFromText(text);
+                
+                // Debug para verificar extração
+                if (area === 0) {
+                    console.log('⚠️  Área não encontrada em:', text.substring(0, 200));
                 }
                 
                 // Só guardar se tiver dados básicos
@@ -122,7 +145,7 @@ const crawler = new CheerioCrawler({
                         title: title.substring(0, 200), // Limitar tamanho
                         price: price,
                         area: area,
-                        rooms: rooms,
+                        rooms: actualRooms, // CORRIGIDO: usar tipologia extraída
                         location: location,
                         pricePerSqm: area > 0 ? Math.round(price / area) : 0,
                         link: link,
@@ -139,7 +162,7 @@ const crawler = new CheerioCrawler({
                     results.push(property);
                     count++;
                     
-                    console.log(`✅ ${count}. ${title.substring(0, 50)}... - ${price.toLocaleString()}€`);
+                    console.log(`✅ ${count}. ${actualRooms} - ${title.substring(0, 30)}... - ${area}m² - ${price.toLocaleString()}€`);
                 }
                 
             } catch (e) {
