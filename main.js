@@ -217,7 +217,6 @@ const crawler = new CheerioCrawler({
                         console.log(`❌ Rejeitado (tipologia): ${actualRooms} muito diferente de ${searchRooms}`);
                     }
                 }
-                }
                 
             } catch (e) {
                 console.log('⚠️ Erro item:', e.message);
