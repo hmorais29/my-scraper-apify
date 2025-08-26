@@ -16,15 +16,35 @@ function extractBasics(query) {
     return { location, rooms };
 }
 
-// Função para extrair tipologia do texto
+// Função para extrair tipologia do texto (melhorada)
 function extractRoomsFromText(text) {
     // Limpar CSS primeiro
     let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
     cleanText = cleanText.replace(/\s+/g, ' ').trim();
     
-    // Procurar por padrões T1, T2, T3, etc.
-    const roomsMatch = cleanText.match(/T(\d+)/i);
-    return roomsMatch ? roomsMatch[0].toUpperCase() : '';
+    console.log('🔍 Texto para extrair tipologia:', cleanText.substring(0, 150));
+    
+    // Procurar múltiplos padrões T1, T2, T3, etc. no texto
+    const allMatches = cleanText.match(/T(\d+)/gi);
+    
+    if (allMatches && allMatches.length > 0) {
+        console.log('🏠 Tipologias encontradas:', allMatches);
+        
+        // Se encontrou várias, pegar a mais comum ou a primeira que não seja do título
+        const counts = {};
+        allMatches.forEach(match => {
+            const rooms = match.toUpperCase();
+            counts[rooms] = (counts[rooms] || 0) + 1;
+        });
+        
+        // Retornar a tipologia mais frequente
+        const mostCommon = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        console.log('🎯 Tipologia escolhida:', mostCommon);
+        return mostCommon;
+    }
+    
+    console.log('❌ Nenhuma tipologia encontrada');
+    return '';
 }
 
 // Função para extrair área do texto (melhorada)
@@ -194,8 +214,46 @@ const crawler = new CheerioCrawler({
                 // USAR A FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO
                 const price = extractPriceFromText(text);
                 
-                // CORRIGIDO: Extrair tipologia do texto atual (não da query)
-                const actualRooms = extractRoomsFromText(text) || extractRoomsFromText(title) || searchRooms;
+                // CORRIGIDO: Melhor extração de tipologia
+                // Extrair do texto completo do anúncio, não apenas do título
+                let actualRooms = extractRoomsFromText(text);
+                
+                // Se não encontrou no texto completo, tentar no título como fallback
+                if (!actualRooms) {
+                    actualRooms = extractRoomsFromText(title) || searchRooms;
+                    console.log('⚠️ Usando tipologia do título como fallback:', actualRooms);
+                } else {
+                    console.log('✅ Tipologia extraída do conteúdo:', actualRooms);
+                }
+                
+                // Validação adicional: se a URL de pesquisa era específica para uma tipologia,
+                // mas encontramos outra muito diferente, pode ser erro de parsing
+                const searchRoomNum = parseInt(searchRooms.replace('T', ''));
+                const actualRoomNum = parseInt(actualRooms.replace('T', ''));
+                
+                // Se a diferença for muito grande (>2), investigar mais
+                if (Math.abs(actualRoomNum - searchRoomNum) > 2) {
+                    console.log('🤔 Grande diferença tipológica detectada. Investigando...');
+                    console.log('   Texto do anúncio (200 chars):', text.substring(0, 200));
+                    
+                    // Tentar encontrar padrões mais específicos
+                    const specificPatterns = [
+                        /Tipologia\s*:?\s*T(\d+)/i,
+                        /Apartment\s+T(\d+)/i,
+                        /(\d+)\s+bedroom/i,
+                        /(\d+)\s+quartos/i
+                    ];
+                    
+                    for (const pattern of specificPatterns) {
+                        const match = text.match(pattern);
+                        if (match) {
+                            const foundRooms = `T${match[1]}`;
+                            console.log(`🔍 Padrão específico encontrado: ${foundRooms}`);
+                            actualRooms = foundRooms;
+                            break;
+                        }
+                    }
+                }
                 
                 // CORRIGIDO: Melhor extração de área
                 const area = extractAreaFromText(text);
