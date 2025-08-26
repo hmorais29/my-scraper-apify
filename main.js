@@ -161,8 +161,8 @@ const crawler = new CheerioCrawler({
                 // Segundo: se não houver suficientes exatos, aceitar ±1
                 const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) === 1;
                 
-                // Terceiro: preços realistas
-                const isPriceRealistic = price >= 50000 && price <= 2000000;
+                // Terceiro: preços realistas (ajustado para mercado português)
+                const isPriceRealistic = price >= 80000 && price <= 800000;
                 
                 // Marcar o tipo de match para o agente usar na análise
                 let matchType = 'none';
