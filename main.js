@@ -228,11 +228,11 @@ const crawler = new CheerioCrawler({
                 
                 // Validação adicional: se a URL de pesquisa era específica para uma tipologia,
                 // mas encontramos outra muito diferente, pode ser erro de parsing
-                const searchRoomNum = parseInt(searchRooms.replace('T', ''));
-                const actualRoomNum = parseInt(actualRooms.replace('T', ''));
+                const searchRoomNumValidation = parseInt(searchRooms.replace('T', ''));
+                const actualRoomNumValidation = parseInt(actualRooms.replace('T', ''));
                 
                 // Se a diferença for muito grande (>2), investigar mais
-                if (Math.abs(actualRoomNum - searchRoomNum) > 2) {
+                if (Math.abs(actualRoomNumValidation - searchRoomNumValidation) > 2) {
                     console.log('🤔 Grande diferença tipológica detectada. Investigando...');
                     console.log('   Texto do anúncio (200 chars):', text.substring(0, 200));
                     
@@ -258,7 +258,7 @@ const crawler = new CheerioCrawler({
                 // CORRIGIDO: Melhor extração de área
                 const area = extractAreaFromText(text);
                 
-                console.log(`🏠 Tipologia: ${actualRooms}, Área: ${area}m², Preço: ${price.toLocaleString()}€`);
+                console.log(`🏠 Tipologia FINAL: ${actualRooms}, Área: ${area}m², Preço: ${price.toLocaleString()}€`);
                 
                 // ESTRATÉGIA DE FILTROS EM CASCATA
                 const searchRoomNum = parseInt(searchRooms.replace('T', ''));
