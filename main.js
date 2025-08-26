@@ -11,7 +11,7 @@ console.log('🔍 Query:', query);
 
 // Extrair apenas o essencial
 function extractBasics(query) {
-    const location = query.match(/caldas da rainha|lisboa|porto|coimbra|braga/i)?.[0]?.toLowerCase() || '';
+    const location = query.match(/caldas da rainha|lisboa|porto|coimbra|braga|loures|sintra|cascais|almada|amadora/i)?.[0]?.toLowerCase() || '';
     const rooms = query.match(/T(\d)/i)?.[0]?.toUpperCase() || '';
     return { location, rooms };
 }
@@ -51,6 +51,62 @@ function extractAreaFromText(text) {
         }
     }
     return 0;
+}
+
+// FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO
+function extractPriceFromText(text) {
+    // Limpar CSS primeiro
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
+    console.log('🔍 Texto para extrair preço:', cleanText.substring(0, 100));
+    
+    // Padrões de preço mais específicos
+    const pricePatterns = [
+        // Formato: "233 000 €" ou "1 330 000 €"
+        /(\d{1,3}(?:\s+\d{3})*)\s*€/g,
+        // Formato alternativo: "233.000 €" ou "233,000 €"  
+        /(\d{1,3}(?:[,\.]\d{3})*)\s*€/g,
+        // Formato simples: "233000 €"
+        /(\d{4,7})\s*€/g
+    ];
+    
+    let bestPrice = 0;
+    let bestMatch = '';
+    
+    for (const pattern of pricePatterns) {
+        let match;
+        pattern.lastIndex = 0; // Reset regex
+        
+        while ((match = pattern.exec(cleanText)) !== null) {
+            let priceStr = match[1];
+            console.log(`🔍 Match encontrado: "${priceStr}"`);
+            
+            // Limpar espaços e converter para número
+            let numericStr = priceStr.replace(/\s+/g, '').replace(/[,\.]/g, '');
+            let price = parseInt(numericStr);
+            
+            console.log(`💰 Preço processado: ${price.toLocaleString()}€`);
+            
+            // Verificar se está no range realista (50k a 2M)
+            if (price >= 50000 && price <= 2000000) {
+                if (price > bestPrice) {
+                    bestPrice = price;
+                    bestMatch = priceStr;
+                }
+            } else {
+                console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 50k-2M`);
+            }
+        }
+    }
+    
+    if (bestPrice > 0) {
+        console.log(`✅ Melhor preço encontrado: ${bestPrice.toLocaleString()}€ (match: "${bestMatch}")`);
+    } else {
+        console.log('❌ Nenhum preço válido encontrado');
+    }
+    
+    return bestPrice;
 }
 
 // URL simples
@@ -102,10 +158,14 @@ const crawler = new CheerioCrawler({
         
         let count = 0;
         
-        listings.slice(0, maxResults).each((i, el) => {
+        listings.slice(0, maxResults * 2).each((i, el) => {
+            if (count >= maxResults) return false; // Para quando atingir o limite
+            
             try {
                 const $el = $(el);
                 const text = $el.text();
+                
+                console.log(`\n--- ANÚNCIO ${i + 1} ---`);
                 
                 // Link
                 const linkEl = $el.find('a').first();
@@ -129,21 +189,10 @@ const crawler = new CheerioCrawler({
                     if (title.includes('css-')) title = 'Imóvel para venda';
                 }
                 
-                // Preço - melhor extração
-                let price = 0;
-                // Primeiro limpar o texto de CSS
-                let cleanPriceText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
-                cleanPriceText = cleanPriceText.replace(/\s+/g, ' ').trim();
+                console.log(`📋 Título: ${title.substring(0, 50)}...`);
                 
-                // Procurar preço no formato "123 456 €" ou "123456 €"
-                const priceMatch = cleanPriceText.match(/(\d[\d\s]*)\s*€/);
-                if (priceMatch) {
-                    const priceStr = priceMatch[1].replace(/\s/g, '');
-                    price = parseInt(priceStr);
-                    
-                    // Debug do parsing
-                    console.log(`💰 Debug preço: encontrado "${priceMatch[1]}" -> processado como ${price.toLocaleString()}€`);
-                }
+                // USAR A FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO
+                const price = extractPriceFromText(text);
                 
                 // CORRIGIDO: Extrair tipologia do texto atual (não da query)
                 const actualRooms = extractRoomsFromText(text) || extractRoomsFromText(title) || searchRooms;
@@ -151,48 +200,34 @@ const crawler = new CheerioCrawler({
                 // CORRIGIDO: Melhor extração de área
                 const area = extractAreaFromText(text);
                 
+                console.log(`🏠 Tipologia: ${actualRooms}, Área: ${area}m², Preço: ${price.toLocaleString()}€`);
+                
                 // ESTRATÉGIA DE FILTROS EM CASCATA
                 const searchRoomNum = parseInt(searchRooms.replace('T', ''));
                 const actualRoomNum = parseInt(actualRooms.replace('T', ''));
+                
+                // Verificar se contém a localização (se foi especificada)
+                const locationMatch = !location || text.toLowerCase().includes(location.toLowerCase());
                 
                 // Primeiro: tentar encontrar tipologia exata
                 const isExactMatch = actualRoomNum === searchRoomNum;
                 
                 // Segundo: se não houver suficientes exatos, aceitar ±1
-                const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) === 1;
+                const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) <= 1;
                 
-                // Terceiro: preços realistas (ajustado para mercado português)
+                // Terceiro: preços realistas
                 const isPriceRealistic = price >= 80000 && price <= 800000;
                 
                 // Marcar o tipo de match para o agente usar na análise
                 let matchType = 'none';
-                if (isExactMatch && isPriceRealistic) {
+                if (isExactMatch && isPriceRealistic && locationMatch) {
                     matchType = 'exact';
-                } else if (isCloseMatch && isPriceRealistic) {
+                } else if (isCloseMatch && isPriceRealistic && locationMatch) {
                     matchType = 'close';
                 }
                 
-                // Debug melhorado para verificar extração
-                if (area === 0 || count === 0) {
-                    console.log('⚠️  Debug elemento', count + 1);
-                    console.log('   Texto original (100 chars):', text.substring(0, 100));
-                    
-                    // Texto limpo
-                    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
-                    cleanText = cleanText.replace(/\s+/g, ' ').trim();
-                    console.log('   Texto limpo (200 chars):', cleanText.substring(0, 200));
-                    
-                    // Procurar área especificamente
-                    const areaMatch = cleanText.match(/([\d]+)\s*m[²2]/i);
-                    if (areaMatch) {
-                        console.log('   🎯 Área encontrada:', areaMatch[1], 'm²');
-                    } else {
-                        console.log('   ❌ Área não encontrada no texto limpo');
-                    }
-                }
-                
                 // Só guardar se for match válido
-                if (title && (price > 0 || link) && matchType !== 'none') {
+                if (title && price > 0 && matchType !== 'none') {
                     const property = {
                         title: title.substring(0, 200),
                         price: price,
@@ -203,8 +238,8 @@ const crawler = new CheerioCrawler({
                         link: link,
                         site: 'ImóVirtual',
                         searchQuery: query,
-                        searchedRooms: searchRooms, // Tipologia original pesquisada
-                        matchType: matchType, // 'exact' ou 'close' para o agente usar
+                        searchedRooms: searchRooms,
+                        matchType: matchType,
                         propertyIndex: count + 1,
                         totalProperties: maxResults,
                         priceFormatted: `${price.toLocaleString()} €`,
@@ -217,13 +252,19 @@ const crawler = new CheerioCrawler({
                     count++;
                     
                     const matchIcon = matchType === 'exact' ? '🎯' : '📍';
-                    console.log(`✅ ${count}. ${matchIcon} ${actualRooms} - ${title.substring(0, 30)}... - ${area}m² - ${price.toLocaleString()}€`);
+                    console.log(`✅ ${count}. ${matchIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
                 } else {
                     // Debug para itens rejeitados
-                    if (!isPriceRealistic) {
-                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range`);
+                    if (price === 0) {
+                        console.log(`❌ Rejeitado: sem preço válido`);
+                    } else if (!isPriceRealistic) {
+                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range 80k-800k`);
                     } else if (Math.abs(actualRoomNum - searchRoomNum) > 1) {
                         console.log(`❌ Rejeitado (tipologia): ${actualRooms} muito diferente de ${searchRooms}`);
+                    } else if (!locationMatch) {
+                        console.log(`❌ Rejeitado (localização): não contém "${location}"`);
+                    } else {
+                        console.log(`❌ Rejeitado: critérios não atendidos`);
                     }
                 }
                 
@@ -232,8 +273,7 @@ const crawler = new CheerioCrawler({
             }
         });
         
-        // Atualizar contadores (para debug)
-        console.log(`🎉 Encontrados ${count} imóveis válidos de ${listings.length} total`);
+        console.log(`\n🎉 RESULTADO FINAL: ${count} imóveis válidos encontrados`);
     }
 });
 
