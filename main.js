@@ -9,11 +9,22 @@ const maxResults = input?.max_resultados || 5;
 
 console.log('🔍 Query:', query);
 
+// Detectar se é arrendamento ou compra/venda
+function detectSearchType(query) {
+    const rentKeywords = /arrendamento|arrendar|alugar|rent|rental/i;
+    const isRent = rentKeywords.test(query);
+    
+    console.log(`🎯 Tipo detectado: ${isRent ? 'ARRENDAMENTO' : 'COMPRA/VENDA'}`);
+    return isRent ? 'rent' : 'buy';
+}
+
 // Extrair apenas o essencial
 function extractBasics(query) {
     const location = query.match(/caldas da rainha|lisboa|porto|coimbra|braga|loures|sintra|cascais|almada|amadora/i)?.[0]?.toLowerCase() || '';
     const rooms = query.match(/T(\d)/i)?.[0]?.toUpperCase() || '';
-    return { location, rooms };
+    const searchType = detectSearchType(query);
+    
+    return { location, rooms, searchType };
 }
 
 // Função para extrair tipologia do texto (melhorada)
@@ -129,26 +140,34 @@ function extractPriceFromText(text) {
     return bestPrice;
 }
 
-// URL simples
-function buildURL(location, rooms) {
-    let url = 'https://www.imovirtual.com/comprar/apartamento';
+// URL que suporta rent e buy
+function buildURL(location, rooms, searchType) {
+    let baseUrl = 'https://www.imovirtual.com/';
+    
+    // Escolher entre arrendamento ou compra
+    if (searchType === 'rent') {
+        baseUrl += 'arrendar/apartamento';
+    } else {
+        baseUrl += 'comprar/apartamento';
+    }
     
     if (location) {
-        url += `/${location.replace(/\s+/g, '-')}`;
+        baseUrl += `/${location.replace(/\s+/g, '-')}`;
     }
     
     if (rooms) {
         const num = rooms.replace('T', '');
-        url += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
+        baseUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
     }
     
-    return url;
+    return baseUrl;
 }
 
-const { location, rooms: searchRooms } = extractBasics(query);
-const searchUrl = buildURL(location, searchRooms);
+const { location, rooms: searchRooms, searchType } = extractBasics(query);
+const searchUrl = buildURL(location, searchRooms, searchType);
 
 console.log('🌐 URL:', searchUrl);
+console.log(`🎯 Tipo de pesquisa: ${searchType.toUpperCase()}`);
 
 const results = [];
 
@@ -273,8 +292,15 @@ const crawler = new CheerioCrawler({
                 // Segundo: se não houver suficientes exatos, aceitar ±1
                 const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) <= 1;
                 
-                // Terceiro: preços realistas
-                const isPriceRealistic = price >= 80000 && price <= 800000;
+                // Terceiro: preços realistas - AJUSTAR RANGES BASEADO NO TIPO
+                let isPriceRealistic;
+                if (searchType === 'rent') {
+                    // Para arrendamento: 300€ - 3000€
+                    isPriceRealistic = price >= 300 && price <= 3000;
+                } else {
+                    // Para compra: 80k - 800k
+                    isPriceRealistic = price >= 80000 && price <= 800000;
+                }
                 
                 // Marcar o tipo de match para o agente usar na análise
                 let matchType = 'none';
@@ -297,6 +323,7 @@ const crawler = new CheerioCrawler({
                         site: 'ImóVirtual',
                         searchQuery: query,
                         searchedRooms: searchRooms,
+                        searchType: searchType, // NOVO: tipo de pesquisa
                         matchType: matchType,
                         propertyIndex: count + 1,
                         totalProperties: maxResults,
@@ -310,13 +337,15 @@ const crawler = new CheerioCrawler({
                     count++;
                     
                     const matchIcon = matchType === 'exact' ? '🎯' : '📍';
-                    console.log(`✅ ${count}. ${matchIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
+                    const typeIcon = searchType === 'rent' ? '🏠' : '💰';
+                    console.log(`✅ ${count}. ${matchIcon}${typeIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
                 } else {
                     // Debug para itens rejeitados
                     if (price === 0) {
                         console.log(`❌ Rejeitado: sem preço válido`);
                     } else if (!isPriceRealistic) {
-                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range 80k-800k`);
+                        const range = searchType === 'rent' ? '300-3000€' : '80k-800k€';
+                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range ${range}`);
                     } else if (Math.abs(actualRoomNum - searchRoomNum) > 1) {
                         console.log(`❌ Rejeitado (tipologia): ${actualRooms} muito diferente de ${searchRooms}`);
                     } else if (!locationMatch) {
