@@ -84,8 +84,8 @@ function extractAreaFromText(text) {
     return 0;
 }
 
-// FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO
-function extractPriceFromText(text) {
+// FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO (com suporte para rent/buy)
+function extractPriceFromText(text, searchType) {
     // Limpar CSS primeiro
     let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
     cleanText = cleanText.replace(/\s+/g, ' ').trim();
@@ -94,7 +94,9 @@ function extractPriceFromText(text) {
     
     // Padrões de preço mais específicos
     const pricePatterns = [
-        // Formato: "233 000 €" ou "1 330 000 €"
+        // Para arrendamento: "750 €/mês" ou apenas "750 €"
+        /(\d{1,4})\s*€(?:\/m[êe]s)?/g,
+        // Para venda: "233 000 €" ou "1 330 000 €"
         /(\d{1,3}(?:\s+\d{3})*)\s*€/g,
         // Formato alternativo: "233.000 €" ou "233,000 €"  
         /(\d{1,3}(?:[,\.]\d{3})*)\s*€/g,
@@ -119,14 +121,25 @@ function extractPriceFromText(text) {
             
             console.log(`💰 Preço processado: ${price.toLocaleString()}€`);
             
-            // Verificar se está no range realista (50k a 2M)
-            if (price >= 50000 && price <= 2000000) {
-                if (price > bestPrice) {
-                    bestPrice = price;
-                    bestMatch = priceStr;
+            // RANGE BASEADO NO TIPO DE PESQUISA
+            let isValidRange;
+            if (searchType === 'rent') {
+                // Para arrendamento: 200€ - 5000€
+                isValidRange = price >= 200 && price <= 5000;
+                if (!isValidRange) {
+                    console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 200-5000€ (arrendamento)`);
                 }
             } else {
-                console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 50k-2M`);
+                // Para compra: 50k a 2M
+                isValidRange = price >= 50000 && price <= 2000000;
+                if (!isValidRange) {
+                    console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 50k-2M (compra/venda)`);
+                }
+            }
+            
+            if (isValidRange && price > bestPrice) {
+                bestPrice = price;
+                bestMatch = priceStr;
             }
         }
     }
@@ -230,8 +243,8 @@ const crawler = new CheerioCrawler({
                 
                 console.log(`📋 Título: ${title.substring(0, 50)}...`);
                 
-                // USAR A FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO
-                const price = extractPriceFromText(text);
+                // USAR A FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO (com tipo de pesquisa)
+                const price = extractPriceFromText(text, searchType);
                 
                 // CORRIGIDO: Melhor extração de tipologia
                 // Extrair do texto completo do anúncio, não apenas do título
