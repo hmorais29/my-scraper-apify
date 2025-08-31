@@ -1,5 +1,7 @@
 import { Actor } from 'apify';
 import { CheerioCrawler } from 'crawlee';
+import locations from './locations.json' assert { type: 'json' };
+
 
 await Actor.init();
 
@@ -153,31 +155,55 @@ function extractPriceFromText(text, searchType) {
     return bestPrice;
 }
 
+function findSlugFromLocation(query) {
+    const normalized = query.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    for (const [district, concelhos] of Object.entries(locations)) {
+        for (const [concelho, freguesias] of Object.entries(concelhos)) {
+            for (const [slug, aliases] of Object.entries(freguesias)) {
+                for (const alias of aliases) {
+                    const normAlias = alias.normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    if (normalized.includes(normAlias)) {
+                        return { district, concelho, slug };
+                    }
+                }
+            }
+        }
+    }
+    return null;
+}
+
 // URL que suporta rent e buy
-function buildURL(location, rooms, searchType) {
+function buildURL(query, rooms, searchType) {
     let baseUrl = 'https://www.imovirtual.com/';
-    
-    // Escolher entre arrendamento ou compra
-    if (searchType === 'rent') {
-        baseUrl += 'arrendar/apartamento';
-    } else {
-        baseUrl += 'comprar/apartamento';
+    baseUrl += searchType === 'rent' ? 'arrendar/apartamento' : 'comprar/apartamento';
+
+    const match = findSlugFromLocation(query);
+    if (match) {
+        baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
     }
-    
-    if (location) {
-        baseUrl += `/${location.replace(/\s+/g, '-')}`;
-    }
-    
+
     if (rooms) {
         const num = rooms.replace('T', '');
         baseUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
     }
-    
+
     return baseUrl;
 }
 
 const { location, rooms: searchRooms, searchType } = extractBasics(query);
-const searchUrl = buildURL(location, searchRooms, searchType);
+const searchUrl = buildURL(query, searchRooms, searchType);
 
 console.log('🌐 URL:', searchUrl);
 console.log(`🎯 Tipo de pesquisa: ${searchType.toUpperCase()}`);
