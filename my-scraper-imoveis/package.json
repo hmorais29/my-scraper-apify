@@ -1,0 +1,17 @@
+{
+  "name": "my-scraper-imoveis",
+  "version": "1.0.0",
+  "description": "Scrapes property listings from real estate websites",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "apify": "^3.4.4",
+    "crawlee": "^3.14.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

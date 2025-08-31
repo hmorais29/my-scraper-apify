@@ -1,0 +1,18 @@
+{
+  "name": "location-mapper",
+  "version": "0.0",
+  "buildTag": "latest",
+  "template": "cheerio_crawler",
+  "dockerfile": "apify/actor-node-puppeteer-chrome:latest",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "input": {
+    "title": "Scraper de Localizações",
+    "type": "object",
+    "schema": {
+      "type": "object",
+      "properties": {}
+    }
+  }
+}
