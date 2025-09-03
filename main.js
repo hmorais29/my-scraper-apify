@@ -1,428 +1,447 @@
 import { Actor } from 'apify';
-import { gotScraping } from 'got-scraping';
+import { CheerioCrawler } from 'crawlee';
+import locations from './locations.json' with { type: 'json' };
 
-const IMOVIRTUAL_API = 'https://www.imovirtual.com/api/query';
-// Query GraphQL exata da captura do DevTools
-const AUTOCOMPLETE_QUERY = `query autocomplete($query: String!, $ranking: RankingSystemInput, $levels: [String!], $isLocationSearch: Boolean!, $locationLevelLikeDistrictAndSubdistrict: [String!]) {
-  autocomplete(query: $query, ranking: $ranking, levels: $levels) {
-    ... on FoundLocations {
-      locationsObjects {
-        id
-        detailedLevel
-        name
-        fullName
-        parents {
-          id
-          detailedLevel
-          name
-          fullName
-          __typename
-        }
-        parentIds
-        children(
-          input: {limit: 10, filters: {levels: $locationLevelLikeDistrictAndSubdistrict}}
-        ) @include(if: $isLocationSearch) {
-          id
-          detailedLevel
-          name
-          fullName
-          parents {
-            id
-            detailedLevel
-            name
-            fullName
-            __typename
-          }
-          children(
-            input: {limit: 10, filters: {levels: $locationLevelLikeDistrictAndSubdistrict}}
-          ) {
-            id
-            detailedLevel
-            name
-            fullName
-            parents {
-              id
-              detailedLevel
-              name
-              fullName
-              __typename
-            }
-            __typename
-          }
-          __typename
-        }
-        __typename
-      }
-      __typename
-    }
-    ... on ErrorInternal {
-      message
-      __typename
-    }
-    __typename
-  }
-}`;
+await Actor.init();
 
-async function makeGraphQLRequest(query, retries = 3) {
-    console.log(`🔍 A pesquisar localizações para: ${query}`);
+const input = await Actor.getInput();
+const query = input?.query || 'T4 caldas da rainha';
+const maxResults = input?.max_resultados || 5;
+
+console.log('🔍 Query:', query);
+
+// Detectar se é arrendamento ou compra/venda
+function detectSearchType(query) {
+    const rentKeywords = /arrendamento|arrendar|alugar|rent|rental/i;
+    const isRent = rentKeywords.test(query);
     
-    const payload = {
-        extensions: {
-            persistedQuery: {
-                miss: true,
-                sha256Hash: "63dfe8182f8cd71a2493912ed138c743f8fdb43e741e11aff9e53bc34b85c9d6",
-                version: 1
-            }
-        },
-        operationName: "autocomplete",
-        query: AUTOCOMPLETE_QUERY,
-        variables: {
-            isLocationSearch: true,
-            locationLevelLikeDistrictAndSubdistrict: ["parish", "neighborhood"],
-            query: query,
-            ranking: {
-                type: "BLENDED_INFIX_LOOKUP_SUGGEST"
-            }
-        }
-    };
-
-    // Headers mais completos baseados na captura
-    const headers = {
-        'accept': 'application/graphql-response+json, application/graphql+json, application/json, text/event-stream, multipart/mixed',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'pt-PT,pt;q=0.9,en;q=0.8',
-        'content-type': 'application/json',
-        'origin': 'https://www.imovirtual.com',
-        'referer': 'https://www.imovirtual.com/',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
-    };
-
-    for (let attempt = 1; attempt <= retries; attempt++) {
-        try {
-            const response = await gotScraping.post(IMOVIRTUAL_API, {
-                json: payload,
-                headers: headers,
-                responseType: 'json',
-                timeout: {
-                    request: 30000
-                },
-                retry: {
-                    limit: 0 // Vamos controlar os retries manualmente
-                }
-            });
-
-            console.log(`✅ Resposta recebida com status: ${response.statusCode}`);
-            
-            if (response.body?.errors) {
-                console.log(`⚠️ Erros na resposta:`, response.body.errors);
-            }
-            
-            return response.body;
-        } catch (error) {
-            console.error(`❌ Tentativa ${attempt}/${retries} falhou para "${query}":`, error.message);
-            
-            if (error.response) {
-                console.error(`📊 Status: ${error.response.statusCode}`);
-                if (error.response.statusCode === 429) {
-                    console.log('⏳ Rate limit detectado, aumentando tempo de espera...');
-                    await new Promise(resolve => setTimeout(resolve, 5000 * attempt));
-                    continue;
-                }
-            }
-            
-            if (attempt === retries) {
-                throw error;
-            }
-            
-            // Esperar antes da próxima tentativa
-            await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
-        }
-    }
+    console.log(`🎯 Tipo detectado: ${isRent ? 'ARRENDAMENTO' : 'COMPRA/VENDA'}`);
+    return isRent ? 'rent' : 'buy';
 }
 
-function processLocations(data, queryTerm) {
-    const locations = {
-        districts: new Set(),
-        councils: new Set(), 
-        parishes: new Set(),
-        neighborhoods: new Set()
-    };
+// Extrair apenas o essencial
+function extractBasics(query) {
+    const location = query.match(/caldas da rainha|lisboa|porto|coimbra|braga|loures|sintra|cascais|almada|amadora/i)?.[0]?.toLowerCase() || '';
+    const rooms = query.match(/T(\d)/i)?.[0]?.toUpperCase() || '';
+    const searchType = detectSearchType(query);
+    
+    return { location, rooms, searchType };
+}
 
-    if (!data?.data?.autocomplete?.locationsObjects) {
-        console.log(`⚠️ Sem dados de localização para "${queryTerm}"`);
-        return locations;
-    }
-
-    const locationsObjects = data.data.autocomplete.locationsObjects;
-    console.log(`📊 Processando ${locationsObjects.length} localizações para "${queryTerm}"`);
-
-    function addLocation(locationObj, source, parentName = null) {
-        const { id, detailedLevel, name, fullName } = locationObj;
+// Função para extrair tipologia do texto (melhorada)
+function extractRoomsFromText(text) {
+    // Limpar CSS primeiro
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
+    console.log('🔍 Texto para extrair tipologia:', cleanText.substring(0, 150));
+    
+    // Procurar múltiplos padrões T1, T2, T3, etc. no texto
+    const allMatches = cleanText.match(/T(\d+)/gi);
+    
+    if (allMatches && allMatches.length > 0) {
+        console.log('🏠 Tipologias encontradas:', allMatches);
         
-        const locationData = {
-            id,
-            name,
-            fullName,
-            level: detailedLevel,
-            source: source,
-            parent: parentName,
-            extractedAt: new Date().toISOString()
-        };
+        // Se encontrou várias, pegar a mais comum ou a primeira que não seja do título
+        const counts = {};
+        allMatches.forEach(match => {
+            const rooms = match.toUpperCase();
+            counts[rooms] = (counts[rooms] || 0) + 1;
+        });
+        
+        // Retornar a tipologia mais frequente
+        const mostCommon = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        console.log('🎯 Tipologia escolhida:', mostCommon);
+        return mostCommon;
+    }
+    
+    console.log('❌ Nenhuma tipologia encontrada');
+    return '';
+}
 
-        const key = JSON.stringify(locationData);
-
-        switch (detailedLevel) {
-            case 'district':
-                locations.districts.add(key);
-                console.log(`🏛️ Distrito: ${fullName}`);
-                break;
-            case 'council':
-                locations.councils.add(key);
-                console.log(`🏘️ Concelho: ${fullName}`);
-                break;
-            case 'parish':
-                locations.parishes.add(key);
-                console.log(`⛪ Freguesia: ${fullName}`);
-                break;
-            case 'neighborhood':
-                locations.neighborhoods.add(key);
-                console.log(`🏠 Bairro: ${fullName}`);
-                break;
+// Função para extrair área do texto (melhorada)
+function extractAreaFromText(text) {
+    // Primeiro limpar o texto de CSS classes
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
+    const areaPatterns = [
+        /([\d]+[,\.]\d+)\s*m[²2]/i,    // 108,28 m² ou 108.28 m²
+        /([\d]+)\s*m[²2]/i,           // 108 m²
+        /([\d]+[,\.]\d+)\s*m\s/i,     // 108,28 m (espaço)
+        /([\d]+)\s*m\s/i              // 108 m (espaço)
+    ];
+    
+    for (const pattern of areaPatterns) {
+        const match = cleanText.match(pattern);
+        if (match) {
+            // Converter vírgulas para pontos e fazer parse
+            let area = parseFloat(match[1].replace(',', '.'));
+            if (area > 20 && area < 1000) { // Área realista
+                return Math.round(area); // Arredondar para inteiro
+            }
         }
     }
+    return 0;
+}
 
-    // Processar localizações principais
-    for (const location of locationsObjects) {
-        addLocation(location, queryTerm);
+// FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO (com suporte para rent/buy)
+function extractPriceFromText(text, searchType) {
+    // Limpar CSS primeiro
+    let cleanText = text.replace(/\.css-[a-z0-9]+\{[^}]*\}/gi, ' ');
+    cleanText = cleanText.replace(/\s+/g, ' ').trim();
+    
+    console.log('🔍 Texto para extrair preço:', cleanText.substring(0, 100));
+    
+    // Padrões de preço mais específicos
+    const pricePatterns = [
+        // Para arrendamento: "750 €/mês" ou apenas "750 €"
+        /(\d{1,4})\s*€(?:\/m[êe]s)?/g,
+        // Para venda: "233 000 €" ou "1 330 000 €"
+        /(\d{1,3}(?:\s+\d{3})*)\s*€/g,
+        // Formato alternativo: "233.000 €" ou "233,000 €"  
+        /(\d{1,3}(?:[,\.]\d{3})*)\s*€/g,
+        // Formato simples: "233000 €"
+        /(\d{4,7})\s*€/g
+    ];
+    
+    let bestPrice = 0;
+    let bestMatch = '';
+    
+    for (const pattern of pricePatterns) {
+        let match;
+        pattern.lastIndex = 0; // Reset regex
+        
+        while ((match = pattern.exec(cleanText)) !== null) {
+            let priceStr = match[1];
+            console.log(`🔍 Match encontrado: "${priceStr}"`);
+            
+            // Limpar espaços e converter para número
+            let numericStr = priceStr.replace(/\s+/g, '').replace(/[,\.]/g, '');
+            let price = parseInt(numericStr);
+            
+            console.log(`💰 Preço processado: ${price.toLocaleString()}€`);
+            
+            // RANGE BASEADO NO TIPO DE PESQUISA
+            let isValidRange;
+            if (searchType === 'rent') {
+                // Para arrendamento: 200€ - 5000€
+                isValidRange = price >= 200 && price <= 5000;
+                if (!isValidRange) {
+                    console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 200-5000€ (arrendamento)`);
+                }
+            } else {
+                // Para compra: 50k a 2M
+                isValidRange = price >= 50000 && price <= 2000000;
+                if (!isValidRange) {
+                    console.log(`❌ Preço ${price.toLocaleString()}€ fora do range 50k-2M (compra/venda)`);
+                }
+            }
+            
+            if (isValidRange && price > bestPrice) {
+                bestPrice = price;
+                bestMatch = priceStr;
+            }
+        }
+    }
+    
+    if (bestPrice > 0) {
+        console.log(`✅ Melhor preço encontrado: ${bestPrice.toLocaleString()}€ (match: "${bestMatch}")`);
+    } else {
+        console.log('❌ Nenhum preço válido encontrado');
+    }
+    
+    return bestPrice;
+}
 
-        // Processar children (freguesias e bairros)
-        if (location.children && Array.isArray(location.children)) {
-            for (const child of location.children) {
-                addLocation(child, queryTerm, location.fullName);
+function findSlugFromLocation(query) {
+    const normalized = query.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 
-                // Processar grandchildren (bairros dentro de freguesias)
-                if (child.children && Array.isArray(child.children)) {
-                    for (const grandChild of child.children) {
-                        addLocation(grandChild, queryTerm, child.fullName);
+    console.log('🔍 A procurar localização para:', normalized);
+    console.log('📊 Estrutura locations disponível:', Object.keys(locations || {}));
+
+    // Verificar se locations tem a estrutura correta
+    if (!locations || typeof locations !== 'object') {
+        console.log('❌ locations.json não carregado ou inválido');
+        return null;
+    }
+
+    // Se locations tem uma propriedade 'locations' (do metadata)
+    const locationsData = locations.locations || locations;
+    
+    console.log('📊 Distritos disponíveis:', Object.keys(locationsData));
+
+    for (const [district, concelhos] of Object.entries(locationsData)) {
+        if (!concelhos || typeof concelhos !== 'object') continue;
+        
+        for (const [concelho, freguesias] of Object.entries(concelhos)) {
+            if (!freguesias || typeof freguesias !== 'object') continue;
+            
+            for (const [slug, aliases] of Object.entries(freguesias)) {
+                // CORREÇÃO: Verificar se aliases é realmente um array
+                if (!Array.isArray(aliases)) {
+                    console.log(`⚠️ Aliases não é array para ${slug}:`, typeof aliases);
+                    continue;
+                }
+                
+                for (const alias of aliases) {
+                    if (typeof alias !== 'string') continue;
+                    
+                    const normAlias = alias.normalize('NFD')
+                        .replace(/[\u0300-\u036f]/g, '')
+                        .toLowerCase()
+                        .replace(/[^a-z0-9\s]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    if (normalized.includes(normAlias)) {
+                        console.log(`✅ Match encontrado: ${alias} -> ${district}/${concelho}/${slug}`);
+                        return { district, concelho, slug };
                     }
                 }
             }
         }
     }
-
-    return locations;
+    
+    console.log('❌ Nenhuma localização encontrada');
+    return null;
 }
 
-Actor.main(async () => {
-    console.log('📡 A iniciar extração completa de localizações do Imovirtual...');
+// URL que suporta rent e buy
+function buildURL(query, rooms, searchType) {
+    let baseUrl = 'https://www.imovirtual.com/';
+    baseUrl += searchType === 'rent' ? 'arrendar/apartamento' : 'comprar/apartamento';
 
-    // Testar conectividade primeiro
-    try {
-        const testResponse = await gotScraping.get('https://www.imovirtual.com/', { 
-            timeout: {
-                request: 10000
-            },
-            headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36'
+    const match = findSlugFromLocation(query);
+    if (match) {
+        baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
+        console.log(`🏠 URL com localização: ${baseUrl}`);
+    } else {
+        console.log('🏠 URL sem localização específica');
+    }
+
+    if (rooms) {
+        const num = rooms.replace('T', '');
+        baseUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
+        console.log(`🏠 URL com tipologia T${num}`);
+    }
+
+    return baseUrl;
+}
+
+const { location, rooms: searchRooms, searchType } = extractBasics(query);
+const searchUrl = buildURL(query, searchRooms, searchType);
+
+console.log('🌐 URL:', searchUrl);
+console.log(`🎯 Tipo de pesquisa: ${searchType.toUpperCase()}`);
+
+const results = [];
+
+const crawler = new CheerioCrawler({
+    maxRequestsPerCrawl: 3,
+    requestHandlerTimeoutSecs: 20,
+    
+    async requestHandler({ $, response }) {
+        if (response.statusCode !== 200) {
+            console.log('❌ Erro:', response.statusCode);
+            return;
+        }
+        
+        console.log('✅ Página carregada');
+        
+        // Tentar diferentes seletores simples
+        const selectors = ['article', '[data-cy*="listing"]', '.offer-item'];
+        let listings = $();
+        
+        for (const sel of selectors) {
+            listings = $(sel);
+            if (listings.length > 0) {
+                console.log(`📊 ${listings.length} anúncios com '${sel}'`);
+                break;
+            }
+        }
+        
+        let count = 0;
+        
+        listings.slice(0, maxResults * 2).each((i, el) => {
+            if (count >= maxResults) return false; // Para quando atingir o limite
+            
+            try {
+                const $el = $(el);
+                const text = $el.text();
+                
+                console.log(`\n--- ANÚNCIO ${i + 1} ---`);
+                
+                // Link
+                const linkEl = $el.find('a').first();
+                let link = linkEl.attr('href') || '';
+                if (link && !link.startsWith('http')) {
+                    link = 'https://www.imovirtual.com' + link;
+                }
+                
+                // Título - melhor extração
+                let title = '';
+                const titleSelectors = ['h3', 'h2', '[data-cy*="title"]', 'a[title]'];
+                for (const sel of titleSelectors) {
+                    const titleEl = $el.find(sel).first();
+                    title = titleEl.text().trim() || titleEl.attr('title') || '';
+                    if (title && !title.includes('css-') && title.length > 10) break;
+                }
+                
+                // Se ainda não tem título válido, usar texto do link
+                if (!title || title.includes('css-')) {
+                    title = linkEl.text().trim();
+                    if (title.includes('css-')) title = 'Imóvel para venda';
+                }
+                
+                console.log(`📋 Título: ${title.substring(0, 50)}...`);
+                
+                // USAR A FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO (com tipo de pesquisa)
+                const price = extractPriceFromText(text, searchType);
+                
+                // CORRIGIDO: Melhor extração de tipologia
+                // Extrair do texto completo do anúncio, não apenas do título
+                let actualRooms = extractRoomsFromText(text);
+                
+                // Se não encontrou no texto completo, tentar no título como fallback
+                if (!actualRooms) {
+                    actualRooms = extractRoomsFromText(title) || searchRooms;
+                    console.log('⚠️ Usando tipologia do título como fallback:', actualRooms);
+                } else {
+                    console.log('✅ Tipologia extraída do conteúdo:', actualRooms);
+                }
+                
+                // Validação adicional: se a URL de pesquisa era específica para uma tipologia,
+                // mas encontramos outra muito diferente, pode ser erro de parsing
+                const searchRoomNumValidation = parseInt(searchRooms.replace('T', ''));
+                const actualRoomNumValidation = parseInt(actualRooms.replace('T', ''));
+                
+                // Se a diferença for muito grande (>2), investigar mais
+                if (Math.abs(actualRoomNumValidation - searchRoomNumValidation) > 2) {
+                    console.log('🤔 Grande diferença tipológica detectada. Investigando...');
+                    console.log('   Texto do anúncio (200 chars):', text.substring(0, 200));
+                    
+                    // Tentar encontrar padrões mais específicos
+                    const specificPatterns = [
+                        /Tipologia\s*:?\s*T(\d+)/i,
+                        /Apartment\s+T(\d+)/i,
+                        /(\d+)\s+bedroom/i,
+                        /(\d+)\s+quartos/i
+                    ];
+                    
+                    for (const pattern of specificPatterns) {
+                        const match = text.match(pattern);
+                        if (match) {
+                            const foundRooms = `T${match[1]}`;
+                            console.log(`🔍 Padrão específico encontrado: ${foundRooms}`);
+                            actualRooms = foundRooms;
+                            break;
+                        }
+                    }
+                }
+                
+                // CORRIGIDO: Melhor extração de área
+                const area = extractAreaFromText(text);
+                
+                console.log(`🏠 Tipologia FINAL: ${actualRooms}, Área: ${area}m², Preço: ${price.toLocaleString()}€`);
+                
+                // ESTRATÉGIA DE FILTROS EM CASCATA
+                const searchRoomNum = parseInt(searchRooms.replace('T', ''));
+                const actualRoomNum = parseInt(actualRooms.replace('T', ''));
+                
+                // Verificar se contém a localização (se foi especificada)
+                const locationMatch = !location || text.toLowerCase().includes(location.toLowerCase());
+                
+                // Primeiro: tentar encontrar tipologia exata
+                const isExactMatch = actualRoomNum === searchRoomNum;
+                
+                // Segundo: se não houver suficientes exatos, aceitar ±1
+                const isCloseMatch = Math.abs(actualRoomNum - searchRoomNum) <= 1;
+                
+                // Terceiro: preços realistas - AJUSTAR RANGES BASEADO NO TIPO
+                let isPriceRealistic;
+                if (searchType === 'rent') {
+                    // Para arrendamento: 300€ - 3000€
+                    isPriceRealistic = price >= 300 && price <= 3000;
+                } else {
+                    // Para compra: 80k - 800k
+                    isPriceRealistic = price >= 80000 && price <= 800000;
+                }
+                
+                // Marcar o tipo de match para o agente usar na análise
+                let matchType = 'none';
+                if (isExactMatch && isPriceRealistic && locationMatch) {
+                    matchType = 'exact';
+                } else if (isCloseMatch && isPriceRealistic && locationMatch) {
+                    matchType = 'close';
+                }
+                
+                // Só guardar se for match válido
+                if (title && price > 0 && matchType !== 'none') {
+                    const property = {
+                        title: title.substring(0, 200),
+                        price: price,
+                        area: area,
+                        rooms: actualRooms,
+                        location: location,
+                        pricePerSqm: area > 0 ? Math.round(price / area) : 0,
+                        link: link,
+                        site: 'ImóVirtual',
+                        searchQuery: query,
+                        searchedRooms: searchRooms,
+                        searchType: searchType, // NOVO: tipo de pesquisa
+                        matchType: matchType,
+                        propertyIndex: count + 1,
+                        totalProperties: maxResults,
+                        priceFormatted: `${price.toLocaleString()} €`,
+                        areaFormatted: `${area} m²`,
+                        pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    results.push(property);
+                    count++;
+                    
+                    const matchIcon = matchType === 'exact' ? '🎯' : '📍';
+                    const typeIcon = searchType === 'rent' ? '🏠' : '💰';
+                    console.log(`✅ ${count}. ${matchIcon}${typeIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
+                } else {
+                    // Debug para itens rejeitados
+                    if (price === 0) {
+                        console.log(`❌ Rejeitado: sem preço válido`);
+                    } else if (!isPriceRealistic) {
+                        const range = searchType === 'rent' ? '300-3000€' : '80k-800k€';
+                        console.log(`❌ Rejeitado (preço): ${price.toLocaleString()}€ fora do range ${range}`);
+                    } else if (Math.abs(actualRoomNum - searchRoomNum) > 1) {
+                        console.log(`❌ Rejeitado (tipologia): ${actualRooms} muito diferente de ${searchRooms}`);
+                    } else if (!locationMatch) {
+                        console.log(`❌ Rejeitado (localização): não contém "${location}"`);
+                    } else {
+                        console.log(`❌ Rejeitado: critérios não atendidos`);
+                    }
+                }
+                
+            } catch (e) {
+                console.log('⚠️ Erro item:', e.message);
             }
         });
-        console.log(`✅ Site principal acessível: ${testResponse.statusCode}`);
-    } catch (error) {
-        console.error('❌ Erro ao aceder ao site principal:', error.message);
-        console.log('🔄 Continuando mesmo assim...');
-    }
-
-    const allLocations = {
-        districts: new Set(),
-        councils: new Set(),
-        parishes: new Set(),
-        neighborhoods: new Set()
-    };
-
-    // Queries estratégicas para cobrir todo Portugal
-    // Começamos com os distritos principais
-    const mainQueries = [
-        // Distritos principais
-        'lisboa', 'porto', 'coimbra', 'braga', 'aveiro', 'setúbal', 'faro', 
-        'viseu', 'leiria', 'santarém', 'viana do castelo', 'vila real',
-        'bragança', 'guarda', 'castelo branco', 'évora', 'beja', 'portalegre',
         
-        // Cidades importantes que podem revelar mais localizações
-        'sintra', 'cascais', 'oeiras', 'almada', 'amadora', 'loures',
-        'matosinhos', 'vila nova de gaia', 'gondomar', 'maia', 'valongo',
-        'figueira da foz', 'águeda', 'oliveira de azeméis',
-        'torres vedras', 'caldas da rainha', 'óbidos',
-        'portimão', 'lagos', 'tavira', 'olhão',
-        
-        // Regiões autónomas
-        'funchal', 'machico', 'câmara de lobos',  // Madeira
-        'angra do heroísmo', 'ponta delgada', 'horta'  // Açores
-    ];
-
-    let successfulQueries = 0;
-    let totalProcessed = 0;
-
-    console.log(`🎯 Vamos processar ${mainQueries.length} queries principais`);
-
-    for (const query of mainQueries) {
-        try {
-            console.log(`\n📄 Processando query ${totalProcessed + 1}/${mainQueries.length}: "${query}"`);
-            
-            const data = await makeGraphQLRequest(query);
-            
-            if (data?.data?.autocomplete?.locationsObjects) {
-                const locations = processLocations(data, query);
-                
-                // Combinar resultados usando Sets para evitar duplicados
-                for (const item of locations.districts) allLocations.districts.add(item);
-                for (const item of locations.councils) allLocations.councils.add(item);
-                for (const item of locations.parishes) allLocations.parishes.add(item);
-                for (const item of locations.neighborhoods) allLocations.neighborhoods.add(item);
-                
-                successfulQueries++;
-                console.log(`✅ Query "${query}" processada com sucesso`);
-            } else {
-                console.log(`⚠️ Sem dados válidos para "${query}"`);
-            }
-            
-            totalProcessed++;
-            
-            // Pausa entre requests - aumentar para evitar rate limiting
-            const waitTime = 3000 + Math.random() * 2000; // 3-5 segundos aleatório
-            console.log(`⏳ Aguardando ${Math.round(waitTime/1000)} segundos...`);
-            await new Promise(resolve => setTimeout(resolve, waitTime));
-            
-        } catch (error) {
-            console.error(`❌ Falha na query "${query}":`, error.message);
-            totalProcessed++;
-            
-            // Pausa extra após erro
-            await new Promise(resolve => setTimeout(resolve, 5000));
-            continue;
-        }
+        console.log(`\n🎉 RESULTADO FINAL: ${count} imóveis válidos encontrados`);
     }
-
-    // Converter Sets de volta para Arrays e parsear JSON
-    const finalData = {
-        districts: Array.from(allLocations.districts).map(item => JSON.parse(item)),
-        councils: Array.from(allLocations.councils).map(item => JSON.parse(item)),
-        parishes: Array.from(allLocations.parishes).map(item => JSON.parse(item)),
-        neighborhoods: Array.from(allLocations.neighborhoods).map(item => JSON.parse(item)),
-        metadata: {
-            extractedAt: new Date().toISOString(),
-            totalDistricts: allLocations.districts.size,
-            totalCouncils: allLocations.councils.size,
-            totalParishes: allLocations.parishes.size,
-            totalNeighborhoods: allLocations.neighborhoods.size,
-            successfulQueries: successfulQueries,
-            totalQueries: mainQueries.length,
-            source: 'imovirtual.com',
-            endpoint: IMOVIRTUAL_API,
-            version: '2.0'
-        }
-    };
-
-    console.log('\n📊 EXTRAÇÃO CONCLUÍDA!');
-    console.log('=====================================');
-    console.log(`🏛️ Distritos encontrados: ${finalData.metadata.totalDistricts}`);
-    console.log(`🏘️ Concelhos encontrados: ${finalData.metadata.totalCouncils}`);
-    console.log(`⛪ Freguesias encontradas: ${finalData.metadata.totalParishes}`);
-    console.log(`🏠 Bairros encontrados: ${finalData.metadata.totalNeighborhoods}`);
-    console.log(`✅ Queries bem-sucedidas: ${successfulQueries}/${mainQueries.length}`);
-    console.log('=====================================');
-
-    // Guardar dados consolidados
-    await Actor.pushData({
-        type: 'FINAL_CONSOLIDATED_DATA',
-        ...finalData
-    });
-    
-    // Também guardar dados individuais para facilitar análise
-    console.log('💾 A guardar dados individuais...');
-    
-    const savePromises = [];
-    
-    // Guardar distritos
-    for (const district of finalData.districts) {
-        savePromises.push(Actor.pushData({ type: 'district', ...district }));
-    }
-    
-    // Guardar concelhos
-    for (const council of finalData.councils) {
-        savePromises.push(Actor.pushData({ type: 'council', ...council }));
-    }
-    
-    // Guardar freguesias
-    for (const parish of finalData.parishes) {
-        savePromises.push(Actor.pushData({ type: 'parish', ...parish }));
-    }
-    
-    // Guardar bairros
-    for (const neighborhood of finalData.neighborhoods) {
-        savePromises.push(Actor.pushData({ type: 'neighborhood', ...neighborhood }));
-    }
-    
-    // Executar todos os saves em lotes para não sobrecarregar
-    const batchSize = 50;
-    for (let i = 0; i < savePromises.length; i += batchSize) {
-        const batch = savePromises.slice(i, i + batchSize);
-        await Promise.all(batch);
-        console.log(`💾 Guardado lote ${Math.ceil((i + batchSize) / batchSize)}/${Math.ceil(savePromises.length / batchSize)}`);
-    }
-    
-    console.log('✅ Todos os dados guardados no dataset do Apify');
-    
-    // Criar um resumo estruturado por distrito
-    const structuredSummary = {};
-    
-    // Organizar por distritos
-    for (const district of finalData.districts) {
-        structuredSummary[district.name] = {
-            district: district,
-            councils: [],
-            parishes: [],
-            neighborhoods: []
-        };
-    }
-    
-    // Adicionar concelhos
-    for (const council of finalData.councils) {
-        for (const parent of council.parents || []) {
-            if (parent.detailedLevel === 'district' && structuredSummary[parent.name]) {
-                structuredSummary[parent.name].councils.push(council);
-            }
-        }
-    }
-    
-    // Adicionar freguesias
-    for (const parish of finalData.parishes) {
-        for (const parent of parish.parents || []) {
-            if (parent.detailedLevel === 'district' && structuredSummary[parent.name]) {
-                structuredSummary[parent.name].parishes.push(parish);
-            }
-        }
-    }
-    
-    // Adicionar bairros
-    for (const neighborhood of finalData.neighborhoods) {
-        for (const parent of neighborhood.parents || []) {
-            if (parent.detailedLevel === 'district' && structuredSummary[parent.name]) {
-                structuredSummary[parent.name].neighborhoods.push(neighborhood);
-            }
-        }
-    }
-    
-    // Guardar resumo estruturado
-    await Actor.pushData({
-        type: 'STRUCTURED_SUMMARY',
-        summary: structuredSummary,
-        metadata: finalData.metadata
-    });
-    
-    console.log('🗂️ Resumo estruturado criado e guardado');
-    console.log(`🎉 EXTRAÇÃO COMPLETA! Total de ${Object.keys(finalData).filter(k => k !== 'metadata').reduce((sum, key) => sum + finalData[key].length, 0)} localizações extraídas`);
 });
 
+try {
+    await crawler.run([searchUrl]);
+    await Actor.pushData(results);
+    console.log('✅ Concluído:', results.length, 'resultados');
+} catch (error) {
+    console.log('❌ Erro:', error.message);
+    await Actor.pushData(results); // Salvar o que conseguiu
+}
+
+await Actor.exit();
