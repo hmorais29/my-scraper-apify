@@ -1,0 +1,3797 @@
+[{
+  "districts": [
+    {
+      "id": "coimbra",
+      "name": "Coimbra",
+      "fullName": "Coimbra",
+      "level": "district",
+      "source": "coimbra"
+    },
+    {
+      "id": "braga",
+      "name": "Braga",
+      "fullName": "Braga",
+      "level": "district",
+      "source": "braga"
+    },
+    {
+      "id": "setubal",
+      "name": "Setúbal",
+      "fullName": "Setúbal",
+      "level": "district",
+      "source": "setúbal"
+    }
+  ],
+  "councils": [
+    {
+      "id": "lisboa/lisboa",
+      "name": "Lisboa",
+      "fullName": "Lisboa, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/sintra",
+      "name": "Sintra",
+      "fullName": "Sintra, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/oeiras",
+      "name": "Oeiras",
+      "fullName": "Oeiras, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/odivelas",
+      "name": "Odivelas",
+      "fullName": "Odivelas, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/mafra",
+      "name": "Mafra",
+      "fullName": "Mafra, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/loures",
+      "name": "Loures",
+      "fullName": "Loures, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/cascais",
+      "name": "Cascais",
+      "fullName": "Cascais, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/amadora",
+      "name": "Amadora",
+      "fullName": "Amadora, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "lisboa/alenquer",
+      "name": "Alenquer",
+      "fullName": "Alenquer, Lisboa",
+      "level": "council",
+      "source": "lisboa"
+    },
+    {
+      "id": "porto/porto",
+      "name": "Porto",
+      "fullName": "Porto, Porto",
+      "level": "council",
+      "source": "porto"
+    },
+    {
+      "id": "leiria/porto-de-mos",
+      "name": "Porto de Mós",
+      "fullName": "Porto de Mós, Leiria",
+      "level": "council",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-de-porto-santo/porto-santo",
+      "name": "Porto Santo",
+      "fullName": "Porto Santo, Ilha de Porto Santo",
+      "level": "council",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-da-madeira/porto-moniz",
+      "name": "Porto Moniz",
+      "fullName": "Porto Moniz, Ilha da Madeira",
+      "level": "council",
+      "source": "porto"
+    },
+    {
+      "id": "porto/valongo",
+      "name": "Valongo",
+      "fullName": "Valongo, Porto",
+      "level": "council",
+      "source": "porto"
+    },
+    {
+      "id": "coimbra/coimbra",
+      "name": "Coimbra",
+      "fullName": "Coimbra, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/tabua",
+      "name": "Tábua",
+      "fullName": "Tábua, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/soure",
+      "name": "Soure",
+      "fullName": "Soure, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/penela",
+      "name": "Penela",
+      "fullName": "Penela, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/penacova",
+      "name": "Penacova",
+      "fullName": "Penacova, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/mira",
+      "name": "Mira",
+      "fullName": "Mira, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/lousa",
+      "name": "Lousã",
+      "fullName": "Lousã, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/gois",
+      "name": "Góis",
+      "fullName": "Góis, Coimbra",
+      "level": "council",
+      "source": "coimbra"
+    },
+    {
+      "id": "braga/braga",
+      "name": "Braga",
+      "fullName": "Braga, Braga",
+      "level": "council",
+      "source": "braga"
+    },
+    {
+      "id": "braganca/braganca",
+      "name": "Bragança",
+      "fullName": "Bragança, Bragança",
+      "level": "council",
+      "source": "braga"
+    },
+    {
+      "id": "braga/guimaraes",
+      "name": "Guimarães",
+      "fullName": "Guimarães, Braga",
+      "level": "council",
+      "source": "braga"
+    },
+    {
+      "id": "braga/barcelos",
+      "name": "Barcelos",
+      "fullName": "Barcelos, Braga",
+      "level": "council",
+      "source": "braga"
+    },
+    {
+      "id": "setubal/setubal",
+      "name": "Setúbal",
+      "fullName": "Setúbal, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/sesimbra",
+      "name": "Sesimbra",
+      "fullName": "Sesimbra, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/seixal",
+      "name": "Seixal",
+      "fullName": "Seixal, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/palmela",
+      "name": "Palmela",
+      "fullName": "Palmela, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/montijo",
+      "name": "Montijo",
+      "fullName": "Montijo, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/moita",
+      "name": "Moita",
+      "fullName": "Moita, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/barreiro",
+      "name": "Barreiro",
+      "fullName": "Barreiro, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/almada",
+      "name": "Almada",
+      "fullName": "Almada, Setúbal",
+      "level": "council",
+      "source": "setúbal"
+    }
+  ],
+  "parishes": [
+    {
+      "id": "lisboa/lisboa/ajuda",
+      "name": "Ajuda",
+      "fullName": "Ajuda, Lisboa, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/alcantara",
+      "name": "Alcântara",
+      "fullName": "Alcântara, Lisboa, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/alvalade",
+      "name": "Alvalade",
+      "fullName": "Alvalade, Lisboa, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/areeiro",
+      "name": "Areeiro",
+      "fullName": "Areeiro, Lisboa, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/agualva-e-mira-sintra",
+      "name": "Agualva e Mira-Sintra",
+      "fullName": "Agualva e Mira-Sintra, Sintra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/algueirao-mem-martins",
+      "name": "Algueirão-Mem Martins",
+      "fullName": "Algueirão-Mem Martins, Sintra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/almargem-do-bispo-pero-pinheiro-e-montelavar",
+      "name": "Almargem do Bispo, Pêro Pinheiro e Montelavar",
+      "fullName": "Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/cacem-e-sao-marcos",
+      "name": "Cacém e São Marcos",
+      "fullName": "Cacém e São Marcos, Sintra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/alges-linda-a-velha-e-cruz-quebrada-dafundo",
+      "name": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo",
+      "fullName": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/barcarena",
+      "name": "Barcarena",
+      "fullName": "Barcarena, Oeiras, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/carnaxide-e-queijas",
+      "name": "Carnaxide e Queijas",
+      "fullName": "Carnaxide e Queijas, Oeiras, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/oeiras-e-s-juliao-da-barra-paco-de-arcos-e-caxias",
+      "name": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias",
+      "fullName": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/odivelas/odivelas",
+      "name": "Odivelas",
+      "fullName": "Odivelas, Odivelas, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Odivelas, Lisboa"
+    },
+    {
+      "id": "lisboa/odivelas/pontinha-e-famoes",
+      "name": "Pontinha e Famões",
+      "fullName": "Pontinha e Famões, Odivelas, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Odivelas, Lisboa"
+    },
+    {
+      "id": "lisboa/odivelas/povoa-de-santo-adriao-e-olival-basto",
+      "name": "Póvoa de Santo Adrião e Olival Basto",
+      "fullName": "Póvoa de Santo Adrião e Olival Basto, Odivelas, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Odivelas, Lisboa"
+    },
+    {
+      "id": "lisboa/odivelas/ramada-e-canecas",
+      "name": "Ramada e Caneças",
+      "fullName": "Ramada e Caneças, Odivelas, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Odivelas, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/azueira-e-sobral-da-abelheira",
+      "name": "Azueira e Sobral da Abelheira",
+      "fullName": "Azueira e Sobral da Abelheira, Mafra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/carvoeira",
+      "name": "Carvoeira",
+      "fullName": "Carvoeira, Mafra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/encarnacao",
+      "name": "Encarnação",
+      "fullName": "Encarnação, Mafra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/enxara-do-bispo-gradil-e-vila-franca-do-rosario",
+      "name": "Enxara do Bispo, Gradil e Vila Franca do Rosário",
+      "fullName": "Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/bucelas",
+      "name": "Bucelas",
+      "fullName": "Bucelas, Loures, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/camarate-unhos-e-apelacao",
+      "name": "Camarate, Unhos e Apelação",
+      "fullName": "Camarate, Unhos e Apelação, Loures, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/fanhoes",
+      "name": "Fanhões",
+      "fullName": "Fanhões, Loures, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/loures",
+      "name": "Loures",
+      "fullName": "Loures, Loures, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/alcabideche",
+      "name": "Alcabideche",
+      "fullName": "Alcabideche, Cascais, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/carcavelos-e-parede",
+      "name": "Carcavelos e Parede",
+      "fullName": "Carcavelos e Parede, Cascais, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/cascais-e-estoril",
+      "name": "Cascais e Estoril",
+      "fullName": "Cascais e Estoril, Cascais, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/sao-domingos-de-rana",
+      "name": "São Domingos de Rana",
+      "fullName": "São Domingos de Rana, Cascais, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/aguas-livres",
+      "name": "Águas Livres",
+      "fullName": "Águas Livres, Amadora, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/alfragide",
+      "name": "Alfragide",
+      "fullName": "Alfragide, Amadora, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/encosta-do-sol",
+      "name": "Encosta do Sol",
+      "fullName": "Encosta do Sol, Amadora, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/falagueira-venda-nova",
+      "name": "Falagueira-Venda Nova",
+      "fullName": "Falagueira-Venda Nova, Amadora, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/alenquer/abrigada-e-cabanas-de-torres",
+      "name": "Abrigada e Cabanas de Torres",
+      "fullName": "Abrigada e Cabanas de Torres, Alenquer, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Alenquer, Lisboa"
+    },
+    {
+      "id": "lisboa/alenquer/aldeia-galega-da-merceana-e-aldeia-gavinha",
+      "name": "Aldeia Galega da Merceana e Aldeia Gavinha",
+      "fullName": "Aldeia Galega da Merceana e Aldeia Gavinha, Alenquer, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Alenquer, Lisboa"
+    },
+    {
+      "id": "lisboa/alenquer/alenquer-santo-estevao-e-triana-",
+      "name": "Alenquer (Santo Estêvão e Triana)",
+      "fullName": "Alenquer (Santo Estêvão e Triana), Alenquer, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Alenquer, Lisboa"
+    },
+    {
+      "id": "lisboa/alenquer/carnota",
+      "name": "Carnota",
+      "fullName": "Carnota, Alenquer, Lisboa",
+      "level": "parish",
+      "source": "lisboa",
+      "parent": "Alenquer, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/olivais",
+      "name": "Olivais",
+      "fullName": "Olivais, Lisboa, Lisboa",
+      "level": "parish",
+      "source": "lisboa"
+    },
+    {
+      "id": "porto/porto/aldoar-foz-do-douro-e-nevogilde",
+      "name": "Aldoar, Foz do Douro e Nevogilde",
+      "fullName": "Aldoar, Foz do Douro e Nevogilde, Porto, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto, Porto"
+    },
+    {
+      "id": "porto/porto/bonfim",
+      "name": "Bonfim",
+      "fullName": "Bonfim, Porto, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto, Porto"
+    },
+    {
+      "id": "porto/porto/campanha",
+      "name": "Campanhã",
+      "fullName": "Campanhã, Porto, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto, Porto"
+    },
+    {
+      "id": "porto/porto/cedofeita-ildefonso-se-miragaia-nicolau-vitoria",
+      "name": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória",
+      "fullName": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto, Porto"
+    },
+    {
+      "id": "leiria/porto-de-mos/alqueidao-da-serra",
+      "name": "Alqueidão da Serra",
+      "fullName": "Alqueidão da Serra, Porto de Mós, Leiria",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto de Mós, Leiria"
+    },
+    {
+      "id": "leiria/porto-de-mos/alvados-e-alcaria",
+      "name": "Alvados e Alcaria",
+      "fullName": "Alvados e Alcaria, Porto de Mós, Leiria",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto de Mós, Leiria"
+    },
+    {
+      "id": "leiria/porto-de-mos/arrimal-e-mendiga",
+      "name": "Arrimal e Mendiga",
+      "fullName": "Arrimal e Mendiga, Porto de Mós, Leiria",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto de Mós, Leiria"
+    },
+    {
+      "id": "leiria/porto-de-mos/calvaria-de-cima",
+      "name": "Calvaria de Cima",
+      "fullName": "Calvaria de Cima, Porto de Mós, Leiria",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto de Mós, Leiria"
+    },
+    {
+      "id": "ilha-de-porto-santo/porto-santo/porto-santo",
+      "name": "Porto Santo",
+      "fullName": "Porto Santo, Porto Santo, Ilha de Porto Santo",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto Santo, Ilha de Porto Santo"
+    },
+    {
+      "id": "lisboa/oeiras/porto-salvo",
+      "name": "Porto Salvo",
+      "fullName": "Porto Salvo, Oeiras, Lisboa",
+      "level": "parish",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-da-madeira/porto-moniz/achadas-da-cruz",
+      "name": "Achadas da Cruz",
+      "fullName": "Achadas da Cruz, Porto Moniz, Ilha da Madeira",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto Moniz, Ilha da Madeira"
+    },
+    {
+      "id": "ilha-da-madeira/porto-moniz/porto-moniz",
+      "name": "Porto Moniz",
+      "fullName": "Porto Moniz, Porto Moniz, Ilha da Madeira",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto Moniz, Ilha da Madeira"
+    },
+    {
+      "id": "ilha-da-madeira/porto-moniz/ribeira-da-janela",
+      "name": "Ribeira da Janela",
+      "fullName": "Ribeira da Janela, Porto Moniz, Ilha da Madeira",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto Moniz, Ilha da Madeira"
+    },
+    {
+      "id": "ilha-da-madeira/porto-moniz/seixal",
+      "name": "Seixal",
+      "fullName": "Seixal, Porto Moniz, Ilha da Madeira",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Porto Moniz, Ilha da Madeira"
+    },
+    {
+      "id": "leiria/porto-de-mos/porto-de-mos--sao-joao-baptista-e-sao-pedro",
+      "name": "Porto de Mós - São João Baptista e São Pedro",
+      "fullName": "Porto de Mós - São João Baptista e São Pedro, Porto de Mós, Leiria",
+      "level": "parish",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-da-madeira/machico/porto-da-cruz",
+      "name": "Porto da Cruz",
+      "fullName": "Porto da Cruz, Machico, Ilha da Madeira",
+      "level": "parish",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-de-porto-santo/porto-santo/porto-santo",
+      "name": "Porto Santo",
+      "fullName": "Porto Santo, Porto Santo, Ilha de Porto Santo",
+      "level": "parish",
+      "source": "porto"
+    },
+    {
+      "id": "ilha-terceira/angra-do-heroismo/porto-judeu",
+      "name": "Porto Judeu",
+      "fullName": "Porto Judeu, Angra do Heroísmo, Ilha Terceira",
+      "level": "parish",
+      "source": "porto"
+    },
+    {
+      "id": "porto/valongo/alfena",
+      "name": "Alfena",
+      "fullName": "Alfena, Valongo, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Valongo, Porto"
+    },
+    {
+      "id": "porto/valongo/campo-e-sobrado",
+      "name": "Campo e Sobrado",
+      "fullName": "Campo e Sobrado, Valongo, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Valongo, Porto"
+    },
+    {
+      "id": "porto/valongo/ermesinde",
+      "name": "Ermesinde",
+      "fullName": "Ermesinde, Valongo, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Valongo, Porto"
+    },
+    {
+      "id": "porto/valongo/valongo",
+      "name": "Valongo",
+      "fullName": "Valongo, Valongo, Porto",
+      "level": "parish",
+      "source": "porto",
+      "parent": "Valongo, Porto"
+    },
+    {
+      "id": "coimbra/coimbra/almalagues",
+      "name": "Almalaguês",
+      "fullName": "Almalaguês, Coimbra, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Coimbra, Coimbra"
+    },
+    {
+      "id": "coimbra/coimbra/antuzede-e-vil-de-matos",
+      "name": "Antuzede e Vil de Matos",
+      "fullName": "Antuzede e Vil de Matos, Coimbra, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Coimbra, Coimbra"
+    },
+    {
+      "id": "coimbra/coimbra/assafarge-e-antanhol",
+      "name": "Assafarge e Antanhol",
+      "fullName": "Assafarge e Antanhol, Coimbra, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Coimbra, Coimbra"
+    },
+    {
+      "id": "coimbra/coimbra/brasfemes",
+      "name": "Brasfemes",
+      "fullName": "Brasfemes, Coimbra, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Coimbra, Coimbra"
+    },
+    {
+      "id": "leiria/leiria/coimbrao",
+      "name": "Coimbrão",
+      "fullName": "Coimbrão, Leiria, Leiria",
+      "level": "parish",
+      "source": "coimbra"
+    },
+    {
+      "id": "coimbra/tabua/azere-e-covelo",
+      "name": "Ázere e Covelo",
+      "fullName": "Ázere e Covelo, Tábua, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Tábua, Coimbra"
+    },
+    {
+      "id": "coimbra/tabua/candosa",
+      "name": "Candosa",
+      "fullName": "Candosa, Tábua, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Tábua, Coimbra"
+    },
+    {
+      "id": "coimbra/tabua/carapinha",
+      "name": "Carapinha",
+      "fullName": "Carapinha, Tábua, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Tábua, Coimbra"
+    },
+    {
+      "id": "coimbra/tabua/covas-e-vila-nova-de-oliveirinha",
+      "name": "Covas e Vila Nova de Oliveirinha",
+      "fullName": "Covas e Vila Nova de Oliveirinha, Tábua, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Tábua, Coimbra"
+    },
+    {
+      "id": "coimbra/soure/alfarelos",
+      "name": "Alfarelos",
+      "fullName": "Alfarelos, Soure, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Soure, Coimbra"
+    },
+    {
+      "id": "coimbra/soure/degracias-e-pombalinho",
+      "name": "Degracias e Pombalinho",
+      "fullName": "Degracias e Pombalinho, Soure, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Soure, Coimbra"
+    },
+    {
+      "id": "coimbra/soure/figueiro-do-campo",
+      "name": "Figueiró do Campo",
+      "fullName": "Figueiró do Campo, Soure, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Soure, Coimbra"
+    },
+    {
+      "id": "coimbra/soure/gesteira-e-brunhos",
+      "name": "Gesteira e Brunhós",
+      "fullName": "Gesteira e Brunhós, Soure, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Soure, Coimbra"
+    },
+    {
+      "id": "coimbra/penela/cumeeira",
+      "name": "Cumeeira",
+      "fullName": "Cumeeira, Penela, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penela, Coimbra"
+    },
+    {
+      "id": "coimbra/penela/espinhal",
+      "name": "Espinhal",
+      "fullName": "Espinhal, Penela, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penela, Coimbra"
+    },
+    {
+      "id": "coimbra/penela/podentes",
+      "name": "Podentes",
+      "fullName": "Podentes, Penela, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penela, Coimbra"
+    },
+    {
+      "id": "coimbra/penela/sao-miguel-santa-eufemia-e-rabacal",
+      "name": "São Miguel, Santa Eufémia e Rabaçal",
+      "fullName": "São Miguel, Santa Eufémia e Rabaçal, Penela, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penela, Coimbra"
+    },
+    {
+      "id": "coimbra/penacova/carvalho",
+      "name": "Carvalho",
+      "fullName": "Carvalho, Penacova, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penacova, Coimbra"
+    },
+    {
+      "id": "coimbra/penacova/figueira-de-lorvao",
+      "name": "Figueira de Lorvão",
+      "fullName": "Figueira de Lorvão, Penacova, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penacova, Coimbra"
+    },
+    {
+      "id": "coimbra/penacova/friumes-e-paradela",
+      "name": "Friúmes e Paradela",
+      "fullName": "Friúmes e Paradela, Penacova, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penacova, Coimbra"
+    },
+    {
+      "id": "coimbra/penacova/lorvao",
+      "name": "Lorvão",
+      "fullName": "Lorvão, Penacova, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Penacova, Coimbra"
+    },
+    {
+      "id": "coimbra/mira/carapelhos",
+      "name": "Carapelhos",
+      "fullName": "Carapelhos, Mira, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Mira, Coimbra"
+    },
+    {
+      "id": "coimbra/mira/mira",
+      "name": "Mira",
+      "fullName": "Mira, Mira, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Mira, Coimbra"
+    },
+    {
+      "id": "coimbra/mira/praia-de-mira",
+      "name": "Praia de Mira",
+      "fullName": "Praia de Mira, Mira, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Mira, Coimbra"
+    },
+    {
+      "id": "coimbra/mira/seixo",
+      "name": "Seixo",
+      "fullName": "Seixo, Mira, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Mira, Coimbra"
+    },
+    {
+      "id": "coimbra/lousa/foz-de-arouce-e-casal-de-ermio",
+      "name": "Foz de Arouce e Casal de Ermio",
+      "fullName": "Foz de Arouce e Casal de Ermio, Lousã, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Lousã, Coimbra"
+    },
+    {
+      "id": "coimbra/lousa/gandaras",
+      "name": "Gândaras",
+      "fullName": "Gândaras, Lousã, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Lousã, Coimbra"
+    },
+    {
+      "id": "coimbra/lousa/lousa-e-vilarinho",
+      "name": "Lousã e Vilarinho",
+      "fullName": "Lousã e Vilarinho, Lousã, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Lousã, Coimbra"
+    },
+    {
+      "id": "coimbra/lousa/serpins",
+      "name": "Serpins",
+      "fullName": "Serpins, Lousã, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Lousã, Coimbra"
+    },
+    {
+      "id": "coimbra/gois/alvares",
+      "name": "Alvares",
+      "fullName": "Alvares, Góis, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Góis, Coimbra"
+    },
+    {
+      "id": "coimbra/gois/cadafaz-e-colmeal",
+      "name": "Cadafaz e Colmeal",
+      "fullName": "Cadafaz e Colmeal, Góis, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Góis, Coimbra"
+    },
+    {
+      "id": "coimbra/gois/gois",
+      "name": "Góis",
+      "fullName": "Góis, Góis, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Góis, Coimbra"
+    },
+    {
+      "id": "coimbra/gois/vila-nova-do-ceira",
+      "name": "Vila Nova do Ceira",
+      "fullName": "Vila Nova do Ceira, Góis, Coimbra",
+      "level": "parish",
+      "source": "coimbra",
+      "parent": "Góis, Coimbra"
+    },
+    {
+      "id": "braga/braga/adaufe",
+      "name": "Adaúfe",
+      "fullName": "Adaúfe, Braga, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Braga, Braga"
+    },
+    {
+      "id": "braga/braga/arentim-e-cunha",
+      "name": "Arentim e Cunha",
+      "fullName": "Arentim e Cunha, Braga, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Braga, Braga"
+    },
+    {
+      "id": "braga/braga/braga-maximinos-se-e-cividade-",
+      "name": "Braga (Maximinos, Sé e Cividade)",
+      "fullName": "Braga (Maximinos, Sé e Cividade), Braga, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Braga, Braga"
+    },
+    {
+      "id": "braga/braga/braga-sao-jose-de-sao-lazaro-e-sao-joao-do-souto-",
+      "name": "Braga (São José de São Lázaro e São João do Souto)",
+      "fullName": "Braga (São José de São Lázaro e São João do Souto), Braga, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Braga, Braga"
+    },
+    {
+      "id": "braganca/braganca/alfaiao",
+      "name": "Alfaião",
+      "fullName": "Alfaião, Bragança, Bragança",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Bragança, Bragança"
+    },
+    {
+      "id": "braganca/braganca/aveleda-e-rio-de-onor",
+      "name": "Aveleda e Rio de Onor",
+      "fullName": "Aveleda e Rio de Onor, Bragança, Bragança",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Bragança, Bragança"
+    },
+    {
+      "id": "braganca/braganca/babe",
+      "name": "Babe",
+      "fullName": "Babe, Bragança, Bragança",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Bragança, Bragança"
+    },
+    {
+      "id": "braganca/braganca/bacal",
+      "name": "Baçal",
+      "fullName": "Baçal, Bragança, Bragança",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Bragança, Bragança"
+    },
+    {
+      "id": "braga/braga/braga-sao-vitor-",
+      "name": "Braga (São Vítor)",
+      "fullName": "Braga (São Vítor), Braga, Braga",
+      "level": "parish",
+      "source": "braga"
+    },
+    {
+      "id": "braga/braga/braga-sao-vicente-",
+      "name": "Braga (São Vicente)",
+      "fullName": "Braga (São Vicente), Braga, Braga",
+      "level": "parish",
+      "source": "braga"
+    },
+    {
+      "id": "braga/braga/braga-sao-jose-de-sao-lazaro-e-sao-joao-do-souto-",
+      "name": "Braga (São José de São Lázaro e São João do Souto)",
+      "fullName": "Braga (São José de São Lázaro e São João do Souto), Braga, Braga",
+      "level": "parish",
+      "source": "braga"
+    },
+    {
+      "id": "braga/braga/braga-maximinos-se-e-cividade-",
+      "name": "Braga (Maximinos, Sé e Cividade)",
+      "fullName": "Braga (Maximinos, Sé e Cividade), Braga, Braga",
+      "level": "parish",
+      "source": "braga"
+    },
+    {
+      "id": "vila-real/vila-pouca-de-aguiar/bragado",
+      "name": "Bragado",
+      "fullName": "Bragado, Vila Pouca de Aguiar, Vila Real",
+      "level": "parish",
+      "source": "braga"
+    },
+    {
+      "id": "braga/guimaraes/abacao-e-gemeos",
+      "name": "Abação e Gémeos",
+      "fullName": "Abação e Gémeos, Guimarães, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Guimarães, Braga"
+    },
+    {
+      "id": "braga/guimaraes/airao-santa-maria-airao-sao-joao-e-vermil",
+      "name": "Airão Santa Maria, Airão São João e Vermil",
+      "fullName": "Airão Santa Maria, Airão São João e Vermil, Guimarães, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Guimarães, Braga"
+    },
+    {
+      "id": "braga/guimaraes/aldao",
+      "name": "Aldão",
+      "fullName": "Aldão, Guimarães, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Guimarães, Braga"
+    },
+    {
+      "id": "braga/guimaraes/arosa-e-casteloes",
+      "name": "Arosa e Castelões",
+      "fullName": "Arosa e Castelões, Guimarães, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Guimarães, Braga"
+    },
+    {
+      "id": "braga/barcelos/abade-de-neiva",
+      "name": "Abade de Neiva",
+      "fullName": "Abade de Neiva, Barcelos, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Barcelos, Braga"
+    },
+    {
+      "id": "braga/barcelos/aborim",
+      "name": "Aborim",
+      "fullName": "Aborim, Barcelos, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Barcelos, Braga"
+    },
+    {
+      "id": "braga/barcelos/adaes",
+      "name": "Adães",
+      "fullName": "Adães, Barcelos, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Barcelos, Braga"
+    },
+    {
+      "id": "braga/barcelos/airo",
+      "name": "Airó",
+      "fullName": "Airó, Barcelos, Braga",
+      "level": "parish",
+      "source": "braga",
+      "parent": "Barcelos, Braga"
+    },
+    {
+      "id": "setubal/setubal/azeitao-sao-lourenco-e-sao-simao-",
+      "name": "Azeitão (São Lourenço e São Simão)",
+      "fullName": "Azeitão (São Lourenço e São Simão), Setúbal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/gambia-pontes-alto-da-guerra",
+      "name": "Gâmbia-Pontes-Alto da Guerra",
+      "fullName": "Gâmbia-Pontes-Alto da Guerra, Setúbal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/sado",
+      "name": "Sado",
+      "fullName": "Sado, Setúbal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-",
+      "name": "Setúbal (São Sebastião)",
+      "fullName": "Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-",
+      "name": "Setúbal (São Sebastião)",
+      "fullName": "Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "parish",
+      "source": "setúbal"
+    },
+    {
+      "id": "setubal/sesimbra/quinta-do-conde",
+      "name": "Quinta do Conde",
+      "fullName": "Quinta do Conde, Sesimbra, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Sesimbra, Setúbal"
+    },
+    {
+      "id": "setubal/sesimbra/sesimbra-castelo-",
+      "name": "Sesimbra (Castelo)",
+      "fullName": "Sesimbra (Castelo), Sesimbra, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Sesimbra, Setúbal"
+    },
+    {
+      "id": "setubal/sesimbra/sesimbra-santiago-",
+      "name": "Sesimbra (Santiago)",
+      "fullName": "Sesimbra (Santiago), Sesimbra, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Sesimbra, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/amora",
+      "name": "Amora",
+      "fullName": "Amora, Seixal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/corroios",
+      "name": "Corroios",
+      "fullName": "Corroios, Seixal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/fernao-ferro",
+      "name": "Fernão Ferro",
+      "fullName": "Fernão Ferro, Seixal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/seixal-arrentela-e-aldeia-de-paio-pires",
+      "name": "Seixal, Arrentela e Aldeia de Paio Pires",
+      "fullName": "Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/palmela/palmela",
+      "name": "Palmela",
+      "fullName": "Palmela, Palmela, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Palmela, Setúbal"
+    },
+    {
+      "id": "setubal/palmela/pinhal-novo",
+      "name": "Pinhal Novo",
+      "fullName": "Pinhal Novo, Palmela, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Palmela, Setúbal"
+    },
+    {
+      "id": "setubal/palmela/poceirao-e-marateca",
+      "name": "Poceirão e Marateca",
+      "fullName": "Poceirão e Marateca, Palmela, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Palmela, Setúbal"
+    },
+    {
+      "id": "setubal/palmela/quinta-do-anjo",
+      "name": "Quinta do Anjo",
+      "fullName": "Quinta do Anjo, Palmela, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Palmela, Setúbal"
+    },
+    {
+      "id": "setubal/montijo/atalaia-e-alto-estanqueiro-jardia",
+      "name": "Atalaia e Alto Estanqueiro-Jardia",
+      "fullName": "Atalaia e Alto Estanqueiro-Jardia, Montijo, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Montijo, Setúbal"
+    },
+    {
+      "id": "setubal/montijo/canha",
+      "name": "Canha",
+      "fullName": "Canha, Montijo, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Montijo, Setúbal"
+    },
+    {
+      "id": "setubal/montijo/montijo-e-afonsoeiro",
+      "name": "Montijo e Afonsoeiro",
+      "fullName": "Montijo e Afonsoeiro, Montijo, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Montijo, Setúbal"
+    },
+    {
+      "id": "setubal/montijo/pegoes",
+      "name": "Pegões",
+      "fullName": "Pegões, Montijo, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Montijo, Setúbal"
+    },
+    {
+      "id": "setubal/moita/alhos-vedros",
+      "name": "Alhos Vedros",
+      "fullName": "Alhos Vedros, Moita, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Moita, Setúbal"
+    },
+    {
+      "id": "setubal/moita/baixa-da-banheira-e-vale-da-amoreira",
+      "name": "Baixa da Banheira e Vale da Amoreira",
+      "fullName": "Baixa da Banheira e Vale da Amoreira, Moita, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Moita, Setúbal"
+    },
+    {
+      "id": "setubal/moita/gaio-rosario-e-sarilhos-pequenos",
+      "name": "Gaio-Rosário e Sarilhos Pequenos",
+      "fullName": "Gaio-Rosário e Sarilhos Pequenos, Moita, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Moita, Setúbal"
+    },
+    {
+      "id": "setubal/moita/moita",
+      "name": "Moita",
+      "fullName": "Moita, Moita, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Moita, Setúbal"
+    },
+    {
+      "id": "setubal/barreiro/alto-do-seixalinho-santo-andre-e-verderena",
+      "name": "Alto do Seixalinho, Santo André e Verderena",
+      "fullName": "Alto do Seixalinho, Santo André e Verderena, Barreiro, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Barreiro, Setúbal"
+    },
+    {
+      "id": "setubal/barreiro/barreiro-e-lavradio",
+      "name": "Barreiro e Lavradio",
+      "fullName": "Barreiro e Lavradio, Barreiro, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Barreiro, Setúbal"
+    },
+    {
+      "id": "setubal/barreiro/palhais-e-coina",
+      "name": "Palhais e Coina",
+      "fullName": "Palhais e Coina, Barreiro, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Barreiro, Setúbal"
+    },
+    {
+      "id": "setubal/barreiro/santo-antonio-da-charneca",
+      "name": "Santo António da Charneca",
+      "fullName": "Santo António da Charneca, Barreiro, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Barreiro, Setúbal"
+    },
+    {
+      "id": "setubal/almada/almada-cova-da-piedade-pragal-e-cacilhas",
+      "name": "Almada, Cova da Piedade, Pragal e Cacilhas",
+      "fullName": "Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/caparica-e-trafaria",
+      "name": "Caparica e Trafaria",
+      "fullName": "Caparica e Trafaria, Almada, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/charneca-de-caparica-e-sobreda",
+      "name": "Charneca de Caparica e Sobreda",
+      "fullName": "Charneca de Caparica e Sobreda, Almada, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/costa-da-caparica",
+      "name": "Costa da Caparica",
+      "fullName": "Costa da Caparica, Almada, Setúbal",
+      "level": "parish",
+      "source": "setúbal",
+      "parent": "Almada, Setúbal"
+    }
+  ],
+  "neighborhoods": [
+    {
+      "id": "lisboa/lisboa/ajuda/alto-da-ajuda",
+      "name": "Alto da Ajuda",
+      "fullName": "Alto da Ajuda, Ajuda, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Ajuda, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/alcantara/alto-de-alcantara",
+      "name": "Alto de Alcântara",
+      "fullName": "Alto de Alcântara, Alcântara, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Alcântara, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/alvalade/alvalade",
+      "name": "Alvalade",
+      "fullName": "Alvalade, Alvalade, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Alvalade, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/areeiro/arco-do-cego",
+      "name": "Arco do Cego",
+      "fullName": "Arco do Cego, Areeiro, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Areeiro, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/agualva-e-mira-sintra/agualva",
+      "name": "Agualva",
+      "fullName": "Agualva, Agualva e Mira-Sintra, Sintra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Agualva e Mira-Sintra, Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/algueirao-mem-martins/algueirao",
+      "name": "Algueirão",
+      "fullName": "Algueirão, Algueirão-Mem Martins, Sintra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Algueirão-Mem Martins, Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/almargem-do-bispo-pero-pinheiro-e-montelavar/almargem-do-bispo",
+      "name": "Almargem do Bispo",
+      "fullName": "Almargem do Bispo, Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/sintra/cacem-e-sao-marcos/agualva-cacem",
+      "name": "Agualva-Cacém",
+      "fullName": "Agualva-Cacém, Cacém e São Marcos, Sintra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Cacém e São Marcos, Sintra, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/alges-linda-a-velha-e-cruz-quebrada-dafundo/alges",
+      "name": "Algés",
+      "fullName": "Algés, Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/barcarena/fabrica-da-polvora",
+      "name": "Fábrica da Pólvora",
+      "fullName": "Fábrica da Pólvora, Barcarena, Oeiras, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Barcarena, Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/carnaxide-e-queijas/centro-de-carnaxide",
+      "name": "Centro de Carnaxide",
+      "fullName": "Centro de Carnaxide, Carnaxide e Queijas, Oeiras, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Carnaxide e Queijas, Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/oeiras/oeiras-e-s-juliao-da-barra-paco-de-arcos-e-caxias/alto-da-barra",
+      "name": "Alto da Barra",
+      "fullName": "Alto da Barra, Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/azueira-e-sobral-da-abelheira/azueira",
+      "name": "Azueira",
+      "fullName": "Azueira, Azueira e Sobral da Abelheira, Mafra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Azueira e Sobral da Abelheira, Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/mafra/enxara-do-bispo-gradil-e-vila-franca-do-rosario/enxara-do-bispo",
+      "name": "Enxara do Bispo",
+      "fullName": "Enxara do Bispo, Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/camarate-unhos-e-apelacao/apelacao",
+      "name": "Apelação",
+      "fullName": "Apelação, Camarate, Unhos e Apelação, Loures, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Camarate, Unhos e Apelação, Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/loures/loures/barro--pinheiro-de-loures",
+      "name": "Barro - Pinheiro de Loures",
+      "fullName": "Barro - Pinheiro de Loures, Loures, Loures, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Loures, Loures, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/alcabideche/alcoitao",
+      "name": "Alcoitão",
+      "fullName": "Alcoitão, Alcabideche, Cascais, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Alcabideche, Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/carcavelos-e-parede/bairro-alentejano",
+      "name": "Bairro Alentejano",
+      "fullName": "Bairro Alentejano, Carcavelos e Parede, Cascais, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Carcavelos e Parede, Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/cascais-e-estoril/alapraia--livramento",
+      "name": "Alapraia - Livramento",
+      "fullName": "Alapraia - Livramento, Cascais e Estoril, Cascais, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Cascais e Estoril, Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/cascais/sao-domingos-de-rana/aboboda--conceicao-da-aboboda",
+      "name": "Abóboda - Conceição da Abóboda",
+      "fullName": "Abóboda - Conceição da Abóboda, São Domingos de Rana, Cascais, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "São Domingos de Rana, Cascais, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/aguas-livres/buraca",
+      "name": "Buraca",
+      "fullName": "Buraca, Águas Livres, Amadora, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Águas Livres, Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/encosta-do-sol/alfornelos",
+      "name": "Alfornelos",
+      "fullName": "Alfornelos, Encosta do Sol, Amadora, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Encosta do Sol, Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/amadora/falagueira-venda-nova/falagueira",
+      "name": "Falagueira",
+      "fullName": "Falagueira, Falagueira-Venda Nova, Amadora, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Falagueira-Venda Nova, Amadora, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/olivais/aeroporto",
+      "name": "Aeroporto",
+      "fullName": "Aeroporto, Olivais, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Olivais, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/olivais/bairro-da-encarnacao",
+      "name": "Bairro da Encarnação",
+      "fullName": "Bairro da Encarnação, Olivais, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Olivais, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/olivais/olivais-norte",
+      "name": "Olivais Norte",
+      "fullName": "Olivais Norte, Olivais, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Olivais, Lisboa, Lisboa"
+    },
+    {
+      "id": "lisboa/lisboa/olivais/olivais-sul",
+      "name": "Olivais Sul",
+      "fullName": "Olivais Sul, Olivais, Lisboa, Lisboa",
+      "level": "neighborhood",
+      "source": "lisboa",
+      "parent": "Olivais, Lisboa, Lisboa"
+    },
+    {
+      "id": "porto/porto/aldoar-foz-do-douro-e-nevogilde/aviz--cristo-rei",
+      "name": "Aviz - Cristo Rei",
+      "fullName": "Aviz - Cristo Rei, Aldoar, Foz do Douro e Nevogilde, Porto, Porto",
+      "level": "neighborhood",
+      "source": "porto",
+      "parent": "Aldoar, Foz do Douro e Nevogilde, Porto, Porto"
+    },
+    {
+      "id": "porto/porto/bonfim/antas--praca-velasquez",
+      "name": "Antas - Praça Velásquez",
+      "fullName": "Antas - Praça Velásquez, Bonfim, Porto, Porto",
+      "level": "neighborhood",
+      "source": "porto",
+      "parent": "Bonfim, Porto, Porto"
+    },
+    {
+      "id": "porto/porto/campanha/antas--sao-roque",
+      "name": "Antas - São Roque",
+      "fullName": "Antas - São Roque, Campanhã, Porto, Porto",
+      "level": "neighborhood",
+      "source": "porto",
+      "parent": "Campanhã, Porto, Porto"
+    },
+    {
+      "id": "porto/porto/cedofeita-ildefonso-se-miragaia-nicolau-vitoria/baixa",
+      "name": "Baixa",
+      "fullName": "Baixa, Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto",
+      "level": "neighborhood",
+      "source": "porto",
+      "parent": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto"
+    },
+    {
+      "id": "coimbra/coimbra/antuzede-e-vil-de-matos/antuzede",
+      "name": "Antuzede",
+      "fullName": "Antuzede, Antuzede e Vil de Matos, Coimbra, Coimbra",
+      "level": "neighborhood",
+      "source": "coimbra",
+      "parent": "Antuzede e Vil de Matos, Coimbra, Coimbra"
+    },
+    {
+      "id": "coimbra/coimbra/assafarge-e-antanhol/antanhol",
+      "name": "Antanhol",
+      "fullName": "Antanhol, Assafarge e Antanhol, Coimbra, Coimbra",
+      "level": "neighborhood",
+      "source": "coimbra",
+      "parent": "Assafarge e Antanhol, Coimbra, Coimbra"
+    },
+    {
+      "id": "setubal/setubal/azeitao-sao-lourenco-e-sao-simao-/brejoeira--pinhal-de-negreiros",
+      "name": "Brejoeira - Pinhal de Negreiros",
+      "fullName": "Brejoeira - Pinhal de Negreiros, Azeitão (São Lourenço e São Simão), Setúbal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Azeitão (São Lourenço e São Simão), Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-/afonso-costa--fonte-do-lavra",
+      "name": "Afonso Costa - Fonte do Lavra",
+      "fullName": "Afonso Costa - Fonte do Lavra, Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-/arangues--pinheirinhos",
+      "name": "Arangues - Pinheirinhos",
+      "fullName": "Arangues - Pinheirinhos, Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-/azeda--jardins-de-santiago",
+      "name": "Azeda - Jardins de Santiago",
+      "fullName": "Azeda - Jardins de Santiago, Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/setubal/setubal-sao-sebastiao-/bairro-da-conceicao--bairro-santo-nicolau",
+      "name": "Bairro da Conceição - Bairro Santo Nicolau",
+      "fullName": "Bairro da Conceição - Bairro Santo Nicolau, Setúbal (São Sebastião), Setúbal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/amora/belverde",
+      "name": "Belverde",
+      "fullName": "Belverde, Amora, Seixal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Amora, Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/corroios/alto-do-moinho",
+      "name": "Alto do Moinho",
+      "fullName": "Alto do Moinho, Corroios, Seixal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Corroios, Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/fernao-ferro/fernao-ferro",
+      "name": "Fernão Ferro",
+      "fullName": "Fernão Ferro, Fernão Ferro, Seixal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Fernão Ferro, Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/seixal/seixal-arrentela-e-aldeia-de-paio-pires/alamo",
+      "name": "Álamo",
+      "fullName": "Álamo, Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal"
+    },
+    {
+      "id": "setubal/almada/almada-cova-da-piedade-pragal-e-cacilhas/almada",
+      "name": "Almada",
+      "fullName": "Almada, Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/caparica-e-trafaria/caparica",
+      "name": "Caparica",
+      "fullName": "Caparica, Caparica e Trafaria, Almada, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Caparica e Trafaria, Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/charneca-de-caparica-e-sobreda/alto-do-indio",
+      "name": "Alto do Índio",
+      "fullName": "Alto do Índio, Charneca de Caparica e Sobreda, Almada, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Charneca de Caparica e Sobreda, Almada, Setúbal"
+    },
+    {
+      "id": "setubal/almada/costa-da-caparica/centro",
+      "name": "Centro",
+      "fullName": "Centro, Costa da Caparica, Almada, Setúbal",
+      "level": "neighborhood",
+      "source": "setúbal",
+      "parent": "Costa da Caparica, Almada, Setúbal"
+    }
+  ],
+  "metadata": {
+    "extractedAt": "2025-09-03T07:46:11.845Z",
+    "totalDistricts": 3,
+    "totalCouncils": 34,
+    "totalParishes": 145,
+    "totalNeighborhoods": 46,
+    "successfulQueries": 5,
+    "totalQueries": 5,
+    "source": "imovirtual.com",
+    "endpoint": "https://www.imovirtual.com/api/query"
+  }
+},
+{
+  "type": "district",
+  "id": "coimbra",
+  "name": "Coimbra",
+  "fullName": "Coimbra",
+  "level": "district",
+  "source": "coimbra"
+},
+{
+  "type": "district",
+  "id": "braga",
+  "name": "Braga",
+  "fullName": "Braga",
+  "level": "district",
+  "source": "braga"
+},
+{
+  "type": "district",
+  "id": "setubal",
+  "name": "Setúbal",
+  "fullName": "Setúbal",
+  "level": "district",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "lisboa/lisboa",
+  "name": "Lisboa",
+  "fullName": "Lisboa, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/sintra",
+  "name": "Sintra",
+  "fullName": "Sintra, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/oeiras",
+  "name": "Oeiras",
+  "fullName": "Oeiras, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/odivelas",
+  "name": "Odivelas",
+  "fullName": "Odivelas, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/mafra",
+  "name": "Mafra",
+  "fullName": "Mafra, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/loures",
+  "name": "Loures",
+  "fullName": "Loures, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/cascais",
+  "name": "Cascais",
+  "fullName": "Cascais, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/amadora",
+  "name": "Amadora",
+  "fullName": "Amadora, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "lisboa/alenquer",
+  "name": "Alenquer",
+  "fullName": "Alenquer, Lisboa",
+  "level": "council",
+  "source": "lisboa"
+},
+{
+  "type": "council",
+  "id": "porto/porto",
+  "name": "Porto",
+  "fullName": "Porto, Porto",
+  "level": "council",
+  "source": "porto"
+},
+{
+  "type": "council",
+  "id": "leiria/porto-de-mos",
+  "name": "Porto de Mós",
+  "fullName": "Porto de Mós, Leiria",
+  "level": "council",
+  "source": "porto"
+},
+{
+  "type": "council",
+  "id": "ilha-de-porto-santo/porto-santo",
+  "name": "Porto Santo",
+  "fullName": "Porto Santo, Ilha de Porto Santo",
+  "level": "council",
+  "source": "porto"
+},
+{
+  "type": "council",
+  "id": "ilha-da-madeira/porto-moniz",
+  "name": "Porto Moniz",
+  "fullName": "Porto Moniz, Ilha da Madeira",
+  "level": "council",
+  "source": "porto"
+},
+{
+  "type": "council",
+  "id": "porto/valongo",
+  "name": "Valongo",
+  "fullName": "Valongo, Porto",
+  "level": "council",
+  "source": "porto"
+},
+{
+  "type": "council",
+  "id": "coimbra/coimbra",
+  "name": "Coimbra",
+  "fullName": "Coimbra, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/tabua",
+  "name": "Tábua",
+  "fullName": "Tábua, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/soure",
+  "name": "Soure",
+  "fullName": "Soure, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/penela",
+  "name": "Penela",
+  "fullName": "Penela, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/penacova",
+  "name": "Penacova",
+  "fullName": "Penacova, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/mira",
+  "name": "Mira",
+  "fullName": "Mira, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/lousa",
+  "name": "Lousã",
+  "fullName": "Lousã, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "coimbra/gois",
+  "name": "Góis",
+  "fullName": "Góis, Coimbra",
+  "level": "council",
+  "source": "coimbra"
+},
+{
+  "type": "council",
+  "id": "braga/braga",
+  "name": "Braga",
+  "fullName": "Braga, Braga",
+  "level": "council",
+  "source": "braga"
+},
+{
+  "type": "council",
+  "id": "braganca/braganca",
+  "name": "Bragança",
+  "fullName": "Bragança, Bragança",
+  "level": "council",
+  "source": "braga"
+},
+{
+  "type": "council",
+  "id": "braga/guimaraes",
+  "name": "Guimarães",
+  "fullName": "Guimarães, Braga",
+  "level": "council",
+  "source": "braga"
+},
+{
+  "type": "council",
+  "id": "braga/barcelos",
+  "name": "Barcelos",
+  "fullName": "Barcelos, Braga",
+  "level": "council",
+  "source": "braga"
+},
+{
+  "type": "council",
+  "id": "setubal/setubal",
+  "name": "Setúbal",
+  "fullName": "Setúbal, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/sesimbra",
+  "name": "Sesimbra",
+  "fullName": "Sesimbra, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/seixal",
+  "name": "Seixal",
+  "fullName": "Seixal, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/palmela",
+  "name": "Palmela",
+  "fullName": "Palmela, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/montijo",
+  "name": "Montijo",
+  "fullName": "Montijo, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/moita",
+  "name": "Moita",
+  "fullName": "Moita, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/barreiro",
+  "name": "Barreiro",
+  "fullName": "Barreiro, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "council",
+  "id": "setubal/almada",
+  "name": "Almada",
+  "fullName": "Almada, Setúbal",
+  "level": "council",
+  "source": "setúbal"
+},
+{
+  "type": "parish",
+  "id": "lisboa/lisboa/ajuda",
+  "name": "Ajuda",
+  "fullName": "Ajuda, Lisboa, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Lisboa, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/lisboa/alcantara",
+  "name": "Alcântara",
+  "fullName": "Alcântara, Lisboa, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Lisboa, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/lisboa/alvalade",
+  "name": "Alvalade",
+  "fullName": "Alvalade, Lisboa, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Lisboa, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/lisboa/areeiro",
+  "name": "Areeiro",
+  "fullName": "Areeiro, Lisboa, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Lisboa, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/sintra/agualva-e-mira-sintra",
+  "name": "Agualva e Mira-Sintra",
+  "fullName": "Agualva e Mira-Sintra, Sintra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Sintra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/sintra/algueirao-mem-martins",
+  "name": "Algueirão-Mem Martins",
+  "fullName": "Algueirão-Mem Martins, Sintra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Sintra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/sintra/almargem-do-bispo-pero-pinheiro-e-montelavar",
+  "name": "Almargem do Bispo, Pêro Pinheiro e Montelavar",
+  "fullName": "Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Sintra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/sintra/cacem-e-sao-marcos",
+  "name": "Cacém e São Marcos",
+  "fullName": "Cacém e São Marcos, Sintra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Sintra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/oeiras/alges-linda-a-velha-e-cruz-quebrada-dafundo",
+  "name": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo",
+  "fullName": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Oeiras, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/oeiras/barcarena",
+  "name": "Barcarena",
+  "fullName": "Barcarena, Oeiras, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Oeiras, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/oeiras/carnaxide-e-queijas",
+  "name": "Carnaxide e Queijas",
+  "fullName": "Carnaxide e Queijas, Oeiras, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Oeiras, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/oeiras/oeiras-e-s-juliao-da-barra-paco-de-arcos-e-caxias",
+  "name": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias",
+  "fullName": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Oeiras, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/odivelas/odivelas",
+  "name": "Odivelas",
+  "fullName": "Odivelas, Odivelas, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Odivelas, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/odivelas/pontinha-e-famoes",
+  "name": "Pontinha e Famões",
+  "fullName": "Pontinha e Famões, Odivelas, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Odivelas, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/odivelas/povoa-de-santo-adriao-e-olival-basto",
+  "name": "Póvoa de Santo Adrião e Olival Basto",
+  "fullName": "Póvoa de Santo Adrião e Olival Basto, Odivelas, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Odivelas, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/odivelas/ramada-e-canecas",
+  "name": "Ramada e Caneças",
+  "fullName": "Ramada e Caneças, Odivelas, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Odivelas, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/mafra/azueira-e-sobral-da-abelheira",
+  "name": "Azueira e Sobral da Abelheira",
+  "fullName": "Azueira e Sobral da Abelheira, Mafra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Mafra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/mafra/carvoeira",
+  "name": "Carvoeira",
+  "fullName": "Carvoeira, Mafra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Mafra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/mafra/encarnacao",
+  "name": "Encarnação",
+  "fullName": "Encarnação, Mafra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Mafra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/mafra/enxara-do-bispo-gradil-e-vila-franca-do-rosario",
+  "name": "Enxara do Bispo, Gradil e Vila Franca do Rosário",
+  "fullName": "Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Mafra, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/loures/bucelas",
+  "name": "Bucelas",
+  "fullName": "Bucelas, Loures, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Loures, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/loures/camarate-unhos-e-apelacao",
+  "name": "Camarate, Unhos e Apelação",
+  "fullName": "Camarate, Unhos e Apelação, Loures, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Loures, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/loures/fanhoes",
+  "name": "Fanhões",
+  "fullName": "Fanhões, Loures, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Loures, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/loures/loures",
+  "name": "Loures",
+  "fullName": "Loures, Loures, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Loures, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/cascais/alcabideche",
+  "name": "Alcabideche",
+  "fullName": "Alcabideche, Cascais, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Cascais, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/cascais/carcavelos-e-parede",
+  "name": "Carcavelos e Parede",
+  "fullName": "Carcavelos e Parede, Cascais, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Cascais, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/cascais/cascais-e-estoril",
+  "name": "Cascais e Estoril",
+  "fullName": "Cascais e Estoril, Cascais, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Cascais, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/cascais/sao-domingos-de-rana",
+  "name": "São Domingos de Rana",
+  "fullName": "São Domingos de Rana, Cascais, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Cascais, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/amadora/aguas-livres",
+  "name": "Águas Livres",
+  "fullName": "Águas Livres, Amadora, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Amadora, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/amadora/alfragide",
+  "name": "Alfragide",
+  "fullName": "Alfragide, Amadora, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Amadora, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/amadora/encosta-do-sol",
+  "name": "Encosta do Sol",
+  "fullName": "Encosta do Sol, Amadora, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Amadora, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/amadora/falagueira-venda-nova",
+  "name": "Falagueira-Venda Nova",
+  "fullName": "Falagueira-Venda Nova, Amadora, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Amadora, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/alenquer/abrigada-e-cabanas-de-torres",
+  "name": "Abrigada e Cabanas de Torres",
+  "fullName": "Abrigada e Cabanas de Torres, Alenquer, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Alenquer, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/alenquer/aldeia-galega-da-merceana-e-aldeia-gavinha",
+  "name": "Aldeia Galega da Merceana e Aldeia Gavinha",
+  "fullName": "Aldeia Galega da Merceana e Aldeia Gavinha, Alenquer, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Alenquer, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/alenquer/alenquer-santo-estevao-e-triana-",
+  "name": "Alenquer (Santo Estêvão e Triana)",
+  "fullName": "Alenquer (Santo Estêvão e Triana), Alenquer, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Alenquer, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/alenquer/carnota",
+  "name": "Carnota",
+  "fullName": "Carnota, Alenquer, Lisboa",
+  "level": "parish",
+  "source": "lisboa",
+  "parent": "Alenquer, Lisboa"
+},
+{
+  "type": "parish",
+  "id": "lisboa/lisboa/olivais",
+  "name": "Olivais",
+  "fullName": "Olivais, Lisboa, Lisboa",
+  "level": "parish",
+  "source": "lisboa"
+},
+{
+  "type": "parish",
+  "id": "porto/porto/aldoar-foz-do-douro-e-nevogilde",
+  "name": "Aldoar, Foz do Douro e Nevogilde",
+  "fullName": "Aldoar, Foz do Douro e Nevogilde, Porto, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/porto/bonfim",
+  "name": "Bonfim",
+  "fullName": "Bonfim, Porto, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/porto/campanha",
+  "name": "Campanhã",
+  "fullName": "Campanhã, Porto, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/porto/cedofeita-ildefonso-se-miragaia-nicolau-vitoria",
+  "name": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória",
+  "fullName": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto, Porto"
+},
+{
+  "type": "parish",
+  "id": "leiria/porto-de-mos/alqueidao-da-serra",
+  "name": "Alqueidão da Serra",
+  "fullName": "Alqueidão da Serra, Porto de Mós, Leiria",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto de Mós, Leiria"
+},
+{
+  "type": "parish",
+  "id": "leiria/porto-de-mos/alvados-e-alcaria",
+  "name": "Alvados e Alcaria",
+  "fullName": "Alvados e Alcaria, Porto de Mós, Leiria",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto de Mós, Leiria"
+},
+{
+  "type": "parish",
+  "id": "leiria/porto-de-mos/arrimal-e-mendiga",
+  "name": "Arrimal e Mendiga",
+  "fullName": "Arrimal e Mendiga, Porto de Mós, Leiria",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto de Mós, Leiria"
+},
+{
+  "type": "parish",
+  "id": "leiria/porto-de-mos/calvaria-de-cima",
+  "name": "Calvaria de Cima",
+  "fullName": "Calvaria de Cima, Porto de Mós, Leiria",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto de Mós, Leiria"
+},
+{
+  "type": "parish",
+  "id": "ilha-de-porto-santo/porto-santo/porto-santo",
+  "name": "Porto Santo",
+  "fullName": "Porto Santo, Porto Santo, Ilha de Porto Santo",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto Santo, Ilha de Porto Santo"
+},
+{
+  "type": "parish",
+  "id": "lisboa/oeiras/porto-salvo",
+  "name": "Porto Salvo",
+  "fullName": "Porto Salvo, Oeiras, Lisboa",
+  "level": "parish",
+  "source": "porto"
+},
+{
+  "type": "parish",
+  "id": "ilha-da-madeira/porto-moniz/achadas-da-cruz",
+  "name": "Achadas da Cruz",
+  "fullName": "Achadas da Cruz, Porto Moniz, Ilha da Madeira",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto Moniz, Ilha da Madeira"
+},
+{
+  "type": "parish",
+  "id": "ilha-da-madeira/porto-moniz/porto-moniz",
+  "name": "Porto Moniz",
+  "fullName": "Porto Moniz, Porto Moniz, Ilha da Madeira",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto Moniz, Ilha da Madeira"
+},
+{
+  "type": "parish",
+  "id": "ilha-da-madeira/porto-moniz/ribeira-da-janela",
+  "name": "Ribeira da Janela",
+  "fullName": "Ribeira da Janela, Porto Moniz, Ilha da Madeira",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto Moniz, Ilha da Madeira"
+},
+{
+  "type": "parish",
+  "id": "ilha-da-madeira/porto-moniz/seixal",
+  "name": "Seixal",
+  "fullName": "Seixal, Porto Moniz, Ilha da Madeira",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Porto Moniz, Ilha da Madeira"
+},
+{
+  "type": "parish",
+  "id": "leiria/porto-de-mos/porto-de-mos--sao-joao-baptista-e-sao-pedro",
+  "name": "Porto de Mós - São João Baptista e São Pedro",
+  "fullName": "Porto de Mós - São João Baptista e São Pedro, Porto de Mós, Leiria",
+  "level": "parish",
+  "source": "porto"
+},
+{
+  "type": "parish",
+  "id": "ilha-da-madeira/machico/porto-da-cruz",
+  "name": "Porto da Cruz",
+  "fullName": "Porto da Cruz, Machico, Ilha da Madeira",
+  "level": "parish",
+  "source": "porto"
+},
+{
+  "type": "parish",
+  "id": "ilha-de-porto-santo/porto-santo/porto-santo",
+  "name": "Porto Santo",
+  "fullName": "Porto Santo, Porto Santo, Ilha de Porto Santo",
+  "level": "parish",
+  "source": "porto"
+},
+{
+  "type": "parish",
+  "id": "ilha-terceira/angra-do-heroismo/porto-judeu",
+  "name": "Porto Judeu",
+  "fullName": "Porto Judeu, Angra do Heroísmo, Ilha Terceira",
+  "level": "parish",
+  "source": "porto"
+},
+{
+  "type": "parish",
+  "id": "porto/valongo/alfena",
+  "name": "Alfena",
+  "fullName": "Alfena, Valongo, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Valongo, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/valongo/campo-e-sobrado",
+  "name": "Campo e Sobrado",
+  "fullName": "Campo e Sobrado, Valongo, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Valongo, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/valongo/ermesinde",
+  "name": "Ermesinde",
+  "fullName": "Ermesinde, Valongo, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Valongo, Porto"
+},
+{
+  "type": "parish",
+  "id": "porto/valongo/valongo",
+  "name": "Valongo",
+  "fullName": "Valongo, Valongo, Porto",
+  "level": "parish",
+  "source": "porto",
+  "parent": "Valongo, Porto"
+},
+{
+  "type": "parish",
+  "id": "coimbra/coimbra/almalagues",
+  "name": "Almalaguês",
+  "fullName": "Almalaguês, Coimbra, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Coimbra, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/coimbra/antuzede-e-vil-de-matos",
+  "name": "Antuzede e Vil de Matos",
+  "fullName": "Antuzede e Vil de Matos, Coimbra, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Coimbra, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/coimbra/assafarge-e-antanhol",
+  "name": "Assafarge e Antanhol",
+  "fullName": "Assafarge e Antanhol, Coimbra, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Coimbra, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/coimbra/brasfemes",
+  "name": "Brasfemes",
+  "fullName": "Brasfemes, Coimbra, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Coimbra, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "leiria/leiria/coimbrao",
+  "name": "Coimbrão",
+  "fullName": "Coimbrão, Leiria, Leiria",
+  "level": "parish",
+  "source": "coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/tabua/azere-e-covelo",
+  "name": "Ázere e Covelo",
+  "fullName": "Ázere e Covelo, Tábua, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Tábua, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/tabua/candosa",
+  "name": "Candosa",
+  "fullName": "Candosa, Tábua, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Tábua, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/tabua/carapinha",
+  "name": "Carapinha",
+  "fullName": "Carapinha, Tábua, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Tábua, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/tabua/covas-e-vila-nova-de-oliveirinha",
+  "name": "Covas e Vila Nova de Oliveirinha",
+  "fullName": "Covas e Vila Nova de Oliveirinha, Tábua, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Tábua, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/soure/alfarelos",
+  "name": "Alfarelos",
+  "fullName": "Alfarelos, Soure, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Soure, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/soure/degracias-e-pombalinho",
+  "name": "Degracias e Pombalinho",
+  "fullName": "Degracias e Pombalinho, Soure, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Soure, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/soure/figueiro-do-campo",
+  "name": "Figueiró do Campo",
+  "fullName": "Figueiró do Campo, Soure, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Soure, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/soure/gesteira-e-brunhos",
+  "name": "Gesteira e Brunhós",
+  "fullName": "Gesteira e Brunhós, Soure, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Soure, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penela/cumeeira",
+  "name": "Cumeeira",
+  "fullName": "Cumeeira, Penela, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penela, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penela/espinhal",
+  "name": "Espinhal",
+  "fullName": "Espinhal, Penela, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penela, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penela/podentes",
+  "name": "Podentes",
+  "fullName": "Podentes, Penela, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penela, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penela/sao-miguel-santa-eufemia-e-rabacal",
+  "name": "São Miguel, Santa Eufémia e Rabaçal",
+  "fullName": "São Miguel, Santa Eufémia e Rabaçal, Penela, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penela, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penacova/carvalho",
+  "name": "Carvalho",
+  "fullName": "Carvalho, Penacova, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penacova, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penacova/figueira-de-lorvao",
+  "name": "Figueira de Lorvão",
+  "fullName": "Figueira de Lorvão, Penacova, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penacova, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penacova/friumes-e-paradela",
+  "name": "Friúmes e Paradela",
+  "fullName": "Friúmes e Paradela, Penacova, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penacova, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/penacova/lorvao",
+  "name": "Lorvão",
+  "fullName": "Lorvão, Penacova, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Penacova, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/mira/carapelhos",
+  "name": "Carapelhos",
+  "fullName": "Carapelhos, Mira, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Mira, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/mira/mira",
+  "name": "Mira",
+  "fullName": "Mira, Mira, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Mira, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/mira/praia-de-mira",
+  "name": "Praia de Mira",
+  "fullName": "Praia de Mira, Mira, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Mira, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/mira/seixo",
+  "name": "Seixo",
+  "fullName": "Seixo, Mira, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Mira, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/lousa/foz-de-arouce-e-casal-de-ermio",
+  "name": "Foz de Arouce e Casal de Ermio",
+  "fullName": "Foz de Arouce e Casal de Ermio, Lousã, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Lousã, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/lousa/gandaras",
+  "name": "Gândaras",
+  "fullName": "Gândaras, Lousã, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Lousã, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/lousa/lousa-e-vilarinho",
+  "name": "Lousã e Vilarinho",
+  "fullName": "Lousã e Vilarinho, Lousã, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Lousã, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/lousa/serpins",
+  "name": "Serpins",
+  "fullName": "Serpins, Lousã, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Lousã, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/gois/alvares",
+  "name": "Alvares",
+  "fullName": "Alvares, Góis, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Góis, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/gois/cadafaz-e-colmeal",
+  "name": "Cadafaz e Colmeal",
+  "fullName": "Cadafaz e Colmeal, Góis, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Góis, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/gois/gois",
+  "name": "Góis",
+  "fullName": "Góis, Góis, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Góis, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "coimbra/gois/vila-nova-do-ceira",
+  "name": "Vila Nova do Ceira",
+  "fullName": "Vila Nova do Ceira, Góis, Coimbra",
+  "level": "parish",
+  "source": "coimbra",
+  "parent": "Góis, Coimbra"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/adaufe",
+  "name": "Adaúfe",
+  "fullName": "Adaúfe, Braga, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Braga, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/arentim-e-cunha",
+  "name": "Arentim e Cunha",
+  "fullName": "Arentim e Cunha, Braga, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Braga, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-maximinos-se-e-cividade-",
+  "name": "Braga (Maximinos, Sé e Cividade)",
+  "fullName": "Braga (Maximinos, Sé e Cividade), Braga, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Braga, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-sao-jose-de-sao-lazaro-e-sao-joao-do-souto-",
+  "name": "Braga (São José de São Lázaro e São João do Souto)",
+  "fullName": "Braga (São José de São Lázaro e São João do Souto), Braga, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Braga, Braga"
+},
+{
+  "type": "parish",
+  "id": "braganca/braganca/alfaiao",
+  "name": "Alfaião",
+  "fullName": "Alfaião, Bragança, Bragança",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Bragança, Bragança"
+},
+{
+  "type": "parish",
+  "id": "braganca/braganca/aveleda-e-rio-de-onor",
+  "name": "Aveleda e Rio de Onor",
+  "fullName": "Aveleda e Rio de Onor, Bragança, Bragança",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Bragança, Bragança"
+},
+{
+  "type": "parish",
+  "id": "braganca/braganca/babe",
+  "name": "Babe",
+  "fullName": "Babe, Bragança, Bragança",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Bragança, Bragança"
+},
+{
+  "type": "parish",
+  "id": "braganca/braganca/bacal",
+  "name": "Baçal",
+  "fullName": "Baçal, Bragança, Bragança",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Bragança, Bragança"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-sao-vitor-",
+  "name": "Braga (São Vítor)",
+  "fullName": "Braga (São Vítor), Braga, Braga",
+  "level": "parish",
+  "source": "braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-sao-vicente-",
+  "name": "Braga (São Vicente)",
+  "fullName": "Braga (São Vicente), Braga, Braga",
+  "level": "parish",
+  "source": "braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-sao-jose-de-sao-lazaro-e-sao-joao-do-souto-",
+  "name": "Braga (São José de São Lázaro e São João do Souto)",
+  "fullName": "Braga (São José de São Lázaro e São João do Souto), Braga, Braga",
+  "level": "parish",
+  "source": "braga"
+},
+{
+  "type": "parish",
+  "id": "braga/braga/braga-maximinos-se-e-cividade-",
+  "name": "Braga (Maximinos, Sé e Cividade)",
+  "fullName": "Braga (Maximinos, Sé e Cividade), Braga, Braga",
+  "level": "parish",
+  "source": "braga"
+},
+{
+  "type": "parish",
+  "id": "vila-real/vila-pouca-de-aguiar/bragado",
+  "name": "Bragado",
+  "fullName": "Bragado, Vila Pouca de Aguiar, Vila Real",
+  "level": "parish",
+  "source": "braga"
+},
+{
+  "type": "parish",
+  "id": "braga/guimaraes/abacao-e-gemeos",
+  "name": "Abação e Gémeos",
+  "fullName": "Abação e Gémeos, Guimarães, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Guimarães, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/guimaraes/airao-santa-maria-airao-sao-joao-e-vermil",
+  "name": "Airão Santa Maria, Airão São João e Vermil",
+  "fullName": "Airão Santa Maria, Airão São João e Vermil, Guimarães, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Guimarães, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/guimaraes/aldao",
+  "name": "Aldão",
+  "fullName": "Aldão, Guimarães, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Guimarães, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/guimaraes/arosa-e-casteloes",
+  "name": "Arosa e Castelões",
+  "fullName": "Arosa e Castelões, Guimarães, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Guimarães, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/barcelos/abade-de-neiva",
+  "name": "Abade de Neiva",
+  "fullName": "Abade de Neiva, Barcelos, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Barcelos, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/barcelos/aborim",
+  "name": "Aborim",
+  "fullName": "Aborim, Barcelos, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Barcelos, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/barcelos/adaes",
+  "name": "Adães",
+  "fullName": "Adães, Barcelos, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Barcelos, Braga"
+},
+{
+  "type": "parish",
+  "id": "braga/barcelos/airo",
+  "name": "Airó",
+  "fullName": "Airó, Barcelos, Braga",
+  "level": "parish",
+  "source": "braga",
+  "parent": "Barcelos, Braga"
+},
+{
+  "type": "parish",
+  "id": "setubal/setubal/azeitao-sao-lourenco-e-sao-simao-",
+  "name": "Azeitão (São Lourenço e São Simão)",
+  "fullName": "Azeitão (São Lourenço e São Simão), Setúbal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Setúbal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/setubal/gambia-pontes-alto-da-guerra",
+  "name": "Gâmbia-Pontes-Alto da Guerra",
+  "fullName": "Gâmbia-Pontes-Alto da Guerra, Setúbal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Setúbal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/setubal/sado",
+  "name": "Sado",
+  "fullName": "Sado, Setúbal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Setúbal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/setubal/setubal-sao-sebastiao-",
+  "name": "Setúbal (São Sebastião)",
+  "fullName": "Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Setúbal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/setubal/setubal-sao-sebastiao-",
+  "name": "Setúbal (São Sebastião)",
+  "fullName": "Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "parish",
+  "source": "setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/sesimbra/quinta-do-conde",
+  "name": "Quinta do Conde",
+  "fullName": "Quinta do Conde, Sesimbra, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Sesimbra, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/sesimbra/sesimbra-castelo-",
+  "name": "Sesimbra (Castelo)",
+  "fullName": "Sesimbra (Castelo), Sesimbra, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Sesimbra, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/sesimbra/sesimbra-santiago-",
+  "name": "Sesimbra (Santiago)",
+  "fullName": "Sesimbra (Santiago), Sesimbra, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Sesimbra, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/seixal/amora",
+  "name": "Amora",
+  "fullName": "Amora, Seixal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Seixal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/seixal/corroios",
+  "name": "Corroios",
+  "fullName": "Corroios, Seixal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Seixal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/seixal/fernao-ferro",
+  "name": "Fernão Ferro",
+  "fullName": "Fernão Ferro, Seixal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Seixal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/seixal/seixal-arrentela-e-aldeia-de-paio-pires",
+  "name": "Seixal, Arrentela e Aldeia de Paio Pires",
+  "fullName": "Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Seixal, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/palmela/palmela",
+  "name": "Palmela",
+  "fullName": "Palmela, Palmela, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Palmela, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/palmela/pinhal-novo",
+  "name": "Pinhal Novo",
+  "fullName": "Pinhal Novo, Palmela, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Palmela, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/palmela/poceirao-e-marateca",
+  "name": "Poceirão e Marateca",
+  "fullName": "Poceirão e Marateca, Palmela, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Palmela, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/palmela/quinta-do-anjo",
+  "name": "Quinta do Anjo",
+  "fullName": "Quinta do Anjo, Palmela, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Palmela, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/montijo/atalaia-e-alto-estanqueiro-jardia",
+  "name": "Atalaia e Alto Estanqueiro-Jardia",
+  "fullName": "Atalaia e Alto Estanqueiro-Jardia, Montijo, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Montijo, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/montijo/canha",
+  "name": "Canha",
+  "fullName": "Canha, Montijo, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Montijo, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/montijo/montijo-e-afonsoeiro",
+  "name": "Montijo e Afonsoeiro",
+  "fullName": "Montijo e Afonsoeiro, Montijo, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Montijo, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/montijo/pegoes",
+  "name": "Pegões",
+  "fullName": "Pegões, Montijo, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Montijo, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/moita/alhos-vedros",
+  "name": "Alhos Vedros",
+  "fullName": "Alhos Vedros, Moita, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Moita, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/moita/baixa-da-banheira-e-vale-da-amoreira",
+  "name": "Baixa da Banheira e Vale da Amoreira",
+  "fullName": "Baixa da Banheira e Vale da Amoreira, Moita, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Moita, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/moita/gaio-rosario-e-sarilhos-pequenos",
+  "name": "Gaio-Rosário e Sarilhos Pequenos",
+  "fullName": "Gaio-Rosário e Sarilhos Pequenos, Moita, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Moita, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/moita/moita",
+  "name": "Moita",
+  "fullName": "Moita, Moita, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Moita, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/barreiro/alto-do-seixalinho-santo-andre-e-verderena",
+  "name": "Alto do Seixalinho, Santo André e Verderena",
+  "fullName": "Alto do Seixalinho, Santo André e Verderena, Barreiro, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Barreiro, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/barreiro/barreiro-e-lavradio",
+  "name": "Barreiro e Lavradio",
+  "fullName": "Barreiro e Lavradio, Barreiro, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Barreiro, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/barreiro/palhais-e-coina",
+  "name": "Palhais e Coina",
+  "fullName": "Palhais e Coina, Barreiro, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Barreiro, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/barreiro/santo-antonio-da-charneca",
+  "name": "Santo António da Charneca",
+  "fullName": "Santo António da Charneca, Barreiro, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Barreiro, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/almada/almada-cova-da-piedade-pragal-e-cacilhas",
+  "name": "Almada, Cova da Piedade, Pragal e Cacilhas",
+  "fullName": "Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Almada, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/almada/caparica-e-trafaria",
+  "name": "Caparica e Trafaria",
+  "fullName": "Caparica e Trafaria, Almada, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Almada, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/almada/charneca-de-caparica-e-sobreda",
+  "name": "Charneca de Caparica e Sobreda",
+  "fullName": "Charneca de Caparica e Sobreda, Almada, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Almada, Setúbal"
+},
+{
+  "type": "parish",
+  "id": "setubal/almada/costa-da-caparica",
+  "name": "Costa da Caparica",
+  "fullName": "Costa da Caparica, Almada, Setúbal",
+  "level": "parish",
+  "source": "setúbal",
+  "parent": "Almada, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/ajuda/alto-da-ajuda",
+  "name": "Alto da Ajuda",
+  "fullName": "Alto da Ajuda, Ajuda, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Ajuda, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/alcantara/alto-de-alcantara",
+  "name": "Alto de Alcântara",
+  "fullName": "Alto de Alcântara, Alcântara, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Alcântara, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/alvalade/alvalade",
+  "name": "Alvalade",
+  "fullName": "Alvalade, Alvalade, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Alvalade, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/areeiro/arco-do-cego",
+  "name": "Arco do Cego",
+  "fullName": "Arco do Cego, Areeiro, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Areeiro, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/sintra/agualva-e-mira-sintra/agualva",
+  "name": "Agualva",
+  "fullName": "Agualva, Agualva e Mira-Sintra, Sintra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Agualva e Mira-Sintra, Sintra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/sintra/algueirao-mem-martins/algueirao",
+  "name": "Algueirão",
+  "fullName": "Algueirão, Algueirão-Mem Martins, Sintra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Algueirão-Mem Martins, Sintra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/sintra/almargem-do-bispo-pero-pinheiro-e-montelavar/almargem-do-bispo",
+  "name": "Almargem do Bispo",
+  "fullName": "Almargem do Bispo, Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Almargem do Bispo, Pêro Pinheiro e Montelavar, Sintra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/sintra/cacem-e-sao-marcos/agualva-cacem",
+  "name": "Agualva-Cacém",
+  "fullName": "Agualva-Cacém, Cacém e São Marcos, Sintra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Cacém e São Marcos, Sintra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/oeiras/alges-linda-a-velha-e-cruz-quebrada-dafundo/alges",
+  "name": "Algés",
+  "fullName": "Algés, Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Algés, Linda-a-Velha e Cruz Quebrada-Dafundo, Oeiras, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/oeiras/barcarena/fabrica-da-polvora",
+  "name": "Fábrica da Pólvora",
+  "fullName": "Fábrica da Pólvora, Barcarena, Oeiras, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Barcarena, Oeiras, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/oeiras/carnaxide-e-queijas/centro-de-carnaxide",
+  "name": "Centro de Carnaxide",
+  "fullName": "Centro de Carnaxide, Carnaxide e Queijas, Oeiras, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Carnaxide e Queijas, Oeiras, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/oeiras/oeiras-e-s-juliao-da-barra-paco-de-arcos-e-caxias/alto-da-barra",
+  "name": "Alto da Barra",
+  "fullName": "Alto da Barra, Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Oeiras e S. Julião da Barra, Paço de Arcos e Caxias, Oeiras, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/mafra/azueira-e-sobral-da-abelheira/azueira",
+  "name": "Azueira",
+  "fullName": "Azueira, Azueira e Sobral da Abelheira, Mafra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Azueira e Sobral da Abelheira, Mafra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/mafra/enxara-do-bispo-gradil-e-vila-franca-do-rosario/enxara-do-bispo",
+  "name": "Enxara do Bispo",
+  "fullName": "Enxara do Bispo, Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Enxara do Bispo, Gradil e Vila Franca do Rosário, Mafra, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/loures/camarate-unhos-e-apelacao/apelacao",
+  "name": "Apelação",
+  "fullName": "Apelação, Camarate, Unhos e Apelação, Loures, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Camarate, Unhos e Apelação, Loures, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/loures/loures/barro--pinheiro-de-loures",
+  "name": "Barro - Pinheiro de Loures",
+  "fullName": "Barro - Pinheiro de Loures, Loures, Loures, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Loures, Loures, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/cascais/alcabideche/alcoitao",
+  "name": "Alcoitão",
+  "fullName": "Alcoitão, Alcabideche, Cascais, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Alcabideche, Cascais, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/cascais/carcavelos-e-parede/bairro-alentejano",
+  "name": "Bairro Alentejano",
+  "fullName": "Bairro Alentejano, Carcavelos e Parede, Cascais, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Carcavelos e Parede, Cascais, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/cascais/cascais-e-estoril/alapraia--livramento",
+  "name": "Alapraia - Livramento",
+  "fullName": "Alapraia - Livramento, Cascais e Estoril, Cascais, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Cascais e Estoril, Cascais, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/cascais/sao-domingos-de-rana/aboboda--conceicao-da-aboboda",
+  "name": "Abóboda - Conceição da Abóboda",
+  "fullName": "Abóboda - Conceição da Abóboda, São Domingos de Rana, Cascais, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "São Domingos de Rana, Cascais, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/amadora/aguas-livres/buraca",
+  "name": "Buraca",
+  "fullName": "Buraca, Águas Livres, Amadora, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Águas Livres, Amadora, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/amadora/encosta-do-sol/alfornelos",
+  "name": "Alfornelos",
+  "fullName": "Alfornelos, Encosta do Sol, Amadora, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Encosta do Sol, Amadora, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/amadora/falagueira-venda-nova/falagueira",
+  "name": "Falagueira",
+  "fullName": "Falagueira, Falagueira-Venda Nova, Amadora, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Falagueira-Venda Nova, Amadora, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/olivais/aeroporto",
+  "name": "Aeroporto",
+  "fullName": "Aeroporto, Olivais, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Olivais, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/olivais/bairro-da-encarnacao",
+  "name": "Bairro da Encarnação",
+  "fullName": "Bairro da Encarnação, Olivais, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Olivais, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/olivais/olivais-norte",
+  "name": "Olivais Norte",
+  "fullName": "Olivais Norte, Olivais, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Olivais, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "lisboa/lisboa/olivais/olivais-sul",
+  "name": "Olivais Sul",
+  "fullName": "Olivais Sul, Olivais, Lisboa, Lisboa",
+  "level": "neighborhood",
+  "source": "lisboa",
+  "parent": "Olivais, Lisboa, Lisboa"
+},
+{
+  "type": "neighborhood",
+  "id": "porto/porto/aldoar-foz-do-douro-e-nevogilde/aviz--cristo-rei",
+  "name": "Aviz - Cristo Rei",
+  "fullName": "Aviz - Cristo Rei, Aldoar, Foz do Douro e Nevogilde, Porto, Porto",
+  "level": "neighborhood",
+  "source": "porto",
+  "parent": "Aldoar, Foz do Douro e Nevogilde, Porto, Porto"
+},
+{
+  "type": "neighborhood",
+  "id": "porto/porto/bonfim/antas--praca-velasquez",
+  "name": "Antas - Praça Velásquez",
+  "fullName": "Antas - Praça Velásquez, Bonfim, Porto, Porto",
+  "level": "neighborhood",
+  "source": "porto",
+  "parent": "Bonfim, Porto, Porto"
+},
+{
+  "type": "neighborhood",
+  "id": "porto/porto/campanha/antas--sao-roque",
+  "name": "Antas - São Roque",
+  "fullName": "Antas - São Roque, Campanhã, Porto, Porto",
+  "level": "neighborhood",
+  "source": "porto",
+  "parent": "Campanhã, Porto, Porto"
+},
+{
+  "type": "neighborhood",
+  "id": "porto/porto/cedofeita-ildefonso-se-miragaia-nicolau-vitoria/baixa",
+  "name": "Baixa",
+  "fullName": "Baixa, Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto",
+  "level": "neighborhood",
+  "source": "porto",
+  "parent": "Cedofeita, Ildefonso, Sé, Miragaia, Nicolau, Vitória, Porto, Porto"
+},
+{
+  "type": "neighborhood",
+  "id": "coimbra/coimbra/antuzede-e-vil-de-matos/antuzede",
+  "name": "Antuzede",
+  "fullName": "Antuzede, Antuzede e Vil de Matos, Coimbra, Coimbra",
+  "level": "neighborhood",
+  "source": "coimbra",
+  "parent": "Antuzede e Vil de Matos, Coimbra, Coimbra"
+},
+{
+  "type": "neighborhood",
+  "id": "coimbra/coimbra/assafarge-e-antanhol/antanhol",
+  "name": "Antanhol",
+  "fullName": "Antanhol, Assafarge e Antanhol, Coimbra, Coimbra",
+  "level": "neighborhood",
+  "source": "coimbra",
+  "parent": "Assafarge e Antanhol, Coimbra, Coimbra"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/setubal/azeitao-sao-lourenco-e-sao-simao-/brejoeira--pinhal-de-negreiros",
+  "name": "Brejoeira - Pinhal de Negreiros",
+  "fullName": "Brejoeira - Pinhal de Negreiros, Azeitão (São Lourenço e São Simão), Setúbal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Azeitão (São Lourenço e São Simão), Setúbal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/setubal/setubal-sao-sebastiao-/afonso-costa--fonte-do-lavra",
+  "name": "Afonso Costa - Fonte do Lavra",
+  "fullName": "Afonso Costa - Fonte do Lavra, Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/setubal/setubal-sao-sebastiao-/arangues--pinheirinhos",
+  "name": "Arangues - Pinheirinhos",
+  "fullName": "Arangues - Pinheirinhos, Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/setubal/setubal-sao-sebastiao-/azeda--jardins-de-santiago",
+  "name": "Azeda - Jardins de Santiago",
+  "fullName": "Azeda - Jardins de Santiago, Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/setubal/setubal-sao-sebastiao-/bairro-da-conceicao--bairro-santo-nicolau",
+  "name": "Bairro da Conceição - Bairro Santo Nicolau",
+  "fullName": "Bairro da Conceição - Bairro Santo Nicolau, Setúbal (São Sebastião), Setúbal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Setúbal (São Sebastião), Setúbal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/seixal/amora/belverde",
+  "name": "Belverde",
+  "fullName": "Belverde, Amora, Seixal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Amora, Seixal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/seixal/corroios/alto-do-moinho",
+  "name": "Alto do Moinho",
+  "fullName": "Alto do Moinho, Corroios, Seixal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Corroios, Seixal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/seixal/fernao-ferro/fernao-ferro",
+  "name": "Fernão Ferro",
+  "fullName": "Fernão Ferro, Fernão Ferro, Seixal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Fernão Ferro, Seixal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/seixal/seixal-arrentela-e-aldeia-de-paio-pires/alamo",
+  "name": "Álamo",
+  "fullName": "Álamo, Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Seixal, Arrentela e Aldeia de Paio Pires, Seixal, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/almada/almada-cova-da-piedade-pragal-e-cacilhas/almada",
+  "name": "Almada",
+  "fullName": "Almada, Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Almada, Cova da Piedade, Pragal e Cacilhas, Almada, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/almada/caparica-e-trafaria/caparica",
+  "name": "Caparica",
+  "fullName": "Caparica, Caparica e Trafaria, Almada, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Caparica e Trafaria, Almada, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/almada/charneca-de-caparica-e-sobreda/alto-do-indio",
+  "name": "Alto do Índio",
+  "fullName": "Alto do Índio, Charneca de Caparica e Sobreda, Almada, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Charneca de Caparica e Sobreda, Almada, Setúbal"
+},
+{
+  "type": "neighborhood",
+  "id": "setubal/almada/costa-da-caparica/centro",
+  "name": "Centro",
+  "fullName": "Centro, Costa da Caparica, Almada, Setúbal",
+  "level": "neighborhood",
+  "source": "setúbal",
+  "parent": "Costa da Caparica, Almada, Setúbal"
+}]
