@@ -1,17 +1,18 @@
 {
-  "name": "my-scraper-imoveis",
-  "version": "1.0.0",
-  "description": "Scrapes property listings from real estate websites",
+  "name": "location-mapper",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Extrator de localizações do Imovirtual usando GraphQL API",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "dev": "node --inspect main.js"
   },
   "dependencies": {
     "apify": "^3.4.4",
-    "crawlee": "^3.14.0"
+    "got-scraping": "^3.0.7"
   },
-  "devDependencies": {},
-  "engines": {
-    "node": ">=20.0.0"
-  }
+  "keywords": ["scraping", "imovirtual", "locations", "portugal", "graphql"],
+  "author": "Location Scraper",
+  "license": "MIT"
 }
