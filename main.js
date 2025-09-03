@@ -154,6 +154,7 @@ function extractPriceFromText(text, searchType) {
     return bestPrice;
 }
 
+// FUNÇÃO CORRIGIDA - Adaptada para a estrutura do locations.json
 function findSlugFromLocation(query) {
     const normalized = query.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
@@ -163,47 +164,86 @@ function findSlugFromLocation(query) {
         .trim();
 
     console.log('🔍 A procurar localização para:', normalized);
-    console.log('📊 Estrutura locations disponível:', Object.keys(locations || {}));
-
-    // Verificar se locations tem a estrutura correta
-    if (!locations || typeof locations !== 'object') {
-        console.log('❌ locations.json não carregado ou inválido');
+    
+    // Verificar se locations é um array
+    if (!Array.isArray(locations)) {
+        console.log('❌ locations.json não é um array válido');
         return null;
     }
 
-    // Se locations tem uma propriedade 'locations' (do metadata)
-    const locationsData = locations.locations || locations;
-    
-    console.log('📊 Distritos disponíveis:', Object.keys(locationsData));
+    console.log(`📊 Total de localizações carregadas: ${locations.length}`);
 
-    for (const [district, concelhos] of Object.entries(locationsData)) {
-        if (!concelhos || typeof concelhos !== 'object') continue;
-        
-        for (const [concelho, freguesias] of Object.entries(concelhos)) {
-            if (!freguesias || typeof freguesias !== 'object') continue;
-            
-            for (const [slug, aliases] of Object.entries(freguesias)) {
-                // CORREÇÃO: Verificar se aliases é realmente um array
-                if (!Array.isArray(aliases)) {
-                    console.log(`⚠️ Aliases não é array para ${slug}:`, typeof aliases);
-                    continue;
-                }
+    // Procurar primeiro por concelhos (level: "council")
+    for (const location of locations) {
+        if (location.level === 'council') {
+            const locationName = location.name.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (normalized.includes(locationName)) {
+                console.log(`✅ Concelho encontrado: ${location.name} (${location.fullName})`);
                 
-                for (const alias of aliases) {
-                    if (typeof alias !== 'string') continue;
-                    
-                    const normAlias = alias.normalize('NFD')
-                        .replace(/[\u0300-\u036f]/g, '')
-                        .toLowerCase()
-                        .replace(/[^a-z0-9\s]/g, ' ')
-                        .replace(/\s+/g, ' ')
-                        .trim();
-
-                    if (normalized.includes(normAlias)) {
-                        console.log(`✅ Match encontrado: ${alias} -> ${district}/${concelho}/${slug}`);
-                        return { district, concelho, slug };
-                    }
+                // Extrair distrito, concelho e slug do ID
+                const idParts = location.id.split('/');
+                if (idParts.length >= 2) {
+                    return {
+                        district: idParts[0],
+                        concelho: idParts[1], 
+                        slug: idParts[1] // Para concelhos, slug é igual ao concelho
+                    };
                 }
+            }
+        }
+    }
+
+    // Se não encontrou concelho, procurar por freguesias (level: "parish")
+    for (const location of locations) {
+        if (location.level === 'parish') {
+            const locationName = location.name.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (normalized.includes(locationName)) {
+                console.log(`✅ Freguesia encontrada: ${location.name} (${location.fullName})`);
+                
+                // Extrair distrito, concelho e slug do ID  
+                const idParts = location.id.split('/');
+                if (idParts.length >= 3) {
+                    return {
+                        district: idParts[0],
+                        concelho: idParts[1],
+                        slug: idParts[2] // Para freguesias, slug é a própria freguesia
+                    };
+                }
+            }
+        }
+    }
+
+    // Se não encontrou nada específico, procurar por distritos (level: "district")
+    for (const location of locations) {
+        if (location.level === 'district') {
+            const locationName = location.name.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            if (normalized.includes(locationName)) {
+                console.log(`✅ Distrito encontrado: ${location.name} (${location.fullName})`);
+                
+                // Para distrito, retornar apenas o distrito
+                return {
+                    district: location.id,
+                    concelho: null,
+                    slug: null
+                };
             }
         }
     }
@@ -212,22 +252,35 @@ function findSlugFromLocation(query) {
     return null;
 }
 
-// URL que suporta rent e buy
+// URL que suporta rent e buy - CORRIGIDA
 function buildURL(query, rooms, searchType) {
     let baseUrl = 'https://www.imovirtual.com/';
     baseUrl += searchType === 'rent' ? 'arrendar/apartamento' : 'comprar/apartamento';
 
     const match = findSlugFromLocation(query);
     if (match) {
-        baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
-        console.log(`🏠 URL com localização: ${baseUrl}`);
+        // Construir URL baseado no que encontramos
+        if (match.district && match.concelho && match.slug) {
+            // Freguesia específica
+            baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
+            console.log(`🏠 URL com freguesia: ${baseUrl}`);
+        } else if (match.district && match.concelho) {
+            // Só concelho
+            baseUrl += `/${match.district}/${match.concelho}`;
+            console.log(`🏠 URL com concelho: ${baseUrl}`);
+        } else if (match.district) {
+            // Só distrito
+            baseUrl += `/${match.district}`;
+            console.log(`🏠 URL com distrito: ${baseUrl}`);
+        }
     } else {
         console.log('🏠 URL sem localização específica');
     }
 
     if (rooms) {
         const num = rooms.replace('T', '');
-        baseUrl += `?search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
+        const separator = baseUrl.includes('?') ? '&' : '?';
+        baseUrl += `${separator}search%255Bfilter_float_number_of_rooms%253Afrom%255D=${num}&search%255Bfilter_float_number_of_rooms%253Ato%255D=${num}`;
         console.log(`🏠 URL com tipologia T${num}`);
     }
 
