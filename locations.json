@@ -42,8 +42,93 @@
         "olivais-sul": [
           "Olivais Sul"
         ],
-        "alvito": [
-          "Alvito"
+        "alto-de-santo-amaro": [
+          "Alto de Santo Amaro",
+          "Alto Santo Amaro"
+        ],
+        "santa-engracia": [
+          "Santa Engrácia"
+        ],
+        "entrecampos": [
+          "Entrecampos"
+        ],
+        "largo-do-calvario-lx-factory": [
+          "Largo do Calvário - Lx Factory",
+          "Largo Calvário - Lx Factory",
+          "Largo do Calvário",
+          "Lx Factory"
+        ],
+        "santo-antonio": [
+          "Santo António"
+        ],
+        "av-da-liberdade-marques-de-pombal": [
+          "Av. da Liberdade - Marquês de Pombal",
+          "Av. Liberdade - Marquês Pombal",
+          "Av. da Liberdade",
+          "Marquês de Pombal"
+        ],
+        "campo-de-santana-santa-marta": [
+          "Campo de Santana - Santa Marta",
+          "Campo Santana - Santa Marta",
+          "Campo de Santana",
+          "Santa Marta"
+        ],
+        "praca-da-alegria": [
+          "Praça da Alegria",
+          "Praça Alegria"
+        ],
+        "principe-real": [
+          "Príncipe Real"
+        ],
+        "sao-domingos-de-benfica": [
+          "São Domingos de Benfica",
+          "São Domingos Benfica"
+        ],
+        "alto-dos-moinhos": [
+          "Alto dos Moinhos",
+          "Alto Moinhos"
+        ],
+        "estrada-de-benfica": [
+          "Estrada de Benfica",
+          "Estrada Benfica"
+        ],
+        "laranjeiras": [
+          "Laranjeiras"
+        ],
+        "sete-rios": [
+          "Sete Rios"
+        ],
+        "bairro-dos-actores": [
+          "Bairro dos Actores",
+          "Bairro Actores"
+        ],
+        "bairro-dos-actores-barao-sabrosa": [
+          "Bairro dos Actores - Barão Sabrosa",
+          "Bairro Actores - Barão Sabrosa",
+          "Bairro dos Actores",
+          "Barão Sabrosa"
+        ],
+        "bairro-do-vale-fundao": [
+          "Bairro do Vale Fundão",
+          "Bairro Vale Fundão"
+        ],
+        "bairro-do-condado": [
+          "Bairro do Condado",
+          "Bairro Condado"
+        ],
+        "bairro-do-armador": [
+          "Bairro do Armador",
+          "Bairro Armador"
+        ],
+        "bairro-de-santa-cruz": [
+          "Bairro de Santa Cruz",
+          "Bairro Santa Cruz"
+        ],
+        "gare-do-oriente-zona-sul": [
+          "Gare do Oriente - Zona Sul",
+          "Gare Oriente - Zona Sul",
+          "Gare do Oriente",
+          "Zona Sul"
         ]
       },
       "sintra": {
@@ -178,13 +263,6 @@
           "Quinta da Samaritana",
           "Quinta da Fonteireira"
         ],
-        "sao-joao-das-lampas": [
-          "São João das Lampas",
-          "São João Lampas"
-        ],
-        "montelavar": [
-          "Montelavar"
-        ],
         "algueirao-velho-barata-casal-da-mata": [
           "Algueirão-Velho - Baratã - Casal da Mata",
           "Algueirão-Velho - Baratã - Casal Mata",
@@ -192,6 +270,42 @@
           "Velho",
           "Baratã",
           "Casal da Mata"
+        ],
+        "sao-joao-das-lampas-e-terrugem": [
+          "São João das Lampas e Terrugem",
+          "São João Lampas Terrugem",
+          "São João das Lampas",
+          "Terrugem"
+        ],
+        "sao-joao-das-lampas": [
+          "São João das Lampas",
+          "São João Lampas"
+        ],
+        "terrugem": [
+          "Terrugem"
+        ],
+        "anta": [
+          "Anta"
+        ],
+        "colaride-monte-da-tapada": [
+          "Colaride - Monte da Tapada",
+          "Colaride - Monte Tapada",
+          "Colaride",
+          "Monte da Tapada"
+        ],
+        "estacao-de-agualva-cacem": [
+          "Estação de Agualva-Cacém",
+          "Estação Agualva-Cacém",
+          "Estação de Agualva",
+          "Cacém"
+        ],
+        "bairro-de-sao-carlos": [
+          "Bairro de São Carlos",
+          "Bairro São Carlos"
+        ],
+        "casal-do-cotao": [
+          "Casal do Cotão",
+          "Casal Cotão"
         ]
       },
       "oeiras": {
@@ -278,12 +392,6 @@
           "Murganhal - Laveiras",
           "Murganhal",
           "Laveiras"
-        ],
-        "parque-dos-poetas-hospital-da-luz": [
-          "Parque dos Poetas - Hospital da Luz",
-          "Parque Poetas - Hospital Luz",
-          "Parque dos Poetas",
-          "Hospital da Luz"
         ]
       },
       "odivelas": {
@@ -334,6 +442,13 @@
         "enxara-do-bispo": [
           "Enxara do Bispo",
           "Enxara Bispo"
+        ],
+        "santo-isidoro": [
+          "Santo Isidoro"
+        ],
+        "santo-estevao-das-gales": [
+          "Santo Estêvão das Galés",
+          "Santo Estêvão Galés"
         ]
       },
       "loures": {
@@ -395,6 +510,48 @@
         ],
         "sacavem": [
           "Sacavém"
+        ],
+        "sao-joao-da-talha": [
+          "São João da Talha",
+          "São João Talha"
+        ],
+        "santo-antonio-dos-cavaleiros-e-frielas": [
+          "Santo António dos Cavaleiros e Frielas",
+          "Santo António Cavaleiros Frielas",
+          "Santo António dos Cavaleiros",
+          "Frielas"
+        ],
+        "frielas": [
+          "Frielas"
+        ],
+        "santo-antonio-dos-cavaleiros": [
+          "Santo António dos Cavaleiros",
+          "Santo António Cavaleiros"
+        ],
+        "santa-iria-de-azoia-sao-joao-da-talha-e-bobadela": [
+          "Santa Iria de Azoia, São João da Talha e Bobadela",
+          "Santa Iria Azoia, São João Talha Bobadela",
+          "Santa Iria de Azoia, São João da Talha",
+          "Bobadela"
+        ],
+        "bobadela": [
+          "Bobadela"
+        ],
+        "santa-iria-de-azoia": [
+          "Santa Iria de Azóia",
+          "Santa Iria Azóia"
+        ],
+        "moscavide-e-portela": [
+          "Moscavide e Portela",
+          "Moscavide Portela",
+          "Moscavide",
+          "Portela"
+        ],
+        "moscavide": [
+          "Moscavide"
+        ],
+        "portela": [
+          "Portela"
         ]
       },
       "cascais": {
@@ -479,15 +636,39 @@
         "zambujeiro": [
           "Zambujeiro"
         ],
-        "talaide": [
-          "Talaíde",
-          "Talaí"
+        "sao-miguel-das-encostas-silveiras": [
+          "São Miguel das Encostas - Silveiras",
+          "São Miguel Encostas - Silveiras",
+          "São Miguel das Encostas",
+          "Silveiras"
         ],
         "parque-de-palmela-ribeira-das-vinhas": [
           "Parque de Palmela - Ribeira das Vinhas",
           "Parque Palmela - Ribeira Vinhas",
           "Parque de Palmela",
           "Ribeira das Vinhas"
+        ],
+        "arneiro": [
+          "Arneiro"
+        ],
+        "cabeco-do-mouro": [
+          "Cabeço do Mouro",
+          "Cabeço Mouro"
+        ],
+        "caparide": [
+          "Caparide"
+        ],
+        "bairro-de-santa-teresinha": [
+          "Bairro de Santa Teresinha",
+          "Bairro Santa Teresinha"
+        ],
+        "bairro-do-rosario": [
+          "Bairro do Rosário",
+          "Bairro Rosário"
+        ],
+        "centro-de-cascais": [
+          "Centro de Cascais",
+          "Centro Cascais"
         ]
       },
       "amadora": {
@@ -658,6 +839,49 @@
           "Santa Maria, São Pedro",
           "Matacães"
         ]
+      },
+      "vila-franca-de-xira": {
+        "alhandra-sao-joao-dos-montes-e-calhandriz": [
+          "Alhandra, São João dos Montes e Calhandriz",
+          "Alhandra, São João Montes Calhandriz",
+          "Alhandra, São João dos Montes",
+          "Calhandriz"
+        ],
+        "alhandra": [
+          "Alhandra"
+        ],
+        "alverca-do-ribatejo-e-sobralinho": [
+          "Alverca do Ribatejo e Sobralinho",
+          "Alverca Ribatejo Sobralinho",
+          "Alverca do Ribatejo",
+          "Sobralinho"
+        ],
+        "alverca": [
+          "Alverca"
+        ],
+        "castanheira-do-ribatejo-e-cachoeiras": [
+          "Castanheira do Ribatejo e Cachoeiras",
+          "Castanheira Ribatejo Cachoeiras",
+          "Castanheira do Ribatejo",
+          "Cachoeiras"
+        ],
+        "cachoeiras": [
+          "Cachoeiras"
+        ],
+        "povoa-de-santa-iria-e-forte-da-casa": [
+          "Póvoa de Santa Iria e Forte da Casa",
+          "Póvoa Santa Iria Forte Casa",
+          "Póvoa de Santa Iria",
+          "Forte da Casa"
+        ],
+        "forte-da-casa": [
+          "Forte da Casa",
+          "Forte Casa"
+        ],
+        "povoa-de-santa-iria": [
+          "Póvoa de Santa Iria",
+          "Póvoa Santa Iria"
+        ]
       }
     },
     "porto": {
@@ -702,11 +926,24 @@
           "Nova Sintra",
           "Soares dos Reis"
         ],
+        "cais-das-pedras": [
+          "Cais das Pedras",
+          "Cais Pedras"
+        ],
+        "prelada-monte-dos-burgos": [
+          "Prelada - Monte dos Burgos",
+          "Prelada - Monte Burgos",
+          "Prelada",
+          "Monte dos Burgos"
+        ],
         "serralves-praca-do-imperio": [
           "Serralves - Praça do Império",
           "Serralves - Praça Império",
           "Serralves",
           "Praça do Império"
+        ],
+        "santos-pousada": [
+          "Santos Pousada"
         ],
         "covelo-monte-de-sao-joao": [
           "Covelo - Monte de São João",
@@ -714,30 +951,28 @@
           "Covelo",
           "Monte de São João"
         ],
-        "pinhais-da-foz": [
-          "Pinhais da Foz",
-          "Pinhais Foz"
+        "agramonte-bom-sucesso-guerra-junqueiro": [
+          "Agramonte - Bom Sucesso - Guerra Junqueiro",
+          "Agramonte",
+          "Bom Sucesso",
+          "Guerra Junqueiro"
         ],
-        "sao-roque-da-lameira": [
-          "São Roque da Lameira",
-          "São Roque Lameira"
-        ]
-      },
-      "valongo": {
-        "alfena": [
-          "Alfena"
+        "sao-joao-polo-universitario-asprela": [
+          "São João - Pólo Universitário - Asprela",
+          "São João",
+          "Pólo Universitário",
+          "Asprela"
         ],
-        "campo-e-sobrado": [
-          "Campo e Sobrado",
-          "Campo Sobrado",
-          "Campo",
-          "Sobrado"
+        "viso-zona-industrial": [
+          "Viso - Zona Industrial",
+          "Viso",
+          "Zona Industrial"
         ],
-        "ermesinde": [
-          "Ermesinde"
-        ],
-        "valongo": [
-          "Valongo"
+        "centro-de-ramalde-pereiro": [
+          "Centro de Ramalde - Pereiró",
+          "Centro Ramalde - Pereiró",
+          "Centro de Ramalde",
+          "Pereiró"
         ]
       },
       "matosinhos": {
@@ -841,8 +1076,13 @@
           "Santa Cruz do Bispo",
           "Santa Cruz Bispo"
         ],
-        "pedra-verde": [
-          "Pedra Verde"
+        "montes-caulinos": [
+          "Montes Caulinos"
+        ],
+        "monte-espinho-zona-industrial": [
+          "Monte Espinho - Zona Industrial",
+          "Monte Espinho",
+          "Zona Industrial"
         ]
       },
       "vila-nova-de-gaia": {
@@ -950,17 +1190,61 @@
           "Lagos",
           "Chavinha"
         ],
+        "santo-ovidio-cedro-monte-da-virgem": [
+          "Santo Ovídio - Cedro - Monte da Virgem",
+          "Santo Ovídio - Cedro - Monte Virgem",
+          "Santo Ovídio",
+          "Cedro",
+          "Monte da Virgem"
+        ],
+        "praia-de-brito-sao-felix-da-marinha": [
+          "Praia de Brito - São Félix da Marinha",
+          "Praia Brito - São Félix Marinha",
+          "Praia de Brito",
+          "São Félix da Marinha"
+        ],
+        "candal-regadas": [
+          "Candal - Regadas",
+          "Candal",
+          "Regadas"
+        ],
         "quinta-das-rosas-rasa-de-baixo": [
           "Quinta das Rosas - Rasa de Baixo",
           "Quinta Rosas - Rasa Baixo",
           "Quinta das Rosas",
           "Rasa de Baixo"
         ],
-        "parque-da-lavandeira-sardao": [
-          "Parque da Lavandeira - Sardão",
-          "Parque Lavandeira - Sardão",
-          "Parque da Lavandeira",
-          "Sardão"
+        "santa-marinha-e-sao-pedro-da-afurada": [
+          "Santa Marinha e São Pedro da Afurada",
+          "Santa Marinha São Pedro Afurada",
+          "Santa Marinha",
+          "São Pedro da Afurada"
+        ],
+        "afurada-arrabida-cavaco": [
+          "Afurada - Arrábida - Cavaco",
+          "Afurada",
+          "Arrábida",
+          "Cavaco"
+        ],
+        "barrosa-devesas-telheira-do-meio": [
+          "Barrosa - Devesas - Telheira do Meio",
+          "Barrosa - Devesas - Telheira Meio",
+          "Barrosa",
+          "Devesas",
+          "Telheira do Meio"
+        ],
+        "centro-historico": [
+          "Centro Histórico"
+        ],
+        "sao-felix-da-marinha": [
+          "São Félix da Marinha",
+          "São Félix Marinha"
+        ],
+        "granja": [
+          "Granja"
+        ],
+        "zona-este": [
+          "Zona Este"
         ]
       },
       "gondomar": {
@@ -1137,6 +1421,53 @@
           "Laundos"
         ]
       },
+      "vila-do-conde": {
+        "vilar-e-mosteiro": [
+          "Vilar e Mosteiró",
+          "Vilar Mosteiró",
+          "Vilar",
+          "Mosteiró"
+        ],
+        "arvore": [
+          "Árvore"
+        ],
+        "aveleda": [
+          "Aveleda"
+        ],
+        "azurara": [
+          "Azurara"
+        ],
+        "bagunte-ferreiro-outeiro-maior-e-parada": [
+          "Bagunte, Ferreiró, Outeiro Maior e Parada",
+          "Bagunte, Ferreiró, Outeiro Maior Parada",
+          "Bagunte, Ferreiró, Outeiro Maior",
+          "Parada"
+        ],
+        "vila-do-conde": [
+          "Vila do Conde",
+          "Vila Conde"
+        ],
+        "modivas": [
+          "Modivas"
+        ]
+      },
+      "santo-tirso": {
+        "agrela": [
+          "Agrela"
+        ],
+        "agua-longa": [
+          "Água Longa"
+        ],
+        "areias-sequeiro-lama-e-palmeira": [
+          "Areias, Sequeiró, Lama e Palmeira",
+          "Areias, Sequeiró, Lama Palmeira",
+          "Areias, Sequeiró, Lama",
+          "Palmeira"
+        ],
+        "aves": [
+          "Aves"
+        ]
+      },
       "baiao": {
         "loivos-do-monte": [
           "Loivos do Monte",
@@ -1144,19 +1475,42 @@
         ]
       },
       "lousada": {
+        "aveleda": [
+          "Aveleda"
+        ],
+        "caide-de-rei": [
+          "Caíde de Rei",
+          "Caí Rei"
+        ],
+        "cernadelo-e-lousada-sao-miguel-e-santa-margarida": [
+          "Cernadelo e Lousada (São Miguel e Santa Margarida)",
+          "Cernadelo Lousada (São Miguel Santa Margarida)",
+          "Cernadelo",
+          "Lousada (São Miguel",
+          "Santa Margarida)"
+        ],
         "cristelos-boim-e-ordem": [
           "Cristelos, Boim e Ordem",
           "Cristelos, Boim Ordem",
           "Cristelos, Boim",
           "Ordem"
+        ],
+        "torno": [
+          "Torno"
+        ],
+        "sousela": [
+          "Sousela"
+        ],
+        "nevogilde": [
+          "Nevogilde"
         ]
       },
-      "amarante": {
-        "amarante-sao-goncalo-madalena-cepelos-e-gatao": [
-          "Amarante (São Gonçalo), Madalena, Cepelos e Gatão",
-          "Amarante (São Gonçalo), Madalena, Cepelos Gatão",
-          "Amarante (São Gonçalo), Madalena, Cepelos",
-          "Gatão"
+      "felgueiras": {
+        "unhao-e-lordelo": [
+          "Unhão e Lordelo",
+          "Unhão Lordelo",
+          "Unhão",
+          "Lordelo"
         ]
       }
     },
@@ -1181,14 +1535,6 @@
         "calvaria-de-cima": [
           "Calvaria de Cima",
           "Calvaria Cima"
-        ],
-        "porto-de-mos-sao-joao-baptista-e-sao-pedro": [
-          "Porto de Mós - São João Baptista e São Pedro",
-          "Porto Mós - São João Baptista São Pedro",
-          "Porto de Mós",
-          "São João Baptista e São Pedro",
-          "Porto de Mós - São João Baptista",
-          "São Pedro"
         ]
       },
       "leiria": {
@@ -1430,10 +1776,6 @@
         "funchal-se": [
           "Funchal (Sé)"
         ],
-        "imaculado-coracao-de-maria": [
-          "Imaculado Coração de Maria",
-          "Imaculado Coração Maria"
-        ],
         "monte": [
           "Monte"
         ],
@@ -1474,6 +1816,10 @@
         ],
         "santana": [
           "Santana"
+        ],
+        "sao-roque-do-faial": [
+          "São Roque do Faial",
+          "São Roque Faial"
         ]
       },
       "santa-cruz": {
@@ -1488,6 +1834,10 @@
         ],
         "santa-cruz": [
           "Santa Cruz"
+        ],
+        "santo-antonio-da-serra": [
+          "Santo António da Serra",
+          "Santo António Serra"
         ]
       },
       "ribeira-brava": {
@@ -1506,9 +1856,13 @@
         ]
       },
       "calheta": {
-        "paul-do-mar": [
-          "Paul do Mar",
-          "Paul Mar"
+        "jardim-do-mar": [
+          "Jardim do Mar",
+          "Jardim Mar"
+        ],
+        "ponta-do-pargo": [
+          "Ponta do Pargo",
+          "Ponta Pargo"
         ]
       }
     },
@@ -1590,6 +1944,71 @@
         ]
       }
     },
+    "ilha-de-sao-miguel": {
+      "ribeira-grande": {
+        "porto-formoso": [
+          "Porto Formoso"
+        ],
+        "maia": [
+          "Maia"
+        ]
+      },
+      "ponta-delgada": {
+        "sao-vicente-ferreira": [
+          "São Vicente Ferreira"
+        ],
+        "ajuda-da-bretanha": [
+          "Ajuda da Bretanha",
+          "Ajuda Bretanha"
+        ],
+        "arrifes": [
+          "Arrifes"
+        ],
+        "candelaria": [
+          "Candelária"
+        ],
+        "capelas": [
+          "Capelas"
+        ],
+        "ponta-delgada-sao-sebastiao": [
+          "Ponta Delgada (São Sebastião)"
+        ],
+        "ponta-delgada-sao-pedro": [
+          "Ponta Delgada (São Pedro)"
+        ],
+        "ponta-delgada-sao-jose": [
+          "Ponta Delgada (São José)"
+        ],
+        "remedios": [
+          "Remédios"
+        ],
+        "relva": [
+          "Relva"
+        ],
+        "mosteiros": [
+          "Mosteiros"
+        ],
+        "ginetes": [
+          "Ginetes"
+        ]
+      },
+      "nordeste": {
+        "sao-pedro-de-nordestinho": [
+          "São Pedro de Nordestinho",
+          "São Pedro Nordestinho"
+        ],
+        "santo-antonio-de-nordestinho": [
+          "Santo António de Nordestinho",
+          "Santo António Nordestinho"
+        ]
+      },
+      "vila-franca-do-campo": {
+        "agua-de-alto": [
+          "Água de Alto",
+          "Água Alto"
+        ]
+      }
+    },
     "coimbra": {
       "coimbra": {
         "almalagues": [
@@ -1620,14 +2039,58 @@
           "Quinta da Maia",
           "Quinta Maia"
         ],
+        "alto-de-s-joao-portela-pinhal-de-marrocos": [
+          "Alto de S. João - Portela - Pinhal de Marrocos",
+          "Alto S. João - Portela - Pinhal Marrocos",
+          "Alto de S. João",
+          "Portela",
+          "Pinhal de Marrocos"
+        ],
         "sao-silvestre": [
           "São Silvestre"
+        ],
+        "torres-do-mondego": [
+          "Torres do Mondego",
+          "Torres Mondego"
+        ],
+        "santo-antonio-dos-olivais": [
+          "Santo António dos Olivais",
+          "Santo António Olivais"
+        ],
+        "bairro-norton-de-matos": [
+          "Bairro Norton de Matos",
+          "Bairro Norton Matos"
+        ],
+        "casa-branca": [
+          "Casa Branca"
+        ],
+        "celas": [
+          "Celas"
         ],
         "mainca-rocha-nova-lordemao": [
           "Maínça - Rocha Nova - Lordemão",
           "Maínça",
           "Rocha Nova",
           "Lordemão"
+        ],
+        "santa-clara-e-castelo-viegas": [
+          "Santa Clara e Castelo Viegas",
+          "Santa Clara Castelo Viegas",
+          "Santa Clara",
+          "Castelo Viegas"
+        ],
+        "castelo-viegas": [
+          "Castelo Viegas"
+        ],
+        "santa-clara": [
+          "Santa Clara"
+        ],
+        "tovim-casal-do-lobo-vale-de-canas": [
+          "Tovim - Casal do Lobo - Vale de Canas",
+          "Tovim - Casal Lobo - Vale Canas",
+          "Tovim",
+          "Casal do Lobo",
+          "Vale de Canas"
         ]
       },
       "tabua": {
@@ -1809,12 +2272,16 @@
         "travanca-de-lagos": [
           "Travanca de Lagos",
           "Travanca Lagos"
+        ],
+        "bobadela": [
+          "Bobadela"
         ]
       },
-      "montemor-o-velho": {
-        "meas-do-campo": [
-          "Meãs do Campo",
-          "Meãs Campo"
+      "pampilhosa-da-serra": {
+        "unhais-o-velho": [
+          "Unhais-o-Velho",
+          "Unhais",
+          "Velho"
         ]
       }
     },
@@ -1846,6 +2313,18 @@
         ],
         "braga-sao-vicente": [
           "Braga (São Vicente)"
+        ],
+        "vilaca-e-fradelos": [
+          "Vilaça e Fradelos",
+          "Vilaça Fradelos",
+          "Vilaça",
+          "Fradelos"
+        ],
+        "nogueira-fraiao-e-lamacaes": [
+          "Nogueira, Fraião e Lamaçães",
+          "Nogueira, Fraião Lamaçães",
+          "Nogueira, Fraião",
+          "Lamaçães"
         ]
       },
       "guimaraes": {
@@ -1896,6 +2375,15 @@
         ],
         "nespereira": [
           "Nespereira"
+        ],
+        "souto-santa-maria-souto-sao-salvador-e-gondomar": [
+          "Souto Santa Maria, Souto São Salvador e Gondomar",
+          "Souto Santa Maria, Souto São Salvador Gondomar",
+          "Souto Santa Maria, Souto São Salvador",
+          "Gondomar"
+        ],
+        "barco": [
+          "Barco"
         ]
       },
       "barcelos": {
@@ -1930,20 +2418,30 @@
         "remelhe": [
           "Remelhe"
         ],
+        "pousa": [
+          "Pousa"
+        ],
         "perelhal": [
           "Perelhal"
         ],
         "pereira": [
           "Pereira"
         ],
-        "paradela": [
-          "Paradela"
+        "campo-e-tamel-sao-pedro-fins": [
+          "Campo e Tamel (São Pedro Fins)",
+          "Campo Tamel (São Pedro Fins)",
+          "Campo",
+          "Tamel (São Pedro Fins)"
         ],
-        "areias-de-vilar-e-encourados": [
-          "Areias de Vilar e Encourados",
-          "Areias Vilar Encourados",
-          "Areias de Vilar",
-          "Encourados"
+        "chorente-goios-courel-pedra-furada-e-gueral": [
+          "Chorente, Góios, Courel, Pedra Furada e Gueral",
+          "Chorente, Góios, Courel, Pedra Furada Gueral",
+          "Chorente, Góios, Courel, Pedra Furada",
+          "Gueral"
+        ],
+        "viatodos-grimancelos-minhotaes-monte-de-fralaes": [
+          "Viatodos, Grimancelos, Minhotães, Monte de Fralães",
+          "Viatodos, Grimancelos, Minhotães, Monte Fralães"
         ]
       },
       "esposende": {
@@ -2017,6 +2515,83 @@
         ],
         "ribeirao": [
           "Ribeirão"
+        ],
+        "fradelos": [
+          "Fradelos"
+        ],
+        "lousado": [
+          "Lousado"
+        ]
+      },
+      "vila-verde": {
+        "aboim-da-nobrega-e-gondomar": [
+          "Aboim da Nóbrega e Gondomar",
+          "Aboim Nóbrega Gondomar",
+          "Aboim da Nóbrega",
+          "Gondomar"
+        ],
+        "atiaes": [
+          "Atiães"
+        ],
+        "cabanelas": [
+          "Cabanelas"
+        ],
+        "carreiras-sao-miguel-e-carreiras-santiago": [
+          "Carreiras (São Miguel) e Carreiras (Santiago)",
+          "Carreiras (São Miguel) Carreiras (Santiago)",
+          "Carreiras (São Miguel)",
+          "Carreiras (Santiago)"
+        ],
+        "freiriz": [
+          "Freiriz"
+        ]
+      },
+      "fafe": {
+        "freitas-e-vila-cova": [
+          "Freitas e Vila Cova",
+          "Freitas Vila Cova",
+          "Freitas",
+          "Vila Cova"
+        ],
+        "fornelos": [
+          "Fornelos"
+        ]
+      },
+      "celorico-de-basto": {
+        "britelo-gemeos-e-ourilhe": [
+          "Britelo, Gémeos e Ourilhe",
+          "Britelo, Gémeos Ourilhe",
+          "Britelo, Gémeos",
+          "Ourilhe"
+        ]
+      },
+      "terras-de-bouro": {
+        "balanca": [
+          "Balança"
+        ],
+        "campo-do-geres": [
+          "Campo do Gerês",
+          "Campo Gerês"
+        ],
+        "carvalheira": [
+          "Carvalheira"
+        ],
+        "chamoim-e-vilar": [
+          "Chamoim e Vilar",
+          "Chamoim Vilar",
+          "Chamoim",
+          "Vilar"
+        ],
+        "gondoriz": [
+          "Gondoriz"
+        ]
+      },
+      "cabeceiras-de-basto": {
+        "arco-de-baulhe-e-vila-nune": [
+          "Arco de Baúlhe e Vila Nune",
+          "Arco Baúlhe Vila Nune",
+          "Arco de Baúlhe",
+          "Vila Nune"
         ]
       }
     },
@@ -2119,6 +2694,54 @@
         "alvites": [
           "Alvites"
         ]
+      },
+      "macedo-de-cavaleiros": {
+        "ala-e-vilarinho-do-monte": [
+          "Ala e Vilarinho do Monte",
+          "Ala Vilarinho Monte",
+          "Vilarinho do Monte"
+        ],
+        "amendoeira": [
+          "Amendoeira"
+        ],
+        "arcas": [
+          "Arcas"
+        ],
+        "bornes-e-burga": [
+          "Bornes e Burga",
+          "Bornes Burga",
+          "Bornes",
+          "Burga"
+        ],
+        "macedo-de-cavaleiros": [
+          "Macedo de Cavaleiros",
+          "Macedo Cavaleiros"
+        ],
+        "vinhas": [
+          "Vinhas"
+        ],
+        "talhas": [
+          "Talhas"
+        ],
+        "sezulfe": [
+          "Sezulfe"
+        ],
+        "salselas": [
+          "Salselas"
+        ]
+      },
+      "torre-de-moncorvo": {
+        "lousa": [
+          "Lousa"
+        ]
+      },
+      "freixo-de-espada-a-cinta": {
+        "freixo-de-espada-a-cinta-e-mazouco": [
+          "Freixo de Espada à Cinta e Mazouco",
+          "Freixo Espada à Cinta Mazouco",
+          "Freixo de Espada à Cinta",
+          "Mazouco"
+        ]
       }
     },
     "vila-real": {
@@ -2162,6 +2785,25 @@
         "vilarelho-da-raia": [
           "Vilarelho da Raia",
           "Vilarelho Raia"
+        ],
+        "santo-antonio-de-monforte": [
+          "Santo António de Monforte",
+          "Santo António Monforte"
+        ],
+        "santo-estevao": [
+          "Santo Estêvão"
+        ],
+        "planalto-de-monforte-oucidres-e-bobadela": [
+          "Planalto de Monforte (Oucidres e Bobadela)",
+          "Planalto Monforte (Oucidres Bobadela)",
+          "Planalto de Monforte (Oucidres",
+          "Bobadela)"
+        ],
+        "calvao-e-soutelinho-da-raia": [
+          "Calvão e Soutelinho da Raia",
+          "Calvão Soutelinho Raia",
+          "Calvão",
+          "Soutelinho da Raia"
         ]
       },
       "peso-da-regua": {
@@ -2187,6 +2829,12 @@
           "Vilar Viveiro",
           "Vilar",
           "Viveiro"
+        ],
+        "ardaos-e-bobadela": [
+          "Ardãos e Bobadela",
+          "Ardãos Bobadela",
+          "Ardãos",
+          "Bobadela"
         ]
       },
       "montalegre": {
@@ -2195,6 +2843,25 @@
           "Vilar Perdizes Meixide",
           "Vilar de Perdizes",
           "Meixide"
+        ]
+      },
+      "santa-marta-de-penaguiao": {
+        "alvacoes-do-corgo": [
+          "Alvações do Corgo",
+          "Alvações Corgo"
+        ],
+        "cumieira": [
+          "Cumieira"
+        ],
+        "fontes": [
+          "Fontes"
+        ],
+        "lobrigos-s-miguel-e-s-joao-baptista-e-sanhoane": [
+          "Lobrigos (S. Miguel e S. João Baptista) e Sanhoane",
+          "Lobrigos (S. Miguel S. João Baptista) Sanhoane",
+          "Lobrigos (S. Miguel",
+          "S. João Baptista)",
+          "Sanhoane"
         ]
       }
     },
@@ -2408,9 +3075,6 @@
         "sao-miguel-do-mato": [
           "São Miguel do Mato",
           "São Miguel Mato"
-        ],
-        "alvarenga": [
-          "Alvarenga"
         ]
       },
       "santa-maria-da-feira": {
@@ -2419,26 +3083,44 @@
           "São Miguel Souto Mosteirô",
           "São Miguel de Souto",
           "Mosteirô"
+        ],
+        "argoncilhe": [
+          "Argoncilhe"
+        ],
+        "arrifana": [
+          "Arrifana"
+        ],
+        "caldas-de-sao-jorge-e-de-pigeiros": [
+          "Caldas de São Jorge e de Pigeiros",
+          "Caldas São Jorge Pigeiros",
+          "Caldas de São Jorge",
+          "de Pigeiros"
+        ],
+        "canedo-vale-e-vila-maior": [
+          "Canedo, Vale e Vila Maior",
+          "Canedo, Vale Vila Maior",
+          "Canedo, Vale",
+          "Vila Maior"
+        ],
+        "sao-paio-de-oleiros": [
+          "São Paio de Oleiros",
+          "São Paio Oleiros"
         ]
       },
       "oliveira-do-bairro": {
-        "oliveira-do-bairro": [
-          "Oliveira do Bairro",
-          "Oliveira Bairro"
-        ],
         "oia": [
           "Oiã"
-        ]
-      },
-      "sever-do-vouga": {
-        "sever-do-vouga": [
-          "Sever do Vouga",
-          "Sever Vouga"
         ]
       },
       "albergaria-a-velha": {
         "alquerubim": [
           "Alquerubim"
+        ]
+      },
+      "castelo-de-paiva": {
+        "santa-maria-de-sardoura": [
+          "Santa Maria de Sardoura",
+          "Santa Maria Sardoura"
         ]
       }
     },
@@ -2602,6 +3284,20 @@
           "Vila Real Santo António"
         ]
       },
+      "castro-marim": {
+        "odeleite": [
+          "Odeleite"
+        ],
+        "altura": [
+          "Altura"
+        ],
+        "azinhal": [
+          "Azinhal"
+        ],
+        "castro-marim": [
+          "Castro Marim"
+        ]
+      },
       "silves": {
         "alcantarilha-e-pera": [
           "Alcantarilha e Pêra",
@@ -2630,6 +3326,35 @@
           "São Marcos da Serra",
           "São Marcos Serra"
         ]
+      },
+      "vila-do-bispo": {
+        "barao-de-sao-miguel": [
+          "Barão de São Miguel",
+          "Barão São Miguel"
+        ],
+        "budens": [
+          "Budens"
+        ],
+        "sagres": [
+          "Sagres"
+        ],
+        "vila-do-bispo-e-raposeira": [
+          "Vila do Bispo e Raposeira",
+          "Vila Bispo Raposeira",
+          "Vila do Bispo",
+          "Raposeira"
+        ]
+      },
+      "lagoa": {
+        "ferragudo": [
+          "Ferragudo"
+        ],
+        "lagoa-e-carvoeiro": [
+          "Lagoa e Carvoeiro",
+          "Lagoa Carvoeiro",
+          "Lagoa",
+          "Carvoeiro"
+        ]
       }
     },
     "beja": {
@@ -2637,6 +3362,9 @@
         "faro-do-alentejo": [
           "Faro do Alentejo",
           "Faro Alentejo"
+        ],
+        "vila-ruiva": [
+          "Vila Ruiva"
         ]
       },
       "beja": {
@@ -2734,8 +3462,10 @@
           "Luzianes",
           "Gare"
         ],
-        "sao-luis": [
-          "São Luís"
+        "santa-clara-a-velha": [
+          "Santa Clara-a-Velha",
+          "Santa Clara",
+          "Velha"
         ]
       },
       "mertola": {
@@ -2751,10 +3481,6 @@
         ],
         "mertola": [
           "Mértola"
-        ],
-        "s-mig-pinheiro-s-pedro-solis-s-sebastiao-dos-carros": [
-          "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião dos Carros",
-          "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião Carros"
         ]
       },
       "moura": {
@@ -2782,16 +3508,16 @@
       "ferreira-do-alentejo": {
         "odivelas": [
           "Odivelas"
+        ],
+        "figueira-dos-cavaleiros": [
+          "Figueira dos Cavaleiros",
+          "Figueira Cavaleiros"
         ]
       },
       "almodovar": {
-        "santa-clara-a-nova-e-gomes-aires": [
-          "Santa Clara-a-Nova e Gomes Aires",
-          "Santa Clara-a-Nova Gomes Aires",
-          "Santa Clara",
-          "Nova e Gomes Aires",
-          "Santa Clara-a-Nova",
-          "Gomes Aires"
+        "aldeia-dos-fernandes": [
+          "Aldeia dos Fernandes",
+          "Aldeia Fernandes"
         ]
       }
     },
@@ -2811,6 +3537,10 @@
         ],
         "alcanede": [
           "Alcanede"
+        ],
+        "uniao-das-freguesias-da-cidade-de-santarem": [
+          "União das freguesias da cidade de Santarém",
+          "União freguesias cidade Santarém"
         ]
       },
       "tomar": {
@@ -2870,6 +3600,12 @@
         ],
         "espite": [
           "Espite"
+        ],
+        "freixianda-ribeira-do-farrio-e-formigais": [
+          "Freixianda, Ribeira do Farrio e Formigais",
+          "Freixianda, Ribeira Farrio Formigais",
+          "Freixianda, Ribeira do Farrio",
+          "Formigais"
         ]
       },
       "entroncamento": {
@@ -3002,11 +3738,6 @@
           "Rio Moinhos"
         ]
       },
-      "vila-nova-da-barquinha": {
-        "tancos": [
-          "Tancos"
-        ]
-      },
       "torres-novas": {
         "assentiz": [
           "Assentiz"
@@ -3049,6 +3780,12 @@
           "Olaia Paço",
           "Olaia",
           "Paço"
+        ]
+      },
+      "chamusca": {
+        "vale-de-cavalos": [
+          "Vale de Cavalos",
+          "Vale Cavalos"
         ]
       }
     },
@@ -3108,8 +3845,29 @@
           "Monte Belo Sul",
           "Jardins do Sado"
         ],
-        "monte-belo-norte": [
-          "Monte Belo Norte"
+        "centro-historico": [
+          "Centro Histórico"
+        ],
+        "camarinha-peixe-frito": [
+          "Camarinha - Peixe Frito",
+          "Camarinha",
+          "Peixe Frito"
+        ],
+        "vale-de-choupos-choilo-galeotas": [
+          "Vale de Choupos - Choilo - Galeotas",
+          "Vale Choupos - Choilo - Galeotas",
+          "Vale de Choupos",
+          "Choilo",
+          "Galeotas"
+        ],
+        "bairro-do-liceu-vanicelos": [
+          "Bairro do Liceu - Vanicelos",
+          "Bairro Liceu - Vanicelos",
+          "Bairro do Liceu",
+          "Vanicelos"
+        ],
+        "zona-ribeirinha": [
+          "Zona Ribeirinha"
         ]
       },
       "sesimbra": {
@@ -3198,13 +3956,18 @@
         "cavadas": [
           "Cavadas"
         ],
-        "pinhal-do-general": [
-          "Pinhal do General",
-          "Pinhal General"
+        "redondos": [
+          "Redondos"
         ],
-        "casal-de-santo-antonio": [
-          "Casal de Santo António",
-          "Casal Santo António"
+        "zona-historica-do-seixal-frente-ribeirinha": [
+          "Zona Histórica do Seixal - Frente Ribeirinha",
+          "Zona Histórica Seixal - Frente Ribeirinha",
+          "Zona Histórica do Seixal",
+          "Frente Ribeirinha"
+        ],
+        "centro-de-arrentela": [
+          "Centro de Arrentela",
+          "Centro Arrentela"
         ]
       },
       "palmela": {
@@ -3377,6 +4140,10 @@
         ],
         "trafaria": [
           "Trafaria"
+        ],
+        "centro-de-sobreda": [
+          "Centro de Sobreda",
+          "Centro Sobreda"
         ]
       },
       "alcochete": {
@@ -3388,6 +4155,23 @@
         ],
         "sao-francisco": [
           "São Francisco"
+        ]
+      },
+      "alcacer-do-sal": {
+        "santa-maria-do-castelo-e-santiago-e-santa-susana": [
+          "Santa Maria do Castelo e Santiago e Santa Susana",
+          "Santa Maria Castelo Santiago Santa Susana",
+          "Santa Maria do Castelo",
+          "Santiago",
+          "Santa Susana"
+        ]
+      },
+      "grandola": {
+        "azinheira-dos-barros-e-sao-mamede-do-sadao": [
+          "Azinheira dos Barros e São Mamede do Sádão",
+          "Azinheira Barros São Mamede Sádão",
+          "Azinheira dos Barros",
+          "São Mamede do Sádão"
         ]
       }
     },
@@ -3570,6 +4354,60 @@
           "Ovoa Vimieiro",
           "Ovoa",
           "Vimieiro"
+        ],
+        "pinheiro-de-azere": [
+          "Pinheiro de Ázere",
+          "Pinheiro Ázere"
+        ],
+        "santa-comba-dao-e-couto-do-mosteiro": [
+          "Santa Comba Dão e Couto do Mosteiro",
+          "Santa Comba Dão Couto Mosteiro",
+          "Santa Comba Dão",
+          "Couto do Mosteiro"
+        ],
+        "sao-joaninho": [
+          "São Joaninho"
+        ]
+      },
+      "sao-pedro-do-sul": {
+        "bordonhos": [
+          "Bordonhos"
+        ],
+        "carvalhais-e-candal": [
+          "Carvalhais e Candal",
+          "Carvalhais Candal",
+          "Carvalhais",
+          "Candal"
+        ],
+        "figueiredo-de-alva": [
+          "Figueiredo de Alva",
+          "Figueiredo Alva"
+        ],
+        "manhouce": [
+          "Manhouce"
+        ]
+      },
+      "sao-joao-da-pesqueira": {
+        "castanheiro-do-sul": [
+          "Castanheiro do Sul",
+          "Castanheiro Sul"
+        ],
+        "ervedosa-do-douro": [
+          "Ervedosa do Douro",
+          "Ervedosa Douro"
+        ],
+        "nagozelo-do-douro": [
+          "Nagozelo do Douro",
+          "Nagozelo Douro"
+        ],
+        "paredes-da-beira": [
+          "Paredes da Beira",
+          "Paredes Beira"
+        ]
+      },
+      "armamar": {
+        "aldeias": [
+          "Aldeias"
         ]
       }
     },
@@ -3596,6 +4434,13 @@
         ],
         "outeiro": [
           "Outeiro"
+        ],
+        "santa-maria-maior-e-monserrate-e-meadela": [
+          "Santa Maria Maior e Monserrate e Meadela",
+          "Santa Maria Maior Monserrate Meadela",
+          "Santa Maria Maior",
+          "Monserrate",
+          "Meadela"
         ]
       },
       "valenca": {
@@ -3610,6 +4455,12 @@
         ],
         "friestas": [
           "Friestas"
+        ],
+        "gandra-e-taiao": [
+          "Gandra e Taião",
+          "Gandra Taião",
+          "Gandra",
+          "Taião"
         ]
       },
       "moncao": {
@@ -3630,6 +4481,12 @@
           "Barroças Taias",
           "Barroças",
           "Taias"
+        ],
+        "mazedo-e-cortes": [
+          "Mazedo e Cortes",
+          "Mazedo Cortes",
+          "Mazedo",
+          "Cortes"
         ]
       },
       "melgaco": {
@@ -3682,20 +4539,18 @@
         "refoios-do-lima": [
           "Refóios do Lima",
           "Refóios Lima"
+        ],
+        "associacao-de-freguesias-do-vale-do-neiva": [
+          "Associação de freguesias do Vale do Neiva",
+          "Associação freguesias Vale Neiva"
         ]
       },
-      "ponte-da-barca": {
-        "ponte-da-barca-v-n-muia-paco-vedro-magalhaes": [
-          "Ponte da Barca, V. N. Muía, Paço Vedro Magalhães",
-          "Ponte Barca, V. N. Muía, Paço Vedro Magalhães"
-        ],
-        "entre-ambos-os-rios-ermida-e-germil": [
-          "Entre Ambos-os-Rios, Ermida e Germil",
-          "Entre Ambos-os-Rios, Ermida Germil",
-          "Entre Ambos",
-          "Rios, Ermida e Germil",
-          "Entre Ambos-os-Rios, Ermida",
-          "Germil"
+      "arcos-de-valdevez": {
+        "tavora-santa-maria-e-sao-vicente": [
+          "Távora (Santa Maria e São Vicente)",
+          "Távora (Santa Maria São Vicente)",
+          "Távora (Santa Maria",
+          "São Vicente)"
         ]
       }
     },
@@ -3729,11 +4584,25 @@
           "Cernache Bonjardim, Nesperal Palhais",
           "Cernache do Bonjardim, Nesperal",
           "Palhais"
+        ],
+        "varzea-dos-cavaleiros": [
+          "Várzea dos Cavaleiros",
+          "Várzea Cavaleiros"
         ]
       },
       "fundao": {
         "castelo-novo": [
           "Castelo Novo"
+        ],
+        "janeiro-de-cima-e-bogas-de-baixo": [
+          "Janeiro de Cima e Bogas de Baixo",
+          "Janeiro Cima Bogas Baixo",
+          "Janeiro de Cima",
+          "Bogas de Baixo"
+        ],
+        "fundao-valverde-donas-a-joanes-a-nova-do-cabo": [
+          "Fundão, Valverde, Donas, A. Joanes, A. Nova do Cabo",
+          "Fundão, Valverde, Donas, A. Joanes, A. Nova Cabo"
         ]
       },
       "covilha": {
@@ -3757,6 +4626,10 @@
           "Galo e Vila do Carvalho",
           "Cantar-Galo",
           "Vila do Carvalho"
+        ],
+        "unhais-da-serra": [
+          "Unhais da Serra",
+          "Unhais Serra"
         ]
       },
       "penamacor": {
@@ -3793,6 +4666,28 @@
         ],
         "madeira": [
           "Madeirã"
+        ],
+        "sobral": [
+          "Sobral"
+        ]
+      },
+      "vila-de-rei": {
+        "fundada": [
+          "Fundada"
+        ],
+        "sao-joao-do-peso": [
+          "São João do Peso",
+          "São João Peso"
+        ],
+        "vila-de-rei": [
+          "Vila de Rei",
+          "Vila Rei"
+        ]
+      },
+      "idanha-a-nova": {
+        "aldeia-de-santa-margarida": [
+          "Aldeia de Santa Margarida",
+          "Aldeia Santa Margarida"
         ]
       }
     },
@@ -3931,6 +4826,9 @@
         "alvendre": [
           "Alvendre"
         ],
+        "guarda": [
+          "Guarda"
+        ],
         "famalicao": [
           "Famalicão"
         ]
@@ -3947,6 +4845,12 @@
         ],
         "cotimos": [
           "Cótimos"
+        ],
+        "vila-franca-das-naves-e-feital": [
+          "Vila Franca das Naves e Feital",
+          "Vila Franca Naves Feital",
+          "Vila Franca das Naves",
+          "Feital"
         ]
       },
       "seia": {
@@ -3984,6 +4888,12 @@
         "aldeia-do-bispo": [
           "Aldeia do Bispo",
           "Aldeia Bispo"
+        ],
+        "santo-estevao-e-moita": [
+          "Santo Estêvão e Moita",
+          "Santo Estêvão Moita",
+          "Santo Estêvão",
+          "Moita"
         ]
       },
       "pinhel": {
@@ -4055,24 +4965,12 @@
           "Freixo da Serra"
         ]
       },
-      "almeida": {
-        "almeida": [
-          "Almeida"
-        ],
-        "amoreira-parada-e-cabreira": [
-          "Amoreira, Parada e Cabreira",
-          "Amoreira, Parada Cabreira",
-          "Amoreira, Parada",
-          "Cabreira"
-        ],
-        "azinhal-peva-e-valverde": [
-          "Azinhal, Peva e Valverde",
-          "Azinhal, Peva Valverde",
-          "Azinhal, Peva",
-          "Valverde"
-        ],
-        "castelo-bom": [
-          "Castelo Bom"
+      "celorico-da-beira": {
+        "cortico-da-serra-vide-entre-vinhas-e-salgueirais": [
+          "Cortiçô da Serra, Vide entre Vinhas e Salgueirais",
+          "Cortiçô Serra, Vide entre Vinhas Salgueirais",
+          "Cortiçô da Serra, Vide entre Vinhas",
+          "Salgueirais"
         ]
       }
     },
@@ -4232,93 +5130,103 @@
         ]
       },
       "ponte-de-sor": {
-        "longomel": [
-          "Longomel"
-        ]
-      }
-    },
-    "ilha-de-sao-miguel": {
-      "ponta-delgada": {
-        "sao-vicente-ferreira": [
-          "São Vicente Ferreira"
-        ],
-        "ajuda-da-bretanha": [
-          "Ajuda da Bretanha",
-          "Ajuda Bretanha"
-        ],
-        "arrifes": [
-          "Arrifes"
-        ],
-        "candelaria": [
-          "Candelária"
-        ],
-        "capelas": [
-          "Capelas"
-        ],
-        "ponta-delgada-sao-sebastiao": [
-          "Ponta Delgada (São Sebastião)"
-        ],
-        "ponta-delgada-sao-pedro": [
-          "Ponta Delgada (São Pedro)"
-        ],
-        "ponta-delgada-sao-jose": [
-          "Ponta Delgada (São José)"
-        ],
-        "remedios": [
-          "Remédios"
-        ],
-        "relva": [
-          "Relva"
-        ],
-        "mosteiros": [
-          "Mosteiros"
-        ],
-        "ginetes": [
-          "Ginetes"
-        ]
-      },
-      "nordeste": {
-        "sao-pedro-de-nordestinho": [
-          "São Pedro de Nordestinho",
-          "São Pedro Nordestinho"
-        ]
-      },
-      "ribeira-grande": {
-        "maia": [
-          "Maia"
+        "foros-de-arrao": [
+          "Foros de Arrão",
+          "Foros Arrão"
         ]
       }
     },
     "ilha-das-flores": {
       "lajes-das-flores": {
-        "mosteiro": [
-          "Mosteiro"
+        "faja-grande": [
+          "Fajã Grande"
+        ],
+        "fajazinha": [
+          "Fajãzinha"
         ],
         "fazenda": [
           "Fazenda"
         ],
-        "fajazinha": [
-          "Fajãzinha"
+        "lajedo": [
+          "Lajedo"
+        ],
+        "mosteiro": [
+          "Mosteiro"
         ]
       },
       "santa-cruz-das-flores": {
-        "santa-cruz-das-flores": [
-          "Santa Cruz das Flores",
-          "Santa Cruz Flores"
+        "cedros": [
+          "Cedros"
         ],
         "ponta-delgada": [
           "Ponta Delgada"
+        ],
+        "caveira": [
+          "Caveira"
+        ],
+        "santa-cruz-das-flores": [
+          "Santa Cruz das Flores",
+          "Santa Cruz Flores"
+        ]
+      }
+    },
+    "ilha-da-graciosa": {
+      "santa-cruz-da-graciosa": {
+        "guadalupe": [
+          "Guadalupe"
+        ],
+        "luz": [
+          "Luz"
+        ],
+        "santa-cruz-da-graciosa": [
+          "Santa Cruz da Graciosa",
+          "Santa Cruz Graciosa"
+        ],
+        "sao-mateus": [
+          "São Mateus"
+        ]
+      }
+    },
+    "ilha-do-pico": {
+      "sao-roque-do-pico": {
+        "prainha": [
+          "Prainha"
+        ],
+        "santa-luzia": [
+          "Santa Luzia"
+        ],
+        "santo-amaro": [
+          "Santo Amaro"
+        ],
+        "santo-antonio": [
+          "Santo António"
+        ]
+      }
+    },
+    "ilha-de-santa-maria": {
+      "vila-do-porto": {
+        "almagreira": [
+          "Almagreira"
+        ],
+        "santa-barbara": [
+          "Santa Bárbara"
+        ],
+        "santo-espirito": [
+          "Santo Espírito"
+        ],
+        "sao-pedro": [
+          "São Pedro"
         ]
       }
     }
   },
   "metadata": {
-    "extractedAt": "2025-09-03T15:03:17.919Z",
-    "totalDistricts": 24,
-    "totalCouncils": 178,
-    "totalLocations": 978,
-    "successfulQueries": 64,
-    "totalQueries": 64,
+    "extractedAt": "2025-09-03T15:35:43.570Z",
+    "totalDistricts": 27,
+    "totalCouncils": 203,
+    "totalLocations": 1179,
+    "successfulQueries": 85,
+    "totalQueries": 85,
     "source": "imovirtual.com"
   }
 },
@@ -4462,12 +5370,257 @@
   "type": "location",
   "district": "lisboa",
   "council": "lisboa",
-  "slug": "alvito",
+  "slug": "alto-de-santo-amaro",
   "aliases": [
-    "Alvito"
+    "Alto de Santo Amaro",
+    "Alto Santo Amaro"
   ],
-  "url_path": "lisboa/lisboa/alvito",
-  "primary_name": "Alvito"
+  "url_path": "lisboa/lisboa/alto-de-santo-amaro",
+  "primary_name": "Alto de Santo Amaro"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "santa-engracia",
+  "aliases": [
+    "Santa Engrácia"
+  ],
+  "url_path": "lisboa/lisboa/santa-engracia",
+  "primary_name": "Santa Engrácia"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "entrecampos",
+  "aliases": [
+    "Entrecampos"
+  ],
+  "url_path": "lisboa/lisboa/entrecampos",
+  "primary_name": "Entrecampos"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "largo-do-calvario-lx-factory",
+  "aliases": [
+    "Largo do Calvário - Lx Factory",
+    "Largo Calvário - Lx Factory",
+    "Largo do Calvário",
+    "Lx Factory"
+  ],
+  "url_path": "lisboa/lisboa/largo-do-calvario-lx-factory",
+  "primary_name": "Largo do Calvário - Lx Factory"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "santo-antonio",
+  "aliases": [
+    "Santo António"
+  ],
+  "url_path": "lisboa/lisboa/santo-antonio",
+  "primary_name": "Santo António"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "av-da-liberdade-marques-de-pombal",
+  "aliases": [
+    "Av. da Liberdade - Marquês de Pombal",
+    "Av. Liberdade - Marquês Pombal",
+    "Av. da Liberdade",
+    "Marquês de Pombal"
+  ],
+  "url_path": "lisboa/lisboa/av-da-liberdade-marques-de-pombal",
+  "primary_name": "Av. da Liberdade - Marquês de Pombal"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "campo-de-santana-santa-marta",
+  "aliases": [
+    "Campo de Santana - Santa Marta",
+    "Campo Santana - Santa Marta",
+    "Campo de Santana",
+    "Santa Marta"
+  ],
+  "url_path": "lisboa/lisboa/campo-de-santana-santa-marta",
+  "primary_name": "Campo de Santana - Santa Marta"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "praca-da-alegria",
+  "aliases": [
+    "Praça da Alegria",
+    "Praça Alegria"
+  ],
+  "url_path": "lisboa/lisboa/praca-da-alegria",
+  "primary_name": "Praça da Alegria"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "principe-real",
+  "aliases": [
+    "Príncipe Real"
+  ],
+  "url_path": "lisboa/lisboa/principe-real",
+  "primary_name": "Príncipe Real"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "sao-domingos-de-benfica",
+  "aliases": [
+    "São Domingos de Benfica",
+    "São Domingos Benfica"
+  ],
+  "url_path": "lisboa/lisboa/sao-domingos-de-benfica",
+  "primary_name": "São Domingos de Benfica"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "alto-dos-moinhos",
+  "aliases": [
+    "Alto dos Moinhos",
+    "Alto Moinhos"
+  ],
+  "url_path": "lisboa/lisboa/alto-dos-moinhos",
+  "primary_name": "Alto dos Moinhos"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "estrada-de-benfica",
+  "aliases": [
+    "Estrada de Benfica",
+    "Estrada Benfica"
+  ],
+  "url_path": "lisboa/lisboa/estrada-de-benfica",
+  "primary_name": "Estrada de Benfica"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "laranjeiras",
+  "aliases": [
+    "Laranjeiras"
+  ],
+  "url_path": "lisboa/lisboa/laranjeiras",
+  "primary_name": "Laranjeiras"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "sete-rios",
+  "aliases": [
+    "Sete Rios"
+  ],
+  "url_path": "lisboa/lisboa/sete-rios",
+  "primary_name": "Sete Rios"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-dos-actores",
+  "aliases": [
+    "Bairro dos Actores",
+    "Bairro Actores"
+  ],
+  "url_path": "lisboa/lisboa/bairro-dos-actores",
+  "primary_name": "Bairro dos Actores"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-dos-actores-barao-sabrosa",
+  "aliases": [
+    "Bairro dos Actores - Barão Sabrosa",
+    "Bairro Actores - Barão Sabrosa",
+    "Bairro dos Actores",
+    "Barão Sabrosa"
+  ],
+  "url_path": "lisboa/lisboa/bairro-dos-actores-barao-sabrosa",
+  "primary_name": "Bairro dos Actores - Barão Sabrosa"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-do-vale-fundao",
+  "aliases": [
+    "Bairro do Vale Fundão",
+    "Bairro Vale Fundão"
+  ],
+  "url_path": "lisboa/lisboa/bairro-do-vale-fundao",
+  "primary_name": "Bairro do Vale Fundão"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-do-condado",
+  "aliases": [
+    "Bairro do Condado",
+    "Bairro Condado"
+  ],
+  "url_path": "lisboa/lisboa/bairro-do-condado",
+  "primary_name": "Bairro do Condado"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-do-armador",
+  "aliases": [
+    "Bairro do Armador",
+    "Bairro Armador"
+  ],
+  "url_path": "lisboa/lisboa/bairro-do-armador",
+  "primary_name": "Bairro do Armador"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "bairro-de-santa-cruz",
+  "aliases": [
+    "Bairro de Santa Cruz",
+    "Bairro Santa Cruz"
+  ],
+  "url_path": "lisboa/lisboa/bairro-de-santa-cruz",
+  "primary_name": "Bairro de Santa Cruz"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "lisboa",
+  "slug": "gare-do-oriente-zona-sul",
+  "aliases": [
+    "Gare do Oriente - Zona Sul",
+    "Gare Oriente - Zona Sul",
+    "Gare do Oriente",
+    "Zona Sul"
+  ],
+  "url_path": "lisboa/lisboa/gare-do-oriente-zona-sul",
+  "primary_name": "Gare do Oriente - Zona Sul"
 },
 {
   "type": "location",
@@ -4828,6 +5981,36 @@
   "type": "location",
   "district": "lisboa",
   "council": "sintra",
+  "slug": "algueirao-velho-barata-casal-da-mata",
+  "aliases": [
+    "Algueirão-Velho - Baratã - Casal da Mata",
+    "Algueirão-Velho - Baratã - Casal Mata",
+    "Algueirão",
+    "Velho",
+    "Baratã",
+    "Casal da Mata"
+  ],
+  "url_path": "lisboa/sintra/algueirao-velho-barata-casal-da-mata",
+  "primary_name": "Algueirão-Velho - Baratã - Casal da Mata"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
+  "slug": "sao-joao-das-lampas-e-terrugem",
+  "aliases": [
+    "São João das Lampas e Terrugem",
+    "São João Lampas Terrugem",
+    "São João das Lampas",
+    "Terrugem"
+  ],
+  "url_path": "lisboa/sintra/sao-joao-das-lampas-e-terrugem",
+  "primary_name": "São João das Lampas e Terrugem"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
   "slug": "sao-joao-das-lampas",
   "aliases": [
     "São João das Lampas",
@@ -4840,28 +6023,75 @@
   "type": "location",
   "district": "lisboa",
   "council": "sintra",
-  "slug": "montelavar",
+  "slug": "terrugem",
   "aliases": [
-    "Montelavar"
+    "Terrugem"
   ],
-  "url_path": "lisboa/sintra/montelavar",
-  "primary_name": "Montelavar"
+  "url_path": "lisboa/sintra/terrugem",
+  "primary_name": "Terrugem"
 },
 {
   "type": "location",
   "district": "lisboa",
   "council": "sintra",
-  "slug": "algueirao-velho-barata-casal-da-mata",
+  "slug": "anta",
   "aliases": [
-    "Algueirão-Velho - Baratã - Casal da Mata",
-    "Algueirão-Velho - Baratã - Casal Mata",
-    "Algueirão",
-    "Velho",
-    "Baratã",
-    "Casal da Mata"
+    "Anta"
   ],
-  "url_path": "lisboa/sintra/algueirao-velho-barata-casal-da-mata",
-  "primary_name": "Algueirão-Velho - Baratã - Casal da Mata"
+  "url_path": "lisboa/sintra/anta",
+  "primary_name": "Anta"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
+  "slug": "colaride-monte-da-tapada",
+  "aliases": [
+    "Colaride - Monte da Tapada",
+    "Colaride - Monte Tapada",
+    "Colaride",
+    "Monte da Tapada"
+  ],
+  "url_path": "lisboa/sintra/colaride-monte-da-tapada",
+  "primary_name": "Colaride - Monte da Tapada"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
+  "slug": "estacao-de-agualva-cacem",
+  "aliases": [
+    "Estação de Agualva-Cacém",
+    "Estação Agualva-Cacém",
+    "Estação de Agualva",
+    "Cacém"
+  ],
+  "url_path": "lisboa/sintra/estacao-de-agualva-cacem",
+  "primary_name": "Estação de Agualva-Cacém"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
+  "slug": "bairro-de-sao-carlos",
+  "aliases": [
+    "Bairro de São Carlos",
+    "Bairro São Carlos"
+  ],
+  "url_path": "lisboa/sintra/bairro-de-sao-carlos",
+  "primary_name": "Bairro de São Carlos"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "sintra",
+  "slug": "casal-do-cotao",
+  "aliases": [
+    "Casal do Cotão",
+    "Casal Cotão"
+  ],
+  "url_path": "lisboa/sintra/casal-do-cotao",
+  "primary_name": "Casal do Cotão"
 },
 {
   "type": "location",
@@ -5102,20 +6332,6 @@
 {
   "type": "location",
   "district": "lisboa",
-  "council": "oeiras",
-  "slug": "parque-dos-poetas-hospital-da-luz",
-  "aliases": [
-    "Parque dos Poetas - Hospital da Luz",
-    "Parque Poetas - Hospital Luz",
-    "Parque dos Poetas",
-    "Hospital da Luz"
-  ],
-  "url_path": "lisboa/oeiras/parque-dos-poetas-hospital-da-luz",
-  "primary_name": "Parque dos Poetas - Hospital da Luz"
-},
-{
-  "type": "location",
-  "district": "lisboa",
   "council": "odivelas",
   "slug": "odivelas",
   "aliases": [
@@ -5238,6 +6454,29 @@
   ],
   "url_path": "lisboa/mafra/enxara-do-bispo",
   "primary_name": "Enxara do Bispo"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "mafra",
+  "slug": "santo-isidoro",
+  "aliases": [
+    "Santo Isidoro"
+  ],
+  "url_path": "lisboa/mafra/santo-isidoro",
+  "primary_name": "Santo Isidoro"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "mafra",
+  "slug": "santo-estevao-das-gales",
+  "aliases": [
+    "Santo Estêvão das Galés",
+    "Santo Estêvão Galés"
+  ],
+  "url_path": "lisboa/mafra/santo-estevao-das-gales",
+  "primary_name": "Santo Estêvão das Galés"
 },
 {
   "type": "location",
@@ -5417,6 +6656,128 @@
   ],
   "url_path": "lisboa/loures/sacavem",
   "primary_name": "Sacavém"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "sao-joao-da-talha",
+  "aliases": [
+    "São João da Talha",
+    "São João Talha"
+  ],
+  "url_path": "lisboa/loures/sao-joao-da-talha",
+  "primary_name": "São João da Talha"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "santo-antonio-dos-cavaleiros-e-frielas",
+  "aliases": [
+    "Santo António dos Cavaleiros e Frielas",
+    "Santo António Cavaleiros Frielas",
+    "Santo António dos Cavaleiros",
+    "Frielas"
+  ],
+  "url_path": "lisboa/loures/santo-antonio-dos-cavaleiros-e-frielas",
+  "primary_name": "Santo António dos Cavaleiros e Frielas"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "frielas",
+  "aliases": [
+    "Frielas"
+  ],
+  "url_path": "lisboa/loures/frielas",
+  "primary_name": "Frielas"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "santo-antonio-dos-cavaleiros",
+  "aliases": [
+    "Santo António dos Cavaleiros",
+    "Santo António Cavaleiros"
+  ],
+  "url_path": "lisboa/loures/santo-antonio-dos-cavaleiros",
+  "primary_name": "Santo António dos Cavaleiros"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "santa-iria-de-azoia-sao-joao-da-talha-e-bobadela",
+  "aliases": [
+    "Santa Iria de Azoia, São João da Talha e Bobadela",
+    "Santa Iria Azoia, São João Talha Bobadela",
+    "Santa Iria de Azoia, São João da Talha",
+    "Bobadela"
+  ],
+  "url_path": "lisboa/loures/santa-iria-de-azoia-sao-joao-da-talha-e-bobadela",
+  "primary_name": "Santa Iria de Azoia, São João da Talha e Bobadela"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "bobadela",
+  "aliases": [
+    "Bobadela"
+  ],
+  "url_path": "lisboa/loures/bobadela",
+  "primary_name": "Bobadela"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "santa-iria-de-azoia",
+  "aliases": [
+    "Santa Iria de Azóia",
+    "Santa Iria Azóia"
+  ],
+  "url_path": "lisboa/loures/santa-iria-de-azoia",
+  "primary_name": "Santa Iria de Azóia"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "moscavide-e-portela",
+  "aliases": [
+    "Moscavide e Portela",
+    "Moscavide Portela",
+    "Moscavide",
+    "Portela"
+  ],
+  "url_path": "lisboa/loures/moscavide-e-portela",
+  "primary_name": "Moscavide e Portela"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "moscavide",
+  "aliases": [
+    "Moscavide"
+  ],
+  "url_path": "lisboa/loures/moscavide",
+  "primary_name": "Moscavide"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "loures",
+  "slug": "portela",
+  "aliases": [
+    "Portela"
+  ],
+  "url_path": "lisboa/loures/portela",
+  "primary_name": "Portela"
 },
 {
   "type": "location",
@@ -5671,13 +7032,15 @@
   "type": "location",
   "district": "lisboa",
   "council": "cascais",
-  "slug": "talaide",
+  "slug": "sao-miguel-das-encostas-silveiras",
   "aliases": [
-    "Talaíde",
-    "Talaí"
+    "São Miguel das Encostas - Silveiras",
+    "São Miguel Encostas - Silveiras",
+    "São Miguel das Encostas",
+    "Silveiras"
   ],
-  "url_path": "lisboa/cascais/talaide",
-  "primary_name": "Talaíde"
+  "url_path": "lisboa/cascais/sao-miguel-das-encostas-silveiras",
+  "primary_name": "São Miguel das Encostas - Silveiras"
 },
 {
   "type": "location",
@@ -5692,6 +7055,76 @@
   ],
   "url_path": "lisboa/cascais/parque-de-palmela-ribeira-das-vinhas",
   "primary_name": "Parque de Palmela - Ribeira das Vinhas"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "arneiro",
+  "aliases": [
+    "Arneiro"
+  ],
+  "url_path": "lisboa/cascais/arneiro",
+  "primary_name": "Arneiro"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "cabeco-do-mouro",
+  "aliases": [
+    "Cabeço do Mouro",
+    "Cabeço Mouro"
+  ],
+  "url_path": "lisboa/cascais/cabeco-do-mouro",
+  "primary_name": "Cabeço do Mouro"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "caparide",
+  "aliases": [
+    "Caparide"
+  ],
+  "url_path": "lisboa/cascais/caparide",
+  "primary_name": "Caparide"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "bairro-de-santa-teresinha",
+  "aliases": [
+    "Bairro de Santa Teresinha",
+    "Bairro Santa Teresinha"
+  ],
+  "url_path": "lisboa/cascais/bairro-de-santa-teresinha",
+  "primary_name": "Bairro de Santa Teresinha"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "bairro-do-rosario",
+  "aliases": [
+    "Bairro do Rosário",
+    "Bairro Rosário"
+  ],
+  "url_path": "lisboa/cascais/bairro-do-rosario",
+  "primary_name": "Bairro do Rosário"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "cascais",
+  "slug": "centro-de-cascais",
+  "aliases": [
+    "Centro de Cascais",
+    "Centro Cascais"
+  ],
+  "url_path": "lisboa/cascais/centro-de-cascais",
+  "primary_name": "Centro de Cascais"
 },
 {
   "type": "location",
@@ -6162,6 +7595,119 @@
 },
 {
   "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "alhandra-sao-joao-dos-montes-e-calhandriz",
+  "aliases": [
+    "Alhandra, São João dos Montes e Calhandriz",
+    "Alhandra, São João Montes Calhandriz",
+    "Alhandra, São João dos Montes",
+    "Calhandriz"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/alhandra-sao-joao-dos-montes-e-calhandriz",
+  "primary_name": "Alhandra, São João dos Montes e Calhandriz"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "alhandra",
+  "aliases": [
+    "Alhandra"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/alhandra",
+  "primary_name": "Alhandra"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "alverca-do-ribatejo-e-sobralinho",
+  "aliases": [
+    "Alverca do Ribatejo e Sobralinho",
+    "Alverca Ribatejo Sobralinho",
+    "Alverca do Ribatejo",
+    "Sobralinho"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/alverca-do-ribatejo-e-sobralinho",
+  "primary_name": "Alverca do Ribatejo e Sobralinho"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "alverca",
+  "aliases": [
+    "Alverca"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/alverca",
+  "primary_name": "Alverca"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "castanheira-do-ribatejo-e-cachoeiras",
+  "aliases": [
+    "Castanheira do Ribatejo e Cachoeiras",
+    "Castanheira Ribatejo Cachoeiras",
+    "Castanheira do Ribatejo",
+    "Cachoeiras"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/castanheira-do-ribatejo-e-cachoeiras",
+  "primary_name": "Castanheira do Ribatejo e Cachoeiras"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "cachoeiras",
+  "aliases": [
+    "Cachoeiras"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/cachoeiras",
+  "primary_name": "Cachoeiras"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "povoa-de-santa-iria-e-forte-da-casa",
+  "aliases": [
+    "Póvoa de Santa Iria e Forte da Casa",
+    "Póvoa Santa Iria Forte Casa",
+    "Póvoa de Santa Iria",
+    "Forte da Casa"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/povoa-de-santa-iria-e-forte-da-casa",
+  "primary_name": "Póvoa de Santa Iria e Forte da Casa"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "forte-da-casa",
+  "aliases": [
+    "Forte da Casa",
+    "Forte Casa"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/forte-da-casa",
+  "primary_name": "Forte da Casa"
+},
+{
+  "type": "location",
+  "district": "lisboa",
+  "council": "vila-franca-de-xira",
+  "slug": "povoa-de-santa-iria",
+  "aliases": [
+    "Póvoa de Santa Iria",
+    "Póvoa Santa Iria"
+  ],
+  "url_path": "lisboa/vila-franca-de-xira/povoa-de-santa-iria",
+  "primary_name": "Póvoa de Santa Iria"
+},
+{
+  "type": "location",
   "district": "porto",
   "council": "porto",
   "slug": "aldoar-foz-do-douro-e-nevogilde",
@@ -6276,6 +7822,32 @@
   "type": "location",
   "district": "porto",
   "council": "porto",
+  "slug": "cais-das-pedras",
+  "aliases": [
+    "Cais das Pedras",
+    "Cais Pedras"
+  ],
+  "url_path": "porto/porto/cais-das-pedras",
+  "primary_name": "Cais das Pedras"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "porto",
+  "slug": "prelada-monte-dos-burgos",
+  "aliases": [
+    "Prelada - Monte dos Burgos",
+    "Prelada - Monte Burgos",
+    "Prelada",
+    "Monte dos Burgos"
+  ],
+  "url_path": "porto/porto/prelada-monte-dos-burgos",
+  "primary_name": "Prelada - Monte dos Burgos"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "porto",
   "slug": "serralves-praca-do-imperio",
   "aliases": [
     "Serralves - Praça do Império",
@@ -6285,6 +7857,17 @@
   ],
   "url_path": "porto/porto/serralves-praca-do-imperio",
   "primary_name": "Serralves - Praça do Império"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "porto",
+  "slug": "santos-pousada",
+  "aliases": [
+    "Santos Pousada"
+  ],
+  "url_path": "porto/porto/santos-pousada",
+  "primary_name": "Santos Pousada"
 },
 {
   "type": "location",
@@ -6304,72 +7887,56 @@
   "type": "location",
   "district": "porto",
   "council": "porto",
-  "slug": "pinhais-da-foz",
+  "slug": "agramonte-bom-sucesso-guerra-junqueiro",
   "aliases": [
-    "Pinhais da Foz",
-    "Pinhais Foz"
+    "Agramonte - Bom Sucesso - Guerra Junqueiro",
+    "Agramonte",
+    "Bom Sucesso",
+    "Guerra Junqueiro"
   ],
-  "url_path": "porto/porto/pinhais-da-foz",
-  "primary_name": "Pinhais da Foz"
+  "url_path": "porto/porto/agramonte-bom-sucesso-guerra-junqueiro",
+  "primary_name": "Agramonte - Bom Sucesso - Guerra Junqueiro"
 },
 {
   "type": "location",
   "district": "porto",
   "council": "porto",
-  "slug": "sao-roque-da-lameira",
+  "slug": "sao-joao-polo-universitario-asprela",
   "aliases": [
-    "São Roque da Lameira",
-    "São Roque Lameira"
+    "São João - Pólo Universitário - Asprela",
+    "São João",
+    "Pólo Universitário",
+    "Asprela"
   ],
-  "url_path": "porto/porto/sao-roque-da-lameira",
-  "primary_name": "São Roque da Lameira"
+  "url_path": "porto/porto/sao-joao-polo-universitario-asprela",
+  "primary_name": "São João - Pólo Universitário - Asprela"
 },
 {
   "type": "location",
   "district": "porto",
-  "council": "valongo",
-  "slug": "alfena",
+  "council": "porto",
+  "slug": "viso-zona-industrial",
   "aliases": [
-    "Alfena"
+    "Viso - Zona Industrial",
+    "Viso",
+    "Zona Industrial"
   ],
-  "url_path": "porto/valongo/alfena",
-  "primary_name": "Alfena"
+  "url_path": "porto/porto/viso-zona-industrial",
+  "primary_name": "Viso - Zona Industrial"
 },
 {
   "type": "location",
   "district": "porto",
-  "council": "valongo",
-  "slug": "campo-e-sobrado",
+  "council": "porto",
+  "slug": "centro-de-ramalde-pereiro",
   "aliases": [
-    "Campo e Sobrado",
-    "Campo Sobrado",
-    "Campo",
-    "Sobrado"
+    "Centro de Ramalde - Pereiró",
+    "Centro Ramalde - Pereiró",
+    "Centro de Ramalde",
+    "Pereiró"
   ],
-  "url_path": "porto/valongo/campo-e-sobrado",
-  "primary_name": "Campo e Sobrado"
-},
-{
-  "type": "location",
-  "district": "porto",
-  "council": "valongo",
-  "slug": "ermesinde",
-  "aliases": [
-    "Ermesinde"
-  ],
-  "url_path": "porto/valongo/ermesinde",
-  "primary_name": "Ermesinde"
-},
-{
-  "type": "location",
-  "district": "porto",
-  "council": "valongo",
-  "slug": "valongo",
-  "aliases": [
-    "Valongo"
-  ],
-  "url_path": "porto/valongo/valongo",
-  "primary_name": "Valongo"
+  "url_path": "porto/porto/centro-de-ramalde-pereiro",
+  "primary_name": "Centro de Ramalde - Pereiró"
 },
 {
   "type": "location",
@@ -6635,12 +8202,25 @@
   "type": "location",
   "district": "porto",
   "council": "matosinhos",
-  "slug": "pedra-verde",
+  "slug": "montes-caulinos",
   "aliases": [
-    "Pedra Verde"
+    "Montes Caulinos"
   ],
-  "url_path": "porto/matosinhos/pedra-verde",
-  "primary_name": "Pedra Verde"
+  "url_path": "porto/matosinhos/montes-caulinos",
+  "primary_name": "Montes Caulinos"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "matosinhos",
+  "slug": "monte-espinho-zona-industrial",
+  "aliases": [
+    "Monte Espinho - Zona Industrial",
+    "Monte Espinho",
+    "Zona Industrial"
+  ],
+  "url_path": "porto/matosinhos/monte-espinho-zona-industrial",
+  "primary_name": "Monte Espinho - Zona Industrial"
 },
 {
   "type": "location",
@@ -6942,6 +8522,48 @@
   "type": "location",
   "district": "porto",
   "council": "vila-nova-de-gaia",
+  "slug": "santo-ovidio-cedro-monte-da-virgem",
+  "aliases": [
+    "Santo Ovídio - Cedro - Monte da Virgem",
+    "Santo Ovídio - Cedro - Monte Virgem",
+    "Santo Ovídio",
+    "Cedro",
+    "Monte da Virgem"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/santo-ovidio-cedro-monte-da-virgem",
+  "primary_name": "Santo Ovídio - Cedro - Monte da Virgem"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "praia-de-brito-sao-felix-da-marinha",
+  "aliases": [
+    "Praia de Brito - São Félix da Marinha",
+    "Praia Brito - São Félix Marinha",
+    "Praia de Brito",
+    "São Félix da Marinha"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/praia-de-brito-sao-felix-da-marinha",
+  "primary_name": "Praia de Brito - São Félix da Marinha"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "candal-regadas",
+  "aliases": [
+    "Candal - Regadas",
+    "Candal",
+    "Regadas"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/candal-regadas",
+  "primary_name": "Candal - Regadas"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
   "slug": "quinta-das-rosas-rasa-de-baixo",
   "aliases": [
     "Quinta das Rosas - Rasa de Baixo",
@@ -6956,15 +8578,89 @@
   "type": "location",
   "district": "porto",
   "council": "vila-nova-de-gaia",
-  "slug": "parque-da-lavandeira-sardao",
+  "slug": "santa-marinha-e-sao-pedro-da-afurada",
   "aliases": [
-    "Parque da Lavandeira - Sardão",
-    "Parque Lavandeira - Sardão",
-    "Parque da Lavandeira",
-    "Sardão"
+    "Santa Marinha e São Pedro da Afurada",
+    "Santa Marinha São Pedro Afurada",
+    "Santa Marinha",
+    "São Pedro da Afurada"
   ],
-  "url_path": "porto/vila-nova-de-gaia/parque-da-lavandeira-sardao",
-  "primary_name": "Parque da Lavandeira - Sardão"
+  "url_path": "porto/vila-nova-de-gaia/santa-marinha-e-sao-pedro-da-afurada",
+  "primary_name": "Santa Marinha e São Pedro da Afurada"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "afurada-arrabida-cavaco",
+  "aliases": [
+    "Afurada - Arrábida - Cavaco",
+    "Afurada",
+    "Arrábida",
+    "Cavaco"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/afurada-arrabida-cavaco",
+  "primary_name": "Afurada - Arrábida - Cavaco"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "barrosa-devesas-telheira-do-meio",
+  "aliases": [
+    "Barrosa - Devesas - Telheira do Meio",
+    "Barrosa - Devesas - Telheira Meio",
+    "Barrosa",
+    "Devesas",
+    "Telheira do Meio"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/barrosa-devesas-telheira-do-meio",
+  "primary_name": "Barrosa - Devesas - Telheira do Meio"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "centro-historico",
+  "aliases": [
+    "Centro Histórico"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/centro-historico",
+  "primary_name": "Centro Histórico"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "sao-felix-da-marinha",
+  "aliases": [
+    "São Félix da Marinha",
+    "São Félix Marinha"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/sao-felix-da-marinha",
+  "primary_name": "São Félix da Marinha"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "granja",
+  "aliases": [
+    "Granja"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/granja",
+  "primary_name": "Granja"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-nova-de-gaia",
+  "slug": "zona-este",
+  "aliases": [
+    "Zona Este"
+  ],
+  "url_path": "porto/vila-nova-de-gaia/zona-este",
+  "primary_name": "Zona Este"
 },
 {
   "type": "location",
@@ -7481,6 +9177,137 @@
 {
   "type": "location",
   "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "vilar-e-mosteiro",
+  "aliases": [
+    "Vilar e Mosteiró",
+    "Vilar Mosteiró",
+    "Vilar",
+    "Mosteiró"
+  ],
+  "url_path": "porto/vila-do-conde/vilar-e-mosteiro",
+  "primary_name": "Vilar e Mosteiró"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "arvore",
+  "aliases": [
+    "Árvore"
+  ],
+  "url_path": "porto/vila-do-conde/arvore",
+  "primary_name": "Árvore"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "aveleda",
+  "aliases": [
+    "Aveleda"
+  ],
+  "url_path": "porto/vila-do-conde/aveleda",
+  "primary_name": "Aveleda"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "azurara",
+  "aliases": [
+    "Azurara"
+  ],
+  "url_path": "porto/vila-do-conde/azurara",
+  "primary_name": "Azurara"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "bagunte-ferreiro-outeiro-maior-e-parada",
+  "aliases": [
+    "Bagunte, Ferreiró, Outeiro Maior e Parada",
+    "Bagunte, Ferreiró, Outeiro Maior Parada",
+    "Bagunte, Ferreiró, Outeiro Maior",
+    "Parada"
+  ],
+  "url_path": "porto/vila-do-conde/bagunte-ferreiro-outeiro-maior-e-parada",
+  "primary_name": "Bagunte, Ferreiró, Outeiro Maior e Parada"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "vila-do-conde",
+  "aliases": [
+    "Vila do Conde",
+    "Vila Conde"
+  ],
+  "url_path": "porto/vila-do-conde/vila-do-conde",
+  "primary_name": "Vila do Conde"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "vila-do-conde",
+  "slug": "modivas",
+  "aliases": [
+    "Modivas"
+  ],
+  "url_path": "porto/vila-do-conde/modivas",
+  "primary_name": "Modivas"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "santo-tirso",
+  "slug": "agrela",
+  "aliases": [
+    "Agrela"
+  ],
+  "url_path": "porto/santo-tirso/agrela",
+  "primary_name": "Agrela"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "santo-tirso",
+  "slug": "agua-longa",
+  "aliases": [
+    "Água Longa"
+  ],
+  "url_path": "porto/santo-tirso/agua-longa",
+  "primary_name": "Água Longa"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "santo-tirso",
+  "slug": "areias-sequeiro-lama-e-palmeira",
+  "aliases": [
+    "Areias, Sequeiró, Lama e Palmeira",
+    "Areias, Sequeiró, Lama Palmeira",
+    "Areias, Sequeiró, Lama",
+    "Palmeira"
+  ],
+  "url_path": "porto/santo-tirso/areias-sequeiro-lama-e-palmeira",
+  "primary_name": "Areias, Sequeiró, Lama e Palmeira"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "santo-tirso",
+  "slug": "aves",
+  "aliases": [
+    "Aves"
+  ],
+  "url_path": "porto/santo-tirso/aves",
+  "primary_name": "Aves"
+},
+{
+  "type": "location",
+  "district": "porto",
   "council": "baiao",
   "slug": "loivos-do-monte",
   "aliases": [
@@ -7489,6 +9316,44 @@
   ],
   "url_path": "porto/baiao/loivos-do-monte",
   "primary_name": "Loivos do Monte"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "lousada",
+  "slug": "aveleda",
+  "aliases": [
+    "Aveleda"
+  ],
+  "url_path": "porto/lousada/aveleda",
+  "primary_name": "Aveleda"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "lousada",
+  "slug": "caide-de-rei",
+  "aliases": [
+    "Caíde de Rei",
+    "Caí Rei"
+  ],
+  "url_path": "porto/lousada/caide-de-rei",
+  "primary_name": "Caíde de Rei"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "lousada",
+  "slug": "cernadelo-e-lousada-sao-miguel-e-santa-margarida",
+  "aliases": [
+    "Cernadelo e Lousada (São Miguel e Santa Margarida)",
+    "Cernadelo Lousada (São Miguel Santa Margarida)",
+    "Cernadelo",
+    "Lousada (São Miguel",
+    "Santa Margarida)"
+  ],
+  "url_path": "porto/lousada/cernadelo-e-lousada-sao-miguel-e-santa-margarida",
+  "primary_name": "Cernadelo e Lousada (São Miguel e Santa Margarida)"
 },
 {
   "type": "location",
@@ -7507,16 +9372,49 @@
 {
   "type": "location",
   "district": "porto",
-  "council": "amarante",
-  "slug": "amarante-sao-goncalo-madalena-cepelos-e-gatao",
+  "council": "lousada",
+  "slug": "torno",
   "aliases": [
-    "Amarante (São Gonçalo), Madalena, Cepelos e Gatão",
-    "Amarante (São Gonçalo), Madalena, Cepelos Gatão",
-    "Amarante (São Gonçalo), Madalena, Cepelos",
-    "Gatão"
+    "Torno"
   ],
-  "url_path": "porto/amarante/amarante-sao-goncalo-madalena-cepelos-e-gatao",
-  "primary_name": "Amarante (São Gonçalo), Madalena, Cepelos e Gatão"
+  "url_path": "porto/lousada/torno",
+  "primary_name": "Torno"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "lousada",
+  "slug": "sousela",
+  "aliases": [
+    "Sousela"
+  ],
+  "url_path": "porto/lousada/sousela",
+  "primary_name": "Sousela"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "lousada",
+  "slug": "nevogilde",
+  "aliases": [
+    "Nevogilde"
+  ],
+  "url_path": "porto/lousada/nevogilde",
+  "primary_name": "Nevogilde"
+},
+{
+  "type": "location",
+  "district": "porto",
+  "council": "felgueiras",
+  "slug": "unhao-e-lordelo",
+  "aliases": [
+    "Unhão e Lordelo",
+    "Unhão Lordelo",
+    "Unhão",
+    "Lordelo"
+  ],
+  "url_path": "porto/felgueiras/unhao-e-lordelo",
+  "primary_name": "Unhão e Lordelo"
 },
 {
   "type": "location",
@@ -7569,22 +9467,6 @@
   ],
   "url_path": "leiria/porto-de-mos/calvaria-de-cima",
   "primary_name": "Calvaria de Cima"
-},
-{
-  "type": "location",
-  "district": "leiria",
-  "council": "porto-de-mos",
-  "slug": "porto-de-mos-sao-joao-baptista-e-sao-pedro",
-  "aliases": [
-    "Porto de Mós - São João Baptista e São Pedro",
-    "Porto Mós - São João Baptista São Pedro",
-    "Porto de Mós",
-    "São João Baptista e São Pedro",
-    "Porto de Mós - São João Baptista",
-    "São Pedro"
-  ],
-  "url_path": "leiria/porto-de-mos/porto-de-mos-sao-joao-baptista-e-sao-pedro",
-  "primary_name": "Porto de Mós - São João Baptista e São Pedro"
 },
 {
   "type": "location",
@@ -8290,18 +10172,6 @@
   "type": "location",
   "district": "ilha-da-madeira",
   "council": "funchal",
-  "slug": "imaculado-coracao-de-maria",
-  "aliases": [
-    "Imaculado Coração de Maria",
-    "Imaculado Coração Maria"
-  ],
-  "url_path": "ilha-da-madeira/funchal/imaculado-coracao-de-maria",
-  "primary_name": "Imaculado Coração de Maria"
-},
-{
-  "type": "location",
-  "district": "ilha-da-madeira",
-  "council": "funchal",
   "slug": "monte",
   "aliases": [
     "Monte"
@@ -8434,6 +10304,18 @@
 {
   "type": "location",
   "district": "ilha-da-madeira",
+  "council": "santana",
+  "slug": "sao-roque-do-faial",
+  "aliases": [
+    "São Roque do Faial",
+    "São Roque Faial"
+  ],
+  "url_path": "ilha-da-madeira/santana/sao-roque-do-faial",
+  "primary_name": "São Roque do Faial"
+},
+{
+  "type": "location",
+  "district": "ilha-da-madeira",
   "council": "santa-cruz",
   "slug": "camacha",
   "aliases": [
@@ -8474,6 +10356,18 @@
   ],
   "url_path": "ilha-da-madeira/santa-cruz/santa-cruz",
   "primary_name": "Santa Cruz"
+},
+{
+  "type": "location",
+  "district": "ilha-da-madeira",
+  "council": "santa-cruz",
+  "slug": "santo-antonio-da-serra",
+  "aliases": [
+    "Santo António da Serra",
+    "Santo António Serra"
+  ],
+  "url_path": "ilha-da-madeira/santa-cruz/santo-antonio-da-serra",
+  "primary_name": "Santo António da Serra"
 },
 {
   "type": "location",
@@ -8524,13 +10418,25 @@
   "type": "location",
   "district": "ilha-da-madeira",
   "council": "calheta",
-  "slug": "paul-do-mar",
+  "slug": "jardim-do-mar",
   "aliases": [
-    "Paul do Mar",
-    "Paul Mar"
+    "Jardim do Mar",
+    "Jardim Mar"
   ],
-  "url_path": "ilha-da-madeira/calheta/paul-do-mar",
-  "primary_name": "Paul do Mar"
+  "url_path": "ilha-da-madeira/calheta/jardim-do-mar",
+  "primary_name": "Jardim do Mar"
+},
+{
+  "type": "location",
+  "district": "ilha-da-madeira",
+  "council": "calheta",
+  "slug": "ponta-do-pargo",
+  "aliases": [
+    "Ponta do Pargo",
+    "Ponta Pargo"
+  ],
+  "url_path": "ilha-da-madeira/calheta/ponta-do-pargo",
+  "primary_name": "Ponta do Pargo"
 },
 {
   "type": "location",
@@ -8782,6 +10688,197 @@
 },
 {
   "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ribeira-grande",
+  "slug": "porto-formoso",
+  "aliases": [
+    "Porto Formoso"
+  ],
+  "url_path": "ilha-de-sao-miguel/ribeira-grande/porto-formoso",
+  "primary_name": "Porto Formoso"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ribeira-grande",
+  "slug": "maia",
+  "aliases": [
+    "Maia"
+  ],
+  "url_path": "ilha-de-sao-miguel/ribeira-grande/maia",
+  "primary_name": "Maia"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "sao-vicente-ferreira",
+  "aliases": [
+    "São Vicente Ferreira"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/sao-vicente-ferreira",
+  "primary_name": "São Vicente Ferreira"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "ajuda-da-bretanha",
+  "aliases": [
+    "Ajuda da Bretanha",
+    "Ajuda Bretanha"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/ajuda-da-bretanha",
+  "primary_name": "Ajuda da Bretanha"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "arrifes",
+  "aliases": [
+    "Arrifes"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/arrifes",
+  "primary_name": "Arrifes"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "candelaria",
+  "aliases": [
+    "Candelária"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/candelaria",
+  "primary_name": "Candelária"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "capelas",
+  "aliases": [
+    "Capelas"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/capelas",
+  "primary_name": "Capelas"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "ponta-delgada-sao-sebastiao",
+  "aliases": [
+    "Ponta Delgada (São Sebastião)"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-sebastiao",
+  "primary_name": "Ponta Delgada (São Sebastião)"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "ponta-delgada-sao-pedro",
+  "aliases": [
+    "Ponta Delgada (São Pedro)"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-pedro",
+  "primary_name": "Ponta Delgada (São Pedro)"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "ponta-delgada-sao-jose",
+  "aliases": [
+    "Ponta Delgada (São José)"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-jose",
+  "primary_name": "Ponta Delgada (São José)"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "remedios",
+  "aliases": [
+    "Remédios"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/remedios",
+  "primary_name": "Remédios"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "relva",
+  "aliases": [
+    "Relva"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/relva",
+  "primary_name": "Relva"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "mosteiros",
+  "aliases": [
+    "Mosteiros"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/mosteiros",
+  "primary_name": "Mosteiros"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "ponta-delgada",
+  "slug": "ginetes",
+  "aliases": [
+    "Ginetes"
+  ],
+  "url_path": "ilha-de-sao-miguel/ponta-delgada/ginetes",
+  "primary_name": "Ginetes"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "nordeste",
+  "slug": "sao-pedro-de-nordestinho",
+  "aliases": [
+    "São Pedro de Nordestinho",
+    "São Pedro Nordestinho"
+  ],
+  "url_path": "ilha-de-sao-miguel/nordeste/sao-pedro-de-nordestinho",
+  "primary_name": "São Pedro de Nordestinho"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "nordeste",
+  "slug": "santo-antonio-de-nordestinho",
+  "aliases": [
+    "Santo António de Nordestinho",
+    "Santo António Nordestinho"
+  ],
+  "url_path": "ilha-de-sao-miguel/nordeste/santo-antonio-de-nordestinho",
+  "primary_name": "Santo António de Nordestinho"
+},
+{
+  "type": "location",
+  "district": "ilha-de-sao-miguel",
+  "council": "vila-franca-do-campo",
+  "slug": "agua-de-alto",
+  "aliases": [
+    "Água de Alto",
+    "Água Alto"
+  ],
+  "url_path": "ilha-de-sao-miguel/vila-franca-do-campo/agua-de-alto",
+  "primary_name": "Água de Alto"
+},
+{
+  "type": "location",
   "district": "coimbra",
   "council": "coimbra",
   "slug": "almalagues",
@@ -8868,12 +10965,85 @@
   "type": "location",
   "district": "coimbra",
   "council": "coimbra",
+  "slug": "alto-de-s-joao-portela-pinhal-de-marrocos",
+  "aliases": [
+    "Alto de S. João - Portela - Pinhal de Marrocos",
+    "Alto S. João - Portela - Pinhal Marrocos",
+    "Alto de S. João",
+    "Portela",
+    "Pinhal de Marrocos"
+  ],
+  "url_path": "coimbra/coimbra/alto-de-s-joao-portela-pinhal-de-marrocos",
+  "primary_name": "Alto de S. João - Portela - Pinhal de Marrocos"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
   "slug": "sao-silvestre",
   "aliases": [
     "São Silvestre"
   ],
   "url_path": "coimbra/coimbra/sao-silvestre",
   "primary_name": "São Silvestre"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "torres-do-mondego",
+  "aliases": [
+    "Torres do Mondego",
+    "Torres Mondego"
+  ],
+  "url_path": "coimbra/coimbra/torres-do-mondego",
+  "primary_name": "Torres do Mondego"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "santo-antonio-dos-olivais",
+  "aliases": [
+    "Santo António dos Olivais",
+    "Santo António Olivais"
+  ],
+  "url_path": "coimbra/coimbra/santo-antonio-dos-olivais",
+  "primary_name": "Santo António dos Olivais"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "bairro-norton-de-matos",
+  "aliases": [
+    "Bairro Norton de Matos",
+    "Bairro Norton Matos"
+  ],
+  "url_path": "coimbra/coimbra/bairro-norton-de-matos",
+  "primary_name": "Bairro Norton de Matos"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "casa-branca",
+  "aliases": [
+    "Casa Branca"
+  ],
+  "url_path": "coimbra/coimbra/casa-branca",
+  "primary_name": "Casa Branca"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "celas",
+  "aliases": [
+    "Celas"
+  ],
+  "url_path": "coimbra/coimbra/celas",
+  "primary_name": "Celas"
 },
 {
   "type": "location",
@@ -8888,6 +11058,57 @@
   ],
   "url_path": "coimbra/coimbra/mainca-rocha-nova-lordemao",
   "primary_name": "Maínça - Rocha Nova - Lordemão"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "santa-clara-e-castelo-viegas",
+  "aliases": [
+    "Santa Clara e Castelo Viegas",
+    "Santa Clara Castelo Viegas",
+    "Santa Clara",
+    "Castelo Viegas"
+  ],
+  "url_path": "coimbra/coimbra/santa-clara-e-castelo-viegas",
+  "primary_name": "Santa Clara e Castelo Viegas"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "castelo-viegas",
+  "aliases": [
+    "Castelo Viegas"
+  ],
+  "url_path": "coimbra/coimbra/castelo-viegas",
+  "primary_name": "Castelo Viegas"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "santa-clara",
+  "aliases": [
+    "Santa Clara"
+  ],
+  "url_path": "coimbra/coimbra/santa-clara",
+  "primary_name": "Santa Clara"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "coimbra",
+  "slug": "tovim-casal-do-lobo-vale-de-canas",
+  "aliases": [
+    "Tovim - Casal do Lobo - Vale de Canas",
+    "Tovim - Casal Lobo - Vale Canas",
+    "Tovim",
+    "Casal do Lobo",
+    "Vale de Canas"
+  ],
+  "url_path": "coimbra/coimbra/tovim-casal-do-lobo-vale-de-canas",
+  "primary_name": "Tovim - Casal do Lobo - Vale de Canas"
 },
 {
   "type": "location",
@@ -9383,14 +11604,26 @@
 {
   "type": "location",
   "district": "coimbra",
-  "council": "montemor-o-velho",
-  "slug": "meas-do-campo",
+  "council": "oliveira-do-hospital",
+  "slug": "bobadela",
   "aliases": [
-    "Meãs do Campo",
-    "Meãs Campo"
+    "Bobadela"
   ],
-  "url_path": "coimbra/montemor-o-velho/meas-do-campo",
-  "primary_name": "Meãs do Campo"
+  "url_path": "coimbra/oliveira-do-hospital/bobadela",
+  "primary_name": "Bobadela"
+},
+{
+  "type": "location",
+  "district": "coimbra",
+  "council": "pampilhosa-da-serra",
+  "slug": "unhais-o-velho",
+  "aliases": [
+    "Unhais-o-Velho",
+    "Unhais",
+    "Velho"
+  ],
+  "url_path": "coimbra/pampilhosa-da-serra/unhais-o-velho",
+  "primary_name": "Unhais-o-Velho"
 },
 {
   "type": "location",
@@ -9466,6 +11699,34 @@
   ],
   "url_path": "braga/braga/braga-sao-vicente",
   "primary_name": "Braga (São Vicente)"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "braga",
+  "slug": "vilaca-e-fradelos",
+  "aliases": [
+    "Vilaça e Fradelos",
+    "Vilaça Fradelos",
+    "Vilaça",
+    "Fradelos"
+  ],
+  "url_path": "braga/braga/vilaca-e-fradelos",
+  "primary_name": "Vilaça e Fradelos"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "braga",
+  "slug": "nogueira-fraiao-e-lamacaes",
+  "aliases": [
+    "Nogueira, Fraião e Lamaçães",
+    "Nogueira, Fraião Lamaçães",
+    "Nogueira, Fraião",
+    "Lamaçães"
+  ],
+  "url_path": "braga/braga/nogueira-fraiao-e-lamacaes",
+  "primary_name": "Nogueira, Fraião e Lamaçães"
 },
 {
   "type": "location",
@@ -9622,6 +11883,31 @@
 {
   "type": "location",
   "district": "braga",
+  "council": "guimaraes",
+  "slug": "souto-santa-maria-souto-sao-salvador-e-gondomar",
+  "aliases": [
+    "Souto Santa Maria, Souto São Salvador e Gondomar",
+    "Souto Santa Maria, Souto São Salvador Gondomar",
+    "Souto Santa Maria, Souto São Salvador",
+    "Gondomar"
+  ],
+  "url_path": "braga/guimaraes/souto-santa-maria-souto-sao-salvador-e-gondomar",
+  "primary_name": "Souto Santa Maria, Souto São Salvador e Gondomar"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "guimaraes",
+  "slug": "barco",
+  "aliases": [
+    "Barco"
+  ],
+  "url_path": "braga/guimaraes/barco",
+  "primary_name": "Barco"
+},
+{
+  "type": "location",
+  "district": "braga",
   "council": "barcelos",
   "slug": "abade-de-neiva",
   "aliases": [
@@ -9734,6 +12020,17 @@
   "type": "location",
   "district": "braga",
   "council": "barcelos",
+  "slug": "pousa",
+  "aliases": [
+    "Pousa"
+  ],
+  "url_path": "braga/barcelos/pousa",
+  "primary_name": "Pousa"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "barcelos",
   "slug": "perelhal",
   "aliases": [
     "Perelhal"
@@ -9756,26 +12053,41 @@
   "type": "location",
   "district": "braga",
   "council": "barcelos",
-  "slug": "paradela",
+  "slug": "campo-e-tamel-sao-pedro-fins",
   "aliases": [
-    "Paradela"
+    "Campo e Tamel (São Pedro Fins)",
+    "Campo Tamel (São Pedro Fins)",
+    "Campo",
+    "Tamel (São Pedro Fins)"
   ],
-  "url_path": "braga/barcelos/paradela",
-  "primary_name": "Paradela"
+  "url_path": "braga/barcelos/campo-e-tamel-sao-pedro-fins",
+  "primary_name": "Campo e Tamel (São Pedro Fins)"
 },
 {
   "type": "location",
   "district": "braga",
   "council": "barcelos",
-  "slug": "areias-de-vilar-e-encourados",
+  "slug": "chorente-goios-courel-pedra-furada-e-gueral",
   "aliases": [
-    "Areias de Vilar e Encourados",
-    "Areias Vilar Encourados",
-    "Areias de Vilar",
-    "Encourados"
+    "Chorente, Góios, Courel, Pedra Furada e Gueral",
+    "Chorente, Góios, Courel, Pedra Furada Gueral",
+    "Chorente, Góios, Courel, Pedra Furada",
+    "Gueral"
   ],
-  "url_path": "braga/barcelos/areias-de-vilar-e-encourados",
-  "primary_name": "Areias de Vilar e Encourados"
+  "url_path": "braga/barcelos/chorente-goios-courel-pedra-furada-e-gueral",
+  "primary_name": "Chorente, Góios, Courel, Pedra Furada e Gueral"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "barcelos",
+  "slug": "viatodos-grimancelos-minhotaes-monte-de-fralaes",
+  "aliases": [
+    "Viatodos, Grimancelos, Minhotães, Monte de Fralães",
+    "Viatodos, Grimancelos, Minhotães, Monte Fralães"
+  ],
+  "url_path": "braga/barcelos/viatodos-grimancelos-minhotaes-monte-de-fralaes",
+  "primary_name": "Viatodos, Grimancelos, Minhotães, Monte de Fralães"
 },
 {
   "type": "location",
@@ -9965,6 +12277,201 @@
   ],
   "url_path": "braga/vila-nova-de-famalicao/ribeirao",
   "primary_name": "Ribeirão"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-nova-de-famalicao",
+  "slug": "fradelos",
+  "aliases": [
+    "Fradelos"
+  ],
+  "url_path": "braga/vila-nova-de-famalicao/fradelos",
+  "primary_name": "Fradelos"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-nova-de-famalicao",
+  "slug": "lousado",
+  "aliases": [
+    "Lousado"
+  ],
+  "url_path": "braga/vila-nova-de-famalicao/lousado",
+  "primary_name": "Lousado"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-verde",
+  "slug": "aboim-da-nobrega-e-gondomar",
+  "aliases": [
+    "Aboim da Nóbrega e Gondomar",
+    "Aboim Nóbrega Gondomar",
+    "Aboim da Nóbrega",
+    "Gondomar"
+  ],
+  "url_path": "braga/vila-verde/aboim-da-nobrega-e-gondomar",
+  "primary_name": "Aboim da Nóbrega e Gondomar"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-verde",
+  "slug": "atiaes",
+  "aliases": [
+    "Atiães"
+  ],
+  "url_path": "braga/vila-verde/atiaes",
+  "primary_name": "Atiães"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-verde",
+  "slug": "cabanelas",
+  "aliases": [
+    "Cabanelas"
+  ],
+  "url_path": "braga/vila-verde/cabanelas",
+  "primary_name": "Cabanelas"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-verde",
+  "slug": "carreiras-sao-miguel-e-carreiras-santiago",
+  "aliases": [
+    "Carreiras (São Miguel) e Carreiras (Santiago)",
+    "Carreiras (São Miguel) Carreiras (Santiago)",
+    "Carreiras (São Miguel)",
+    "Carreiras (Santiago)"
+  ],
+  "url_path": "braga/vila-verde/carreiras-sao-miguel-e-carreiras-santiago",
+  "primary_name": "Carreiras (São Miguel) e Carreiras (Santiago)"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "vila-verde",
+  "slug": "freiriz",
+  "aliases": [
+    "Freiriz"
+  ],
+  "url_path": "braga/vila-verde/freiriz",
+  "primary_name": "Freiriz"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "fafe",
+  "slug": "freitas-e-vila-cova",
+  "aliases": [
+    "Freitas e Vila Cova",
+    "Freitas Vila Cova",
+    "Freitas",
+    "Vila Cova"
+  ],
+  "url_path": "braga/fafe/freitas-e-vila-cova",
+  "primary_name": "Freitas e Vila Cova"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "fafe",
+  "slug": "fornelos",
+  "aliases": [
+    "Fornelos"
+  ],
+  "url_path": "braga/fafe/fornelos",
+  "primary_name": "Fornelos"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "celorico-de-basto",
+  "slug": "britelo-gemeos-e-ourilhe",
+  "aliases": [
+    "Britelo, Gémeos e Ourilhe",
+    "Britelo, Gémeos Ourilhe",
+    "Britelo, Gémeos",
+    "Ourilhe"
+  ],
+  "url_path": "braga/celorico-de-basto/britelo-gemeos-e-ourilhe",
+  "primary_name": "Britelo, Gémeos e Ourilhe"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "terras-de-bouro",
+  "slug": "balanca",
+  "aliases": [
+    "Balança"
+  ],
+  "url_path": "braga/terras-de-bouro/balanca",
+  "primary_name": "Balança"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "terras-de-bouro",
+  "slug": "campo-do-geres",
+  "aliases": [
+    "Campo do Gerês",
+    "Campo Gerês"
+  ],
+  "url_path": "braga/terras-de-bouro/campo-do-geres",
+  "primary_name": "Campo do Gerês"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "terras-de-bouro",
+  "slug": "carvalheira",
+  "aliases": [
+    "Carvalheira"
+  ],
+  "url_path": "braga/terras-de-bouro/carvalheira",
+  "primary_name": "Carvalheira"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "terras-de-bouro",
+  "slug": "chamoim-e-vilar",
+  "aliases": [
+    "Chamoim e Vilar",
+    "Chamoim Vilar",
+    "Chamoim",
+    "Vilar"
+  ],
+  "url_path": "braga/terras-de-bouro/chamoim-e-vilar",
+  "primary_name": "Chamoim e Vilar"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "terras-de-bouro",
+  "slug": "gondoriz",
+  "aliases": [
+    "Gondoriz"
+  ],
+  "url_path": "braga/terras-de-bouro/gondoriz",
+  "primary_name": "Gondoriz"
+},
+{
+  "type": "location",
+  "district": "braga",
+  "council": "cabeceiras-de-basto",
+  "slug": "arco-de-baulhe-e-vila-nune",
+  "aliases": [
+    "Arco de Baúlhe e Vila Nune",
+    "Arco Baúlhe Vila Nune",
+    "Arco de Baúlhe",
+    "Vila Nune"
+  ],
+  "url_path": "braga/cabeceiras-de-basto/arco-de-baulhe-e-vila-nune",
+  "primary_name": "Arco de Baúlhe e Vila Nune"
 },
 {
   "type": "location",
@@ -10265,6 +12772,136 @@
 },
 {
   "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "ala-e-vilarinho-do-monte",
+  "aliases": [
+    "Ala e Vilarinho do Monte",
+    "Ala Vilarinho Monte",
+    "Vilarinho do Monte"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/ala-e-vilarinho-do-monte",
+  "primary_name": "Ala e Vilarinho do Monte"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "amendoeira",
+  "aliases": [
+    "Amendoeira"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/amendoeira",
+  "primary_name": "Amendoeira"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "arcas",
+  "aliases": [
+    "Arcas"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/arcas",
+  "primary_name": "Arcas"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "bornes-e-burga",
+  "aliases": [
+    "Bornes e Burga",
+    "Bornes Burga",
+    "Bornes",
+    "Burga"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/bornes-e-burga",
+  "primary_name": "Bornes e Burga"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "macedo-de-cavaleiros",
+  "aliases": [
+    "Macedo de Cavaleiros",
+    "Macedo Cavaleiros"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/macedo-de-cavaleiros",
+  "primary_name": "Macedo de Cavaleiros"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "vinhas",
+  "aliases": [
+    "Vinhas"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/vinhas",
+  "primary_name": "Vinhas"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "talhas",
+  "aliases": [
+    "Talhas"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/talhas",
+  "primary_name": "Talhas"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "sezulfe",
+  "aliases": [
+    "Sezulfe"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/sezulfe",
+  "primary_name": "Sezulfe"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "macedo-de-cavaleiros",
+  "slug": "salselas",
+  "aliases": [
+    "Salselas"
+  ],
+  "url_path": "braganca/macedo-de-cavaleiros/salselas",
+  "primary_name": "Salselas"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "torre-de-moncorvo",
+  "slug": "lousa",
+  "aliases": [
+    "Lousa"
+  ],
+  "url_path": "braganca/torre-de-moncorvo/lousa",
+  "primary_name": "Lousa"
+},
+{
+  "type": "location",
+  "district": "braganca",
+  "council": "freixo-de-espada-a-cinta",
+  "slug": "freixo-de-espada-a-cinta-e-mazouco",
+  "aliases": [
+    "Freixo de Espada à Cinta e Mazouco",
+    "Freixo Espada à Cinta Mazouco",
+    "Freixo de Espada à Cinta",
+    "Mazouco"
+  ],
+  "url_path": "braganca/freixo-de-espada-a-cinta/freixo-de-espada-a-cinta-e-mazouco",
+  "primary_name": "Freixo de Espada à Cinta e Mazouco"
+},
+{
+  "type": "location",
   "district": "vila-real",
   "council": "vila-pouca-de-aguiar",
   "slug": "bragado",
@@ -10382,6 +13019,57 @@
 {
   "type": "location",
   "district": "vila-real",
+  "council": "chaves",
+  "slug": "santo-antonio-de-monforte",
+  "aliases": [
+    "Santo António de Monforte",
+    "Santo António Monforte"
+  ],
+  "url_path": "vila-real/chaves/santo-antonio-de-monforte",
+  "primary_name": "Santo António de Monforte"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "chaves",
+  "slug": "santo-estevao",
+  "aliases": [
+    "Santo Estêvão"
+  ],
+  "url_path": "vila-real/chaves/santo-estevao",
+  "primary_name": "Santo Estêvão"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "chaves",
+  "slug": "planalto-de-monforte-oucidres-e-bobadela",
+  "aliases": [
+    "Planalto de Monforte (Oucidres e Bobadela)",
+    "Planalto Monforte (Oucidres Bobadela)",
+    "Planalto de Monforte (Oucidres",
+    "Bobadela)"
+  ],
+  "url_path": "vila-real/chaves/planalto-de-monforte-oucidres-e-bobadela",
+  "primary_name": "Planalto de Monforte (Oucidres e Bobadela)"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "chaves",
+  "slug": "calvao-e-soutelinho-da-raia",
+  "aliases": [
+    "Calvão e Soutelinho da Raia",
+    "Calvão Soutelinho Raia",
+    "Calvão",
+    "Soutelinho da Raia"
+  ],
+  "url_path": "vila-real/chaves/calvao-e-soutelinho-da-raia",
+  "primary_name": "Calvão e Soutelinho da Raia"
+},
+{
+  "type": "location",
+  "district": "vila-real",
   "council": "peso-da-regua",
   "slug": "vilarinho-dos-freires",
   "aliases": [
@@ -10431,6 +13119,20 @@
 {
   "type": "location",
   "district": "vila-real",
+  "council": "boticas",
+  "slug": "ardaos-e-bobadela",
+  "aliases": [
+    "Ardãos e Bobadela",
+    "Ardãos Bobadela",
+    "Ardãos",
+    "Bobadela"
+  ],
+  "url_path": "vila-real/boticas/ardaos-e-bobadela",
+  "primary_name": "Ardãos e Bobadela"
+},
+{
+  "type": "location",
+  "district": "vila-real",
   "council": "montalegre",
   "slug": "vilar-de-perdizes-e-meixide",
   "aliases": [
@@ -10441,6 +13143,55 @@
   ],
   "url_path": "vila-real/montalegre/vilar-de-perdizes-e-meixide",
   "primary_name": "Vilar de Perdizes e Meixide"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "santa-marta-de-penaguiao",
+  "slug": "alvacoes-do-corgo",
+  "aliases": [
+    "Alvações do Corgo",
+    "Alvações Corgo"
+  ],
+  "url_path": "vila-real/santa-marta-de-penaguiao/alvacoes-do-corgo",
+  "primary_name": "Alvações do Corgo"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "santa-marta-de-penaguiao",
+  "slug": "cumieira",
+  "aliases": [
+    "Cumieira"
+  ],
+  "url_path": "vila-real/santa-marta-de-penaguiao/cumieira",
+  "primary_name": "Cumieira"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "santa-marta-de-penaguiao",
+  "slug": "fontes",
+  "aliases": [
+    "Fontes"
+  ],
+  "url_path": "vila-real/santa-marta-de-penaguiao/fontes",
+  "primary_name": "Fontes"
+},
+{
+  "type": "location",
+  "district": "vila-real",
+  "council": "santa-marta-de-penaguiao",
+  "slug": "lobrigos-s-miguel-e-s-joao-baptista-e-sanhoane",
+  "aliases": [
+    "Lobrigos (S. Miguel e S. João Baptista) e Sanhoane",
+    "Lobrigos (S. Miguel S. João Baptista) Sanhoane",
+    "Lobrigos (S. Miguel",
+    "S. João Baptista)",
+    "Sanhoane"
+  ],
+  "url_path": "vila-real/santa-marta-de-penaguiao/lobrigos-s-miguel-e-s-joao-baptista-e-sanhoane",
+  "primary_name": "Lobrigos (S. Miguel e S. João Baptista) e Sanhoane"
 },
 {
   "type": "location",
@@ -11002,17 +13753,6 @@
 {
   "type": "location",
   "district": "aveiro",
-  "council": "arouca",
-  "slug": "alvarenga",
-  "aliases": [
-    "Alvarenga"
-  ],
-  "url_path": "aveiro/arouca/alvarenga",
-  "primary_name": "Alvarenga"
-},
-{
-  "type": "location",
-  "district": "aveiro",
   "council": "santa-maria-da-feira",
   "slug": "sao-miguel-de-souto-e-mosteiro",
   "aliases": [
@@ -11027,14 +13767,64 @@
 {
   "type": "location",
   "district": "aveiro",
-  "council": "oliveira-do-bairro",
-  "slug": "oliveira-do-bairro",
+  "council": "santa-maria-da-feira",
+  "slug": "argoncilhe",
   "aliases": [
-    "Oliveira do Bairro",
-    "Oliveira Bairro"
+    "Argoncilhe"
   ],
-  "url_path": "aveiro/oliveira-do-bairro/oliveira-do-bairro",
-  "primary_name": "Oliveira do Bairro"
+  "url_path": "aveiro/santa-maria-da-feira/argoncilhe",
+  "primary_name": "Argoncilhe"
+},
+{
+  "type": "location",
+  "district": "aveiro",
+  "council": "santa-maria-da-feira",
+  "slug": "arrifana",
+  "aliases": [
+    "Arrifana"
+  ],
+  "url_path": "aveiro/santa-maria-da-feira/arrifana",
+  "primary_name": "Arrifana"
+},
+{
+  "type": "location",
+  "district": "aveiro",
+  "council": "santa-maria-da-feira",
+  "slug": "caldas-de-sao-jorge-e-de-pigeiros",
+  "aliases": [
+    "Caldas de São Jorge e de Pigeiros",
+    "Caldas São Jorge Pigeiros",
+    "Caldas de São Jorge",
+    "de Pigeiros"
+  ],
+  "url_path": "aveiro/santa-maria-da-feira/caldas-de-sao-jorge-e-de-pigeiros",
+  "primary_name": "Caldas de São Jorge e de Pigeiros"
+},
+{
+  "type": "location",
+  "district": "aveiro",
+  "council": "santa-maria-da-feira",
+  "slug": "canedo-vale-e-vila-maior",
+  "aliases": [
+    "Canedo, Vale e Vila Maior",
+    "Canedo, Vale Vila Maior",
+    "Canedo, Vale",
+    "Vila Maior"
+  ],
+  "url_path": "aveiro/santa-maria-da-feira/canedo-vale-e-vila-maior",
+  "primary_name": "Canedo, Vale e Vila Maior"
+},
+{
+  "type": "location",
+  "district": "aveiro",
+  "council": "santa-maria-da-feira",
+  "slug": "sao-paio-de-oleiros",
+  "aliases": [
+    "São Paio de Oleiros",
+    "São Paio Oleiros"
+  ],
+  "url_path": "aveiro/santa-maria-da-feira/sao-paio-de-oleiros",
+  "primary_name": "São Paio de Oleiros"
 },
 {
   "type": "location",
@@ -11050,18 +13840,6 @@
 {
   "type": "location",
   "district": "aveiro",
-  "council": "sever-do-vouga",
-  "slug": "sever-do-vouga",
-  "aliases": [
-    "Sever do Vouga",
-    "Sever Vouga"
-  ],
-  "url_path": "aveiro/sever-do-vouga/sever-do-vouga",
-  "primary_name": "Sever do Vouga"
-},
-{
-  "type": "location",
-  "district": "aveiro",
   "council": "albergaria-a-velha",
   "slug": "alquerubim",
   "aliases": [
@@ -11069,6 +13847,18 @@
   ],
   "url_path": "aveiro/albergaria-a-velha/alquerubim",
   "primary_name": "Alquerubim"
+},
+{
+  "type": "location",
+  "district": "aveiro",
+  "council": "castelo-de-paiva",
+  "slug": "santa-maria-de-sardoura",
+  "aliases": [
+    "Santa Maria de Sardoura",
+    "Santa Maria Sardoura"
+  ],
+  "url_path": "aveiro/castelo-de-paiva/santa-maria-de-sardoura",
+  "primary_name": "Santa Maria de Sardoura"
 },
 {
   "type": "location",
@@ -11512,6 +14302,50 @@
 {
   "type": "location",
   "district": "faro",
+  "council": "castro-marim",
+  "slug": "odeleite",
+  "aliases": [
+    "Odeleite"
+  ],
+  "url_path": "faro/castro-marim/odeleite",
+  "primary_name": "Odeleite"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "castro-marim",
+  "slug": "altura",
+  "aliases": [
+    "Altura"
+  ],
+  "url_path": "faro/castro-marim/altura",
+  "primary_name": "Altura"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "castro-marim",
+  "slug": "azinhal",
+  "aliases": [
+    "Azinhal"
+  ],
+  "url_path": "faro/castro-marim/azinhal",
+  "primary_name": "Azinhal"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "castro-marim",
+  "slug": "castro-marim",
+  "aliases": [
+    "Castro Marim"
+  ],
+  "url_path": "faro/castro-marim/castro-marim",
+  "primary_name": "Castro Marim"
+},
+{
+  "type": "location",
+  "district": "faro",
   "council": "silves",
   "slug": "alcantarilha-e-pera",
   "aliases": [
@@ -11586,6 +14420,79 @@
 },
 {
   "type": "location",
+  "district": "faro",
+  "council": "vila-do-bispo",
+  "slug": "barao-de-sao-miguel",
+  "aliases": [
+    "Barão de São Miguel",
+    "Barão São Miguel"
+  ],
+  "url_path": "faro/vila-do-bispo/barao-de-sao-miguel",
+  "primary_name": "Barão de São Miguel"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "vila-do-bispo",
+  "slug": "budens",
+  "aliases": [
+    "Budens"
+  ],
+  "url_path": "faro/vila-do-bispo/budens",
+  "primary_name": "Budens"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "vila-do-bispo",
+  "slug": "sagres",
+  "aliases": [
+    "Sagres"
+  ],
+  "url_path": "faro/vila-do-bispo/sagres",
+  "primary_name": "Sagres"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "vila-do-bispo",
+  "slug": "vila-do-bispo-e-raposeira",
+  "aliases": [
+    "Vila do Bispo e Raposeira",
+    "Vila Bispo Raposeira",
+    "Vila do Bispo",
+    "Raposeira"
+  ],
+  "url_path": "faro/vila-do-bispo/vila-do-bispo-e-raposeira",
+  "primary_name": "Vila do Bispo e Raposeira"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "lagoa",
+  "slug": "ferragudo",
+  "aliases": [
+    "Ferragudo"
+  ],
+  "url_path": "faro/lagoa/ferragudo",
+  "primary_name": "Ferragudo"
+},
+{
+  "type": "location",
+  "district": "faro",
+  "council": "lagoa",
+  "slug": "lagoa-e-carvoeiro",
+  "aliases": [
+    "Lagoa e Carvoeiro",
+    "Lagoa Carvoeiro",
+    "Lagoa",
+    "Carvoeiro"
+  ],
+  "url_path": "faro/lagoa/lagoa-e-carvoeiro",
+  "primary_name": "Lagoa e Carvoeiro"
+},
+{
+  "type": "location",
   "district": "beja",
   "council": "cuba",
   "slug": "faro-do-alentejo",
@@ -11595,6 +14502,17 @@
   ],
   "url_path": "beja/cuba/faro-do-alentejo",
   "primary_name": "Faro do Alentejo"
+},
+{
+  "type": "location",
+  "district": "beja",
+  "council": "cuba",
+  "slug": "vila-ruiva",
+  "aliases": [
+    "Vila Ruiva"
+  ],
+  "url_path": "beja/cuba/vila-ruiva",
+  "primary_name": "Vila Ruiva"
 },
 {
   "type": "location",
@@ -11846,12 +14764,14 @@
   "type": "location",
   "district": "beja",
   "council": "odemira",
-  "slug": "sao-luis",
+  "slug": "santa-clara-a-velha",
   "aliases": [
-    "São Luís"
+    "Santa Clara-a-Velha",
+    "Santa Clara",
+    "Velha"
   ],
-  "url_path": "beja/odemira/sao-luis",
-  "primary_name": "São Luís"
+  "url_path": "beja/odemira/santa-clara-a-velha",
+  "primary_name": "Santa Clara-a-Velha"
 },
 {
   "type": "location",
@@ -11897,18 +14817,6 @@
   ],
   "url_path": "beja/mertola/mertola",
   "primary_name": "Mértola"
-},
-{
-  "type": "location",
-  "district": "beja",
-  "council": "mertola",
-  "slug": "s-mig-pinheiro-s-pedro-solis-s-sebastiao-dos-carros",
-  "aliases": [
-    "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião dos Carros",
-    "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião Carros"
-  ],
-  "url_path": "beja/mertola/s-mig-pinheiro-s-pedro-solis-s-sebastiao-dos-carros",
-  "primary_name": "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião dos Carros"
 },
 {
   "type": "location",
@@ -11976,18 +14884,26 @@
 {
   "type": "location",
   "district": "beja",
-  "council": "almodovar",
-  "slug": "santa-clara-a-nova-e-gomes-aires",
+  "council": "ferreira-do-alentejo",
+  "slug": "figueira-dos-cavaleiros",
   "aliases": [
-    "Santa Clara-a-Nova e Gomes Aires",
-    "Santa Clara-a-Nova Gomes Aires",
-    "Santa Clara",
-    "Nova e Gomes Aires",
-    "Santa Clara-a-Nova",
-    "Gomes Aires"
+    "Figueira dos Cavaleiros",
+    "Figueira Cavaleiros"
   ],
-  "url_path": "beja/almodovar/santa-clara-a-nova-e-gomes-aires",
-  "primary_name": "Santa Clara-a-Nova e Gomes Aires"
+  "url_path": "beja/ferreira-do-alentejo/figueira-dos-cavaleiros",
+  "primary_name": "Figueira dos Cavaleiros"
+},
+{
+  "type": "location",
+  "district": "beja",
+  "council": "almodovar",
+  "slug": "aldeia-dos-fernandes",
+  "aliases": [
+    "Aldeia dos Fernandes",
+    "Aldeia Fernandes"
+  ],
+  "url_path": "beja/almodovar/aldeia-dos-fernandes",
+  "primary_name": "Aldeia dos Fernandes"
 },
 {
   "type": "location",
@@ -12035,6 +14951,18 @@
   ],
   "url_path": "santarem/santarem/alcanede",
   "primary_name": "Alcanede"
+},
+{
+  "type": "location",
+  "district": "santarem",
+  "council": "santarem",
+  "slug": "uniao-das-freguesias-da-cidade-de-santarem",
+  "aliases": [
+    "União das freguesias da cidade de Santarém",
+    "União freguesias cidade Santarém"
+  ],
+  "url_path": "santarem/santarem/uniao-das-freguesias-da-cidade-de-santarem",
+  "primary_name": "União das freguesias da cidade de Santarém"
 },
 {
   "type": "location",
@@ -12202,6 +15130,20 @@
   ],
   "url_path": "santarem/ourem/espite",
   "primary_name": "Espite"
+},
+{
+  "type": "location",
+  "district": "santarem",
+  "council": "ourem",
+  "slug": "freixianda-ribeira-do-farrio-e-formigais",
+  "aliases": [
+    "Freixianda, Ribeira do Farrio e Formigais",
+    "Freixianda, Ribeira Farrio Formigais",
+    "Freixianda, Ribeira do Farrio",
+    "Formigais"
+  ],
+  "url_path": "santarem/ourem/freixianda-ribeira-do-farrio-e-formigais",
+  "primary_name": "Freixianda, Ribeira do Farrio e Formigais"
 },
 {
   "type": "location",
@@ -12578,17 +15520,6 @@
 {
   "type": "location",
   "district": "santarem",
-  "council": "vila-nova-da-barquinha",
-  "slug": "tancos",
-  "aliases": [
-    "Tancos"
-  ],
-  "url_path": "santarem/vila-nova-da-barquinha/tancos",
-  "primary_name": "Tancos"
-},
-{
-  "type": "location",
-  "district": "santarem",
   "council": "torres-novas",
   "slug": "assentiz",
   "aliases": [
@@ -12707,6 +15638,18 @@
   ],
   "url_path": "santarem/torres-novas/olaia-e-paco",
   "primary_name": "Olaia e Paço"
+},
+{
+  "type": "location",
+  "district": "santarem",
+  "council": "chamusca",
+  "slug": "vale-de-cavalos",
+  "aliases": [
+    "Vale de Cavalos",
+    "Vale Cavalos"
+  ],
+  "url_path": "santarem/chamusca/vale-de-cavalos",
+  "primary_name": "Vale de Cavalos"
 },
 {
   "type": "location",
@@ -12846,12 +15789,65 @@
   "type": "location",
   "district": "setubal",
   "council": "setubal",
-  "slug": "monte-belo-norte",
+  "slug": "centro-historico",
   "aliases": [
-    "Monte Belo Norte"
+    "Centro Histórico"
   ],
-  "url_path": "setubal/setubal/monte-belo-norte",
-  "primary_name": "Monte Belo Norte"
+  "url_path": "setubal/setubal/centro-historico",
+  "primary_name": "Centro Histórico"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "setubal",
+  "slug": "camarinha-peixe-frito",
+  "aliases": [
+    "Camarinha - Peixe Frito",
+    "Camarinha",
+    "Peixe Frito"
+  ],
+  "url_path": "setubal/setubal/camarinha-peixe-frito",
+  "primary_name": "Camarinha - Peixe Frito"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "setubal",
+  "slug": "vale-de-choupos-choilo-galeotas",
+  "aliases": [
+    "Vale de Choupos - Choilo - Galeotas",
+    "Vale Choupos - Choilo - Galeotas",
+    "Vale de Choupos",
+    "Choilo",
+    "Galeotas"
+  ],
+  "url_path": "setubal/setubal/vale-de-choupos-choilo-galeotas",
+  "primary_name": "Vale de Choupos - Choilo - Galeotas"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "setubal",
+  "slug": "bairro-do-liceu-vanicelos",
+  "aliases": [
+    "Bairro do Liceu - Vanicelos",
+    "Bairro Liceu - Vanicelos",
+    "Bairro do Liceu",
+    "Vanicelos"
+  ],
+  "url_path": "setubal/setubal/bairro-do-liceu-vanicelos",
+  "primary_name": "Bairro do Liceu - Vanicelos"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "setubal",
+  "slug": "zona-ribeirinha",
+  "aliases": [
+    "Zona Ribeirinha"
+  ],
+  "url_path": "setubal/setubal/zona-ribeirinha",
+  "primary_name": "Zona Ribeirinha"
 },
 {
   "type": "location",
@@ -13124,25 +16120,38 @@
   "type": "location",
   "district": "setubal",
   "council": "seixal",
-  "slug": "pinhal-do-general",
+  "slug": "redondos",
   "aliases": [
-    "Pinhal do General",
-    "Pinhal General"
+    "Redondos"
   ],
-  "url_path": "setubal/seixal/pinhal-do-general",
-  "primary_name": "Pinhal do General"
+  "url_path": "setubal/seixal/redondos",
+  "primary_name": "Redondos"
 },
 {
   "type": "location",
   "district": "setubal",
   "council": "seixal",
-  "slug": "casal-de-santo-antonio",
+  "slug": "zona-historica-do-seixal-frente-ribeirinha",
   "aliases": [
-    "Casal de Santo António",
-    "Casal Santo António"
+    "Zona Histórica do Seixal - Frente Ribeirinha",
+    "Zona Histórica Seixal - Frente Ribeirinha",
+    "Zona Histórica do Seixal",
+    "Frente Ribeirinha"
   ],
-  "url_path": "setubal/seixal/casal-de-santo-antonio",
-  "primary_name": "Casal de Santo António"
+  "url_path": "setubal/seixal/zona-historica-do-seixal-frente-ribeirinha",
+  "primary_name": "Zona Histórica do Seixal - Frente Ribeirinha"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "seixal",
+  "slug": "centro-de-arrentela",
+  "aliases": [
+    "Centro de Arrentela",
+    "Centro Arrentela"
+  ],
+  "url_path": "setubal/seixal/centro-de-arrentela",
+  "primary_name": "Centro de Arrentela"
 },
 {
   "type": "location",
@@ -13597,6 +16606,18 @@
 {
   "type": "location",
   "district": "setubal",
+  "council": "almada",
+  "slug": "centro-de-sobreda",
+  "aliases": [
+    "Centro de Sobreda",
+    "Centro Sobreda"
+  ],
+  "url_path": "setubal/almada/centro-de-sobreda",
+  "primary_name": "Centro de Sobreda"
+},
+{
+  "type": "location",
+  "district": "setubal",
   "council": "alcochete",
   "slug": "alcochete",
   "aliases": [
@@ -13626,6 +16647,35 @@
   ],
   "url_path": "setubal/alcochete/sao-francisco",
   "primary_name": "São Francisco"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "alcacer-do-sal",
+  "slug": "santa-maria-do-castelo-e-santiago-e-santa-susana",
+  "aliases": [
+    "Santa Maria do Castelo e Santiago e Santa Susana",
+    "Santa Maria Castelo Santiago Santa Susana",
+    "Santa Maria do Castelo",
+    "Santiago",
+    "Santa Susana"
+  ],
+  "url_path": "setubal/alcacer-do-sal/santa-maria-do-castelo-e-santiago-e-santa-susana",
+  "primary_name": "Santa Maria do Castelo e Santiago e Santa Susana"
+},
+{
+  "type": "location",
+  "district": "setubal",
+  "council": "grandola",
+  "slug": "azinheira-dos-barros-e-sao-mamede-do-sadao",
+  "aliases": [
+    "Azinheira dos Barros e São Mamede do Sádão",
+    "Azinheira Barros São Mamede Sádão",
+    "Azinheira dos Barros",
+    "São Mamede do Sádão"
+  ],
+  "url_path": "setubal/grandola/azinheira-dos-barros-e-sao-mamede-do-sadao",
+  "primary_name": "Azinheira dos Barros e São Mamede do Sádão"
 },
 {
   "type": "location",
@@ -14095,6 +17145,150 @@
 },
 {
   "type": "location",
+  "district": "viseu",
+  "council": "santa-comba-dao",
+  "slug": "pinheiro-de-azere",
+  "aliases": [
+    "Pinheiro de Ázere",
+    "Pinheiro Ázere"
+  ],
+  "url_path": "viseu/santa-comba-dao/pinheiro-de-azere",
+  "primary_name": "Pinheiro de Ázere"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "santa-comba-dao",
+  "slug": "santa-comba-dao-e-couto-do-mosteiro",
+  "aliases": [
+    "Santa Comba Dão e Couto do Mosteiro",
+    "Santa Comba Dão Couto Mosteiro",
+    "Santa Comba Dão",
+    "Couto do Mosteiro"
+  ],
+  "url_path": "viseu/santa-comba-dao/santa-comba-dao-e-couto-do-mosteiro",
+  "primary_name": "Santa Comba Dão e Couto do Mosteiro"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "santa-comba-dao",
+  "slug": "sao-joaninho",
+  "aliases": [
+    "São Joaninho"
+  ],
+  "url_path": "viseu/santa-comba-dao/sao-joaninho",
+  "primary_name": "São Joaninho"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-pedro-do-sul",
+  "slug": "bordonhos",
+  "aliases": [
+    "Bordonhos"
+  ],
+  "url_path": "viseu/sao-pedro-do-sul/bordonhos",
+  "primary_name": "Bordonhos"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-pedro-do-sul",
+  "slug": "carvalhais-e-candal",
+  "aliases": [
+    "Carvalhais e Candal",
+    "Carvalhais Candal",
+    "Carvalhais",
+    "Candal"
+  ],
+  "url_path": "viseu/sao-pedro-do-sul/carvalhais-e-candal",
+  "primary_name": "Carvalhais e Candal"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-pedro-do-sul",
+  "slug": "figueiredo-de-alva",
+  "aliases": [
+    "Figueiredo de Alva",
+    "Figueiredo Alva"
+  ],
+  "url_path": "viseu/sao-pedro-do-sul/figueiredo-de-alva",
+  "primary_name": "Figueiredo de Alva"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-pedro-do-sul",
+  "slug": "manhouce",
+  "aliases": [
+    "Manhouce"
+  ],
+  "url_path": "viseu/sao-pedro-do-sul/manhouce",
+  "primary_name": "Manhouce"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-joao-da-pesqueira",
+  "slug": "castanheiro-do-sul",
+  "aliases": [
+    "Castanheiro do Sul",
+    "Castanheiro Sul"
+  ],
+  "url_path": "viseu/sao-joao-da-pesqueira/castanheiro-do-sul",
+  "primary_name": "Castanheiro do Sul"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-joao-da-pesqueira",
+  "slug": "ervedosa-do-douro",
+  "aliases": [
+    "Ervedosa do Douro",
+    "Ervedosa Douro"
+  ],
+  "url_path": "viseu/sao-joao-da-pesqueira/ervedosa-do-douro",
+  "primary_name": "Ervedosa do Douro"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-joao-da-pesqueira",
+  "slug": "nagozelo-do-douro",
+  "aliases": [
+    "Nagozelo do Douro",
+    "Nagozelo Douro"
+  ],
+  "url_path": "viseu/sao-joao-da-pesqueira/nagozelo-do-douro",
+  "primary_name": "Nagozelo do Douro"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "sao-joao-da-pesqueira",
+  "slug": "paredes-da-beira",
+  "aliases": [
+    "Paredes da Beira",
+    "Paredes Beira"
+  ],
+  "url_path": "viseu/sao-joao-da-pesqueira/paredes-da-beira",
+  "primary_name": "Paredes da Beira"
+},
+{
+  "type": "location",
+  "district": "viseu",
+  "council": "armamar",
+  "slug": "aldeias",
+  "aliases": [
+    "Aldeias"
+  ],
+  "url_path": "viseu/armamar/aldeias",
+  "primary_name": "Aldeias"
+},
+{
+  "type": "location",
   "district": "viana-do-castelo",
   "council": "viana-do-castelo",
   "slug": "afife",
@@ -14174,6 +17368,21 @@
 {
   "type": "location",
   "district": "viana-do-castelo",
+  "council": "viana-do-castelo",
+  "slug": "santa-maria-maior-e-monserrate-e-meadela",
+  "aliases": [
+    "Santa Maria Maior e Monserrate e Meadela",
+    "Santa Maria Maior Monserrate Meadela",
+    "Santa Maria Maior",
+    "Monserrate",
+    "Meadela"
+  ],
+  "url_path": "viana-do-castelo/viana-do-castelo/santa-maria-maior-e-monserrate-e-meadela",
+  "primary_name": "Santa Maria Maior e Monserrate e Meadela"
+},
+{
+  "type": "location",
+  "district": "viana-do-castelo",
   "council": "valenca",
   "slug": "boivao",
   "aliases": [
@@ -14214,6 +17423,20 @@
   ],
   "url_path": "viana-do-castelo/valenca/friestas",
   "primary_name": "Friestas"
+},
+{
+  "type": "location",
+  "district": "viana-do-castelo",
+  "council": "valenca",
+  "slug": "gandra-e-taiao",
+  "aliases": [
+    "Gandra e Taião",
+    "Gandra Taião",
+    "Gandra",
+    "Taião"
+  ],
+  "url_path": "viana-do-castelo/valenca/gandra-e-taiao",
+  "primary_name": "Gandra e Taião"
 },
 {
   "type": "location",
@@ -14264,6 +17487,20 @@
   ],
   "url_path": "viana-do-castelo/moncao/barrocas-e-taias",
   "primary_name": "Barroças e Taias"
+},
+{
+  "type": "location",
+  "district": "viana-do-castelo",
+  "council": "moncao",
+  "slug": "mazedo-e-cortes",
+  "aliases": [
+    "Mazedo e Cortes",
+    "Mazedo Cortes",
+    "Mazedo",
+    "Cortes"
+  ],
+  "url_path": "viana-do-castelo/moncao/mazedo-e-cortes",
+  "primary_name": "Mazedo e Cortes"
 },
 {
   "type": "location",
@@ -14394,30 +17631,28 @@
 {
   "type": "location",
   "district": "viana-do-castelo",
-  "council": "ponte-da-barca",
-  "slug": "ponte-da-barca-v-n-muia-paco-vedro-magalhaes",
+  "council": "ponte-de-lima",
+  "slug": "associacao-de-freguesias-do-vale-do-neiva",
   "aliases": [
-    "Ponte da Barca, V. N. Muía, Paço Vedro Magalhães",
-    "Ponte Barca, V. N. Muía, Paço Vedro Magalhães"
+    "Associação de freguesias do Vale do Neiva",
+    "Associação freguesias Vale Neiva"
   ],
-  "url_path": "viana-do-castelo/ponte-da-barca/ponte-da-barca-v-n-muia-paco-vedro-magalhaes",
-  "primary_name": "Ponte da Barca, V. N. Muía, Paço Vedro Magalhães"
+  "url_path": "viana-do-castelo/ponte-de-lima/associacao-de-freguesias-do-vale-do-neiva",
+  "primary_name": "Associação de freguesias do Vale do Neiva"
 },
 {
   "type": "location",
   "district": "viana-do-castelo",
-  "council": "ponte-da-barca",
-  "slug": "entre-ambos-os-rios-ermida-e-germil",
+  "council": "arcos-de-valdevez",
+  "slug": "tavora-santa-maria-e-sao-vicente",
   "aliases": [
-    "Entre Ambos-os-Rios, Ermida e Germil",
-    "Entre Ambos-os-Rios, Ermida Germil",
-    "Entre Ambos",
-    "Rios, Ermida e Germil",
-    "Entre Ambos-os-Rios, Ermida",
-    "Germil"
+    "Távora (Santa Maria e São Vicente)",
+    "Távora (Santa Maria São Vicente)",
+    "Távora (Santa Maria",
+    "São Vicente)"
   ],
-  "url_path": "viana-do-castelo/ponte-da-barca/entre-ambos-os-rios-ermida-e-germil",
-  "primary_name": "Entre Ambos-os-Rios, Ermida e Germil"
+  "url_path": "viana-do-castelo/arcos-de-valdevez/tavora-santa-maria-e-sao-vicente",
+  "primary_name": "Távora (Santa Maria e São Vicente)"
 },
 {
   "type": "location",
@@ -14513,6 +17748,18 @@
 {
   "type": "location",
   "district": "castelo-branco",
+  "council": "serta",
+  "slug": "varzea-dos-cavaleiros",
+  "aliases": [
+    "Várzea dos Cavaleiros",
+    "Várzea Cavaleiros"
+  ],
+  "url_path": "castelo-branco/serta/varzea-dos-cavaleiros",
+  "primary_name": "Várzea dos Cavaleiros"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
   "council": "fundao",
   "slug": "castelo-novo",
   "aliases": [
@@ -14520,6 +17767,32 @@
   ],
   "url_path": "castelo-branco/fundao/castelo-novo",
   "primary_name": "Castelo Novo"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "fundao",
+  "slug": "janeiro-de-cima-e-bogas-de-baixo",
+  "aliases": [
+    "Janeiro de Cima e Bogas de Baixo",
+    "Janeiro Cima Bogas Baixo",
+    "Janeiro de Cima",
+    "Bogas de Baixo"
+  ],
+  "url_path": "castelo-branco/fundao/janeiro-de-cima-e-bogas-de-baixo",
+  "primary_name": "Janeiro de Cima e Bogas de Baixo"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "fundao",
+  "slug": "fundao-valverde-donas-a-joanes-a-nova-do-cabo",
+  "aliases": [
+    "Fundão, Valverde, Donas, A. Joanes, A. Nova do Cabo",
+    "Fundão, Valverde, Donas, A. Joanes, A. Nova Cabo"
+  ],
+  "url_path": "castelo-branco/fundao/fundao-valverde-donas-a-joanes-a-nova-do-cabo",
+  "primary_name": "Fundão, Valverde, Donas, A. Joanes, A. Nova do Cabo"
 },
 {
   "type": "location",
@@ -14573,6 +17846,18 @@
   ],
   "url_path": "castelo-branco/covilha/cantar-galo-e-vila-do-carvalho",
   "primary_name": "Cantar-Galo e Vila do Carvalho"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "covilha",
+  "slug": "unhais-da-serra",
+  "aliases": [
+    "Unhais da Serra",
+    "Unhais Serra"
+  ],
+  "url_path": "castelo-branco/covilha/unhais-da-serra",
+  "primary_name": "Unhais da Serra"
 },
 {
   "type": "location",
@@ -14677,6 +17962,64 @@
   ],
   "url_path": "castelo-branco/oleiros/madeira",
   "primary_name": "Madeirã"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "oleiros",
+  "slug": "sobral",
+  "aliases": [
+    "Sobral"
+  ],
+  "url_path": "castelo-branco/oleiros/sobral",
+  "primary_name": "Sobral"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "vila-de-rei",
+  "slug": "fundada",
+  "aliases": [
+    "Fundada"
+  ],
+  "url_path": "castelo-branco/vila-de-rei/fundada",
+  "primary_name": "Fundada"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "vila-de-rei",
+  "slug": "sao-joao-do-peso",
+  "aliases": [
+    "São João do Peso",
+    "São João Peso"
+  ],
+  "url_path": "castelo-branco/vila-de-rei/sao-joao-do-peso",
+  "primary_name": "São João do Peso"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "vila-de-rei",
+  "slug": "vila-de-rei",
+  "aliases": [
+    "Vila de Rei",
+    "Vila Rei"
+  ],
+  "url_path": "castelo-branco/vila-de-rei/vila-de-rei",
+  "primary_name": "Vila de Rei"
+},
+{
+  "type": "location",
+  "district": "castelo-branco",
+  "council": "idanha-a-nova",
+  "slug": "aldeia-de-santa-margarida",
+  "aliases": [
+    "Aldeia de Santa Margarida",
+    "Aldeia Santa Margarida"
+  ],
+  "url_path": "castelo-branco/idanha-a-nova/aldeia-de-santa-margarida",
+  "primary_name": "Aldeia de Santa Margarida"
 },
 {
   "type": "location",
@@ -15027,6 +18370,17 @@
   "type": "location",
   "district": "guarda",
   "council": "guarda",
+  "slug": "guarda",
+  "aliases": [
+    "Guarda"
+  ],
+  "url_path": "guarda/guarda/guarda",
+  "primary_name": "Guarda"
+},
+{
+  "type": "location",
+  "district": "guarda",
+  "council": "guarda",
   "slug": "famalicao",
   "aliases": [
     "Famalicão"
@@ -15077,6 +18431,20 @@
   ],
   "url_path": "guarda/trancoso/cotimos",
   "primary_name": "Cótimos"
+},
+{
+  "type": "location",
+  "district": "guarda",
+  "council": "trancoso",
+  "slug": "vila-franca-das-naves-e-feital",
+  "aliases": [
+    "Vila Franca das Naves e Feital",
+    "Vila Franca Naves Feital",
+    "Vila Franca das Naves",
+    "Feital"
+  ],
+  "url_path": "guarda/trancoso/vila-franca-das-naves-e-feital",
+  "primary_name": "Vila Franca das Naves e Feital"
 },
 {
   "type": "location",
@@ -15174,6 +18542,20 @@
   ],
   "url_path": "guarda/sabugal/aldeia-do-bispo",
   "primary_name": "Aldeia do Bispo"
+},
+{
+  "type": "location",
+  "district": "guarda",
+  "council": "sabugal",
+  "slug": "santo-estevao-e-moita",
+  "aliases": [
+    "Santo Estêvão e Moita",
+    "Santo Estêvão Moita",
+    "Santo Estêvão",
+    "Moita"
+  ],
+  "url_path": "guarda/sabugal/santo-estevao-e-moita",
+  "primary_name": "Santo Estêvão e Moita"
 },
 {
   "type": "location",
@@ -15367,52 +18749,16 @@
 {
   "type": "location",
   "district": "guarda",
-  "council": "almeida",
-  "slug": "almeida",
+  "council": "celorico-da-beira",
+  "slug": "cortico-da-serra-vide-entre-vinhas-e-salgueirais",
   "aliases": [
-    "Almeida"
+    "Cortiçô da Serra, Vide entre Vinhas e Salgueirais",
+    "Cortiçô Serra, Vide entre Vinhas Salgueirais",
+    "Cortiçô da Serra, Vide entre Vinhas",
+    "Salgueirais"
   ],
-  "url_path": "guarda/almeida/almeida",
-  "primary_name": "Almeida"
-},
-{
-  "type": "location",
-  "district": "guarda",
-  "council": "almeida",
-  "slug": "amoreira-parada-e-cabreira",
-  "aliases": [
-    "Amoreira, Parada e Cabreira",
-    "Amoreira, Parada Cabreira",
-    "Amoreira, Parada",
-    "Cabreira"
-  ],
-  "url_path": "guarda/almeida/amoreira-parada-e-cabreira",
-  "primary_name": "Amoreira, Parada e Cabreira"
-},
-{
-  "type": "location",
-  "district": "guarda",
-  "council": "almeida",
-  "slug": "azinhal-peva-e-valverde",
-  "aliases": [
-    "Azinhal, Peva e Valverde",
-    "Azinhal, Peva Valverde",
-    "Azinhal, Peva",
-    "Valverde"
-  ],
-  "url_path": "guarda/almeida/azinhal-peva-e-valverde",
-  "primary_name": "Azinhal, Peva e Valverde"
-},
-{
-  "type": "location",
-  "district": "guarda",
-  "council": "almeida",
-  "slug": "castelo-bom",
-  "aliases": [
-    "Castelo Bom"
-  ],
-  "url_path": "guarda/almeida/castelo-bom",
-  "primary_name": "Castelo Bom"
+  "url_path": "guarda/celorico-da-beira/cortico-da-serra-vide-entre-vinhas-e-salgueirais",
+  "primary_name": "Cortiçô da Serra, Vide entre Vinhas e Salgueirais"
 },
 {
   "type": "location",
@@ -15834,179 +19180,35 @@
   "type": "location",
   "district": "portalegre",
   "council": "ponte-de-sor",
-  "slug": "longomel",
+  "slug": "foros-de-arrao",
   "aliases": [
-    "Longomel"
+    "Foros de Arrão",
+    "Foros Arrão"
   ],
-  "url_path": "portalegre/ponte-de-sor/longomel",
-  "primary_name": "Longomel"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "sao-vicente-ferreira",
-  "aliases": [
-    "São Vicente Ferreira"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/sao-vicente-ferreira",
-  "primary_name": "São Vicente Ferreira"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "ajuda-da-bretanha",
-  "aliases": [
-    "Ajuda da Bretanha",
-    "Ajuda Bretanha"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/ajuda-da-bretanha",
-  "primary_name": "Ajuda da Bretanha"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "arrifes",
-  "aliases": [
-    "Arrifes"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/arrifes",
-  "primary_name": "Arrifes"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "candelaria",
-  "aliases": [
-    "Candelária"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/candelaria",
-  "primary_name": "Candelária"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "capelas",
-  "aliases": [
-    "Capelas"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/capelas",
-  "primary_name": "Capelas"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "ponta-delgada-sao-sebastiao",
-  "aliases": [
-    "Ponta Delgada (São Sebastião)"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-sebastiao",
-  "primary_name": "Ponta Delgada (São Sebastião)"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "ponta-delgada-sao-pedro",
-  "aliases": [
-    "Ponta Delgada (São Pedro)"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-pedro",
-  "primary_name": "Ponta Delgada (São Pedro)"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "ponta-delgada-sao-jose",
-  "aliases": [
-    "Ponta Delgada (São José)"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/ponta-delgada-sao-jose",
-  "primary_name": "Ponta Delgada (São José)"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "remedios",
-  "aliases": [
-    "Remédios"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/remedios",
-  "primary_name": "Remédios"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "relva",
-  "aliases": [
-    "Relva"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/relva",
-  "primary_name": "Relva"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "mosteiros",
-  "aliases": [
-    "Mosteiros"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/mosteiros",
-  "primary_name": "Mosteiros"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ponta-delgada",
-  "slug": "ginetes",
-  "aliases": [
-    "Ginetes"
-  ],
-  "url_path": "ilha-de-sao-miguel/ponta-delgada/ginetes",
-  "primary_name": "Ginetes"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "nordeste",
-  "slug": "sao-pedro-de-nordestinho",
-  "aliases": [
-    "São Pedro de Nordestinho",
-    "São Pedro Nordestinho"
-  ],
-  "url_path": "ilha-de-sao-miguel/nordeste/sao-pedro-de-nordestinho",
-  "primary_name": "São Pedro de Nordestinho"
-},
-{
-  "type": "location",
-  "district": "ilha-de-sao-miguel",
-  "council": "ribeira-grande",
-  "slug": "maia",
-  "aliases": [
-    "Maia"
-  ],
-  "url_path": "ilha-de-sao-miguel/ribeira-grande/maia",
-  "primary_name": "Maia"
+  "url_path": "portalegre/ponte-de-sor/foros-de-arrao",
+  "primary_name": "Foros de Arrão"
 },
 {
   "type": "location",
   "district": "ilha-das-flores",
   "council": "lajes-das-flores",
-  "slug": "mosteiro",
+  "slug": "faja-grande",
   "aliases": [
-    "Mosteiro"
+    "Fajã Grande"
   ],
-  "url_path": "ilha-das-flores/lajes-das-flores/mosteiro",
-  "primary_name": "Mosteiro"
+  "url_path": "ilha-das-flores/lajes-das-flores/faja-grande",
+  "primary_name": "Fajã Grande"
+},
+{
+  "type": "location",
+  "district": "ilha-das-flores",
+  "council": "lajes-das-flores",
+  "slug": "fajazinha",
+  "aliases": [
+    "Fajãzinha"
+  ],
+  "url_path": "ilha-das-flores/lajes-das-flores/fajazinha",
+  "primary_name": "Fajãzinha"
 },
 {
   "type": "location",
@@ -16023,12 +19225,56 @@
   "type": "location",
   "district": "ilha-das-flores",
   "council": "lajes-das-flores",
-  "slug": "fajazinha",
+  "slug": "lajedo",
   "aliases": [
-    "Fajãzinha"
+    "Lajedo"
   ],
-  "url_path": "ilha-das-flores/lajes-das-flores/fajazinha",
-  "primary_name": "Fajãzinha"
+  "url_path": "ilha-das-flores/lajes-das-flores/lajedo",
+  "primary_name": "Lajedo"
+},
+{
+  "type": "location",
+  "district": "ilha-das-flores",
+  "council": "lajes-das-flores",
+  "slug": "mosteiro",
+  "aliases": [
+    "Mosteiro"
+  ],
+  "url_path": "ilha-das-flores/lajes-das-flores/mosteiro",
+  "primary_name": "Mosteiro"
+},
+{
+  "type": "location",
+  "district": "ilha-das-flores",
+  "council": "santa-cruz-das-flores",
+  "slug": "cedros",
+  "aliases": [
+    "Cedros"
+  ],
+  "url_path": "ilha-das-flores/santa-cruz-das-flores/cedros",
+  "primary_name": "Cedros"
+},
+{
+  "type": "location",
+  "district": "ilha-das-flores",
+  "council": "santa-cruz-das-flores",
+  "slug": "ponta-delgada",
+  "aliases": [
+    "Ponta Delgada"
+  ],
+  "url_path": "ilha-das-flores/santa-cruz-das-flores/ponta-delgada",
+  "primary_name": "Ponta Delgada"
+},
+{
+  "type": "location",
+  "district": "ilha-das-flores",
+  "council": "santa-cruz-das-flores",
+  "slug": "caveira",
+  "aliases": [
+    "Caveira"
+  ],
+  "url_path": "ilha-das-flores/santa-cruz-das-flores/caveira",
+  "primary_name": "Caveira"
 },
 {
   "type": "location",
@@ -16044,14 +19290,136 @@
 },
 {
   "type": "location",
-  "district": "ilha-das-flores",
-  "council": "santa-cruz-das-flores",
-  "slug": "ponta-delgada",
+  "district": "ilha-da-graciosa",
+  "council": "santa-cruz-da-graciosa",
+  "slug": "guadalupe",
   "aliases": [
-    "Ponta Delgada"
+    "Guadalupe"
   ],
-  "url_path": "ilha-das-flores/santa-cruz-das-flores/ponta-delgada",
-  "primary_name": "Ponta Delgada"
+  "url_path": "ilha-da-graciosa/santa-cruz-da-graciosa/guadalupe",
+  "primary_name": "Guadalupe"
+},
+{
+  "type": "location",
+  "district": "ilha-da-graciosa",
+  "council": "santa-cruz-da-graciosa",
+  "slug": "luz",
+  "aliases": [
+    "Luz"
+  ],
+  "url_path": "ilha-da-graciosa/santa-cruz-da-graciosa/luz",
+  "primary_name": "Luz"
+},
+{
+  "type": "location",
+  "district": "ilha-da-graciosa",
+  "council": "santa-cruz-da-graciosa",
+  "slug": "santa-cruz-da-graciosa",
+  "aliases": [
+    "Santa Cruz da Graciosa",
+    "Santa Cruz Graciosa"
+  ],
+  "url_path": "ilha-da-graciosa/santa-cruz-da-graciosa/santa-cruz-da-graciosa",
+  "primary_name": "Santa Cruz da Graciosa"
+},
+{
+  "type": "location",
+  "district": "ilha-da-graciosa",
+  "council": "santa-cruz-da-graciosa",
+  "slug": "sao-mateus",
+  "aliases": [
+    "São Mateus"
+  ],
+  "url_path": "ilha-da-graciosa/santa-cruz-da-graciosa/sao-mateus",
+  "primary_name": "São Mateus"
+},
+{
+  "type": "location",
+  "district": "ilha-do-pico",
+  "council": "sao-roque-do-pico",
+  "slug": "prainha",
+  "aliases": [
+    "Prainha"
+  ],
+  "url_path": "ilha-do-pico/sao-roque-do-pico/prainha",
+  "primary_name": "Prainha"
+},
+{
+  "type": "location",
+  "district": "ilha-do-pico",
+  "council": "sao-roque-do-pico",
+  "slug": "santa-luzia",
+  "aliases": [
+    "Santa Luzia"
+  ],
+  "url_path": "ilha-do-pico/sao-roque-do-pico/santa-luzia",
+  "primary_name": "Santa Luzia"
+},
+{
+  "type": "location",
+  "district": "ilha-do-pico",
+  "council": "sao-roque-do-pico",
+  "slug": "santo-amaro",
+  "aliases": [
+    "Santo Amaro"
+  ],
+  "url_path": "ilha-do-pico/sao-roque-do-pico/santo-amaro",
+  "primary_name": "Santo Amaro"
+},
+{
+  "type": "location",
+  "district": "ilha-do-pico",
+  "council": "sao-roque-do-pico",
+  "slug": "santo-antonio",
+  "aliases": [
+    "Santo António"
+  ],
+  "url_path": "ilha-do-pico/sao-roque-do-pico/santo-antonio",
+  "primary_name": "Santo António"
+},
+{
+  "type": "location",
+  "district": "ilha-de-santa-maria",
+  "council": "vila-do-porto",
+  "slug": "almagreira",
+  "aliases": [
+    "Almagreira"
+  ],
+  "url_path": "ilha-de-santa-maria/vila-do-porto/almagreira",
+  "primary_name": "Almagreira"
+},
+{
+  "type": "location",
+  "district": "ilha-de-santa-maria",
+  "council": "vila-do-porto",
+  "slug": "santa-barbara",
+  "aliases": [
+    "Santa Bárbara"
+  ],
+  "url_path": "ilha-de-santa-maria/vila-do-porto/santa-barbara",
+  "primary_name": "Santa Bárbara"
+},
+{
+  "type": "location",
+  "district": "ilha-de-santa-maria",
+  "council": "vila-do-porto",
+  "slug": "santo-espirito",
+  "aliases": [
+    "Santo Espírito"
+  ],
+  "url_path": "ilha-de-santa-maria/vila-do-porto/santo-espirito",
+  "primary_name": "Santo Espírito"
+},
+{
+  "type": "location",
+  "district": "ilha-de-santa-maria",
+  "council": "vila-do-porto",
+  "slug": "sao-pedro",
+  "aliases": [
+    "São Pedro"
+  ],
+  "url_path": "ilha-de-santa-maria/vila-do-porto/sao-pedro",
+  "primary_name": "São Pedro"
 },
 {
   "format": "locations_json_only",
@@ -16098,8 +19466,93 @@
         "olivais-sul": [
           "Olivais Sul"
         ],
-        "alvito": [
-          "Alvito"
+        "alto-de-santo-amaro": [
+          "Alto de Santo Amaro",
+          "Alto Santo Amaro"
+        ],
+        "santa-engracia": [
+          "Santa Engrácia"
+        ],
+        "entrecampos": [
+          "Entrecampos"
+        ],
+        "largo-do-calvario-lx-factory": [
+          "Largo do Calvário - Lx Factory",
+          "Largo Calvário - Lx Factory",
+          "Largo do Calvário",
+          "Lx Factory"
+        ],
+        "santo-antonio": [
+          "Santo António"
+        ],
+        "av-da-liberdade-marques-de-pombal": [
+          "Av. da Liberdade - Marquês de Pombal",
+          "Av. Liberdade - Marquês Pombal",
+          "Av. da Liberdade",
+          "Marquês de Pombal"
+        ],
+        "campo-de-santana-santa-marta": [
+          "Campo de Santana - Santa Marta",
+          "Campo Santana - Santa Marta",
+          "Campo de Santana",
+          "Santa Marta"
+        ],
+        "praca-da-alegria": [
+          "Praça da Alegria",
+          "Praça Alegria"
+        ],
+        "principe-real": [
+          "Príncipe Real"
+        ],
+        "sao-domingos-de-benfica": [
+          "São Domingos de Benfica",
+          "São Domingos Benfica"
+        ],
+        "alto-dos-moinhos": [
+          "Alto dos Moinhos",
+          "Alto Moinhos"
+        ],
+        "estrada-de-benfica": [
+          "Estrada de Benfica",
+          "Estrada Benfica"
+        ],
+        "laranjeiras": [
+          "Laranjeiras"
+        ],
+        "sete-rios": [
+          "Sete Rios"
+        ],
+        "bairro-dos-actores": [
+          "Bairro dos Actores",
+          "Bairro Actores"
+        ],
+        "bairro-dos-actores-barao-sabrosa": [
+          "Bairro dos Actores - Barão Sabrosa",
+          "Bairro Actores - Barão Sabrosa",
+          "Bairro dos Actores",
+          "Barão Sabrosa"
+        ],
+        "bairro-do-vale-fundao": [
+          "Bairro do Vale Fundão",
+          "Bairro Vale Fundão"
+        ],
+        "bairro-do-condado": [
+          "Bairro do Condado",
+          "Bairro Condado"
+        ],
+        "bairro-do-armador": [
+          "Bairro do Armador",
+          "Bairro Armador"
+        ],
+        "bairro-de-santa-cruz": [
+          "Bairro de Santa Cruz",
+          "Bairro Santa Cruz"
+        ],
+        "gare-do-oriente-zona-sul": [
+          "Gare do Oriente - Zona Sul",
+          "Gare Oriente - Zona Sul",
+          "Gare do Oriente",
+          "Zona Sul"
         ]
       },
       "sintra": {
@@ -16234,13 +19687,6 @@
           "Quinta da Samaritana",
           "Quinta da Fonteireira"
         ],
-        "sao-joao-das-lampas": [
-          "São João das Lampas",
-          "São João Lampas"
-        ],
-        "montelavar": [
-          "Montelavar"
-        ],
         "algueirao-velho-barata-casal-da-mata": [
           "Algueirão-Velho - Baratã - Casal da Mata",
           "Algueirão-Velho - Baratã - Casal Mata",
@@ -16248,6 +19694,42 @@
           "Velho",
           "Baratã",
           "Casal da Mata"
+        ],
+        "sao-joao-das-lampas-e-terrugem": [
+          "São João das Lampas e Terrugem",
+          "São João Lampas Terrugem",
+          "São João das Lampas",
+          "Terrugem"
+        ],
+        "sao-joao-das-lampas": [
+          "São João das Lampas",
+          "São João Lampas"
+        ],
+        "terrugem": [
+          "Terrugem"
+        ],
+        "anta": [
+          "Anta"
+        ],
+        "colaride-monte-da-tapada": [
+          "Colaride - Monte da Tapada",
+          "Colaride - Monte Tapada",
+          "Colaride",
+          "Monte da Tapada"
+        ],
+        "estacao-de-agualva-cacem": [
+          "Estação de Agualva-Cacém",
+          "Estação Agualva-Cacém",
+          "Estação de Agualva",
+          "Cacém"
+        ],
+        "bairro-de-sao-carlos": [
+          "Bairro de São Carlos",
+          "Bairro São Carlos"
+        ],
+        "casal-do-cotao": [
+          "Casal do Cotão",
+          "Casal Cotão"
         ]
       },
       "oeiras": {
@@ -16334,12 +19816,6 @@
           "Murganhal - Laveiras",
           "Murganhal",
           "Laveiras"
-        ],
-        "parque-dos-poetas-hospital-da-luz": [
-          "Parque dos Poetas - Hospital da Luz",
-          "Parque Poetas - Hospital Luz",
-          "Parque dos Poetas",
-          "Hospital da Luz"
         ]
       },
       "odivelas": {
@@ -16390,6 +19866,13 @@
         "enxara-do-bispo": [
           "Enxara do Bispo",
           "Enxara Bispo"
+        ],
+        "santo-isidoro": [
+          "Santo Isidoro"
+        ],
+        "santo-estevao-das-gales": [
+          "Santo Estêvão das Galés",
+          "Santo Estêvão Galés"
         ]
       },
       "loures": {
@@ -16451,6 +19934,48 @@
         ],
         "sacavem": [
           "Sacavém"
+        ],
+        "sao-joao-da-talha": [
+          "São João da Talha",
+          "São João Talha"
+        ],
+        "santo-antonio-dos-cavaleiros-e-frielas": [
+          "Santo António dos Cavaleiros e Frielas",
+          "Santo António Cavaleiros Frielas",
+          "Santo António dos Cavaleiros",
+          "Frielas"
+        ],
+        "frielas": [
+          "Frielas"
+        ],
+        "santo-antonio-dos-cavaleiros": [
+          "Santo António dos Cavaleiros",
+          "Santo António Cavaleiros"
+        ],
+        "santa-iria-de-azoia-sao-joao-da-talha-e-bobadela": [
+          "Santa Iria de Azoia, São João da Talha e Bobadela",
+          "Santa Iria Azoia, São João Talha Bobadela",
+          "Santa Iria de Azoia, São João da Talha",
+          "Bobadela"
+        ],
+        "bobadela": [
+          "Bobadela"
+        ],
+        "santa-iria-de-azoia": [
+          "Santa Iria de Azóia",
+          "Santa Iria Azóia"
+        ],
+        "moscavide-e-portela": [
+          "Moscavide e Portela",
+          "Moscavide Portela",
+          "Moscavide",
+          "Portela"
+        ],
+        "moscavide": [
+          "Moscavide"
+        ],
+        "portela": [
+          "Portela"
         ]
       },
       "cascais": {
@@ -16535,15 +20060,39 @@
         "zambujeiro": [
           "Zambujeiro"
         ],
-        "talaide": [
-          "Talaíde",
-          "Talaí"
+        "sao-miguel-das-encostas-silveiras": [
+          "São Miguel das Encostas - Silveiras",
+          "São Miguel Encostas - Silveiras",
+          "São Miguel das Encostas",
+          "Silveiras"
         ],
         "parque-de-palmela-ribeira-das-vinhas": [
           "Parque de Palmela - Ribeira das Vinhas",
           "Parque Palmela - Ribeira Vinhas",
           "Parque de Palmela",
           "Ribeira das Vinhas"
+        ],
+        "arneiro": [
+          "Arneiro"
+        ],
+        "cabeco-do-mouro": [
+          "Cabeço do Mouro",
+          "Cabeço Mouro"
+        ],
+        "caparide": [
+          "Caparide"
+        ],
+        "bairro-de-santa-teresinha": [
+          "Bairro de Santa Teresinha",
+          "Bairro Santa Teresinha"
+        ],
+        "bairro-do-rosario": [
+          "Bairro do Rosário",
+          "Bairro Rosário"
+        ],
+        "centro-de-cascais": [
+          "Centro de Cascais",
+          "Centro Cascais"
         ]
       },
       "amadora": {
@@ -16714,6 +20263,49 @@
           "Santa Maria, São Pedro",
           "Matacães"
         ]
+      },
+      "vila-franca-de-xira": {
+        "alhandra-sao-joao-dos-montes-e-calhandriz": [
+          "Alhandra, São João dos Montes e Calhandriz",
+          "Alhandra, São João Montes Calhandriz",
+          "Alhandra, São João dos Montes",
+          "Calhandriz"
+        ],
+        "alhandra": [
+          "Alhandra"
+        ],
+        "alverca-do-ribatejo-e-sobralinho": [
+          "Alverca do Ribatejo e Sobralinho",
+          "Alverca Ribatejo Sobralinho",
+          "Alverca do Ribatejo",
+          "Sobralinho"
+        ],
+        "alverca": [
+          "Alverca"
+        ],
+        "castanheira-do-ribatejo-e-cachoeiras": [
+          "Castanheira do Ribatejo e Cachoeiras",
+          "Castanheira Ribatejo Cachoeiras",
+          "Castanheira do Ribatejo",
+          "Cachoeiras"
+        ],
+        "cachoeiras": [
+          "Cachoeiras"
+        ],
+        "povoa-de-santa-iria-e-forte-da-casa": [
+          "Póvoa de Santa Iria e Forte da Casa",
+          "Póvoa Santa Iria Forte Casa",
+          "Póvoa de Santa Iria",
+          "Forte da Casa"
+        ],
+        "forte-da-casa": [
+          "Forte da Casa",
+          "Forte Casa"
+        ],
+        "povoa-de-santa-iria": [
+          "Póvoa de Santa Iria",
+          "Póvoa Santa Iria"
+        ]
       }
     },
     "porto": {
@@ -16758,11 +20350,24 @@
           "Nova Sintra",
           "Soares dos Reis"
         ],
+        "cais-das-pedras": [
+          "Cais das Pedras",
+          "Cais Pedras"
+        ],
+        "prelada-monte-dos-burgos": [
+          "Prelada - Monte dos Burgos",
+          "Prelada - Monte Burgos",
+          "Prelada",
+          "Monte dos Burgos"
+        ],
         "serralves-praca-do-imperio": [
           "Serralves - Praça do Império",
           "Serralves - Praça Império",
           "Serralves",
           "Praça do Império"
+        ],
+        "santos-pousada": [
+          "Santos Pousada"
         ],
         "covelo-monte-de-sao-joao": [
           "Covelo - Monte de São João",
@@ -16770,30 +20375,28 @@
           "Covelo",
           "Monte de São João"
         ],
-        "pinhais-da-foz": [
-          "Pinhais da Foz",
-          "Pinhais Foz"
+        "agramonte-bom-sucesso-guerra-junqueiro": [
+          "Agramonte - Bom Sucesso - Guerra Junqueiro",
+          "Agramonte",
+          "Bom Sucesso",
+          "Guerra Junqueiro"
         ],
-        "sao-roque-da-lameira": [
-          "São Roque da Lameira",
-          "São Roque Lameira"
-        ]
-      },
-      "valongo": {
-        "alfena": [
-          "Alfena"
+        "sao-joao-polo-universitario-asprela": [
+          "São João - Pólo Universitário - Asprela",
+          "São João",
+          "Pólo Universitário",
+          "Asprela"
         ],
-        "campo-e-sobrado": [
-          "Campo e Sobrado",
-          "Campo Sobrado",
-          "Campo",
-          "Sobrado"
+        "viso-zona-industrial": [
+          "Viso - Zona Industrial",
+          "Viso",
+          "Zona Industrial"
         ],
-        "ermesinde": [
-          "Ermesinde"
-        ],
-        "valongo": [
-          "Valongo"
+        "centro-de-ramalde-pereiro": [
+          "Centro de Ramalde - Pereiró",
+          "Centro Ramalde - Pereiró",
+          "Centro de Ramalde",
+          "Pereiró"
         ]
       },
       "matosinhos": {
@@ -16897,8 +20500,13 @@
           "Santa Cruz do Bispo",
           "Santa Cruz Bispo"
         ],
-        "pedra-verde": [
-          "Pedra Verde"
+        "montes-caulinos": [
+          "Montes Caulinos"
+        ],
+        "monte-espinho-zona-industrial": [
+          "Monte Espinho - Zona Industrial",
+          "Monte Espinho",
+          "Zona Industrial"
         ]
       },
       "vila-nova-de-gaia": {
@@ -17006,17 +20614,61 @@
           "Lagos",
           "Chavinha"
         ],
+        "santo-ovidio-cedro-monte-da-virgem": [
+          "Santo Ovídio - Cedro - Monte da Virgem",
+          "Santo Ovídio - Cedro - Monte Virgem",
+          "Santo Ovídio",
+          "Cedro",
+          "Monte da Virgem"
+        ],
+        "praia-de-brito-sao-felix-da-marinha": [
+          "Praia de Brito - São Félix da Marinha",
+          "Praia Brito - São Félix Marinha",
+          "Praia de Brito",
+          "São Félix da Marinha"
+        ],
+        "candal-regadas": [
+          "Candal - Regadas",
+          "Candal",
+          "Regadas"
+        ],
         "quinta-das-rosas-rasa-de-baixo": [
           "Quinta das Rosas - Rasa de Baixo",
           "Quinta Rosas - Rasa Baixo",
           "Quinta das Rosas",
           "Rasa de Baixo"
         ],
-        "parque-da-lavandeira-sardao": [
-          "Parque da Lavandeira - Sardão",
-          "Parque Lavandeira - Sardão",
-          "Parque da Lavandeira",
-          "Sardão"
+        "santa-marinha-e-sao-pedro-da-afurada": [
+          "Santa Marinha e São Pedro da Afurada",
+          "Santa Marinha São Pedro Afurada",
+          "Santa Marinha",
+          "São Pedro da Afurada"
+        ],
+        "afurada-arrabida-cavaco": [
+          "Afurada - Arrábida - Cavaco",
+          "Afurada",
+          "Arrábida",
+          "Cavaco"
+        ],
+        "barrosa-devesas-telheira-do-meio": [
+          "Barrosa - Devesas - Telheira do Meio",
+          "Barrosa - Devesas - Telheira Meio",
+          "Barrosa",
+          "Devesas",
+          "Telheira do Meio"
+        ],
+        "centro-historico": [
+          "Centro Histórico"
+        ],
+        "sao-felix-da-marinha": [
+          "São Félix da Marinha",
+          "São Félix Marinha"
+        ],
+        "granja": [
+          "Granja"
+        ],
+        "zona-este": [
+          "Zona Este"
         ]
       },
       "gondomar": {
@@ -17193,6 +20845,53 @@
           "Laundos"
         ]
       },
+      "vila-do-conde": {
+        "vilar-e-mosteiro": [
+          "Vilar e Mosteiró",
+          "Vilar Mosteiró",
+          "Vilar",
+          "Mosteiró"
+        ],
+        "arvore": [
+          "Árvore"
+        ],
+        "aveleda": [
+          "Aveleda"
+        ],
+        "azurara": [
+          "Azurara"
+        ],
+        "bagunte-ferreiro-outeiro-maior-e-parada": [
+          "Bagunte, Ferreiró, Outeiro Maior e Parada",
+          "Bagunte, Ferreiró, Outeiro Maior Parada",
+          "Bagunte, Ferreiró, Outeiro Maior",
+          "Parada"
+        ],
+        "vila-do-conde": [
+          "Vila do Conde",
+          "Vila Conde"
+        ],
+        "modivas": [
+          "Modivas"
+        ]
+      },
+      "santo-tirso": {
+        "agrela": [
+          "Agrela"
+        ],
+        "agua-longa": [
+          "Água Longa"
+        ],
+        "areias-sequeiro-lama-e-palmeira": [
+          "Areias, Sequeiró, Lama e Palmeira",
+          "Areias, Sequeiró, Lama Palmeira",
+          "Areias, Sequeiró, Lama",
+          "Palmeira"
+        ],
+        "aves": [
+          "Aves"
+        ]
+      },
       "baiao": {
         "loivos-do-monte": [
           "Loivos do Monte",
@@ -17200,19 +20899,42 @@
         ]
       },
       "lousada": {
+        "aveleda": [
+          "Aveleda"
+        ],
+        "caide-de-rei": [
+          "Caíde de Rei",
+          "Caí Rei"
+        ],
+        "cernadelo-e-lousada-sao-miguel-e-santa-margarida": [
+          "Cernadelo e Lousada (São Miguel e Santa Margarida)",
+          "Cernadelo Lousada (São Miguel Santa Margarida)",
+          "Cernadelo",
+          "Lousada (São Miguel",
+          "Santa Margarida)"
+        ],
         "cristelos-boim-e-ordem": [
           "Cristelos, Boim e Ordem",
           "Cristelos, Boim Ordem",
           "Cristelos, Boim",
           "Ordem"
+        ],
+        "torno": [
+          "Torno"
+        ],
+        "sousela": [
+          "Sousela"
+        ],
+        "nevogilde": [
+          "Nevogilde"
         ]
       },
-      "amarante": {
-        "amarante-sao-goncalo-madalena-cepelos-e-gatao": [
-          "Amarante (São Gonçalo), Madalena, Cepelos e Gatão",
-          "Amarante (São Gonçalo), Madalena, Cepelos Gatão",
-          "Amarante (São Gonçalo), Madalena, Cepelos",
-          "Gatão"
+      "felgueiras": {
+        "unhao-e-lordelo": [
+          "Unhão e Lordelo",
+          "Unhão Lordelo",
+          "Unhão",
+          "Lordelo"
         ]
       }
     },
@@ -17237,14 +20959,6 @@
         "calvaria-de-cima": [
           "Calvaria de Cima",
           "Calvaria Cima"
-        ],
-        "porto-de-mos-sao-joao-baptista-e-sao-pedro": [
-          "Porto de Mós - São João Baptista e São Pedro",
-          "Porto Mós - São João Baptista São Pedro",
-          "Porto de Mós",
-          "São João Baptista e São Pedro",
-          "Porto de Mós - São João Baptista",
-          "São Pedro"
         ]
       },
       "leiria": {
@@ -17486,10 +21200,6 @@
         "funchal-se": [
           "Funchal (Sé)"
         ],
-        "imaculado-coracao-de-maria": [
-          "Imaculado Coração de Maria",
-          "Imaculado Coração Maria"
-        ],
         "monte": [
           "Monte"
         ],
@@ -17530,6 +21240,10 @@
         ],
         "santana": [
           "Santana"
+        ],
+        "sao-roque-do-faial": [
+          "São Roque do Faial",
+          "São Roque Faial"
         ]
       },
       "santa-cruz": {
@@ -17544,6 +21258,10 @@
         ],
         "santa-cruz": [
           "Santa Cruz"
+        ],
+        "santo-antonio-da-serra": [
+          "Santo António da Serra",
+          "Santo António Serra"
         ]
       },
       "ribeira-brava": {
@@ -17562,9 +21280,13 @@
         ]
       },
       "calheta": {
-        "paul-do-mar": [
-          "Paul do Mar",
-          "Paul Mar"
+        "jardim-do-mar": [
+          "Jardim do Mar",
+          "Jardim Mar"
+        ],
+        "ponta-do-pargo": [
+          "Ponta do Pargo",
+          "Ponta Pargo"
         ]
       }
     },
@@ -17646,6 +21368,71 @@
         ]
       }
     },
+    "ilha-de-sao-miguel": {
+      "ribeira-grande": {
+        "porto-formoso": [
+          "Porto Formoso"
+        ],
+        "maia": [
+          "Maia"
+        ]
+      },
+      "ponta-delgada": {
+        "sao-vicente-ferreira": [
+          "São Vicente Ferreira"
+        ],
+        "ajuda-da-bretanha": [
+          "Ajuda da Bretanha",
+          "Ajuda Bretanha"
+        ],
+        "arrifes": [
+          "Arrifes"
+        ],
+        "candelaria": [
+          "Candelária"
+        ],
+        "capelas": [
+          "Capelas"
+        ],
+        "ponta-delgada-sao-sebastiao": [
+          "Ponta Delgada (São Sebastião)"
+        ],
+        "ponta-delgada-sao-pedro": [
+          "Ponta Delgada (São Pedro)"
+        ],
+        "ponta-delgada-sao-jose": [
+          "Ponta Delgada (São José)"
+        ],
+        "remedios": [
+          "Remédios"
+        ],
+        "relva": [
+          "Relva"
+        ],
+        "mosteiros": [
+          "Mosteiros"
+        ],
+        "ginetes": [
+          "Ginetes"
+        ]
+      },
+      "nordeste": {
+        "sao-pedro-de-nordestinho": [
+          "São Pedro de Nordestinho",
+          "São Pedro Nordestinho"
+        ],
+        "santo-antonio-de-nordestinho": [
+          "Santo António de Nordestinho",
+          "Santo António Nordestinho"
+        ]
+      },
+      "vila-franca-do-campo": {
+        "agua-de-alto": [
+          "Água de Alto",
+          "Água Alto"
+        ]
+      }
+    },
     "coimbra": {
       "coimbra": {
         "almalagues": [
@@ -17676,14 +21463,58 @@
           "Quinta da Maia",
           "Quinta Maia"
         ],
+        "alto-de-s-joao-portela-pinhal-de-marrocos": [
+          "Alto de S. João - Portela - Pinhal de Marrocos",
+          "Alto S. João - Portela - Pinhal Marrocos",
+          "Alto de S. João",
+          "Portela",
+          "Pinhal de Marrocos"
+        ],
         "sao-silvestre": [
           "São Silvestre"
+        ],
+        "torres-do-mondego": [
+          "Torres do Mondego",
+          "Torres Mondego"
+        ],
+        "santo-antonio-dos-olivais": [
+          "Santo António dos Olivais",
+          "Santo António Olivais"
+        ],
+        "bairro-norton-de-matos": [
+          "Bairro Norton de Matos",
+          "Bairro Norton Matos"
+        ],
+        "casa-branca": [
+          "Casa Branca"
+        ],
+        "celas": [
+          "Celas"
         ],
         "mainca-rocha-nova-lordemao": [
           "Maínça - Rocha Nova - Lordemão",
           "Maínça",
           "Rocha Nova",
           "Lordemão"
+        ],
+        "santa-clara-e-castelo-viegas": [
+          "Santa Clara e Castelo Viegas",
+          "Santa Clara Castelo Viegas",
+          "Santa Clara",
+          "Castelo Viegas"
+        ],
+        "castelo-viegas": [
+          "Castelo Viegas"
+        ],
+        "santa-clara": [
+          "Santa Clara"
+        ],
+        "tovim-casal-do-lobo-vale-de-canas": [
+          "Tovim - Casal do Lobo - Vale de Canas",
+          "Tovim - Casal Lobo - Vale Canas",
+          "Tovim",
+          "Casal do Lobo",
+          "Vale de Canas"
         ]
       },
       "tabua": {
@@ -17865,12 +21696,16 @@
         "travanca-de-lagos": [
           "Travanca de Lagos",
           "Travanca Lagos"
+        ],
+        "bobadela": [
+          "Bobadela"
         ]
       },
-      "montemor-o-velho": {
-        "meas-do-campo": [
-          "Meãs do Campo",
-          "Meãs Campo"
+      "pampilhosa-da-serra": {
+        "unhais-o-velho": [
+          "Unhais-o-Velho",
+          "Unhais",
+          "Velho"
         ]
       }
     },
@@ -17902,6 +21737,18 @@
         ],
         "braga-sao-vicente": [
           "Braga (São Vicente)"
+        ],
+        "vilaca-e-fradelos": [
+          "Vilaça e Fradelos",
+          "Vilaça Fradelos",
+          "Vilaça",
+          "Fradelos"
+        ],
+        "nogueira-fraiao-e-lamacaes": [
+          "Nogueira, Fraião e Lamaçães",
+          "Nogueira, Fraião Lamaçães",
+          "Nogueira, Fraião",
+          "Lamaçães"
         ]
       },
       "guimaraes": {
@@ -17952,6 +21799,15 @@
         ],
         "nespereira": [
           "Nespereira"
+        ],
+        "souto-santa-maria-souto-sao-salvador-e-gondomar": [
+          "Souto Santa Maria, Souto São Salvador e Gondomar",
+          "Souto Santa Maria, Souto São Salvador Gondomar",
+          "Souto Santa Maria, Souto São Salvador",
+          "Gondomar"
+        ],
+        "barco": [
+          "Barco"
         ]
       },
       "barcelos": {
@@ -17986,20 +21842,30 @@
         "remelhe": [
           "Remelhe"
         ],
+        "pousa": [
+          "Pousa"
+        ],
         "perelhal": [
           "Perelhal"
         ],
         "pereira": [
           "Pereira"
         ],
-        "paradela": [
-          "Paradela"
+        "campo-e-tamel-sao-pedro-fins": [
+          "Campo e Tamel (São Pedro Fins)",
+          "Campo Tamel (São Pedro Fins)",
+          "Campo",
+          "Tamel (São Pedro Fins)"
         ],
-        "areias-de-vilar-e-encourados": [
-          "Areias de Vilar e Encourados",
-          "Areias Vilar Encourados",
-          "Areias de Vilar",
-          "Encourados"
+        "chorente-goios-courel-pedra-furada-e-gueral": [
+          "Chorente, Góios, Courel, Pedra Furada e Gueral",
+          "Chorente, Góios, Courel, Pedra Furada Gueral",
+          "Chorente, Góios, Courel, Pedra Furada",
+          "Gueral"
+        ],
+        "viatodos-grimancelos-minhotaes-monte-de-fralaes": [
+          "Viatodos, Grimancelos, Minhotães, Monte de Fralães",
+          "Viatodos, Grimancelos, Minhotães, Monte Fralães"
         ]
       },
       "esposende": {
@@ -18073,6 +21939,83 @@
         ],
         "ribeirao": [
           "Ribeirão"
+        ],
+        "fradelos": [
+          "Fradelos"
+        ],
+        "lousado": [
+          "Lousado"
+        ]
+      },
+      "vila-verde": {
+        "aboim-da-nobrega-e-gondomar": [
+          "Aboim da Nóbrega e Gondomar",
+          "Aboim Nóbrega Gondomar",
+          "Aboim da Nóbrega",
+          "Gondomar"
+        ],
+        "atiaes": [
+          "Atiães"
+        ],
+        "cabanelas": [
+          "Cabanelas"
+        ],
+        "carreiras-sao-miguel-e-carreiras-santiago": [
+          "Carreiras (São Miguel) e Carreiras (Santiago)",
+          "Carreiras (São Miguel) Carreiras (Santiago)",
+          "Carreiras (São Miguel)",
+          "Carreiras (Santiago)"
+        ],
+        "freiriz": [
+          "Freiriz"
+        ]
+      },
+      "fafe": {
+        "freitas-e-vila-cova": [
+          "Freitas e Vila Cova",
+          "Freitas Vila Cova",
+          "Freitas",
+          "Vila Cova"
+        ],
+        "fornelos": [
+          "Fornelos"
+        ]
+      },
+      "celorico-de-basto": {
+        "britelo-gemeos-e-ourilhe": [
+          "Britelo, Gémeos e Ourilhe",
+          "Britelo, Gémeos Ourilhe",
+          "Britelo, Gémeos",
+          "Ourilhe"
+        ]
+      },
+      "terras-de-bouro": {
+        "balanca": [
+          "Balança"
+        ],
+        "campo-do-geres": [
+          "Campo do Gerês",
+          "Campo Gerês"
+        ],
+        "carvalheira": [
+          "Carvalheira"
+        ],
+        "chamoim-e-vilar": [
+          "Chamoim e Vilar",
+          "Chamoim Vilar",
+          "Chamoim",
+          "Vilar"
+        ],
+        "gondoriz": [
+          "Gondoriz"
+        ]
+      },
+      "cabeceiras-de-basto": {
+        "arco-de-baulhe-e-vila-nune": [
+          "Arco de Baúlhe e Vila Nune",
+          "Arco Baúlhe Vila Nune",
+          "Arco de Baúlhe",
+          "Vila Nune"
         ]
       }
     },
@@ -18175,6 +22118,54 @@
         "alvites": [
           "Alvites"
         ]
+      },
+      "macedo-de-cavaleiros": {
+        "ala-e-vilarinho-do-monte": [
+          "Ala e Vilarinho do Monte",
+          "Ala Vilarinho Monte",
+          "Vilarinho do Monte"
+        ],
+        "amendoeira": [
+          "Amendoeira"
+        ],
+        "arcas": [
+          "Arcas"
+        ],
+        "bornes-e-burga": [
+          "Bornes e Burga",
+          "Bornes Burga",
+          "Bornes",
+          "Burga"
+        ],
+        "macedo-de-cavaleiros": [
+          "Macedo de Cavaleiros",
+          "Macedo Cavaleiros"
+        ],
+        "vinhas": [
+          "Vinhas"
+        ],
+        "talhas": [
+          "Talhas"
+        ],
+        "sezulfe": [
+          "Sezulfe"
+        ],
+        "salselas": [
+          "Salselas"
+        ]
+      },
+      "torre-de-moncorvo": {
+        "lousa": [
+          "Lousa"
+        ]
+      },
+      "freixo-de-espada-a-cinta": {
+        "freixo-de-espada-a-cinta-e-mazouco": [
+          "Freixo de Espada à Cinta e Mazouco",
+          "Freixo Espada à Cinta Mazouco",
+          "Freixo de Espada à Cinta",
+          "Mazouco"
+        ]
       }
     },
     "vila-real": {
@@ -18218,6 +22209,25 @@
         "vilarelho-da-raia": [
           "Vilarelho da Raia",
           "Vilarelho Raia"
+        ],
+        "santo-antonio-de-monforte": [
+          "Santo António de Monforte",
+          "Santo António Monforte"
+        ],
+        "santo-estevao": [
+          "Santo Estêvão"
+        ],
+        "planalto-de-monforte-oucidres-e-bobadela": [
+          "Planalto de Monforte (Oucidres e Bobadela)",
+          "Planalto Monforte (Oucidres Bobadela)",
+          "Planalto de Monforte (Oucidres",
+          "Bobadela)"
+        ],
+        "calvao-e-soutelinho-da-raia": [
+          "Calvão e Soutelinho da Raia",
+          "Calvão Soutelinho Raia",
+          "Calvão",
+          "Soutelinho da Raia"
         ]
       },
       "peso-da-regua": {
@@ -18243,6 +22253,12 @@
           "Vilar Viveiro",
           "Vilar",
           "Viveiro"
+        ],
+        "ardaos-e-bobadela": [
+          "Ardãos e Bobadela",
+          "Ardãos Bobadela",
+          "Ardãos",
+          "Bobadela"
         ]
       },
       "montalegre": {
@@ -18251,6 +22267,25 @@
           "Vilar Perdizes Meixide",
           "Vilar de Perdizes",
           "Meixide"
+        ]
+      },
+      "santa-marta-de-penaguiao": {
+        "alvacoes-do-corgo": [
+          "Alvações do Corgo",
+          "Alvações Corgo"
+        ],
+        "cumieira": [
+          "Cumieira"
+        ],
+        "fontes": [
+          "Fontes"
+        ],
+        "lobrigos-s-miguel-e-s-joao-baptista-e-sanhoane": [
+          "Lobrigos (S. Miguel e S. João Baptista) e Sanhoane",
+          "Lobrigos (S. Miguel S. João Baptista) Sanhoane",
+          "Lobrigos (S. Miguel",
+          "S. João Baptista)",
+          "Sanhoane"
         ]
       }
     },
@@ -18464,9 +22499,6 @@
         "sao-miguel-do-mato": [
           "São Miguel do Mato",
           "São Miguel Mato"
-        ],
-        "alvarenga": [
-          "Alvarenga"
         ]
       },
       "santa-maria-da-feira": {
@@ -18475,26 +22507,44 @@
           "São Miguel Souto Mosteirô",
           "São Miguel de Souto",
           "Mosteirô"
+        ],
+        "argoncilhe": [
+          "Argoncilhe"
+        ],
+        "arrifana": [
+          "Arrifana"
+        ],
+        "caldas-de-sao-jorge-e-de-pigeiros": [
+          "Caldas de São Jorge e de Pigeiros",
+          "Caldas São Jorge Pigeiros",
+          "Caldas de São Jorge",
+          "de Pigeiros"
+        ],
+        "canedo-vale-e-vila-maior": [
+          "Canedo, Vale e Vila Maior",
+          "Canedo, Vale Vila Maior",
+          "Canedo, Vale",
+          "Vila Maior"
+        ],
+        "sao-paio-de-oleiros": [
+          "São Paio de Oleiros",
+          "São Paio Oleiros"
         ]
       },
       "oliveira-do-bairro": {
-        "oliveira-do-bairro": [
-          "Oliveira do Bairro",
-          "Oliveira Bairro"
-        ],
         "oia": [
           "Oiã"
-        ]
-      },
-      "sever-do-vouga": {
-        "sever-do-vouga": [
-          "Sever do Vouga",
-          "Sever Vouga"
         ]
       },
       "albergaria-a-velha": {
         "alquerubim": [
           "Alquerubim"
+        ]
+      },
+      "castelo-de-paiva": {
+        "santa-maria-de-sardoura": [
+          "Santa Maria de Sardoura",
+          "Santa Maria Sardoura"
         ]
       }
     },
@@ -18658,6 +22708,20 @@
           "Vila Real Santo António"
         ]
       },
+      "castro-marim": {
+        "odeleite": [
+          "Odeleite"
+        ],
+        "altura": [
+          "Altura"
+        ],
+        "azinhal": [
+          "Azinhal"
+        ],
+        "castro-marim": [
+          "Castro Marim"
+        ]
+      },
       "silves": {
         "alcantarilha-e-pera": [
           "Alcantarilha e Pêra",
@@ -18686,6 +22750,35 @@
           "São Marcos da Serra",
           "São Marcos Serra"
         ]
+      },
+      "vila-do-bispo": {
+        "barao-de-sao-miguel": [
+          "Barão de São Miguel",
+          "Barão São Miguel"
+        ],
+        "budens": [
+          "Budens"
+        ],
+        "sagres": [
+          "Sagres"
+        ],
+        "vila-do-bispo-e-raposeira": [
+          "Vila do Bispo e Raposeira",
+          "Vila Bispo Raposeira",
+          "Vila do Bispo",
+          "Raposeira"
+        ]
+      },
+      "lagoa": {
+        "ferragudo": [
+          "Ferragudo"
+        ],
+        "lagoa-e-carvoeiro": [
+          "Lagoa e Carvoeiro",
+          "Lagoa Carvoeiro",
+          "Lagoa",
+          "Carvoeiro"
+        ]
       }
     },
     "beja": {
@@ -18693,6 +22786,9 @@
         "faro-do-alentejo": [
           "Faro do Alentejo",
           "Faro Alentejo"
+        ],
+        "vila-ruiva": [
+          "Vila Ruiva"
         ]
       },
       "beja": {
@@ -18790,8 +22886,10 @@
           "Luzianes",
           "Gare"
         ],
-        "sao-luis": [
-          "São Luís"
+        "santa-clara-a-velha": [
+          "Santa Clara-a-Velha",
+          "Santa Clara",
+          "Velha"
         ]
       },
       "mertola": {
@@ -18807,10 +22905,6 @@
         ],
         "mertola": [
           "Mértola"
-        ],
-        "s-mig-pinheiro-s-pedro-solis-s-sebastiao-dos-carros": [
-          "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião dos Carros",
-          "S. Mig. Pinheiro, S. Pedro Solis, S. Sebastião Carros"
         ]
       },
       "moura": {
@@ -18838,16 +22932,16 @@
       "ferreira-do-alentejo": {
         "odivelas": [
           "Odivelas"
+        ],
+        "figueira-dos-cavaleiros": [
+          "Figueira dos Cavaleiros",
+          "Figueira Cavaleiros"
         ]
       },
       "almodovar": {
-        "santa-clara-a-nova-e-gomes-aires": [
-          "Santa Clara-a-Nova e Gomes Aires",
-          "Santa Clara-a-Nova Gomes Aires",
-          "Santa Clara",
-          "Nova e Gomes Aires",
-          "Santa Clara-a-Nova",
-          "Gomes Aires"
+        "aldeia-dos-fernandes": [
+          "Aldeia dos Fernandes",
+          "Aldeia Fernandes"
         ]
       }
     },
@@ -18867,6 +22961,10 @@
         ],
         "alcanede": [
           "Alcanede"
+        ],
+        "uniao-das-freguesias-da-cidade-de-santarem": [
+          "União das freguesias da cidade de Santarém",
+          "União freguesias cidade Santarém"
         ]
       },
       "tomar": {
@@ -18926,6 +23024,12 @@
         ],
         "espite": [
           "Espite"
+        ],
+        "freixianda-ribeira-do-farrio-e-formigais": [
+          "Freixianda, Ribeira do Farrio e Formigais",
+          "Freixianda, Ribeira Farrio Formigais",
+          "Freixianda, Ribeira do Farrio",
+          "Formigais"
         ]
       },
       "entroncamento": {
@@ -19058,11 +23162,6 @@
           "Rio Moinhos"
         ]
       },
-      "vila-nova-da-barquinha": {
-        "tancos": [
-          "Tancos"
-        ]
-      },
       "torres-novas": {
         "assentiz": [
           "Assentiz"
@@ -19105,6 +23204,12 @@
           "Olaia Paço",
           "Olaia",
           "Paço"
+        ]
+      },
+      "chamusca": {
+        "vale-de-cavalos": [
+          "Vale de Cavalos",
+          "Vale Cavalos"
         ]
       }
     },
@@ -19164,8 +23269,29 @@
           "Monte Belo Sul",
           "Jardins do Sado"
         ],
-        "monte-belo-norte": [
-          "Monte Belo Norte"
+        "centro-historico": [
+          "Centro Histórico"
+        ],
+        "camarinha-peixe-frito": [
+          "Camarinha - Peixe Frito",
+          "Camarinha",
+          "Peixe Frito"
+        ],
+        "vale-de-choupos-choilo-galeotas": [
+          "Vale de Choupos - Choilo - Galeotas",
+          "Vale Choupos - Choilo - Galeotas",
+          "Vale de Choupos",
+          "Choilo",
+          "Galeotas"
+        ],
+        "bairro-do-liceu-vanicelos": [
+          "Bairro do Liceu - Vanicelos",
+          "Bairro Liceu - Vanicelos",
+          "Bairro do Liceu",
+          "Vanicelos"
+        ],
+        "zona-ribeirinha": [
+          "Zona Ribeirinha"
         ]
       },
       "sesimbra": {
@@ -19254,13 +23380,18 @@
         "cavadas": [
           "Cavadas"
         ],
-        "pinhal-do-general": [
-          "Pinhal do General",
-          "Pinhal General"
+        "redondos": [
+          "Redondos"
         ],
-        "casal-de-santo-antonio": [
-          "Casal de Santo António",
-          "Casal Santo António"
+        "zona-historica-do-seixal-frente-ribeirinha": [
+          "Zona Histórica do Seixal - Frente Ribeirinha",
+          "Zona Histórica Seixal - Frente Ribeirinha",
+          "Zona Histórica do Seixal",
+          "Frente Ribeirinha"
+        ],
+        "centro-de-arrentela": [
+          "Centro de Arrentela",
+          "Centro Arrentela"
         ]
       },
       "palmela": {
@@ -19433,6 +23564,10 @@
         ],
         "trafaria": [
           "Trafaria"
+        ],
+        "centro-de-sobreda": [
+          "Centro de Sobreda",
+          "Centro Sobreda"
         ]
       },
       "alcochete": {
@@ -19444,6 +23579,23 @@
         ],
         "sao-francisco": [
           "São Francisco"
+        ]
+      },
+      "alcacer-do-sal": {
+        "santa-maria-do-castelo-e-santiago-e-santa-susana": [
+          "Santa Maria do Castelo e Santiago e Santa Susana",
+          "Santa Maria Castelo Santiago Santa Susana",
+          "Santa Maria do Castelo",
+          "Santiago",
+          "Santa Susana"
+        ]
+      },
+      "grandola": {
+        "azinheira-dos-barros-e-sao-mamede-do-sadao": [
+          "Azinheira dos Barros e São Mamede do Sádão",
+          "Azinheira Barros São Mamede Sádão",
+          "Azinheira dos Barros",
+          "São Mamede do Sádão"
         ]
       }
     },
@@ -19626,6 +23778,60 @@
           "Ovoa Vimieiro",
           "Ovoa",
           "Vimieiro"
+        ],
+        "pinheiro-de-azere": [
+          "Pinheiro de Ázere",
+          "Pinheiro Ázere"
+        ],
+        "santa-comba-dao-e-couto-do-mosteiro": [
+          "Santa Comba Dão e Couto do Mosteiro",
+          "Santa Comba Dão Couto Mosteiro",
+          "Santa Comba Dão",
+          "Couto do Mosteiro"
+        ],
+        "sao-joaninho": [
+          "São Joaninho"
+        ]
+      },
+      "sao-pedro-do-sul": {
+        "bordonhos": [
+          "Bordonhos"
+        ],
+        "carvalhais-e-candal": [
+          "Carvalhais e Candal",
+          "Carvalhais Candal",
+          "Carvalhais",
+          "Candal"
+        ],
+        "figueiredo-de-alva": [
+          "Figueiredo de Alva",
+          "Figueiredo Alva"
+        ],
+        "manhouce": [
+          "Manhouce"
+        ]
+      },
+      "sao-joao-da-pesqueira": {
+        "castanheiro-do-sul": [
+          "Castanheiro do Sul",
+          "Castanheiro Sul"
+        ],
+        "ervedosa-do-douro": [
+          "Ervedosa do Douro",
+          "Ervedosa Douro"
+        ],
+        "nagozelo-do-douro": [
+          "Nagozelo do Douro",
+          "Nagozelo Douro"
+        ],
+        "paredes-da-beira": [
+          "Paredes da Beira",
+          "Paredes Beira"
+        ]
+      },
+      "armamar": {
+        "aldeias": [
+          "Aldeias"
         ]
       }
     },
@@ -19652,6 +23858,13 @@
         ],
         "outeiro": [
           "Outeiro"
+        ],
+        "santa-maria-maior-e-monserrate-e-meadela": [
+          "Santa Maria Maior e Monserrate e Meadela",
+          "Santa Maria Maior Monserrate Meadela",
+          "Santa Maria Maior",
+          "Monserrate",
+          "Meadela"
         ]
       },
       "valenca": {
@@ -19666,6 +23879,12 @@
         ],
         "friestas": [
           "Friestas"
+        ],
+        "gandra-e-taiao": [
+          "Gandra e Taião",
+          "Gandra Taião",
+          "Gandra",
+          "Taião"
         ]
       },
       "moncao": {
@@ -19686,6 +23905,12 @@
           "Barroças Taias",
           "Barroças",
           "Taias"
+        ],
+        "mazedo-e-cortes": [
+          "Mazedo e Cortes",
+          "Mazedo Cortes",
+          "Mazedo",
+          "Cortes"
         ]
       },
       "melgaco": {
@@ -19738,20 +23963,18 @@
         "refoios-do-lima": [
           "Refóios do Lima",
           "Refóios Lima"
+        ],
+        "associacao-de-freguesias-do-vale-do-neiva": [
+          "Associação de freguesias do Vale do Neiva",
+          "Associação freguesias Vale Neiva"
         ]
       },
-      "ponte-da-barca": {
-        "ponte-da-barca-v-n-muia-paco-vedro-magalhaes": [
-          "Ponte da Barca, V. N. Muía, Paço Vedro Magalhães",
-          "Ponte Barca, V. N. Muía, Paço Vedro Magalhães"
-        ],
-        "entre-ambos-os-rios-ermida-e-germil": [
-          "Entre Ambos-os-Rios, Ermida e Germil",
-          "Entre Ambos-os-Rios, Ermida Germil",
-          "Entre Ambos",
-          "Rios, Ermida e Germil",
-          "Entre Ambos-os-Rios, Ermida",
-          "Germil"
+      "arcos-de-valdevez": {
+        "tavora-santa-maria-e-sao-vicente": [
+          "Távora (Santa Maria e São Vicente)",
+          "Távora (Santa Maria São Vicente)",
+          "Távora (Santa Maria",
+          "São Vicente)"
         ]
       }
     },
@@ -19785,11 +24008,25 @@
           "Cernache Bonjardim, Nesperal Palhais",
           "Cernache do Bonjardim, Nesperal",
           "Palhais"
+        ],
+        "varzea-dos-cavaleiros": [
+          "Várzea dos Cavaleiros",
+          "Várzea Cavaleiros"
         ]
       },
       "fundao": {
         "castelo-novo": [
           "Castelo Novo"
+        ],
+        "janeiro-de-cima-e-bogas-de-baixo": [
+          "Janeiro de Cima e Bogas de Baixo",
+          "Janeiro Cima Bogas Baixo",
+          "Janeiro de Cima",
+          "Bogas de Baixo"
+        ],
+        "fundao-valverde-donas-a-joanes-a-nova-do-cabo": [
+          "Fundão, Valverde, Donas, A. Joanes, A. Nova do Cabo",
+          "Fundão, Valverde, Donas, A. Joanes, A. Nova Cabo"
         ]
       },
       "covilha": {
@@ -19813,6 +24050,10 @@
           "Galo e Vila do Carvalho",
           "Cantar-Galo",
           "Vila do Carvalho"
+        ],
+        "unhais-da-serra": [
+          "Unhais da Serra",
+          "Unhais Serra"
         ]
       },
       "penamacor": {
@@ -19849,6 +24090,28 @@
         ],
         "madeira": [
           "Madeirã"
+        ],
+        "sobral": [
+          "Sobral"
+        ]
+      },
+      "vila-de-rei": {
+        "fundada": [
+          "Fundada"
+        ],
+        "sao-joao-do-peso": [
+          "São João do Peso",
+          "São João Peso"
+        ],
+        "vila-de-rei": [
+          "Vila de Rei",
+          "Vila Rei"
+        ]
+      },
+      "idanha-a-nova": {
+        "aldeia-de-santa-margarida": [
+          "Aldeia de Santa Margarida",
+          "Aldeia Santa Margarida"
         ]
       }
     },
@@ -19987,6 +24250,9 @@
         "alvendre": [
           "Alvendre"
         ],
+        "guarda": [
+          "Guarda"
+        ],
         "famalicao": [
           "Famalicão"
         ]
@@ -20003,6 +24269,12 @@
         ],
         "cotimos": [
           "Cótimos"
+        ],
+        "vila-franca-das-naves-e-feital": [
+          "Vila Franca das Naves e Feital",
+          "Vila Franca Naves Feital",
+          "Vila Franca das Naves",
+          "Feital"
         ]
       },
       "seia": {
@@ -20040,6 +24312,12 @@
         "aldeia-do-bispo": [
           "Aldeia do Bispo",
           "Aldeia Bispo"
+        ],
+        "santo-estevao-e-moita": [
+          "Santo Estêvão e Moita",
+          "Santo Estêvão Moita",
+          "Santo Estêvão",
+          "Moita"
         ]
       },
       "pinhel": {
@@ -20111,24 +24389,12 @@
           "Freixo da Serra"
         ]
       },
-      "almeida": {
-        "almeida": [
-          "Almeida"
-        ],
-        "amoreira-parada-e-cabreira": [
-          "Amoreira, Parada e Cabreira",
-          "Amoreira, Parada Cabreira",
-          "Amoreira, Parada",
-          "Cabreira"
-        ],
-        "azinhal-peva-e-valverde": [
-          "Azinhal, Peva e Valverde",
-          "Azinhal, Peva Valverde",
-          "Azinhal, Peva",
-          "Valverde"
-        ],
-        "castelo-bom": [
-          "Castelo Bom"
+      "celorico-da-beira": {
+        "cortico-da-serra-vide-entre-vinhas-e-salgueirais": [
+          "Cortiçô da Serra, Vide entre Vinhas e Salgueirais",
+          "Cortiçô Serra, Vide entre Vinhas Salgueirais",
+          "Cortiçô da Serra, Vide entre Vinhas",
+          "Salgueirais"
         ]
       }
     },
@@ -20288,82 +24554,92 @@
         ]
       },
       "ponte-de-sor": {
-        "longomel": [
-          "Longomel"
-        ]
-      }
-    },
-    "ilha-de-sao-miguel": {
-      "ponta-delgada": {
-        "sao-vicente-ferreira": [
-          "São Vicente Ferreira"
-        ],
-        "ajuda-da-bretanha": [
-          "Ajuda da Bretanha",
-          "Ajuda Bretanha"
-        ],
-        "arrifes": [
-          "Arrifes"
-        ],
-        "candelaria": [
-          "Candelária"
-        ],
-        "capelas": [
-          "Capelas"
-        ],
-        "ponta-delgada-sao-sebastiao": [
-          "Ponta Delgada (São Sebastião)"
-        ],
-        "ponta-delgada-sao-pedro": [
-          "Ponta Delgada (São Pedro)"
-        ],
-        "ponta-delgada-sao-jose": [
-          "Ponta Delgada (São José)"
-        ],
-        "remedios": [
-          "Remédios"
-        ],
-        "relva": [
-          "Relva"
-        ],
-        "mosteiros": [
-          "Mosteiros"
-        ],
-        "ginetes": [
-          "Ginetes"
-        ]
-      },
-      "nordeste": {
-        "sao-pedro-de-nordestinho": [
-          "São Pedro de Nordestinho",
-          "São Pedro Nordestinho"
-        ]
-      },
-      "ribeira-grande": {
-        "maia": [
-          "Maia"
+        "foros-de-arrao": [
+          "Foros de Arrão",
+          "Foros Arrão"
         ]
       }
     },
     "ilha-das-flores": {
       "lajes-das-flores": {
-        "mosteiro": [
-          "Mosteiro"
+        "faja-grande": [
+          "Fajã Grande"
+        ],
+        "fajazinha": [
+          "Fajãzinha"
         ],
         "fazenda": [
           "Fazenda"
         ],
-        "fajazinha": [
-          "Fajãzinha"
+        "lajedo": [
+          "Lajedo"
+        ],
+        "mosteiro": [
+          "Mosteiro"
         ]
       },
       "santa-cruz-das-flores": {
-        "santa-cruz-das-flores": [
-          "Santa Cruz das Flores",
-          "Santa Cruz Flores"
+        "cedros": [
+          "Cedros"
         ],
         "ponta-delgada": [
           "Ponta Delgada"
+        ],
+        "caveira": [
+          "Caveira"
+        ],
+        "santa-cruz-das-flores": [
+          "Santa Cruz das Flores",
+          "Santa Cruz Flores"
+        ]
+      }
+    },
+    "ilha-da-graciosa": {
+      "santa-cruz-da-graciosa": {
+        "guadalupe": [
+          "Guadalupe"
+        ],
+        "luz": [
+          "Luz"
+        ],
+        "santa-cruz-da-graciosa": [
+          "Santa Cruz da Graciosa",
+          "Santa Cruz Graciosa"
+        ],
+        "sao-mateus": [
+          "São Mateus"
+        ]
+      }
+    },
+    "ilha-do-pico": {
+      "sao-roque-do-pico": {
+        "prainha": [
+          "Prainha"
+        ],
+        "santa-luzia": [
+          "Santa Luzia"
+        ],
+        "santo-amaro": [
+          "Santo Amaro"
+        ],
+        "santo-antonio": [
+          "Santo António"
+        ]
+      }
+    },
+    "ilha-de-santa-maria": {
+      "vila-do-porto": {
+        "almagreira": [
+          "Almagreira"
+        ],
+        "santa-barbara": [
+          "Santa Bárbara"
+        ],
+        "santo-espirito": [
+          "Santo Espírito"
+        ],
+        "sao-pedro": [
+          "São Pedro"
         ]
       }
     }
