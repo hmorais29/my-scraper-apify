@@ -5,14 +5,10 @@
   "description": "Extrator de localizações do Imovirtual usando GraphQL API",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "dev": "node --inspect main.js"
+    "start": "node main.js"
   },
   "dependencies": {
     "apify": "^3.4.4",
-    "got-scraping": "^3.0.7"
-  },
-  "keywords": ["scraping", "imovirtual", "locations", "portugal", "graphql"],
-  "author": "Location Scraper",
-  "license": "MIT"
+    "got-scraping": "^3.2.17"
+  }
 }
