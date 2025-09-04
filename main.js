@@ -546,7 +546,8 @@ const crawler = new CheerioCrawler({
                     
                     const typeIcon = searchType === 'rent' ? '🏠' : '💰';
                     const conditionIcon = condition === 'new' ? '🆕' : condition === 'used' ? '🏠' : condition === 'renovated' ? '🔨' : '';
-                    console.log(`✅ ${count}. ${typeIcon}${conditionIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
+                    const locationIcon = locationValidation.match ? '📍' : '❓';
+                    console.log(`✅ ${count}. ${typeIcon}${conditionIcon}${locationIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€ - ${extractedLocation || 'sem localização'}`);
                 } else {
                     // Log detalhado para debugging
                     console.log(`❌ REJEITADO (mas link capturado):`);
@@ -554,6 +555,7 @@ const crawler = new CheerioCrawler({
                     if (!hasTitle) console.log(`   - Título inválido: "${title}"`);
                     if (!roomsMatch) console.log(`   - Tipologia não match: ${actualRooms} vs ${searchRooms}`);
                     if (!priceInRange) console.log(`   - Preço fora do range: ${price.toLocaleString()}€`);
+                    if (!locationMatch) console.log(`   - Localização não match: "${extractedLocation}" vs "${location}" (score: ${locationValidation.score.toFixed(2)})`);
                     
                     // Para debugging, adicionar ao array de debug
                     debugResults.push({
@@ -563,7 +565,8 @@ const crawler = new CheerioCrawler({
                             hasValidPrice,
                             hasTitle,
                             roomsMatch,
-                            priceInRange
+                            priceInRange,
+                            locationMatch
                         }
                     });
                 }
