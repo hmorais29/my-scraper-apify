@@ -397,12 +397,13 @@ function buildURL(locationQuery, rooms, searchType, condition) {
 }
 
 const { location, rooms: searchRooms, searchType, condition } = extractBasics(query);
-const searchUrl = buildURL(location, searchRooms, searchType, condition); // CORRIGIDO: usar location em vez de query
+const searchUrl = buildURL(location, searchRooms, searchType, condition);
 
 console.log('🌐 URL final:', searchUrl);
 console.log(`🎯 Pesquisa: ${searchType.toUpperCase()} | Tipologia: ${searchRooms} | Estado: ${condition || 'qualquer'}`);
 
 const results = [];
+const debugResults = []; // Array separado para items de debug
 
 const crawler = new CheerioCrawler({
     maxRequestsPerCrawl: 3,
@@ -443,10 +444,12 @@ const crawler = new CheerioCrawler({
         
         let count = 0;
         
-        listings.slice(0, maxResults * 3).each((i, el) => {
-            if (count >= maxResults) return false;
-            
+        // CORRIGIDO: Usar for loop em vez de .each() para poder usar await
+        const listingArray = listings.toArray().slice(0, maxResults * 3);
+        
+        for (let i = 0; i < listingArray.length && count < maxResults; i++) {
             try {
+                const el = listingArray[i];
                 const $el = $(el);
                 const rawText = $el.text();
                 
@@ -522,7 +525,7 @@ const crawler = new CheerioCrawler({
                 
                 const isValid = hasValidPrice && hasTitle && roomsMatch && priceInRange;
                 
-                // SEMPRE ADICIONAR O ANÚNCIO COM O URL (para debug)
+                // Criar objeto do anúncio
                 const property = {
                     title: title.substring(0, 200),
                     price: price,
@@ -530,7 +533,7 @@ const crawler = new CheerioCrawler({
                     rooms: actualRooms,
                     location: location,
                     pricePerSqm: area > 0 ? Math.round(price / area) : 0,
-                    link: link, // SEMPRE incluir
+                    link: link,
                     site: 'ImóVirtual',
                     searchQuery: query,
                     searchedRooms: searchRooms,
@@ -542,8 +545,8 @@ const crawler = new CheerioCrawler({
                     areaFormatted: `${area} m²`,
                     pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
                     timestamp: new Date().toISOString(),
-                    isValidMatch: isValid, // Indicar se faz match com os critérios
-                    searchUrl: request.loadedUrl // URL da pesquisa
+                    isValidMatch: isValid,
+                    searchUrl: request.loadedUrl
                 };
                 
                 if (isValid) {
@@ -554,15 +557,15 @@ const crawler = new CheerioCrawler({
                     const conditionIcon = condition === 'new' ? '🆕' : condition === 'used' ? '🏠' : condition === 'renovated' ? '🔨' : '';
                     console.log(`✅ ${count}. ${typeIcon}${conditionIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
                 } else {
-                    // Log detalhado para debugging - MAS NÃO ADICIONAR AO RESULTADO FINAL
+                    // Log detalhado para debugging
                     console.log(`❌ REJEITADO (mas URL capturado):`);
                     if (!hasValidPrice) console.log(`   - Preço inválido: ${price}`);
                     if (!hasTitle) console.log(`   - Título inválido: "${title}"`);
                     if (!roomsMatch) console.log(`   - Tipologia não match: ${actualRooms} vs ${searchRooms}`);
                     if (!priceInRange) console.log(`   - Preço fora do range: ${price.toLocaleString()}€`);
                     
-                    // Para debugging, adicionar um item separado com flag de debug
-                    await Actor.pushData({
+                    // Para debugging, adicionar ao array de debug
+                    debugResults.push({
                         ...property,
                         debugReason: 'não_match_criterios',
                         validationIssues: {
@@ -577,9 +580,9 @@ const crawler = new CheerioCrawler({
             } catch (error) {
                 console.log(`⚠️ Erro no anúncio ${i + 1}:`, error.message);
             }
-        });
+        }
         
-        console.log(`\n🎉 RESULTADO: ${count} de ${listings.length} anúncios válidos encontrados`);
+        console.log(`\n🎉 RESULTADO: ${count} de ${listingArray.length} anúncios válidos encontrados`);
     },
     
     failedRequestHandler({ request, error }) {
@@ -599,8 +602,18 @@ try {
         await crawler.run([fallbackUrl]);
     }
     
+    // Guardar resultados válidos
     await Actor.pushData(results);
-    console.log(`✅ Scraping concluído: ${results.length} resultados salvos`);
+    
+    // Guardar resultados de debug separadamente
+    if (debugResults.length > 0) {
+        console.log(`🔍 A guardar ${debugResults.length} items de debug...`);
+        for (const debugItem of debugResults) {
+            await Actor.pushData(debugItem);
+        }
+    }
+    
+    console.log(`✅ Scraping concluído: ${results.length} resultados válidos + ${debugResults.length} debug salvos`);
     
 } catch (error) {
     console.log('❌ Erro no scraping:', error.message);
