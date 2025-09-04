@@ -594,12 +594,25 @@ try {
     await crawler.run([searchUrl]);
     
     if (results.length === 0) {
-        console.log('⚠️ Nenhum resultado encontrado. A tentar URL alternativa...');
+        console.log('⚠️ Nenhum resultado válido encontrado na pesquisa específica.');
+        console.log('🔄 A tentar URL mais genérica (sem localização específica)...');
         
         // Tentar sem localização específica se não encontrou nada
         const fallbackUrl = buildURL('', searchRooms, searchType, condition);
-        console.log('🔄 URL alternativa:', fallbackUrl);
+        console.log('🔗 URL alternativa:', fallbackUrl);
         await crawler.run([fallbackUrl]);
+        
+        // Se ainda não encontrou nada, tentar só com a tipologia
+        if (results.length === 0) {
+            console.log('🔄 A tentar pesquisa ainda mais genérica (só tipologia)...');
+            const genericUrl = `https://www.imovirtual.com/${searchType === 'rent' ? 'arrendar' : 'comprar'}/apartamento`;
+            const separator = genericUrl.includes('?') ? '&' : '?';
+            const finalGenericUrl = searchRooms 
+                ? `${genericUrl}${separator}search%5Bfilter_float_number_of_rooms%3Afrom%5D=${searchRooms.replace('T', '')}&search%5Bfilter_float_number_of_rooms%3Ato%5D=${searchRooms.replace('T', '')}`
+                : genericUrl;
+            console.log('🔗 URL genérica final:', finalGenericUrl);
+            await crawler.run([finalGenericUrl]);
+        }
     }
     
     // Guardar resultados válidos
