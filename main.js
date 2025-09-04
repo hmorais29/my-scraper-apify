@@ -3,7 +3,6 @@ import { CheerioCrawler } from 'crawlee';
 
 await Actor.init();
 
-// URL de teste (um que sabemos que funciona)
 const testUrl = 'https://www.imovirtual.com/pt/resultados/comprar/apartamento,t3/lisboa/loures/santo-antonio-dos-cavaleiros-e-frielas/santo-antonio-dos-cavaleiros?limit=36&ownerTypeSingleSelect=ALL&by=DEFAULT&direction=DESC&search%5Bfilter_enum_builttype%5D=1';
 
 const crawler = new CheerioCrawler({
@@ -11,92 +10,103 @@ const crawler = new CheerioCrawler({
     requestHandlerTimeoutSecs: 30,
     
     async requestHandler({ $, response, request }) {
-        console.log('🔍 DIAGNÓSTICO DA PÁGINA');
-        console.log('========================');
-        console.log(`Status: ${response.statusCode}`);
-        console.log(`URL: ${request.loadedUrl}`);
-        console.log(`Content-Type: ${response.headers['content-type']}`);
+        console.log('🔍 ANÁLISE DETALHADA DOS 216 ELEMENTOS [data-cy*="listing"]');
+        console.log('========================================================');
         
-        // Verificar tamanho da página
-        const bodyText = $('body').text();
-        console.log(`📄 Tamanho do conteúdo: ${bodyText.length} caracteres`);
+        const listingElements = $('[data-cy*="listing"]');
+        console.log(`Total de elementos encontrados: ${listingElements.length}`);
         
-        // Procurar por diferentes seletores de anúncios
-        const selectors = [
-            'article[data-cy="listing-item"]',
-            'div[data-cy="search.listing.organic"]',
-            'article[data-testid="listing-item"]',
-            'article',
-            '.offer-item',
-            '.listing-item',
-            '[data-cy*="listing"]',
-            '[data-testid*="listing"]'
+        // Analisar os primeiros 10 elementos
+        listingElements.slice(0, 15).each((index, element) => {
+            const $el = $(element);
+            const dataCy = $el.attr('data-cy');
+            const text = $el.text().trim().substring(0, 200);
+            const hasPrice = text.includes('€');
+            const hasT = /T[0-9]/.test(text);
+            const tagName = element.tagName;
+            
+            console.log(`\n--- ELEMENTO ${index + 1} ---`);
+            console.log(`Tag: ${tagName}`);
+            console.log(`data-cy: ${dataCy}`);
+            console.log(`Tem preço: ${hasPrice}`);
+            console.log(`Tem tipologia: ${hasT}`);
+            console.log(`Texto (200 chars): ${text}`);
+            
+            // Verificar filhos
+            const children = $el.children();
+            console.log(`Filhos diretos: ${children.length}`);
+            
+            // Procurar links dentro do elemento
+            const links = $el.find('a[href]');
+            console.log(`Links encontrados: ${links.length}`);
+            if (links.length > 0) {
+                const firstLink = links.first().attr('href');
+                console.log(`Primeiro link: ${firstLink}`);
+            }
+        });
+        
+        // Procurar especificamente pelos seletores mais promissores
+        console.log('\n🎯 ANÁLISE DE SELETORES ESPECÍFICOS:');
+        
+        const specificSelectors = [
+            '[data-cy="search.listing.organic"]',
+            '[data-cy*="organic"]', 
+            '[data-cy*="search"]',
+            'div[data-cy*="listing"] article',
+            'article[data-cy]',
+            'div[data-cy*="search"] > *',
+            '[data-cy="search.listing.organic"] article',
+            '[data-cy="search.listing.organic"] > *'
         ];
         
-        console.log('\n🔍 TESTE DE SELETORES:');
-        selectors.forEach(selector => {
+        specificSelectors.forEach(selector => {
             const elements = $(selector);
-            console.log(`  ${selector}: ${elements.length} elementos`);
+            console.log(`\n${selector}: ${elements.length} elementos`);
+            
+            if (elements.length > 0 && elements.length < 50) {
+                elements.slice(0, 3).each((i, el) => {
+                    const $el = $(el);
+                    const text = $el.text().trim().substring(0, 100);
+                    const hasUsefulContent = text.includes('€') || /T[0-9]/.test(text);
+                    console.log(`  - Elemento ${i + 1}: ${hasUsefulContent ? '✅ HAS CONTENT' : '❌ NO CONTENT'} - ${text}`);
+                });
+            }
         });
         
-        // Procurar por texto que indica anúncios
-        const hasPrecos = bodyText.includes('€');
-        const hasT1T2T3 = /T[0-9]/.test(bodyText);
-        const hasArrendamento = bodyText.includes('arrendamento') || bodyText.includes('venda');
-        
-        console.log('\n📊 INDICADORES DE ANÚNCIOS:');
-        console.log(`  Tem preços (€): ${hasPrecos}`);
-        console.log(`  Tem tipologias (T1, T2...): ${hasT1T2T3}`);
-        console.log(`  Tem palavras-chave imobiliárias: ${hasArrendamento}`);
-        
-        // Extrair uma amostra do HTML para análise
-        const htmlSample = $('body').html().substring(0, 2000);
-        console.log('\n🔍 AMOSTRA HTML (primeiros 2000 chars):');
-        console.log(htmlSample);
-        
-        // Procurar por padrões comuns de estrutura de anúncios
-        const commonPatterns = [
-            'listing',
-            'property',
-            'offer',
-            'anuncio',
-            'item'
-        ];
-        
-        console.log('\n🎯 ANÁLISE DE PADRÕES:');
-        commonPatterns.forEach(pattern => {
-            const count = (htmlSample.match(new RegExp(pattern, 'gi')) || []).length;
-            console.log(`  "${pattern}": ${count} ocorrências`);
+        // Procurar por elementos que contenham preços explicitamente
+        console.log('\n💰 ELEMENTOS COM PREÇOS:');
+        const elementsWithPrice = $('*').filter(function() {
+            return $(this).text().includes('€') && $(this).text().match(/\d+.*€/);
         });
         
-        // Verificar se há JavaScript que pode estar a carregar conteúdo
-        const scripts = $('script');
-        console.log(`\n⚙️ SCRIPTS ENCONTRADOS: ${scripts.length}`);
+        console.log(`Elementos com €: ${elementsWithPrice.length}`);
         
-        // Procurar por indicações de carregamento dinâmico
-        const hasLoading = bodyText.includes('loading') || bodyText.includes('carregando');
-        const hasNoResults = bodyText.includes('sem resultados') || bodyText.includes('no results');
+        elementsWithPrice.slice(0, 5).each((i, el) => {
+            const $el = $(el);
+            const text = $el.text().trim();
+            const priceMatch = text.match(/\d[\d\s,\.]*\s*€/g);
+            console.log(`  - ${el.tagName}: ${priceMatch ? priceMatch.join(', ') : 'sem preço claro'}`);
+            console.log(`    data-cy: ${$el.attr('data-cy') || 'none'}`);
+            console.log(`    classe: ${$el.attr('class') || 'none'}`);
+        });
         
-        console.log(`  Tem indicadores de loading: ${hasLoading}`);
-        console.log(`  Tem "sem resultados": ${hasNoResults}`);
+        // Verificar se existem dados estruturados (JSON-LD ou scripts com dados)
+        console.log('\n📊 PROCURAR DADOS ESTRUTURADOS:');
+        const jsonLdScripts = $('script[type="application/ld+json"]');
+        console.log(`Scripts JSON-LD: ${jsonLdScripts.length}`);
+        
+        const scriptsWithData = $('script').filter(function() {
+            const text = $(this).html() || '';
+            return text.includes('listing') || text.includes('property') || text.includes('price');
+        });
+        console.log(`Scripts com dados relevantes: ${scriptsWithData.length}`);
         
         await Actor.pushData({
-            type: 'DEBUG_ANALYSIS',
-            url: request.loadedUrl,
-            statusCode: response.statusCode,
-            contentLength: bodyText.length,
-            selectorResults: selectors.map(sel => ({
-                selector: sel,
-                count: $(sel).length
-            })),
-            indicators: {
-                hasPrecos,
-                hasT1T2T3,
-                hasArrendamento,
-                hasLoading,
-                hasNoResults
-            },
-            htmlSample: htmlSample
+            type: 'DETAILED_ANALYSIS',
+            totalListingElements: listingElements.length,
+            elementsWithPrice: elementsWithPrice.length,
+            jsonLdScripts: jsonLdScripts.length,
+            scriptsWithData: scriptsWithData.length
         });
     }
 });
