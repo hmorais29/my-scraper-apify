@@ -210,27 +210,59 @@ function extractPriceFromText(text, searchType) {
 }
 
 // FUNÇÃO CORRIGIDA - Melhor matching de localizações
-function findSlugFromLocation(query) {
-    const normalized = query.normalize('NFD')
+function findSlugFromLocation(locationQuery) {
+    console.log(`🔍 A procurar localização: "${locationQuery}"`);
+    
+    // Verificar estrutura do locations.json
+    console.log('📊 Estrutura do locations:', {
+        hasDistricts: Array.isArray(locations.districts),
+        hasCouncils: Array.isArray(locations.councils),
+        hasParishes: Array.isArray(locations.parishes),
+        hasNeighborhoods: Array.isArray(locations.neighborhoods),
+        locationKeys: Object.keys(locations)
+    });
+    
+    // CORRIGIR: Verificar se locations tem a estrutura FINAL_CONSOLIDATED_DATA
+    let allLocationArrays = {};
+    
+    if (locations.districts && locations.councils && locations.parishes && locations.neighborhoods) {
+        // Estrutura direta
+        allLocationArrays = locations;
+    } else if (Array.isArray(locations) && locations.length > 0) {
+        // Estrutura em array - procurar pelo FINAL_CONSOLIDATED_DATA
+        const consolidatedData = locations.find(item => item.type === 'FINAL_CONSOLIDATED_DATA');
+        if (consolidatedData) {
+            allLocationArrays = consolidatedData;
+            console.log('✅ Encontrou dados consolidados no array');
+        } else {
+            console.log('❌ Não encontrou FINAL_CONSOLIDATED_DATA no array');
+            return null;
+        }
+    } else {
+        console.log('❌ Estrutura do locations.json não reconhecida');
+        return null;
+    }
+    
+    if (!Array.isArray(allLocationArrays.districts) || !Array.isArray(allLocationArrays.councils) || 
+        !Array.isArray(allLocationArrays.parishes) || !Array.isArray(allLocationArrays.neighborhoods)) {
+        console.log('❌ Arrays de localização inválidos');
+        return null;
+    }
+
+    const normalized = locationQuery.normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '')
         .toLowerCase()
         .replace(/[^a-z0-9\s]/g, ' ')
         .replace(/\s+/g, ' ')
         .trim();
 
-    console.log('🔍 A procurar localização normalizada:', normalized);
-    
-    if (!Array.isArray(locations.districts) || !Array.isArray(locations.councils) || 
-        !Array.isArray(locations.parishes) || !Array.isArray(locations.neighborhoods)) {
-        console.log('❌ Estrutura do locations.json inválida');
-        return null;
-    }
+    console.log('🔍 Localização normalizada:', normalized);
 
     const allLocations = [
-        ...locations.parishes.map(p => ({...p, priority: 3})), // Prioridade alta para freguesias
-        ...locations.neighborhoods.map(n => ({...n, priority: 3})), // Prioridade alta para bairros
-        ...locations.councils.map(c => ({...c, priority: 2})), // Média para concelhos
-        ...locations.districts.map(d => ({...d, priority: 1})) // Baixa para distritos
+        ...allLocationArrays.parishes.map(p => ({...p, priority: 3})), // Prioridade alta para freguesias
+        ...allLocationArrays.neighborhoods.map(n => ({...n, priority: 3})), // Prioridade alta para bairros
+        ...allLocationArrays.councils.map(c => ({...c, priority: 2})), // Média para concelhos
+        ...allLocationArrays.districts.map(d => ({...d, priority: 1})) // Baixa para distritos
     ];
 
     console.log(`📊 Total de ${allLocations.length} localizações para analisar`);
@@ -251,7 +283,7 @@ function findSlugFromLocation(query) {
         let score = 0;
         
         // Match exacto tem score máximo
-        if (normalized.includes(locationName)) {
+        if (normalized.includes(locationName) || locationName.includes(normalized)) {
             score = locationName.length * location.priority * 10;
             
             // Bonus para matches mais específicos
@@ -312,11 +344,11 @@ function findSlugFromLocation(query) {
 }
 
 // URL que suporta rent e buy - CORRIGIDA
-function buildURL(query, rooms, searchType, condition) {
+function buildURL(locationQuery, rooms, searchType, condition) {
     let baseUrl = 'https://www.imovirtual.com/';
     baseUrl += searchType === 'rent' ? 'arrendar/apartamento' : 'comprar/apartamento';
 
-    const match = findSlugFromLocation(query);
+    const match = findSlugFromLocation(locationQuery);
     if (match) {
         // Construir URL baseado no nível encontrado
         if (match.level === 'parish' && match.district && match.concelho && match.slug) {
@@ -365,7 +397,7 @@ function buildURL(query, rooms, searchType, condition) {
 }
 
 const { location, rooms: searchRooms, searchType, condition } = extractBasics(query);
-const searchUrl = buildURL(query, searchRooms, searchType, condition);
+const searchUrl = buildURL(location, searchRooms, searchType, condition); // CORRIGIDO: usar location em vez de query
 
 console.log('🌐 URL final:', searchUrl);
 console.log(`🎯 Pesquisa: ${searchType.toUpperCase()} | Tipologia: ${searchRooms} | Estado: ${condition || 'qualquer'}`);
@@ -376,13 +408,14 @@ const crawler = new CheerioCrawler({
     maxRequestsPerCrawl: 3,
     requestHandlerTimeoutSecs: 30,
     
-    async requestHandler({ $, response }) {
+    async requestHandler({ $, response, request }) {
         if (response.statusCode !== 200) {
             console.log(`❌ Erro HTTP: ${response.statusCode}`);
             return;
         }
         
         console.log('✅ Página carregada com sucesso');
+        console.log('🌐 URL actual:', request.loadedUrl);
         
         // Tentar diferentes seletores
         const selectors = [
@@ -419,12 +452,22 @@ const crawler = new CheerioCrawler({
                 
                 console.log(`\n--- ANÚNCIO ${i + 1} ---`);
                 
-                // Link
+                // Link - SEMPRE EXTRAIR
                 const linkEl = $el.find('a[href*="/apartamento-"], a[href*="/anuncio/"]').first();
                 let link = linkEl.attr('href') || '';
                 if (link && !link.startsWith('http')) {
                     link = 'https://www.imovirtual.com' + link;
                 }
+                
+                // Se não encontrou com os seletores específicos, tentar qualquer link
+                if (!link) {
+                    const anyLink = $el.find('a[href]').first().attr('href');
+                    if (anyLink && !anyLink.startsWith('http')) {
+                        link = 'https://www.imovirtual.com' + anyLink;
+                    }
+                }
+                
+                console.log(`🔗 Link: ${link}`);
                 
                 // Título melhorado
                 let title = '';
@@ -479,28 +522,31 @@ const crawler = new CheerioCrawler({
                 
                 const isValid = hasValidPrice && hasTitle && roomsMatch && priceInRange;
                 
+                // SEMPRE ADICIONAR O ANÚNCIO COM O URL (para debug)
+                const property = {
+                    title: title.substring(0, 200),
+                    price: price,
+                    area: area,
+                    rooms: actualRooms,
+                    location: location,
+                    pricePerSqm: area > 0 ? Math.round(price / area) : 0,
+                    link: link, // SEMPRE incluir
+                    site: 'ImóVirtual',
+                    searchQuery: query,
+                    searchedRooms: searchRooms,
+                    searchType: searchType,
+                    condition: condition,
+                    propertyIndex: count + 1,
+                    totalProperties: maxResults,
+                    priceFormatted: `${price.toLocaleString()} €`,
+                    areaFormatted: `${area} m²`,
+                    pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
+                    timestamp: new Date().toISOString(),
+                    isValidMatch: isValid, // Indicar se faz match com os critérios
+                    searchUrl: request.loadedUrl // URL da pesquisa
+                };
+                
                 if (isValid) {
-                    const property = {
-                        title: title.substring(0, 200),
-                        price: price,
-                        area: area,
-                        rooms: actualRooms,
-                        location: location,
-                        pricePerSqm: area > 0 ? Math.round(price / area) : 0,
-                        link: link,
-                        site: 'ImóVirtual',
-                        searchQuery: query,
-                        searchedRooms: searchRooms,
-                        searchType: searchType,
-                        condition: condition,
-                        propertyIndex: count + 1,
-                        totalProperties: maxResults,
-                        priceFormatted: `${price.toLocaleString()} €`,
-                        areaFormatted: `${area} m²`,
-                        pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
-                        timestamp: new Date().toISOString()
-                    };
-                    
                     results.push(property);
                     count++;
                     
@@ -508,12 +554,24 @@ const crawler = new CheerioCrawler({
                     const conditionIcon = condition === 'new' ? '🆕' : condition === 'used' ? '🏠' : condition === 'renovated' ? '🔨' : '';
                     console.log(`✅ ${count}. ${typeIcon}${conditionIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
                 } else {
-                    // Log detalhado para debugging
-                    console.log(`❌ REJEITADO:`);
+                    // Log detalhado para debugging - MAS NÃO ADICIONAR AO RESULTADO FINAL
+                    console.log(`❌ REJEITADO (mas URL capturado):`);
                     if (!hasValidPrice) console.log(`   - Preço inválido: ${price}`);
                     if (!hasTitle) console.log(`   - Título inválido: "${title}"`);
                     if (!roomsMatch) console.log(`   - Tipologia não match: ${actualRooms} vs ${searchRooms}`);
                     if (!priceInRange) console.log(`   - Preço fora do range: ${price.toLocaleString()}€`);
+                    
+                    // Para debugging, adicionar um item separado com flag de debug
+                    await Actor.pushData({
+                        ...property,
+                        debugReason: 'não_match_criterios',
+                        validationIssues: {
+                            hasValidPrice,
+                            hasTitle,
+                            roomsMatch,
+                            priceInRange
+                        }
+                    });
                 }
                 
             } catch (error) {
