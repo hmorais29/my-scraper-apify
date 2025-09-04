@@ -269,7 +269,9 @@ function findSlugFromLocation(query) {
     }
 
     if (bestMatch) {
-        console.log(`✅ Melhor match: ${bestMatch.name} (${bestMatch.level}) - Score: ${bestScore}`);
+        console.log(`✅ Melhor match encontrado: ${bestMatch.name} (${bestMatch.level}) - Score: ${bestScore}`);
+        console.log(`   Full name: ${bestMatch.fullName}`);
+        console.log(`   ID: ${bestMatch.id}`);
         
         // Extrair componentes do ID
         const idParts = bestMatch.id.split('/');
@@ -281,9 +283,31 @@ function findSlugFromLocation(query) {
             level: bestMatch.level,
             fullName: bestMatch.fullName
         };
+    } else {
+        // Fallback: se não encontrou "Santo António dos Cavaleiros", tentar "Loures"
+        console.log('❌ Localização específica não encontrada. Tentando fallback para "Loures"...');
+        
+        for (const location of allLocations) {
+            const locationName = location.name.normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+                
+            if (locationName === 'loures' && location.level === 'council') {
+                console.log(`✅ Fallback encontrado: ${location.name} (concelho)`);
+                const idParts = location.id.split('/');
+                
+                return {
+                    district: idParts[0] || null,
+                    concelho: idParts[1] || null,
+                    slug: idParts[1] || null, // Para concelho, slug é o mesmo
+                    level: location.level,
+                    fullName: location.fullName
+                };
+            }
+        }
     }
     
-    console.log('❌ Nenhuma localização encontrada');
+    console.log('❌ Nenhuma localização encontrada (nem fallback)');
     return null;
 }
 
