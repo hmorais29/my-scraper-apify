@@ -150,19 +150,19 @@ function extractPriceFromText(text, searchType) {
     
     console.log('💰 Texto para extrair preço (primeiros 150 chars):', cleanText.substring(0, 150));
     
-    // Padrões mais específicos para preços
+    // Padrões mais específicos para preços - ORDEM IMPORTA
     const pricePatterns = [
-        // Formato "175 000 €" ou "1 330 000 €"
-        /(\d{1,3}(?:\s+\d{3})+)\s*€/g,
-        // Formato "175.000 €" ou "175,000 €"  
-        /(\d{1,3}(?:[,\.]\d{3})+)\s*€/g,
-        // Para arrendamento: "750 €/mês" ou apenas "750 €"
-        /(\d{3,4})\s*€(?:\/m[êe]s)?/g,
-        // Formato simples mas com contexto
-        /(?:preço|valor|custo)\s*:?\s*(\d{4,7})\s*€/gi,
-        // Preços grandes sem separadores (cuidado)
-        /(\d{5,7})\s*€/g
-    ];
+        // Para venda: "175 000 €" ou "1 330 000 €" (padrão mais comum)
+        /(\d{1,3}(?:\s+\d{3})+)\s*€(?!\s*\/)/g,
+        // Formato com pontos: "175.000 €" ou "175,000 €"  
+        /(\d{1,3}(?:[,\.]\d{3})+)\s*€(?!\s*\/)/g,
+        // Preços sem separadores mas realistas para venda: 150000-2000000
+        /(\d{6,7})\s*€(?!\s*\/)/g,
+        // Para arrendamento: "750 €/mês" ou "1500 €/mês"
+        /(\d{3,4})\s*€\/m[êe]s/g,
+        // Preços de arrendamento simples (só se for rent)
+        searchType === 'rent' ? /(\d{3,4})\s*€(?!\s*\/)/g : null
+    ].filter(Boolean);
     
     let prices = [];
     
@@ -178,12 +178,13 @@ function extractPriceFromText(text, searchType) {
             let numericStr = priceStr.replace(/\s+/g, '').replace(/[,\.]/g, '');
             let price = parseInt(numericStr);
             
-            // Validar range baseado no tipo
+            // Validar range baseado no tipo - RANGES MAIS ESPECÍFICOS
             let isValidRange;
             if (searchType === 'rent') {
-                isValidRange = price >= 250 && price <= 8000; // Mais realista para PT
+                isValidRange = price >= 250 && price <= 8000;
             } else {
-                isValidRange = price >= 30000 && price <= 3000000; // Mais abrangente
+                // Para venda - ranges muito mais específicos
+                isValidRange = price >= 50000 && price <= 3000000;
             }
             
             if (isValidRange) {
@@ -195,9 +196,11 @@ function extractPriceFromText(text, searchType) {
         }
     }
     
-    // Retornar o preço mais provável (normalmente o maior válido)
+    // Retornar o preço mais provável
     if (prices.length > 0) {
-        const finalPrice = Math.max(...prices);
+        // Para venda: escolher o maior preço válido (principal)
+        // Para arrendamento: escolher o menor (mais provável ser mensal)
+        const finalPrice = searchType === 'rent' ? Math.min(...prices) : Math.max(...prices);
         console.log(`🎯 Preço final escolhido: ${finalPrice.toLocaleString()}€`);
         return finalPrice;
     }
