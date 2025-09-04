@@ -5,7 +5,7 @@ import locations from './locations.json' with { type: 'json' };
 await Actor.init();
 
 const input = await Actor.getInput();
-const query = input?.query || 'T4 caldas da rainha';
+const query = input?.query || 'T3 santo antonio dos cavaleiros';
 const maxResults = input?.max_resultados || 5;
 
 console.log('🔍 Query:', query);
@@ -141,7 +141,7 @@ function extractAreaFromText(text) {
     return 0;
 }
 
-// FUNÇÃO CORRIGIDA PARA EXTRAIR PREÇO - Mais robusta
+// Função para extrair preço do texto (melhorada)
 function extractPriceFromText(text, searchType) {
     // Limpar CSS e elementos não relacionados com preços
     let cleanText = text.replace(/\.css-[a-zA-Z0-9_-]+[\{\[]/g, ' ');
@@ -258,9 +258,10 @@ function findSlugFromLocation(locationQuery) {
 
     console.log('🔍 Localização normalizada:', normalized);
 
+    // PRIORIDADE ALTERADA: bairros primeiro, depois freguesias
     const allLocations = [
-        ...allLocationArrays.parishes.map(p => ({...p, priority: 3})), // Prioridade alta para freguesias
-        ...allLocationArrays.neighborhoods.map(n => ({...n, priority: 3})), // Prioridade alta para bairros
+        ...allLocationArrays.neighborhoods.map(n => ({...n, priority: 4})), // PRIORIDADE MÁXIMA para bairros
+        ...allLocationArrays.parishes.map(p => ({...p, priority: 3})), // Alta para freguesias
         ...allLocationArrays.councils.map(c => ({...c, priority: 2})), // Média para concelhos
         ...allLocationArrays.districts.map(d => ({...d, priority: 1})) // Baixa para distritos
     ];
@@ -291,7 +292,7 @@ function findSlugFromLocation(locationQuery) {
                 score *= 2; // Match exacto completo
             }
             
-            console.log(`🎯 Match encontrado: "${location.name}" (score: ${score})`);
+            console.log(`🎯 Match encontrado: "${location.name}" (${location.level}) (score: ${score})`);
             
             if (score > bestScore) {
                 bestScore = score;
@@ -305,95 +306,61 @@ function findSlugFromLocation(locationQuery) {
         console.log(`   Full name: ${bestMatch.fullName}`);
         console.log(`   ID: ${bestMatch.id}`);
         
-        // Extrair componentes do ID
-        const idParts = bestMatch.id.split('/');
-        
-        return {
-            district: idParts[0] || null,
-            concelho: idParts[1] || null,
-            slug: idParts[2] || idParts[1] || idParts[0] || null,
-            level: bestMatch.level,
-            fullName: bestMatch.fullName
-        };
-    } else {
-        // Fallback: se não encontrou "Santo António dos Cavaleiros", tentar "Loures"
-        console.log('❌ Localização específica não encontrada. Tentando fallback para "Loures"...');
-        
-        for (const location of allLocations) {
-            const locationName = location.name.normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .toLowerCase();
-                
-            if (locationName === 'loures' && location.level === 'council') {
-                console.log(`✅ Fallback encontrado: ${location.name} (concelho)`);
-                const idParts = location.id.split('/');
-                
-                return {
-                    district: idParts[0] || null,
-                    concelho: idParts[1] || null,
-                    slug: idParts[1] || null, // Para concelho, slug é o mesmo
-                    level: location.level,
-                    fullName: location.fullName
-                };
-            }
-        }
+        return bestMatch;
     }
     
-    console.log('❌ Nenhuma localização encontrada (nem fallback)');
+    console.log('❌ Nenhuma localização encontrada');
     return null;
 }
 
-// URL que suporta rent e buy - CORRIGIDA
+// URL CORRIGIDA com formato do ImóVirtual
 function buildURL(locationQuery, rooms, searchType, condition) {
-    let baseUrl = 'https://www.imovirtual.com/';
+    // BASE URL CORRIGIDA
+    let baseUrl = 'https://www.imovirtual.com/pt/resultados/';
     baseUrl += searchType === 'rent' ? 'arrendar/apartamento' : 'comprar/apartamento';
+    
+    // ADICIONAR TIPOLOGIA NA BASE (formato: apartamento,t3)
+    if (rooms) {
+        const roomNum = rooms.replace('T', '').toLowerCase();
+        baseUrl += `,t${roomNum}`;
+        console.log(`🏠 Tipologia T${roomNum} adicionada à base URL`);
+    }
 
     const match = findSlugFromLocation(locationQuery);
     if (match) {
-        // Construir URL baseado no nível encontrado
-        if (match.level === 'parish' && match.district && match.concelho && match.slug) {
-            baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
-            console.log(`🏠 URL com freguesia: ${match.fullName}`);
-        } else if (match.level === 'council' && match.district && match.concelho) {
-            baseUrl += `/${match.district}/${match.concelho}`;
-            console.log(`🏠 URL com concelho: ${match.fullName}`);
-        } else if (match.level === 'district' && match.district) {
-            baseUrl += `/${match.district}`;
-            console.log(`🏠 URL com distrito: ${match.fullName}`);
-        } else if (match.level === 'neighborhood' && match.district && match.concelho && match.slug) {
-            baseUrl += `/${match.district}/${match.concelho}/${match.slug}`;
-            console.log(`🏠 URL com bairro: ${match.fullName}`);
-        }
+        // USAR O ID COMPLETO DO MATCH
+        baseUrl += `/${match.id}`;
+        console.log(`🎯 URL com localização: ${match.fullName} (${match.level})`);
+        console.log(`   ID usado: ${match.id}`);
     } else {
         console.log('🏠 URL sem localização específica');
     }
 
-    // Adicionar filtros de tipologia
-    if (rooms) {
-        const num = rooms.replace('T', '');
-        const separator = baseUrl.includes('?') ? '&' : '?';
-        baseUrl += `${separator}search%5Bfilter_float_number_of_rooms%3Afrom%5D=${num}&search%5Bfilter_float_number_of_rooms%3Ato%5D=${num}`;
-        console.log(`🏠 Filtro tipologia T${num} adicionado`);
-    }
+    // ADICIONAR PARÂMETROS EXTRAS (como no exemplo real)
+    const params = new URLSearchParams();
+    params.set('limit', '36');
+    params.set('ownerTypeSingleSelect', 'ALL');
+    params.set('by', 'DEFAULT');
+    params.set('direction', 'DESC');
 
     // Adicionar filtro de estado se especificado
     if (condition) {
-        const separator = baseUrl.includes('?') ? '&' : '?';
         switch (condition) {
             case 'new':
-                baseUrl += `${separator}search%5Bfilter_enum_builttype%5D=0`; // Obra nova
+                params.set('search[filter_enum_builttype]', '0'); // Obra nova
                 break;
             case 'used':
-                baseUrl += `${separator}search%5Bfilter_enum_builttype%5D=1`; // Usado
+                params.set('search[filter_enum_builttype]', '1'); // Usado
                 break;
             case 'renovated':
-                baseUrl += `${separator}search%5Bfilter_enum_builttype%5D=2`; // Renovado
+                params.set('search[filter_enum_builttype]', '2'); // Renovado
                 break;
         }
         console.log(`🏗️ Filtro estado "${condition}" adicionado`);
     }
 
-    return baseUrl;
+    const finalUrl = baseUrl + '?' + params.toString();
+    return finalUrl;
 }
 
 const { location, rooms: searchRooms, searchType, condition } = extractBasics(query);
@@ -417,14 +384,22 @@ const crawler = new CheerioCrawler({
         
         console.log('✅ Página carregada com sucesso');
         console.log('🌐 URL actual:', request.loadedUrl);
+        console.log('🎯 URL original solicitado:', request.url);
         
-        // Tentar diferentes seletores
+        // Verificar se houve redirecionamento
+        if (request.loadedUrl !== request.url) {
+            console.log('🔄 REDIRECIONAMENTO DETECTADO!');
+            console.log('   Pode indicar que a localização específica tem poucos imóveis');
+        }
+        
+        // SELETORES ATUALIZADOS para novo formato do ImóVirtual
         const selectors = [
-            'article[data-cy="listing-item"]',
-            'article',
-            '[data-cy*="listing"]',
-            '.offer-item',
-            '.listing-item'
+            'article[data-cy="listing-item"]',           // Seletor principal
+            'div[data-cy="search.listing.organic"]',     // Alternativo
+            'article[data-testid="listing-item"]',       // Novo formato
+            'article',                                   // Fallback genérico
+            '.offer-item',                              // Antigo formato
+            '.listing-item'                             // Mais antigo ainda
         ];
         
         let listings = $();
@@ -439,6 +414,7 @@ const crawler = new CheerioCrawler({
         
         if (listings.length === 0) {
             console.log('❌ Nenhum anúncio encontrado na página');
+            console.log('🔍 HTML snippet:', $('body').html().substring(0, 500));
             return;
         }
         
@@ -455,49 +431,64 @@ const crawler = new CheerioCrawler({
                 
                 console.log(`\n--- ANÚNCIO ${i + 1} ---`);
                 
-                // Link - SEMPRE EXTRAIR
-                const linkEl = $el.find('a[href*="/apartamento-"], a[href*="/anuncio/"]').first();
-                let link = linkEl.attr('href') || '';
-                if (link && !link.startsWith('http')) {
-                    link = 'https://www.imovirtual.com' + link;
-                }
+                // LINKS ATUALIZADOS - Novos formatos do ImóVirtual
+                const linkSelectors = [
+                    'a[href*="/pt/anuncio/"]',                  // Novo formato: /pt/anuncio/apartamento-t1-parque-das-nacoes-ID1h9Q9
+                    'a[href*="ID"]',                           // Links com ID
+                    'a[href*="/anuncio/"]',                    // Formato sem /pt/
+                    'a[href*="/apartamento-"]',                // Formato antigo
+                    'a[href^="/pt/"]',                         // Qualquer link que comece com /pt/
+                    'a[href]'                                  // Qualquer link como último recurso
+                ];
                 
-                // Se não encontrou com os seletores específicos, tentar qualquer link
-                if (!link) {
-                    const anyLink = $el.find('a[href]').first().attr('href');
-                    if (anyLink && !anyLink.startsWith('http')) {
-                        link = 'https://www.imovirtual.com' + anyLink;
+                let link = '';
+                for (const linkSel of linkSelectors) {
+                    const linkEl = $el.find(linkSel).first();
+                    link = linkEl.attr('href') || '';
+                    if (link && (link.includes('anuncio') || link.includes('apartamento') || link.includes('ID'))) {
+                        if (!link.startsWith('http')) {
+                            link = 'https://www.imovirtual.com' + link;
+                        }
+                        console.log(`🔗 Link encontrado com '${linkSel}': ${link.substring(0, 80)}...`);
+                        break;
                     }
                 }
                 
-                console.log(`🔗 Link: ${link}`);
+                if (!link) {
+                    console.log('❌ Nenhum link válido encontrado');
+                    continue;
+                }
                 
-                // Título melhorado
+                // TÍTULO MELHORADO - Novos seletores
                 let title = '';
                 const titleSelectors = [
+                    'h2[data-cy="listing-item-title"]',        // Seletor específico do ImóVirtual
                     'h3 a span',
                     'h3 a', 
                     'h2 a span',
                     'h2 a',
+                    'h1', 'h2', 'h3',                          // Headers genéricos
                     '[data-cy*="title"]',
-                    'a[title]'
+                    'a[title]',
+                    '.offer-title',                             // Classes antigas
+                    '.listing-title'
                 ];
                 
                 for (const sel of titleSelectors) {
                     const titleEl = $el.find(sel).first();
                     title = titleEl.text().trim() || titleEl.attr('title') || '';
-                    if (title && title.length > 10 && !title.includes('css-')) {
+                    if (title && title.length > 10 && !title.includes('css-') && !title.match(/^\d+$/)) {
+                        console.log(`📋 Título encontrado com '${sel}': ${title.substring(0, 50)}...`);
                         break;
                     }
                 }
                 
                 if (!title || title.length < 10) {
-                    title = linkEl.text().trim() || 'Apartamento para venda';
+                    title = 'Apartamento para ' + (searchType === 'rent' ? 'arrendamento' : 'venda');
+                    console.log('📋 Título fallback usado');
                 }
                 
-                console.log(`📋 Título: ${title.substring(0, 80)}...`);
-                
-                // Extrair dados usando as funções corrigidas
+                // Extrair dados usando as funções existentes
                 const price = extractPriceFromText(rawText, searchType);
                 const actualRooms = extractRoomsFromText(rawText) || searchRooms;
                 const area = extractAreaFromText(rawText);
@@ -558,7 +549,7 @@ const crawler = new CheerioCrawler({
                     console.log(`✅ ${count}. ${typeIcon}${conditionIcon} ADICIONADO: ${actualRooms} - ${area}m² - ${price.toLocaleString()}€`);
                 } else {
                     // Log detalhado para debugging
-                    console.log(`❌ REJEITADO (mas URL capturado):`);
+                    console.log(`❌ REJEITADO (mas link capturado):`);
                     if (!hasValidPrice) console.log(`   - Preço inválido: ${price}`);
                     if (!hasTitle) console.log(`   - Título inválido: "${title}"`);
                     if (!roomsMatch) console.log(`   - Tipologia não match: ${actualRooms} vs ${searchRooms}`);
@@ -605,13 +596,16 @@ try {
         // Se ainda não encontrou nada, tentar só com a tipologia
         if (results.length === 0) {
             console.log('🔄 A tentar pesquisa ainda mais genérica (só tipologia)...');
-            const genericUrl = `https://www.imovirtual.com/${searchType === 'rent' ? 'arrendar' : 'comprar'}/apartamento`;
-            const separator = genericUrl.includes('?') ? '&' : '?';
-            const finalGenericUrl = searchRooms 
-                ? `${genericUrl}${separator}search%5Bfilter_float_number_of_rooms%3Afrom%5D=${searchRooms.replace('T', '')}&search%5Bfilter_float_number_of_rooms%3Ato%5D=${searchRooms.replace('T', '')}`
-                : genericUrl;
-            console.log('🔗 URL genérica final:', finalGenericUrl);
-            await crawler.run([finalGenericUrl]);
+            let genericUrl = `https://www.imovirtual.com/pt/resultados/${searchType === 'rent' ? 'arrendar' : 'comprar'}/apartamento`;
+            
+            if (searchRooms) {
+                const roomNum = searchRooms.replace('T', '').toLowerCase();
+                genericUrl += `,t${roomNum}`;
+            }
+            
+            genericUrl += '?limit=36&ownerTypeSingleSelect=ALL&by=DEFAULT&direction=DESC';
+            console.log('🔗 URL genérica final:', genericUrl);
+            await crawler.run([genericUrl]);
         }
     }
     
