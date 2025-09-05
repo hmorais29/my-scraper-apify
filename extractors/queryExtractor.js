@@ -1,4 +1,4 @@
-// src/extractors/queryExtractor.js
+// queryExtractor.js
 
 /**
  * Extrai informações básicas da query de pesquisa
