@@ -1,18 +1,18 @@
-// main.js - Versão Modularizada
+// main.js - Versão com sistema de location matching corrigido
 import { Actor } from 'apify';
 import { CheerioCrawler } from 'crawlee';
 import locations from './locations.json' with { type: 'json' };
 
-// Imports dos módulos (todos no root)
-import { QueryExtractor } from './queryExtractor.js';
-import { LocationMatcher } from './locationMatcher.js';
+// Imports dos módulos (todos no root) - USAR OS CORRIGIDOS
+import { QueryExtractor } from './queryExtractor.js';      // ✅ CORRIGIDO
+import { LocationMatcher } from './locationMatcher.js';    // ✅ CORRIGIDO
 import { UrlBuilder } from './urlBuilder.js';
 import { PropertyExtractor } from './propertyExtractor.js';
 
 await Actor.init();
 
 /**
- * Scraper principal do ImóVirtual - Versão Modularizada
+ * Scraper principal do ImóVirtual - Com correções de location matching
  */
 async function runScraper() {
     console.log('🚀 A iniciar scraper modularizado do ImóVirtual...');
@@ -25,30 +25,63 @@ async function runScraper() {
     console.log(`🔍 Query: "${query}"`);
     console.log(`🎯 Máximo de resultados: ${maxResults}`);
 
-    // 2. EXTRAIR PARÂMETROS DA QUERY
+    // 2. EXTRAIR PARÂMETROS DA QUERY (VERSÃO CORRIGIDA)
     const searchParams = QueryExtractor.extractAll(query);
     console.log('\n📋 Parâmetros extraídos:', searchParams);
 
-    // 3. ENCONTRAR LOCALIZAÇÃO
+    // 3. ENCONTRAR LOCALIZAÇÃO (VERSÃO CORRIGIDA)
     let bestLocation = null;
     let alternativeLocations = [];
 
     if (searchParams.locations && searchParams.locations.length > 0) {
         console.log('\n🔍 A procurar correspondência de localização...');
         
+        // USAR O SISTEMA CORRIGIDO
         bestLocation = LocationMatcher.findBestMatch(searchParams.locations, locations);
         
-        if (!bestLocation) {
+        if (bestLocation) {
+            console.log(`✅ LOCALIZAÇÃO ENCONTRADA: ${bestLocation.name} (${bestLocation.level})`);
+            console.log(`🆔 ID: ${bestLocation.id}`);
+            console.log(`🌐 URL terá: /${bestLocation.id}`);
+            
+            // VALIDAÇÃO EXTRA: Verificar se é o resultado esperado
+            const queryText = searchParams.locations.join(' ').toLowerCase();
+            const locationName = bestLocation.name.toLowerCase();
+            const isGoodMatch = queryText.includes(locationName.split(' ')[0]) || 
+                               locationName.includes(queryText.split(' ')[0]);
+            
+            console.log(`${isGoodMatch ? '✅' : '⚠️'} Match quality: ${isGoodMatch ? 'BOM' : 'VERIFICAR'}`);
+            
+        } else {
             console.log('⚠️ Nenhuma correspondência exacta. A procurar alternativas...');
             alternativeLocations = LocationMatcher.findAlternativeMatches(
                 searchParams.locations, 
                 locations, 
                 3
             );
+            
+            if (alternativeLocations.length > 0) {
+                console.log('🔄 Alternativas encontradas:');
+                alternativeLocations.forEach((alt, i) => {
+                    console.log(`  ${i + 1}. ${alt.name} (${alt.level})`);
+                });
+            }
         }
+        
+        // OPÇÃO DE DEBUG: Descomentar para ver detalhes do matching
+        /*
+        if (searchParams.locations.length > 0) {
+            console.log('\n🐛 DEBUG - Detalhes do matching:');
+            LocationMatcher.debugLocationMatch(
+                searchParams.locations[0],
+                bestLocation?.name || 'N/A',
+                locations
+            );
+        }
+        */
     }
 
-    // 4. CONSTRUIR URLs DE PESQUISA
+    // 4. CONSTRUIR URLs DE PESQUISA (código original mantido)
     console.log('\n🔗 A construir URLs de pesquisa...');
     
     const searchUrlParams = {
@@ -66,7 +99,13 @@ async function runScraper() {
     console.log(`🌐 URL principal: ${mainUrl}`);
     console.log(`🔄 ${fallbackUrls.length} URLs alternativas preparadas`);
 
-    // 5. CONFIGURAR CRAWLER
+    // VALIDAÇÃO DA URL CONSTRUÍDA
+    if (bestLocation) {
+        const urlContainsLocation = mainUrl.includes(bestLocation.id);
+        console.log(`${urlContainsLocation ? '✅' : '❌'} URL ${urlContainsLocation ? 'contém' : 'NÃO contém'} o ID da localização`);
+    }
+
+    // 5. CONFIGURAR CRAWLER (código original mantido)
     const results = [];
     let urlsTriedCount = 0;
     const maxUrlsToTry = 3;
@@ -113,7 +152,7 @@ async function runScraper() {
                 return;
             }
 
-            // 6. PROCESSAR ANÚNCIOS
+            // 6. PROCESSAR ANÚNCIOS (código original mantido)
             let validCount = 0;
             const listingArray = listings.toArray().slice(0, maxResults * 3); // Processar mais para compensar inválidos
             
@@ -132,6 +171,7 @@ async function runScraper() {
                         // Adicionar metadata da URL usada
                         extractionResult.property.searchUrl = request.loadedUrl;
                         extractionResult.property.urlIndex = urlsTriedCount;
+                        extractionResult.property.locationUsed = bestLocation; // NOVO: Info da localização
                         
                         results.push(extractionResult.property);
                         validCount++;
@@ -154,7 +194,7 @@ async function runScraper() {
         }
     });
 
-    // 7. EXECUTAR SCRAPING
+    // 7. EXECUTAR SCRAPING (código original mantido)
     const urlsToTry = [mainUrl];
     
     try {
@@ -178,7 +218,7 @@ async function runScraper() {
             }
         }
 
-        // Se ainda não temos resultados, tentar com localizações alternativas
+        // Se ainda não temos resultados, tentar com localizações alternativas (MELHORADO)
         if (results.length === 0 && alternativeLocations.length > 0) {
             console.log(`\n🔄 A tentar com localizações alternativas...`);
             
@@ -186,11 +226,17 @@ async function runScraper() {
                 const altParams = { ...searchUrlParams, location: altLocation };
                 const altUrl = UrlBuilder.buildSearchUrl(altParams);
                 
-                console.log(`🔄 A tentar localização: ${altLocation.name}`);
+                console.log(`🔄 A tentar localização: ${altLocation.name} (${altLocation.level})`);
+                console.log(`🌐 URL: ${altUrl}`);
+                
                 await crawler.run([altUrl]);
                 
                 if (results.length > 0) {
                     console.log(`✅ Resultados obtidos com localização alternativa: ${altLocation.name}`);
+                    // Adicionar info sobre qual localização alternativa foi usada
+                    results.forEach(result => {
+                        result.alternativeLocationUsed = altLocation;
+                    });
                     break;
                 }
             }
@@ -200,17 +246,23 @@ async function runScraper() {
         console.log(`❌ Erro durante o scraping: ${error.message}`);
     }
 
-    // 8. PROCESSAR RESULTADOS FINAIS
+    // 8. PROCESSAR RESULTADOS FINAIS (código original + melhorias)
     console.log('\n📊 PROCESSAMENTO FINAL...');
     
     if (results.length > 0) {
         // Calcular estatísticas
         const stats = PropertyExtractor.calculateStats(results);
         
-        // Adicionar estatísticas aos resultados
+        // Adicionar estatísticas e info de localização aos resultados
         const finalResults = results.map(result => ({
             ...result,
-            stats: stats
+            stats: stats,
+            searchInfo: {
+                originalQuery: query,
+                bestLocationFound: bestLocation,
+                locationMatchingWorked: !!bestLocation,
+                extractedLocations: searchParams.locations
+            }
         }));
 
         // Guardar resultados
@@ -218,6 +270,13 @@ async function runScraper() {
         
         console.log(`\n🎉 SCRAPING CONCLUÍDO COM SUCESSO!`);
         console.log(`✅ ${results.length} imóveis encontrados e guardados`);
+        
+        // INFO SOBRE LOCALIZAÇÃO
+        if (bestLocation) {
+            console.log(`📍 Localização usada: ${bestLocation.name} (${bestLocation.level})`);
+            console.log(`🆔 ID da localização: ${bestLocation.id}`);
+        }
+        
         console.log(`💰 Preço médio: ${stats.priceStats?.avg ? stats.priceStats.avg.toLocaleString() + '€' : 'N/A'}`);
         console.log(`📐 Área média: ${stats.areaStats?.avg ? stats.areaStats.avg + 'm²' : 'N/A'}`);
         console.log(`💎 Preço/m² médio: ${stats.pricePerSqmStats?.avg ? stats.pricePerSqmStats.avg.toLocaleString() + '€/m²' : 'N/A'}`);
@@ -225,12 +284,20 @@ async function runScraper() {
     } else {
         console.log('\n❌ NENHUM RESULTADO ENCONTRADO');
         console.log('💡 Possíveis causas:');
-        console.log('   - Localização muito específica');
+        console.log('   - Localização muito específica ou não encontrada');
         console.log('   - Filtros muito restritivos');
         console.log('   - Seletores da página mudaram');
         console.log('   - Sem resultados disponíveis para esta pesquisa');
         
-        // Guardar dados de debug
+        // Info extra sobre location matching para debug
+        if (searchParams.locations && searchParams.locations.length > 0) {
+            console.log('\n🔍 DIAGNÓSTICO DE LOCALIZAÇÃO:');
+            console.log(`   - Localizações extraídas: [${searchParams.locations.join(', ')}]`);
+            console.log(`   - Melhor match encontrado: ${bestLocation ? bestLocation.name : 'NENHUM'}`);
+            console.log(`   - Alternativas disponíveis: ${alternativeLocations.length}`);
+        }
+        
+        // Guardar dados de debug (MELHORADO)
         await Actor.pushData([{
             query: query,
             searchParams: searchParams,
@@ -238,6 +305,13 @@ async function runScraper() {
             alternativeLocations: alternativeLocations,
             mainUrl: mainUrl,
             fallbackUrls: fallbackUrls.map(f => f.description),
+            locationMatchingResults: {
+                extractedLocations: searchParams.locations,
+                bestMatchFound: !!bestLocation,
+                bestMatchName: bestLocation?.name,
+                bestMatchLevel: bestLocation?.level,
+                alternativesCount: alternativeLocations.length
+            },
             timestamp: new Date().toISOString(),
             status: 'NO_RESULTS'
         }]);
@@ -246,7 +320,7 @@ async function runScraper() {
     return results;
 }
 
-// 9. EXECUTAR E FINALIZAR
+// 9. EXECUTAR E FINALIZAR (código original mantido)
 Actor.main(async () => {
     try {
         const results = await runScraper();
@@ -271,3 +345,31 @@ Actor.main(async () => {
     }
 });
 
+// FUNÇÃO EXTRA PARA DEBUG (opcional)
+// Descomentar se quiseres testar location matching separadamente
+/*
+async function testLocationMatching() {
+    const testQueries = [
+        "Santo António dos Cavaleiros",
+        "apartamento T3 Santo António dos Cavaleiros",
+        "T2 arrendamento Loures",
+        "casa Apelação"
+    ];
+    
+    console.log('\n🧪 === TESTE DE LOCATION MATCHING ===');
+    
+    for (const query of testQueries) {
+        console.log(`\n🔍 Teste: "${query}"`);
+        const extracted = QueryExtractor.extractAll(query);
+        const match = LocationMatcher.findBestMatch(extracted.locations, locations);
+        
+        console.log(`📍 Extraído: [${extracted.locations.join(', ')}]`);
+        console.log(`🎯 Match: ${match ? `${match.name} (${match.level})` : 'NENHUM'}`);
+        
+        if (match) {
+            console.log(`🆔 ID: ${match.id}`);
+            console.log(`🌐 URL: https://www.imovirtual.com/pt/resultados/comprar/apartamento/${match.id}`);
+        }
+    }
+}
+*/
