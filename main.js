@@ -3,11 +3,11 @@ import { Actor } from 'apify';
 import { CheerioCrawler } from 'crawlee';
 import locations from './locations.json' with { type: 'json' };
 
-// Imports dos módulos
-import { QueryExtractor } from './src/extractors/queryExtractor.js';
-import { LocationMatcher } from './src/utils/locationMatcher.js';
-import { UrlBuilder } from './src/utils/urlBuilder.js';
-import { PropertyExtractor } from './src/extractors/propertyExtractor.js';
+// Imports dos módulos (todos no root)
+import { QueryExtractor } from './queryExtractor.js';
+import { LocationMatcher } from './locationMatcher.js';
+import { UrlBuilder } from './urlBuilder.js';
+import { PropertyExtractor } from './propertyExtractor.js';
 
 await Actor.init();
 
