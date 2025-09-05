@@ -52,6 +52,7 @@ export class QueryExtractor {
 
     /**
      * Extrai múltiplas localizações da query usando regex melhorado
+     * CORRIGIDO: Filtra preços e palavras irrelevantes
      */
     static extractLocations(query) {
         // Normalizar query
@@ -66,7 +67,7 @@ export class QueryExtractor {
 
         // Padrões de localização melhorados
         const locationPatterns = [
-            // Localizações compostas
+            // Localizações compostas - mais específicas primeiro
             /santo ant[oô]nio dos cavaleiros/i,
             /caldas da rainha/i,
             /vila nova de gaia/i,
@@ -101,19 +102,29 @@ export class QueryExtractor {
                 const location = match[0].toLowerCase();
                 if (!foundLocations.includes(location)) {
                     foundLocations.push(location);
-                    console.log(`📍 Localização encontrada: "${location}"`);
+                    console.log(`📍 Localização encontrada (padrão): "${location}"`);
                 }
             }
         }
 
-        // Se não encontrou nada específico, tentar extrair palavras que podem ser localizações
+        // Se não encontrou nada específico, extrair palavras candidatas
         if (foundLocations.length === 0) {
-            const words = normalized.split(' ').filter(word => 
-                word.length > 3 && 
-                !['com', 'por', 'para', 'apartamento', 'casa'].includes(word)
-            );
+            const words = normalized.split(' ').filter(word => {
+                // CORRIGIDO: Filtrar preços, números, e palavras irrelevantes
+                const isPricePattern = /^\d+k$/i.test(word) || /^\d{3,}$/i.test(word) || word.includes('€');
+                const isIrrelevant = ['com', 'por', 'para', 'apartamento', 'casa', 'em', 'de', 'da', 'do', 'dos', 'das'].includes(word);
+                const isTooShort = word.length <= 3;
+                
+                const shouldExclude = isPricePattern || isIrrelevant || isTooShort;
+                
+                if (shouldExclude) {
+                    console.log(`❌ Palavra filtrada: "${word}" (${isPricePattern ? 'preço' : isIrrelevant ? 'irrelevante' : 'muito curta'})`);
+                }
+                
+                return !shouldExclude;
+            });
             
-            console.log(`🔍 Palavras candidatas: ${words.join(', ')}`);
+            console.log(`🔍 Palavras candidatas (filtradas): ${words.join(', ')}`);
             return words;
         }
 
@@ -121,7 +132,7 @@ export class QueryExtractor {
     }
 
     /**
-     * Extrai preço da query (se especificado)
+     * Extrai preço da query (se especificado) - APENAS para referência, NÃO para limitar pesquisa
      */
     static extractPriceRange(query) {
         const pricePatterns = [
@@ -140,8 +151,11 @@ export class QueryExtractor {
                     price *= 1000;
                 }
                 
-                console.log(`💰 Preço máximo extraído: ${price.toLocaleString()}€`);
-                return { max: price };
+                console.log(`💰 Preço extraído (APENAS para referência): ${price.toLocaleString()}€`);
+                console.log(`⚠️  NOTA: Preço NÃO será usado para limitar a pesquisa`);
+                
+                // Retornar apenas para referência, não para usar no filtro
+                return { reference: price, note: 'Para comparação posterior, não para filtrar' };
             }
         }
 
