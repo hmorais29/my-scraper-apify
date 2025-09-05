@@ -4,10 +4,10 @@ import { CheerioCrawler } from 'crawlee';
 import locations from './locations.json' with { type: 'json' };
 
 // Imports dos módulos (todos no root)
-import { QueryExtractor } from './extrators/queryExtractor.js';
-import { LocationMatcher } from './utils/locationMatcher.js';
-import { UrlBuilder } from './utils/urlBuilder.js';
-import { PropertyExtractor } from './extrators/propertyExtractor.js';
+import { QueryExtractor } from './queryExtractor.js';
+import { LocationMatcher } from './locationMatcher.js';
+import { UrlBuilder } from './urlBuilder.js';
+import { PropertyExtractor } from './propertyExtractor.js';
 
 await Actor.init();
 
@@ -270,3 +270,4 @@ Actor.main(async () => {
         await Actor.exit();
     }
 });
+
