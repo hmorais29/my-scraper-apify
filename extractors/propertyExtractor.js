@@ -1,4 +1,4 @@
-// src/extractors/propertyExtractor.js
+// propertyExtractor.js
 
 /**
  * Extrai dados de imóveis das páginas do ImóVirtual
@@ -188,33 +188,6 @@ export class PropertyExtractor {
     }
 
     /**
-     * Extrai localização do texto do anúncio
-     */
-    static extractLocation(text) {
-        const cleanText = this.cleanText(text);
-        
-        // Padrões comuns de localização em anúncios
-        const locationPatterns = [
-            /localizado em ([^,]+)/i,
-            /situado em ([^,]+)/i,
-            /em ([A-Z][a-zÀ-ÿ\s]+)/i,
-            /([A-Z][a-zÀ-ÿ\s]{3,20}),\s*Lisboa/i,
-            /([A-Z][a-zÀ-ÿ\s]{3,20}),\s*Porto/i
-        ];
-        
-        for (const pattern of locationPatterns) {
-            const match = cleanText.match(pattern);
-            if (match && match[1]) {
-                const location = match[1].trim();
-                console.log(`📍 Localização extraída: ${location}`);
-                return location;
-            }
-        }
-        
-        return '';
-    }
-
-    /**
      * Valida se um imóvel extraído é válido
      */
     static validateProperty(property, searchType) {
@@ -255,7 +228,6 @@ export class PropertyExtractor {
         const price = this.extractPrice(rawText, searchType);
         const area = this.extractArea(rawText);
         const actualRooms = this.extractRooms(rawText) || searchRooms || '';
-        const extractedLocation = this.extractLocation(rawText);
         
         // Construir objeto do imóvel
         const property = {
@@ -263,7 +235,7 @@ export class PropertyExtractor {
             price: price,
             area: area,
             rooms: actualRooms,
-            location: extractedLocation || (locations && locations.length > 0 ? locations[0] : ''),
+            location: locations && locations.length > 0 ? locations[0] : '',
             pricePerSqm: area > 0 ? Math.round(price / area) : 0,
             link: link,
             site: 'ImóVirtual',
@@ -277,15 +249,7 @@ export class PropertyExtractor {
             areaFormatted: area > 0 ? `${area} m²` : 'N/A',
             pricePerSqmFormatted: area > 0 ? `${Math.round(price / area).toLocaleString()} €/m²` : 'N/A',
             
-            timestamp: new Date().toISOString(),
-            extractionMetadata: {
-                rawTextLength: rawText.length,
-                hasTitle: !!title,
-                hasLink: !!link,
-                hasPrice: price > 0,
-                hasArea: area > 0,
-                hasRooms: !!actualRooms
-            }
+            timestamp: new Date().toISOString()
         };
         
         // Validar propriedade
@@ -296,7 +260,6 @@ export class PropertyExtractor {
         console.log(`💰 Preço: ${property.priceFormatted}`);
         console.log(`📐 Área: ${property.areaFormatted}`);
         console.log(`🏠 Tipologia: ${property.rooms}`);
-        console.log(`📍 Localização: ${property.location}`);
         console.log(`🔗 Link: ${property.link ? 'Sim' : 'Não'}`);
         
         return {
