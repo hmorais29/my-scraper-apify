@@ -7,6 +7,7 @@ export class UrlBuilder {
 
     /**
      * Constrói URL principal do ImóVirtual
+     * CORRIGIDO: Não usa priceRange para filtrar a pesquisa
      */
     static buildSearchUrl(searchParams) {
         const { 
@@ -14,7 +15,6 @@ export class UrlBuilder {
             rooms, 
             location, 
             condition, 
-            priceRange, 
             area,
             propertyType = 'apartamento' 
         } = searchParams;
@@ -63,17 +63,8 @@ export class UrlBuilder {
             }
         }
 
-        // Adicionar filtro de preço
-        if (priceRange) {
-            if (priceRange.min) {
-                params.set('search[filter_float_price:from]', priceRange.min.toString());
-                console.log(`💰 Preço mínimo: ${priceRange.min.toLocaleString()}€`);
-            }
-            if (priceRange.max) {
-                params.set('search[filter_float_price:to]', priceRange.max.toString());
-                console.log(`💰 Preço máximo: ${priceRange.max.toLocaleString()}€`);
-            }
-        }
+        // CORRIGIDO: NÃO adicionar filtro de preço (apenas usar para comparação posterior)
+        console.log('⚠️  Filtro de preço REMOVIDO - pesquisa sem limitação de preço');
 
         // Adicionar filtro de área
         if (area) {
@@ -170,18 +161,7 @@ export class UrlBuilder {
             });
         }
 
-        // 3. Flexibilizar preço (+/- 20%)
-        if (baseParams.priceRange?.max) {
-            const flexPriceParams = { ...baseParams };
-            flexPriceParams.priceRange = {
-                ...flexPriceParams.priceRange,
-                max: Math.round(baseParams.priceRange.max * 1.2)
-            };
-            fallbackUrls.push({
-                url: this.buildSearchUrl(flexPriceParams),
-                description: `Pesquisa com preço flexível (+20%)`
-            });
-        }
+        // 3. REMOVIDO: Flexibilização de preço (já que não usamos preço para filtrar)
 
         console.log(`🔄 ${fallbackUrls.length} URLs alternativas geradas`);
         return fallbackUrls;
