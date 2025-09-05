@@ -1,7 +1,8 @@
-// locationMatcher.js
+// locationMatcher.js - VERSÃO CORRIGIDA
 
 /**
  * Sistema avançado de matching de localizações
+ * CORRIGIDO: Prioridade correta para match exato do name
  */
 export class LocationMatcher {
 
@@ -50,7 +51,7 @@ export class LocationMatcher {
     }
 
     /**
-     * Calcula o score de matching com lógica melhorada
+     * CORRIGIDO: Calcula o score de matching com prioridade no name exato
      */
     static calculateMatchScore(locationQuery, location, allQueries) {
         const normalizedQuery = this.normalizeText(locationQuery);
@@ -60,75 +61,85 @@ export class LocationMatcher {
         let score = 0;
         let matchType = '';
 
-        // 1. Match exato no nome (prioridade máxima)
+        // PRIORIDADES HIERÁRQUICAS CORRETAS (mais específico = mais prioridade)
+        const hierarchyPriority = {
+            'neighborhood': 10,  // Bairro/Zona - MÁXIMA prioridade
+            'parish': 8,         // Freguesia
+            'council': 6,        // Concelho  
+            'district': 4        // Distrito - menor prioridade
+        };
+        
+        const basePriority = hierarchyPriority[location.level] || 1;
+        console.log(`🏷️  ${location.name} (${location.level}) - Prioridade base: ${basePriority}`);
+
+        // 1. MATCH EXATO NO NAME (prioridade absoluta)
         if (normalizedName === normalizedQuery) {
-            score = 10000 * location.priority;
-            matchType = 'EXATO';
+            score = 100000 * basePriority; // Score muito alto para match exato
+            matchType = 'NAME_EXATO';
+            console.log(`🎯 MATCH EXATO: "${location.name}" - Score: ${score.toFixed(0)}`);
         }
         // 2. Query contém TODO o nome da localização (muito bom)
         else if (normalizedQuery.includes(normalizedName) && normalizedName.length > 3) {
-            score = 8000 * location.priority * (normalizedName.length / normalizedQuery.length);
+            score = 50000 * basePriority * (normalizedName.length / normalizedQuery.length);
             matchType = 'QUERY_CONTÉM_NOME';
         }
-        // 3. Nome da localização contém a query (bom)
+        // 3. Nome da localização contém a query (bom, mas menor prioridade)
         else if (normalizedName.includes(normalizedQuery) && normalizedQuery.length > 3) {
-            score = 6000 * location.priority * (normalizedQuery.length / normalizedName.length);
+            score = 25000 * basePriority * (normalizedQuery.length / normalizedName.length);
             matchType = 'NOME_CONTÉM_QUERY';
         }
-        // 4. Match no fullName
+        // 4. Match no fullName (menor prioridade)
         else if (normalizedFullName.includes(normalizedQuery)) {
-            score = 4000 * location.priority;
+            score = 10000 * basePriority;
             matchType = 'FULLNAME';
         }
-        // 5. Fuzzy matching para typos
+        // 5. Fuzzy matching para typos (última opção)
         else {
             const distance = this.levenshteinDistance(normalizedName, normalizedQuery);
             const maxLen = Math.max(normalizedName.length, normalizedQuery.length);
             const similarity = 1 - (distance / maxLen);
             
             if (similarity > 0.7) { // 70% de similaridade
-                score = 2000 * location.priority * similarity;
+                score = 5000 * basePriority * similarity;
                 matchType = `FUZZY_${(similarity * 100).toFixed(0)}%`;
             }
         }
 
-        // BONUS ESPECIAL: Para "Santo António dos Cavaleiros" quando a query tem múltiplas palavras
+        // BONUS MULTI-PALAVRA: Quando a query tem múltiplas palavras que fazem match
         if (score > 0 && allQueries.length > 1) {
-            // Calcular quantas palavras da query estão no nome da localização
             const queryWords = allQueries.map(q => this.normalizeText(q));
-            const wordsInLocation = queryWords.filter(word => 
-                normalizedName.includes(word) || normalizedFullName.includes(word)
-            ).length;
+            const wordsInName = queryWords.filter(word => normalizedName.includes(word)).length;
+            const wordsInFullName = queryWords.filter(word => normalizedFullName.includes(word)).length;
+            const totalWordsMatched = Math.max(wordsInName, wordsInFullName);
             
-            if (wordsInLocation > 1) {
-                const multiWordBonus = Math.pow(1.5, wordsInLocation - 1); // Bonus exponencial
+            if (totalWordsMatched > 1) {
+                const multiWordBonus = Math.pow(1.8, totalWordsMatched - 1);
                 score *= multiWordBonus;
-                matchType += `_MULTI(${wordsInLocation}words)`;
-                
-                console.log(`🎯 BONUS multi-palavra: ${location.name} - ${wordsInLocation} palavras matched - Bonus: ${multiWordBonus.toFixed(2)}x`);
+                matchType += `_MULTI(${totalWordsMatched}w)`;
+                console.log(`🎯 BONUS multi-palavra: ${location.name} - ${totalWordsMatched} palavras - Bonus: ${multiWordBonus.toFixed(2)}x`);
             }
         }
 
-        // BONUS EXTRA: Para localizações mais específicas (neighborhoods > parishes > councils)
-        if (score > 0) {
-            const specificityBonus = {
-                'neighborhood': 1.2,
-                'parish': 1.1,
-                'council': 1.0,
-                'district': 0.9
-            };
-            
-            const bonus = specificityBonus[location.level] || 1.0;
-            score *= bonus;
+        // PENALIZAÇÃO: Para evitar matches muito genéricos
+        if (normalizedName.length <= 3 && matchType !== 'NAME_EXATO') {
+            score *= 0.5; // Penaliza nomes muito curtos
+            matchType += '_CURTO';
         }
 
-        return { score, matchType, queryWords: allQueries.length };
+        return { 
+            score, 
+            matchType, 
+            queryWords: allQueries.length,
+            hierarchy: location.level,
+            name: location.name 
+        };
     }
 
     /**
-     * Encontra a melhor localização para uma query
+     * CORRIGIDO: Encontra a melhor localização priorizando name exato
      */
     static findBestMatch(locationQueries, locationsData) {
+        console.log(`\n🔍 === LOCATION MATCHING ===`);
         console.log(`🔍 A procurar melhor match para: [${locationQueries.join(', ')}]`);
 
         // Preparar dados de localizações
@@ -149,23 +160,27 @@ export class LocationMatcher {
             return null;
         }
 
-        // Criar lista unificada com prioridades
+        // Criar lista unificada com prioridades CORRETAS
         const allLocations = [
-            ...allLocationArrays.neighborhoods?.map(n => ({...n, priority: 5, type: 'neighborhood', level: 'neighborhood'})) || [],
-            ...allLocationArrays.parishes?.map(p => ({...p, priority: 4, type: 'parish', level: 'parish'})) || [],
-            ...allLocationArrays.councils?.map(c => ({...c, priority: 3, type: 'council', level: 'council'})) || [],
-            ...allLocationArrays.districts?.map(d => ({...d, priority: 2, type: 'district', level: 'district'})) || []
+            ...allLocationArrays.neighborhoods?.map(n => ({...n, level: 'neighborhood'})) || [],
+            ...allLocationArrays.parishes?.map(p => ({...p, level: 'parish'})) || [],
+            ...allLocationArrays.councils?.map(c => ({...c, level: 'council'})) || [],
+            ...allLocationArrays.districts?.map(d => ({...d, level: 'district'})) || []
         ];
 
-        console.log(`📊 Total de localizações disponíveis: ${allLocations.length}`);
+        console.log(`📊 Total de localizações: ${allLocations.length}`);
+        console.log(`   - Neighborhoods: ${allLocationArrays.neighborhoods?.length || 0}`);
+        console.log(`   - Parishes: ${allLocationArrays.parishes?.length || 0}`);
+        console.log(`   - Councils: ${allLocationArrays.councils?.length || 0}`);
+        console.log(`   - Districts: ${allLocationArrays.districts?.length || 0}`);
 
         let bestMatch = null;
         let bestScore = 0;
-        let allMatches = []; // Para debug
+        let allMatches = [];
 
         // Para cada query de localização
         for (const locationQuery of locationQueries) {
-            console.log(`🔍 A processar: "${locationQuery}"`);
+            console.log(`\n🔍 A processar query: "${locationQuery}"`);
 
             // Para cada localização disponível
             for (const location of allLocations) {
@@ -174,50 +189,65 @@ export class LocationMatcher {
                 if (matchResult.score > 0) {
                     allMatches.push({
                         location: location.name,
+                        fullName: location.fullName,
+                        id: location.id,
                         score: matchResult.score,
                         type: matchResult.matchType,
                         level: location.level,
-                        query: locationQuery
+                        query: locationQuery,
+                        locationObj: location
                     });
                     
-                    console.log(`🎯 ${matchResult.matchType}: ${location.name} (${location.level}) - Score: ${matchResult.score.toFixed(0)}`);
-                }
-
-                if (matchResult.score > bestScore) {
-                    bestScore = matchResult.score;
-                    bestMatch = location;
+                    if (matchResult.score > bestScore) {
+                        bestScore = matchResult.score;
+                        bestMatch = location;
+                        console.log(`🏆 NOVO MELHOR: ${location.name} (${location.level}) - Score: ${matchResult.score.toFixed(0)} - ${matchResult.matchType}`);
+                    }
                 }
             }
         }
 
-        // Mostrar top 5 matches para debug
-        const top5 = allMatches
+        // Mostrar top 10 matches para debug
+        const topMatches = allMatches
             .sort((a, b) => b.score - a.score)
-            .slice(0, 5);
+            .slice(0, 10);
         
-        console.log(`🏆 TOP 5 MATCHES:`);
-        top5.forEach((match, i) => {
-            console.log(`  ${i + 1}. ${match.location} (${match.level}) - ${match.score.toFixed(0)} - ${match.type} - Query: "${match.query}"`);
+        console.log(`\n🏆 === TOP 10 MATCHES ===`);
+        topMatches.forEach((match, i) => {
+            const isWinner = i === 0 ? '👑 ' : `${i + 1}. `;
+            console.log(`${isWinner}${match.location} (${match.level}) - Score: ${match.score.toFixed(0)} - ${match.type}`);
+            console.log(`    Query: "${match.query}" | ID: ${match.id}`);
+            if (i === 0 && match.fullName) {
+                console.log(`    FullName: ${match.fullName}`);
+            }
         });
 
         if (bestMatch) {
-            console.log(`✅ MELHOR MATCH: ${bestMatch.name} (${bestMatch.level}) - Score: ${bestScore.toFixed(0)}`);
+            console.log(`\n✅ === RESULTADO FINAL ===`);
+            console.log(`🏆 VENCEDOR: ${bestMatch.name} (${bestMatch.level})`);
             console.log(`📍 FullName: ${bestMatch.fullName}`);
             console.log(`🆔 ID: ${bestMatch.id}`);
+            console.log(`📊 Score Final: ${bestScore.toFixed(0)}`);
+            
+            // Validar se o ID está correto para o URL
+            if (bestMatch.id && bestMatch.id.includes('/')) {
+                console.log(`🌐 URL será: https://www.imovirtual.com/pt/resultados/comprar/apartamento/${bestMatch.id}`);
+            }
+            
             return bestMatch;
         }
 
-        console.log('❌ Nenhuma localização encontrada');
+        console.log('\n❌ === NENHUM MATCH ENCONTRADO ===');
         return null;
     }
 
     /**
-     * Encontra matches alternativos se o principal falhar
+     * CORRIGIDO: Encontra matches alternativos com melhor hierarquia
      */
-    static findAlternativeMatches(locationQueries, locationsData, limit = 3) {
-        console.log(`🔍 A procurar matches alternativos...`);
+    static findAlternativeMatches(locationQueries, locationsData, limit = 5) {
+        console.log(`\n🔍 === PROCURAR ALTERNATIVAS ===`);
 
-        // Similar à função principal mas retorna múltiplos resultados
+        // Usar o mesmo sistema da função principal
         let allLocationArrays = {};
         
         if (locationsData.districts && locationsData.councils) {
@@ -234,10 +264,10 @@ export class LocationMatcher {
         }
 
         const allLocations = [
-            ...allLocationArrays.neighborhoods?.map(n => ({...n, priority: 5, type: 'neighborhood', level: 'neighborhood'})) || [],
-            ...allLocationArrays.parishes?.map(p => ({...p, priority: 4, type: 'parish', level: 'parish'})) || [],
-            ...allLocationArrays.councils?.map(c => ({...c, priority: 3, type: 'council', level: 'council'})) || [],
-            ...allLocationArrays.districts?.map(d => ({...d, priority: 2, type: 'district', level: 'district'})) || []
+            ...allLocationArrays.neighborhoods?.map(n => ({...n, level: 'neighborhood'})) || [],
+            ...allLocationArrays.parishes?.map(p => ({...p, level: 'parish'})) || [],
+            ...allLocationArrays.councils?.map(c => ({...c, level: 'council'})) || [],
+            ...allLocationArrays.districts?.map(d => ({...d, level: 'district'})) || []
         ];
 
         const matches = [];
@@ -260,7 +290,68 @@ export class LocationMatcher {
         .slice(0, limit)
         .map(m => m.location);
 
-        console.log(`📋 ${uniqueMatches.length} matches alternativos encontrados`);
+        console.log(`📋 ${uniqueMatches.length} matches alternativos encontrados:`);
+        uniqueMatches.forEach((match, i) => {
+            console.log(`  ${i + 1}. ${match.name} (${match.level}) - ID: ${match.id}`);
+        });
+
         return uniqueMatches;
+    }
+
+    /**
+     * NOVA: Função para debug de uma localização específica
+     */
+    static debugLocationMatch(locationQuery, specificLocationName, locationsData) {
+        console.log(`\n🐛 === DEBUG MATCH ESPECÍFICO ===`);
+        console.log(`🔍 Query: "${locationQuery}"`);
+        console.log(`🎯 Localização específica: "${specificLocationName}"`);
+
+        const allLocations = this.getAllLocationsFromData(locationsData);
+        const targetLocation = allLocations.find(loc => 
+            this.normalizeText(loc.name) === this.normalizeText(specificLocationName)
+        );
+
+        if (!targetLocation) {
+            console.log(`❌ Localização "${specificLocationName}" não encontrada nos dados`);
+            return null;
+        }
+
+        const result = this.calculateMatchScore(locationQuery, targetLocation, [locationQuery]);
+        
+        console.log(`📊 Resultado do match:`);
+        console.log(`   - Score: ${result.score.toFixed(0)}`);
+        console.log(`   - Tipo: ${result.matchType}`);
+        console.log(`   - Hierarquia: ${targetLocation.level}`);
+        console.log(`   - ID: ${targetLocation.id}`);
+        console.log(`   - FullName: ${targetLocation.fullName}`);
+
+        return result;
+    }
+
+    /**
+     * Helper para extrair todas as localizações dos dados
+     */
+    static getAllLocationsFromData(locationsData) {
+        let allLocationArrays = {};
+        
+        if (locationsData.districts && locationsData.councils) {
+            allLocationArrays = locationsData;
+        } else if (Array.isArray(locationsData) && locationsData.length > 0) {
+            const consolidatedData = locationsData.find(item => item.type === 'FINAL_CONSOLIDATED_DATA');
+            if (consolidatedData) {
+                allLocationArrays = consolidatedData;
+            } else {
+                return [];
+            }
+        } else {
+            return [];
+        }
+
+        return [
+            ...allLocationArrays.neighborhoods?.map(n => ({...n, level: 'neighborhood'})) || [],
+            ...allLocationArrays.parishes?.map(p => ({...p, level: 'parish'})) || [],
+            ...allLocationArrays.councils?.map(c => ({...c, level: 'council'})) || [],
+            ...allLocationArrays.districts?.map(d => ({...d, level: 'district'})) || []
+        ];
     }
 }
