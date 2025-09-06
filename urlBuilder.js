@@ -7,7 +7,7 @@ export class UrlBuilder {
 
     /**
      * Constrói URL principal do ImóVirtual
-     * CORRIGIDO: Não usa priceRange para filtrar a pesquisa
+     * CORRIGIDO: Não usa priceRange NEM area para filtrar a pesquisa
      */
     static buildSearchUrl(searchParams) {
         const { 
@@ -15,7 +15,6 @@ export class UrlBuilder {
             rooms, 
             location, 
             condition, 
-            area,
             propertyType = 'apartamento' 
         } = searchParams;
 
@@ -66,17 +65,8 @@ export class UrlBuilder {
         // CORRIGIDO: NÃO adicionar filtro de preço (apenas usar para comparação posterior)
         console.log('⚠️  Filtro de preço REMOVIDO - pesquisa sem limitação de preço');
 
-        // Adicionar filtro de área
-        if (area) {
-            if (area.min) {
-                params.set('search[filter_float_m:from]', area.min.toString());
-                console.log(`📐 Área mínima: ${area.min}m²`);
-            }
-            if (area.max) {
-                params.set('search[filter_float_m:to]', area.max.toString());
-                console.log(`📐 Área máxima: ${area.max}m²`);
-            }
-        }
+        // CORRIGIDO: NÃO adicionar filtro de área (apenas usar para comparação posterior)
+        console.log('⚠️  Filtro de área REMOVIDO - pesquisa sem limitação de área');
 
         const finalUrl = baseUrl + '?' + params.toString();
         console.log(`🌐 URL construída: ${finalUrl}`);
@@ -86,84 +76,37 @@ export class UrlBuilder {
 
     /**
      * Constrói URLs alternativas se a principal não der resultados
+     * CORRIGIDO: Reduzido o número de alternativas para não interferir
      */
     static buildFallbackUrls(searchParams) {
-        console.log('🔄 A gerar URLs alternativas...');
+        console.log('🔄 A gerar URLs alternativas (REDUZIDAS)...');
 
         const fallbackUrls = [];
         const baseParams = { ...searchParams };
 
-        // 1. Remover localização específica (pesquisa mais ampla)
-        if (baseParams.location) {
-            const genericParams = { ...baseParams };
-            
-            // Se é neighborhood/parish, tentar council/district
-            if (baseParams.location.type === 'neighborhood' || baseParams.location.type === 'parish') {
-                const parents = baseParams.location.parents || [];
-                const council = parents.find(p => p.detailedLevel === 'council');
-                const district = parents.find(p => p.detailedLevel === 'district');
-                
-                if (council) {
-                    genericParams.location = {
-                        id: council.id,
-                        name: council.name,
-                        type: 'council'
-                    };
-                    fallbackUrls.push({
-                        url: this.buildSearchUrl(genericParams),
-                        description: `Pesquisa no concelho: ${council.name}`
-                    });
-                }
-                
-                if (district) {
-                    genericParams.location = {
-                        id: district.id,
-                        name: district.name,
-                        type: 'district'
-                    };
-                    fallbackUrls.push({
-                        url: this.buildSearchUrl(genericParams),
-                        description: `Pesquisa no distrito: ${district.name}`
-                    });
-                }
-            }
-
-            // Sem localização específica
-            delete genericParams.location;
-            fallbackUrls.push({
-                url: this.buildSearchUrl(genericParams),
-                description: 'Pesquisa sem filtro de localização'
-            });
-        }
-
-        // 2. Flexibilizar tipologia (se T3, tentar T2 e T4)
+        // APENAS 1 alternativa: Remover tipologia se existir
         if (baseParams.rooms) {
-            const roomNum = parseInt(baseParams.rooms.replace('T', ''));
-            
-            for (const adjustment of [-1, +1]) {
-                const newRoomNum = roomNum + adjustment;
-                if (newRoomNum > 0 && newRoomNum <= 6) {
-                    const flexParams = { ...baseParams };
-                    flexParams.rooms = `T${newRoomNum}`;
-                    fallbackUrls.push({
-                        url: this.buildSearchUrl(flexParams),
-                        description: `Pesquisa com ${flexParams.rooms}`
-                    });
-                }
-            }
-
-            // Sem filtro de tipologia
             const noRoomsParams = { ...baseParams };
             delete noRoomsParams.rooms;
             fallbackUrls.push({
                 url: this.buildSearchUrl(noRoomsParams),
-                description: 'Pesquisa sem filtro de tipologia'
+                description: 'Pesquisa sem filtro de tipologia (mesma localização)'
             });
+            console.log('📝 Adicionada 1 alternativa: sem filtro de tipologia');
         }
 
-        // 3. REMOVIDO: Flexibilização de preço (já que não usamos preço para filtrar)
+        // Se não tem tipologia, adicionar alternativa sem localização
+        else if (baseParams.location) {
+            const noLocationParams = { ...baseParams };
+            delete noLocationParams.location;
+            fallbackUrls.push({
+                url: this.buildSearchUrl(noLocationParams),
+                description: 'Pesquisa sem filtro de localização'
+            });
+            console.log('📝 Adicionada 1 alternativa: sem filtro de localização');
+        }
 
-        console.log(`🔄 ${fallbackUrls.length} URLs alternativas geradas`);
+        console.log(`🔄 ${fallbackUrls.length} URLs alternativas geradas (REDUZIDAS para evitar interferência)`);
         return fallbackUrls;
     }
 
