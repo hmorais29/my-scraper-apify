@@ -10,7 +10,7 @@ export class QueryExtractor {
      * Detecta se é arrendamento ou compra/venda
      */
     static detectSearchType(query) {
-        const rentKeywords = /arrendamento|arrendar|alugar|rent|rental/i;
+        const rentKeywords = /arrendamento|arrendar|mensal|mensalidade|alugar|rent|rental|por\s+mês|\/mês|mensais?|renda/i;
         const isRent = rentKeywords.test(query);
         
         console.log(`🎯 Tipo detectado: ${isRent ? 'ARRENDAMENTO' : 'COMPRA/VENDA'}`);
@@ -22,7 +22,7 @@ export class QueryExtractor {
      */
     static detectPropertyCondition(query) {
         const newKeywords = /novo|novos|nova|novas|construção nova|obra nova/i;
-        const usedKeywords = /usado|usados|usada|usadas|segunda mão/i;
+        const usedKeywords = /usado|usados|usada|bom estado|usadas|segunda mão/i;
         const renovatedKeywords = /renovado|renovados|renovada|renovadas|remodelado|restaurado/i;
         
         if (newKeywords.test(query)) {
@@ -357,3 +357,4 @@ export class QueryExtractor {
         return this.extractAll(query);
     }
 }
+
